@@ -11,8 +11,8 @@ class Usuario(models.Model):
 
 # TABLA MisRetos_amistad
 class Amistad(models.Model):
-    amigo = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='amigo')
-    otro_amigo = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='otro_amigo')
+    amigo = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='amigo', db_column="email")
+    otro_amigo = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='otro_amigo', db_column="email")
 
     class Meta:
         unique_together = (('amigo', 'otro_amigo'),)
