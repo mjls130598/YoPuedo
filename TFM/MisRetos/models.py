@@ -11,8 +11,8 @@ class Usuario(models.Model):
 
 # TABLA MisRetos_amistad
 class Amistad(models.Model):
-    amigo = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='amigo')
-    otro_amigo = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='otro_amigo')
+    amigo = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='amigo', db_column="email")
+    otro_amigo = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='otro_amigo', db_column="email")
 
     class Meta:
         unique_together = (('amigo', 'otro_amigo'),)
@@ -25,13 +25,13 @@ class Reto(models.Model):
     recompensa = models.CharField(max_length=500)
     estado = models.CharField(max_length=10, default="Propuesto")
     categoria = models.CharField(max_length=15)
-    coordinador = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    coordinador = models.ForeignKey(Usuario, on_delete=models.CASCADE, db_column="email")
 
 
 # TABLA MisRetos_participante:
 class Participante(models.Model):
-    email = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    id_reto = models.ForeignKey(Reto, on_delete=models.CASCADE)
+    email = models.ForeignKey(Usuario, on_delete=models.CASCADE, db_column="email")
+    id_reto = models.ForeignKey(Reto, on_delete=models.CASCADE, db_column="id_reto")
 
     class Meta:
         unique_together = (('email', 'id_reto'),)
@@ -39,8 +39,8 @@ class Participante(models.Model):
 
 # TABLA MisRetos_animador:
 class Animador(models.Model):
-    email = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    id_reto = models.ForeignKey(Reto, on_delete=models.CASCADE)
+    email = models.ForeignKey(Usuario, on_delete=models.CASCADE, db_column="email")
+    id_reto = models.ForeignKey(Reto, on_delete=models.CASCADE, db_column="id_reto")
     superanimador = models.BooleanField(default=False)
 
     class Meta:
@@ -50,7 +50,7 @@ class Animador(models.Model):
 # TABLA MisRetos_etapa
 class Etapa(models.Model):
     id_etapa = models.CharField(max_length=50)
-    id_reto = models.ForeignKey(Reto, on_delete=models.CASCADE)
+    id_reto = models.ForeignKey(Reto, on_delete=models.CASCADE, db_column="id_reto")
     objetivo = models.CharField(max_length=500)
     estado = models.CharField(max_length=10, default="Propuesto")
 
@@ -60,22 +60,22 @@ class Etapa(models.Model):
 
 # TABLA MisRetos_animo
 class Animo(models.Model):
-    id_etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE)
-    animador = models.ForeignKey(Animador, on_delete=models.CASCADE)
+    id_etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE, db_column="id_etapa")
+    animador = models.ForeignKey(Animador, on_delete=models.CASCADE, db_column="email")
     mensaje = models.CharField(max_length=500)
 
 
 # TABLA MisRetos_prueba
 class Prueba(models.Model):
-    id_etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE)
-    animador = models.ForeignKey(Animador, on_delete=models.CASCADE)
+    id_etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE, db_column="id_etapa")
+    animador = models.ForeignKey(Animador, on_delete=models.CASCADE, db_column="email")
     prueba = models.CharField(max_length=500)
 
 
 # TABLA MisRetos_calificacion
 class Calificacion(models.Model):
-    id_etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE)
-    animador = models.ForeignKey(Animador, on_delete=models.CASCADE)
+    id_etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE, db_column="id_etapa")
+    animador = models.ForeignKey(Animador, on_delete=models.CASCADE, db_column="email")
     prueba = models.CharField(max_length=500)
 
     class Meta:
@@ -88,4 +88,4 @@ class Notificacion(models.Model):
     mensaje = models.CharField(max_length=500)
     categoria = models.CharField(max_length=15)
     estado = models.CharField(max_length=10, default="Recibido")
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, db_column="email")
