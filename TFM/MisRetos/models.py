@@ -1,12 +1,11 @@
 from django.db import models
-from django.forms import forms
 
 
 # TABLA MisRetos_usuario
 class Usuario(models.Model):
     email = models.EmailField(primary_key=True)
     nombre = models.CharField(max_length=200)
-    password = models.CharField(max_length=16, widget=forms.PasswordInput)
+    password = models.CharField(max_length=16)
     fotoPerfil = models.CharField(max_length=100)
 
 
