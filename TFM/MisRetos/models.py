@@ -11,8 +11,8 @@ class Usuario(models.Model):
 
 # TABLA MisRetos_amistad
 class Amistad(models.Model):
-    amigo = models.ManyToManyRel(Usuario)
-    otro_amigo = models.ManyToManyRel(Usuario)
+    amigo = models.ManyToManyField(Usuario)
+    otro_amigo = models.ManyToManyField(Usuario)
 
 
 # TABLA MisRetos_reto
@@ -22,48 +22,48 @@ class Reto(models.Model):
     recompensa = models.CharField(max_length=500)
     estado = models.CharField(max_length=10, default="Propuesto")
     categoria = models.CharField(max_length=15)
-    coordinador = models.ManyToOneRel(Usuario)
+    coordinador = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 
 
 # TABLA MisRetos_participante:
 class Participante(models.Model):
-    email = models.ManyToManyRel(Usuario)
-    id_reto = models.ManyToManyRel(Reto)
+    email = models.ManyToManyField(Usuario)
+    id_reto = models.ManyToManyField(Reto)
 
 
 # TABLA MisRetos_animador:
 class Animador(models.Model):
-    email = models.ManyToManyRel(Usuario)
-    id_reto = models.ManyToManyRel(Reto)
+    email = models.ManyToManyField(Usuario)
+    id_reto = models.ManyToManyField(Reto)
     superanimador = models.BooleanField(default=False)
 
 
 # TABLA MisRetos_etapa
 class Etapa(models.Model):
     id_etapa = models.CharField(max_length=50, primary_key=True)
-    id_reto = models.ManyToOneRel(Reto)
+    id_reto = models.ForeignKey(Reto, on_delete=models.CASCADE)
     objetivo = models.CharField(max_length=500)
     estado = models.CharField(max_length=10, default="Propuesto")
 
 
 # TABLA MisRetos_animo
 class Animo(models.Model):
-    id_etapa = models.ManyToManyRel(Etapa)
-    animador = models.ManyToManyRel(Animador)
+    id_etapa = models.ManyToManyField(Etapa)
+    animador = models.ManyToManyField(Animador)
     mensaje = models.CharField(max_length=500)
 
 
 # TABLA MisRetos_prueba
 class Prueba(models.Model):
-    id_etapa = models.ManyToManyRel(Etapa)
-    animador = models.ManyToManyRel(Animador)
+    id_etapa = models.ManyToManyField(Etapa)
+    animador = models.ManyToManyField(Animador)
     prueba = models.CharField(max_length=500)
 
 
 # TABLA MisRetos_calificacion
 class Calificacion(models.Model):
-    id_etapa = models.ManyToManyRel(Etapa)
-    animador = models.ManyToManyRel(Animador)
+    id_etapa = models.ManyToManyField(Etapa)
+    animador = models.ManyToManyField(Animador)
     prueba = models.CharField(max_length=500)
 
 
@@ -73,4 +73,4 @@ class Notificacion(models.Model):
     mensaje = models.CharField(max_length=500)
     categoria = models.CharField(max_length=15)
     estado = models.CharField(max_length=10, default="Recibido")
-    usuario = models.ManyToOneRel(Usuario)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
