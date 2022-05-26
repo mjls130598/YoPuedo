@@ -11,8 +11,8 @@ class Usuario(models.Model):
 
 # TABLA MisRetos_amistad
 class Amistad(models.Model):
-    amigo = models.ManyToManyField(Usuario, related_query_name="amigo")
-    otro_amigo = models.ManyToManyField(Usuario, related_query_name="otro_Amigo")
+    amigo = models.ManyToManyField(Usuario, related_name="amigo")
+    otro_amigo = models.ManyToManyField(Usuario, related_name="otro_Amigo")
 
 
 # TABLA MisRetos_reto
