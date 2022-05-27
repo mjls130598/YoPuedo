@@ -1,3 +1,4 @@
 Django >= 3.0
 pymysql
 django-passwords
+django-bootstrap-v5
