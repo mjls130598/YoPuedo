@@ -4,33 +4,31 @@
 Las herramientas que utilizaremos para la construcción y el despliegue de la 
 aplicación *Mis Retos* son las que se comentan a continuación:
 
-### Django
-[Django](https://www.djangoproject.com/) es un framework de alto nivel, 
+* [**Django**](https://www.djangoproject.com/) es un framework de alto nivel, 
 escrito principalmente para Python, que se encarga de ayudar a los 
 desarrolladores a la hora de crear aplicaciones web incluyendo diversos 
 paquetes y middleware.
 
-### MySQL
-Utilizaremos para el almacenamiento y las consultas dentro de la base de 
-datos una de tipo relacional por las siguientes razones:
-* Para poder realizar consultas más complejas (por ejemplo, de tipo JOIN).
-* Para crear claves extranjeras (foreign keys) entre distintas tablas y 
-  poder realizar el borrado en cascada fácilmente.
+* **MySQL** lo utilizaremos para el almacenamiento y las consultas dentro de 
+  la base de datos una de tipo relacional por las siguientes razones:
+  * Para poder realizar consultas más complejas (por ejemplo, de tipo JOIN).
+  * Para crear claves extranjeras (foreign keys) entre distintas tablas y 
+    poder realizar el borrado en cascada fácilmente.
 
-### pythonanywhere.com
-La herramienta [pythonanywhere.com](https://www.pythonanywhere.com/) es un 
+* [**pythonanywhere.com**](https://www.pythonanywhere.com/) es un 
 servidor exclusivo para proyectos escritos en Python donde lanzaremos el 
 proyecto para que pueda ser accesible a través de cualquier dispositivo sin 
-tener ninguna dependencia de donde se encuentre el proyecto almacenado localmente.
-
+tener ninguna dependencia de donde se encuentre el proyecto almacenado localmente. 
 En ella, además de estar almacenado el código de la aplicación y de lanzar 
 el proyecto a la web (en este caso se encontrará en [mariajesuslopez.
 pythonanywhere.com](http://mariajesuslopez.pythonanywhere.com/)), podremos 
 crear la base de datos MySQL donde se almacenará y se consultará la 
-información necesaria para la app.
+información necesaria para la app. Dentro del servidor, tenemos dos 
+  consolas: una para lanzar el proyecto y otra para consultar dentro del 
+  servidor la base de datos creada.
 
-Dentro del servidor, tenemos dos consolas: una para lanzar el proyecto y 
-otra para consultar dentro del servidor la base de datos creada.
+* [**Bootstrap**](https://getbootstrap.com/) biblioteca de templates para generar páginas 
+  "responsive" para distintos tamaños de pantalla.
 
 ## Base de datos
 
@@ -39,8 +37,7 @@ Como hemos dicho anteriormente, vamos a manejar los datos de nuestra
 aplicación a través de *MySQL*. Entonces, para poder utilizar una base de 
 datos _MySQL_ dentro de un proyecto de _Django_, debemos instalar en el 
 entorno de *Python* el paquete **_pymysql_**. Nosotros lo instalamos en 
-nuestro proyecto incluyendo dicho paquete dentro del fichero [requirements.
-txt](https://github.com/mjls130598/MisRetos/blob/master/requirements.txt).
+nuestro proyecto incluyendo dicho paquete dentro del fichero [requirements.txt](https://github.com/mjls130598/MisRetos/blob/master/requirements.txt).
 
 Dentro del servidor *pythonanywhere*, creamos la base de datos que vamos a 
 utilizar. En este caso hemos creado una cuyo nombre es **_mariajesuslopez$MISRETOS_**. 
@@ -63,8 +60,7 @@ password = XXXXXXXXXX                                       # Contraseña
 host = mariajesuslopez.mysql.pythonanywhere-services.com    # Servidor
 default-character-set = utf8                                # Tipo de caracteres
 ```
-* En [settings.py](https://github.
-  com/mjls130598/MisRetos/blob/master/TFM/TFM/settings.py), insertamos las 
+* En [settings.py](https://github.com/mjls130598/MisRetos/blob/master/TFM/TFM/settings.py), insertamos las 
   siguientes líneas de código para que coja el fichero de configuración 
   anterior y el tipo de base de datos que vamos a utilizar:
 ```commandline
@@ -105,3 +101,26 @@ class Amistad(models.Model):
     amigo = models.ManyToManyField(Usuario, related_name="amigo")
     otro_amigo = models.ManyToManyField(Usuario, related_name="otro_Amigo")
 ```
+
+Una vez escritas las clases que formarán parte del manejo de datos del 
+proyecto, debemos lanzar las siguientes líneas de código para que se guarden 
+y se generen las tablas en la base de datos:
+
+```commandline
+python manage.py makemigrations
+python manage.py migrate
+```
+
+## Templates
+
+Como hemos dicho en el apartado de *Herramientas*, vamos a utilizar la 
+biblioteca de *Boostrap* para no generar de cero la visualización de las 
+páginas. 
+
+Para que funcione dentro de nuestro proyecto de *Django*, hay que realizar 
+los siguientes pasos:
+
+1. Instalar el paquete *django-bootstrap-v5*. Nosotras lo tenemos añadido 
+   dentro del archivo de paquetes requeridos ([requirements.txt](https://github.com/mjls130598/MisRetos/blob/master/requirements.txt)).
+2. Dentro del archivo [settings.py](https://github.com/mjls130598/MisRetos/blob/master/TFM/TFM/settings.py) incluiremos en 
+   el apartado de *INSTALLED_APPS* el paquete *bootstrap5*.
