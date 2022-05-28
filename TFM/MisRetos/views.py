@@ -2,4 +2,4 @@ from django.shortcuts import render
 
 
 def registrarse(request):
-    render(request, "MisRetos/registro.html")
+    return render(request, "MisRetos/registro.html")
