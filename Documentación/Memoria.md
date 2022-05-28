@@ -75,7 +75,13 @@ default-character-set = utf8                                # Tipo de caracteres
     }
 }
  ```
-
+* En [__init__.py](https://github.com/mjls130598/MisRetos/blob/master/TFM/TFM/__init__.py) del proyecto introducimos las siguientes líneas de 
+  código para que se instale el paquete *pymsql* como *MySQLdb* y pueda ser 
+  utilizado dentro del proyecto:
+```python
+import pymysql
+pymysql.install_as_MySQLdb()
+```
 ### Tablas (o modelos)
 
 Ya realizadas las instalaciones y configuraciones correspondientes a la base 
@@ -131,4 +137,3 @@ los siguientes pasos:
       archivos HTML.
    2. Dentro del apartado *STATIC_ROOT* el directorio con los archivos 
       estáticos.
-5. 
