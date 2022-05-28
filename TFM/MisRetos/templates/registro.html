@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mis Retos</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static '/MisRetos/css/base.css'%}">
+</head>
+<body>
+  <section>
+    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+      <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+            <div class="card" style="border-radius: 15px;">
+              <div class="card-body p-5">
+                <h2 class="text-uppercase text-center mb-5">Mis Retos</h2>
+
+                  <form>
+
+                    <div class="form-outline mb-4">
+                    <input type="text" id="name" class="form-control form-control-lg" />
+                    <label class="form-label" for="name">Nombre</label>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                    <input type="email" id="email"
+                    class="form-control form-control-lg" />
+                    <label class="form-label" for="email">Email</label>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                    <input type="password" id="password"
+                    class="form-control form-control-lg" />
+                    <label class="form-label" for="password">Contraseña</label>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                    <input type="password" id="repeatpassword"
+                    class="form-control form-control-lg" />
+                    <label class="form-label" for="repeatpassword">Repite contraseña
+                    password</label>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                    <button type="button"
+                    class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Regístrate</button>
+                    </div>
+
+                    <button type="button"
+                    class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"> <a href="#!"
+                    class="fw-bold text-body"><u>Iniciar sesión</u></a></button>
+
+                  </form>
+
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
