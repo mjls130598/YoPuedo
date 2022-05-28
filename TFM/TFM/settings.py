@@ -25,7 +25,7 @@ SECRET_KEY = open(os.path.join(BASE_DIR, 'conf/.secret_key'), 'r',
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.pythonanywhere.com']
 
 # Application definition
 
