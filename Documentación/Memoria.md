@@ -130,7 +130,7 @@ los siguientes pasos:
    dentro del archivo de paquetes requeridos ([requirements.txt](https://github.com/mjls130598/MisRetos/blob/master/requirements.txt)).
 2. Dentro del archivo [settings.py](https://github.com/mjls130598/MisRetos/blob/master/TFM/TFM/settings.py) incluiremos en 
    el apartado de *INSTALLED_APPS* el paquete *bootstrap5*.
-3. Crear una carpeta donde se encuentre los archivos HTML ([templates](https://github.com/mjls130598/MisRetos/blob/master/TFM/MisRetos/templates)) y 
+3. Crear una carpeta donde se encuentre los archivos HTML ([templates](https://github.com/mjls130598/MisRetos/blob/master/TFM/templates)) y 
    los archivos estáticos ([static](https://github.com/mjls130598/MisRetos/blob/master/TFM/static)).
 4. Escribir en el archivo de configuración [settings.py](https://github.com/mjls130598/MisRetos/blob/master/TFM/TFM/settings.py):
    1. Dentro del apartado *TEMPLATES* el directorio donde se encontrarán los 
