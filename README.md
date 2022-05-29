@@ -1,4 +1,4 @@
-# Mis Retos
+# ¡Yo puedo!
 
 Proyecto realizado para el Trabajo de Fin de Máster de María Jesús López 
 Salmerón del Máster Universitario de Ingeniería Informática durante el curso 
@@ -6,7 +6,7 @@ Salmerón del Máster Universitario de Ingeniería Informática durante el curso
 
 ## Descripción
 
-*Mis Retos* es una aplicación multidispositivo para que cualquier persona, 
+*¡Yo puedo!* es una aplicación multidispositivo para que cualquier persona, 
 sin importar sus discapacidades físicas o cognitivas, pueda crear y realizar 
 cualquier tipo de reto. 
  
@@ -30,7 +30,7 @@ la siguiente:
 	│   ├── .secret_key           # la llave secreta del proyecto (setting.py)
 	│   └── db.mysql              # configuración de la base de datos
 	|
-	├── MisRetos       # app
+	├── YoPuedo       # app
 	│   ├── admin.py              # admininstración para la BD de app
 	│   ├── apps.py               # configuración de la app
 	│   ├── __init__.py           # package de la app
@@ -52,7 +52,9 @@ la siguiente:
 					
 ```
 
-En el archivo [requirements.txt](https://github.com/mjls130598/MisRetos/blob/master/requirements.txt) estarán todos los paquetes necesarios para laconstrucción del proyecto
+En el archivo [requirements.txt](https://github.
+com/mjls130598/YoPuedo/blob/master/requirements.txt) estarán todos los paquetes 
+necesarios para laconstrucción del proyecto
 
 ## Lanzamiento del proyecto
 
@@ -70,11 +72,11 @@ Una vez instaladas las aplicaciones anteriores, realizamos los siguientes pasos:
 
 1. Descargamos el proyecto:
 ```commandline
-git clone https://github.com/mjls130598/MisRetos.git
+git clone https://github.com/mjls130598/YoPuedo.git
 ```
 2. Entramos en el repositorio:
 ```commandline
-cd MisRetos/
+cd YoPuedo/
 ```
 3. Instalamos los paquetes del proyecto:
 ```commandline
@@ -96,4 +98,4 @@ python manage.py runserver
 ```
 
 La documentación del proyecto la encontramos dentro de la carpeta 
-[Documentación](https://github.com/mjls130598/MisRetos/tree/master/Documentaci%C3%B3n)
+[Documentación](https://github.com/mjls130598/YoPuedo/tree/master/Documentaci%C3%B3n)

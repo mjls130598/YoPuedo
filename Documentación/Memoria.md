@@ -2,7 +2,7 @@
 
 ## Herramientas
 Las herramientas que utilizaremos para la construcción y el despliegue de la 
-aplicación *Mis Retos* son las que se comentan a continuación:
+aplicación *¡Yo puedo!* son las que se comentan a continuación:
 
 * [**Django**](https://www.djangoproject.com/) es un framework de alto nivel, 
 escrito principalmente para Python, que se encarga de ayudar a los 
@@ -37,10 +37,12 @@ Como hemos dicho anteriormente, vamos a manejar los datos de nuestra
 aplicación a través de *MySQL*. Entonces, para poder utilizar una base de 
 datos _MySQL_ dentro de un proyecto de _Django_, debemos instalar en el 
 entorno de *Python* el paquete **_pymysql_**. Nosotros lo instalamos en 
-nuestro proyecto incluyendo dicho paquete dentro del fichero [requirements.txt](https://github.com/mjls130598/MisRetos/blob/master/requirements.txt).
+nuestro proyecto incluyendo dicho paquete dentro del fichero [requirements.
+txt](https://github.com/mjls130598/YoPuedo/blob/master/requirements.txt).
 
 Dentro del servidor *pythonanywhere*, creamos la base de datos que vamos a 
-utilizar. En este caso hemos creado una cuyo nombre es **_mariajesuslopez$MISRETOS_**. 
+utilizar. En este caso hemos creado una cuyo nombre es 
+**_mariajesuslopez$YOPUEDO_**. 
 
 ### Configuración del proyecto
 Una vez instalada la herramienta con la que se harán las consultas y se 
@@ -54,13 +56,13 @@ siguientes cambios:
 # TFM/conf/db.mysql
 
 [client]
-database = mariajesuslopez$MISRETOS                         # Base de datos
+database = mariajesuslopez$YoPuedo                         # Base de datos
 user = mariajesuslopez                                      # Usuario
 password = XXXXXXXXXX                                       # Contraseña
 host = mariajesuslopez.mysql.pythonanywhere-services.com    # Servidor
 default-character-set = utf8                                # Tipo de caracteres
 ```
-* En [settings.py](https://github.com/mjls130598/MisRetos/blob/master/TFM/TFM/settings.py), insertamos las 
+* En [settings.py](https://github.com/mjls130598/YoPuedo/blob/master/TFM/TFM/settings.py), insertamos las 
   siguientes líneas de código para que coja el fichero de configuración 
   anterior y el tipo de base de datos que vamos a utilizar:
 ```commandline
@@ -75,7 +77,8 @@ default-character-set = utf8                                # Tipo de caracteres
     }
 }
  ```
-* En [__init__.py](https://github.com/mjls130598/MisRetos/blob/master/TFM/TFM/__init__.py) del proyecto introducimos las siguientes líneas de 
+* En [__init__.py](https://github.com/mjls130598/YoPuedo/blob/master/TFM/TFM/__init__.py) del proyecto 
+  introducimos las siguientes líneas de 
   código para que se instale el paquete *pymsql* como *MySQLdb* y pueda ser 
   utilizado dentro del proyecto:
 ```python
@@ -87,7 +90,7 @@ pymysql.install_as_MySQLdb()
 Ya realizadas las instalaciones y configuraciones correspondientes a la base 
 de datos, procedemos a crear las tablas junto a sus tuplas correspondientes. 
 Para ello, *Django* solamente necesitamos escribir dichas tablas en el 
-fichero [models.py](https://github.com/mjls130598/MisRetos/blob/master/TFM/MisRetos/models.py) a través de la 
+fichero [models.py](https://github.com/mjls130598/YoPuedo/blob/master/TFM/YoPuedo/models.py) a través de la 
 creación de clases con sus correspondientes atributos.
 
 Como hacemos cuando creamos una tabla con MySQL, en cada tupla indicamos el 
@@ -101,7 +104,7 @@ misma tabla, hemos tenido que poner un "nombre" para que *Django* pueda
 diferenciar las dos columnas (mediante el atributo *related_name*):
 
 ```python
-# TABLA MisRetos_amistad
+# TABLA YoPuedo_amistad
 
 class Amistad(models.Model):
     amigo = models.ManyToManyField(Usuario, related_name="amigo")
@@ -127,12 +130,12 @@ Para que funcione dentro de nuestro proyecto de *Django*, hay que realizar
 los siguientes pasos:
 
 1. Instalar el paquete *django-bootstrap-v5*. Nosotras lo tenemos añadido 
-   dentro del archivo de paquetes requeridos ([requirements.txt](https://github.com/mjls130598/MisRetos/blob/master/requirements.txt)).
-2. Dentro del archivo [settings.py](https://github.com/mjls130598/MisRetos/blob/master/TFM/TFM/settings.py) incluiremos en 
+   dentro del archivo de paquetes requeridos ([requirements.txt](https://github.com/mjls130598/YoPuedo/blob/master/requirements.txt)).
+2. Dentro del archivo [settings.py](https://github.com/mjls130598/YoPuedo/blob/master/TFM/TFM/settings.py) incluiremos en 
    el apartado de *INSTALLED_APPS* el paquete *bootstrap5*.
-3. Crear una carpeta donde se encuentre los archivos HTML ([templates](https://github.com/mjls130598/MisRetos/blob/master/TFM/templates)) y 
-   los archivos estáticos ([static](https://github.com/mjls130598/MisRetos/blob/master/TFM/static)).
-4. Escribir en el archivo de configuración [settings.py](https://github.com/mjls130598/MisRetos/blob/master/TFM/TFM/settings.py):
+3. Crear una carpeta donde se encuentre los archivos HTML ([templates](https://github.com/mjls130598/YoPuedo/blob/master/TFM/templates)) y 
+   los archivos estáticos ([static](https://github.com/mjls130598/YoPuedo/blob/master/TFM/static)).
+4. Escribir en el archivo de configuración [settings.py](https://github.com/mjls130598/YoPuedo/blob/master/TFM/TFM/settings.py):
    1. Dentro del apartado *TEMPLATES* el directorio donde se encontrarán los 
       archivos HTML.
    2. Dentro del apartado *STATIC_ROOT* el directorio con los archivos 
