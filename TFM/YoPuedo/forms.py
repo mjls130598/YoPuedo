@@ -13,7 +13,7 @@ class registro(forms.Form):
                                  attrs={
                                      'class': 'form-control'
                                  }))
-    contraseña = forms.CharField(label='Contraseña',
+    contraseña = forms.CharField(label='Contraseña:',
                                  widget=forms.PasswordInput(
                                      attrs={
                                          'class': 'form-control'
