@@ -23,15 +23,13 @@
 .form-group{
     margin-top: 5%;
 }
-button{
-    color: white;
-    font-weight: bold;
-    text-align: center;
-}
+
 #boton-registro{
     background: #8DCB97;
+    border-color: #8DCB97;
 }
 
 #boton-iniciosesion{
     background: #E91E63;
+    border-color: #E91E63;
 }
