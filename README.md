@@ -20,7 +20,7 @@ apoyo durante el proceso.
 
 ## Estructura del proyecto
 
-La estructura que va a tener el proyecto que contenga la app *Mis Retos* es 
+La estructura que va a tener el proyecto que contenga la app *¡Yo puedo!* es 
 la siguiente:
 
 ```commandline

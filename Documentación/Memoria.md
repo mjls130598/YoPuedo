@@ -140,3 +140,9 @@ los siguientes pasos:
       archivos HTML.
    2. Dentro del apartado *STATIC_ROOT* el directorio con los archivos 
       estáticos.
+5. Dentro de los archivos HTML, en el body escribir 
+```
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+```
