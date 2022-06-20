@@ -16,3 +16,7 @@
 .window{
     height: 100%;
 }
+
+.errorlist{
+    color: red;
+}

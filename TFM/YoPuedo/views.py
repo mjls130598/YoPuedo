@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from . import utils
 from .forms import registro
 
 
@@ -16,7 +15,6 @@ def registrarse(request):
             password2 = form.cleaned_data['password_again']
             foto_perfil = form['foto_de_perfil']
 
-            if foto_perfil.filename:
-                utils.guardar_fichero(foto_perfil)
+            render(request, "google.es")
 
     return render(request, "YoPuedo/registro.html", {'register_form': form})
