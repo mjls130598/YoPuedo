@@ -2,6 +2,10 @@ from django import forms
 import utils
 
 
+def upload_to(instance, filename):
+    return 'user_{0}/{1}'.format(instance.user.id, filename)
+
+
 class registro(forms.Form):
     email = forms.EmailField(label='Email:',
                              widget=forms.EmailInput(
@@ -25,6 +29,7 @@ class registro(forms.Form):
                 'class': 'form-control'
             }))
     foto_de_perfil = forms.FileField(label='Foto de perfil:',
+                                     upload_to=upload_to,
                                      widget=forms.FileInput(
                                          attrs={
                                              'class': 'form-control'
