@@ -13,13 +13,13 @@ class registro(forms.Form):
                                  attrs={
                                      'class': 'form-control'
                                  }))
-    contraseña = forms.CharField(label='Contraseña:',
+    contraseña = forms.CharField(label='Contraseña:', max_length='16', min_length='8',
                                  widget=forms.PasswordInput(
                                      attrs={
                                          'class': 'form-control'
                                      }))
-    repetir_contraseña = forms.CharField(label='Repetir contraseña:',
-                                         widget=forms.PasswordInput(
+    repetir_contraseña = forms.CharField(label='Repetir contraseña:', max_length='16',
+                                         min_length='8', widget=forms.PasswordInput(
                                              attrs={
                                                  'class': 'form-control'
                                              }))
@@ -28,3 +28,12 @@ class registro(forms.Form):
                                           attrs={
                                               'class': 'form-control'
                                           }))
+
+    def clean(self):
+        password = self.cleaned_data['contraseña']
+        password2 = self.cleaned_data['repetir_contraseña']
+
+        if password != password2:
+            self.add_error('repetir_contraseña', "Las constraseñas deben ser iguales")
+
+        return password

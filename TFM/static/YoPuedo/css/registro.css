@@ -17,13 +17,9 @@
     padding-right:20%;
 }
 
-.form-label{
-    font-weight: bold;
-    font-size: 2%;
-}
-
 .form-group{
     margin-top: 2%;
+    font-weight: bold;
 }
 
 #boton-registro{
