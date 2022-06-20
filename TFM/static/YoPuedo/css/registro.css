@@ -4,9 +4,12 @@
 
 #titulo-registro{
     color: #8DCB97;
-    font-weight: bold;
     text-align: center;
     padding-top: 2%;
+}
+
+#titulo-registro>h2{
+    font-weight: bold;
 }
 
 #formulario-registro{

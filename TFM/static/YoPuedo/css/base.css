@@ -1,5 +1,6 @@
-body{
+#contenedor{
     font-family: 'Comic Neue', cursive;
+    height:100%;
 }
 
 .btn.btn-primary{
@@ -10,4 +11,8 @@ body{
     padding-top: 2%;
     padding-left: 5%;
     padding-right: 5%;
+}
+
+html{
+    height: 100;
 }
