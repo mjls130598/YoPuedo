@@ -34,5 +34,9 @@
 #boton-iniciosesion{
     background: #E91E63;
     border-color: #E91E63;
-    padding-bottom: 2%;
+    margin-bottom: 2%;
+}
+
+body.container {
+    height: 100%;
 }
