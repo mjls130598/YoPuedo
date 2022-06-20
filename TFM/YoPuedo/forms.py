@@ -1,5 +1,5 @@
 from django import forms
-import utils
+from . import utils
 
 
 def upload_to(instance, filename):
