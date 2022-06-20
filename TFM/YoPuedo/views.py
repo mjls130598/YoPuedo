@@ -1,5 +1,8 @@
 from django.shortcuts import render
+from .forms import registro
 
 
 def registrarse(request):
-    return render(request, "YoPuedo/registro.html")
+    if request.method == 'GET':
+        form = registro()
+        return render(request, "YoPuedo/registro.html", {'form': form})
