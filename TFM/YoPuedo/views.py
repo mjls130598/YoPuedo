@@ -12,9 +12,9 @@ def registrarse(request):
         if form.is_valid():
             email = form.cleaned_data['email']
             nombre = form.cleaned_data['nombre']
-            password = form.cleaned_data['contraseña']
-            password2 = form.cleaned_data['repetir_contraseña']
-            foto_perfil = form['foto_perfil']
+            password = form.cleaned_data['password']
+            password2 = form.cleaned_data['password_again']
+            foto_perfil = form['foto_de_perfil']
 
             if foto_perfil.filename:
                 utils.guardar_fichero(foto_perfil)
