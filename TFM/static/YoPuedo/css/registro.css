@@ -1,13 +1,12 @@
 #registro{
     background-color: #E2EEF4;
-    margin: 1.5%;
-    padding: 5%;
 }
 
 #titulo-registro{
     color: #8DCB97;
     font-weight: bold;
     text-align: center;
+    padding-top: 2%;
 }
 
 #formulario-registro{
@@ -21,7 +20,7 @@
 }
 
 .form-group{
-    margin-top: 5%;
+    margin-top: 2%;
 }
 
 #boton-registro{
@@ -32,4 +31,5 @@
 #boton-iniciosesion{
     background: #E91E63;
     border-color: #E91E63;
+    padding-bottom: 2%;
 }

@@ -2,7 +2,7 @@ body{
     font-family: 'Comic Neue', cursive;
 }
 
-button{
+.btn.btn-primary{
     color: white;
     font-weight: bold;
     text-align: center;
