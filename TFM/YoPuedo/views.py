@@ -16,8 +16,6 @@ def registrarse(request):
         logger.info("Entramos a la parte POST de REGISTRO")
         form = registro(request.POST, request.FILES)
 
-        logger.info(form.cleaned_data)
-
         if form.is_valid():
             email = form.cleaned_data['email']
             nombre = form.cleaned_data['nombre']
