@@ -8,29 +8,14 @@ class registro(forms.Form):
     email = forms.EmailField(label='Email:',
                              widget=forms.EmailInput(
                                  attrs={
-                                     'class': 'form-control',
                                      'placeholder': 'ejemplo@ejemplo.com',
                                  }))
-    nombre = forms.CharField(label='Nombre:', max_length='100',
-                             widget=forms.TextInput(
-                                 attrs={
-                                     'class': 'form-control'
-                                 }))
+    nombre = forms.CharField(label='Nombre:', max_length='100')
     password = forms.CharField(label='Contraseña:', max_length='16', min_length='8',
-                               widget=forms.PasswordInput(
-                                   attrs={
-                                       'class': 'form-control'
-                                   }))
+                               widget=forms.PasswordInput)
     password_again = forms.CharField(label='Repetir contraseña:', max_length='16',
-                                     min_length='8', widget=forms.PasswordInput(
-            attrs={
-                'class': 'form-control'
-            }))
-    foto_de_perfil = forms.FileField(label='Foto de perfil:',
-                                     widget=forms.FileInput(
-                                         attrs={
-                                             'class': 'form-control'
-                                         }))
+                                     min_length='8', widget=forms.PasswordInput)
+    foto_de_perfil = forms.ImageField(label='Foto de perfil:')
 
     def clean(self):
 

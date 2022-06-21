@@ -1,4 +1,5 @@
 import logging
+import os
 from django.shortcuts import render
 from . import utils
 from .forms import registro
@@ -13,18 +14,18 @@ def registrarse(request):
 
     else:
         logger.info("Entramos a la parte POST de REGISTRO")
-
         form = registro(request.POST, request.FILES)
 
         if form.is_valid():
             email = form.cleaned_data['email']
             nombre = form.cleaned_data['nombre']
             password = form.cleaned_data['password']
-            password2 = form.cleaned_data['password_again']
             foto = request.FILES["foto_de_perfil"]
-
-            utils.handle_uploaded_file(foto, email)
-
+            nombre, extension = os.path.splitext(foto.name)
+            utils.handle_uploaded_file(foto, f'media/foto_perfil/{email}{extension}')
             logger.info("Válido el formulario")
+
+        else:
+            logger.error("Error al validar el formulario")
 
     return render(request, "YoPuedo/registro.html", {'register_form': form})
