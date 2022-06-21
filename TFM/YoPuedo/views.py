@@ -16,13 +16,16 @@ def registrarse(request):
         logger.info("Entramos a la parte POST de REGISTRO")
         form = registro(request.POST, request.FILES)
 
+        logger.info(form.cleaned_data)
+
         if form.is_valid():
             email = form.cleaned_data['email']
             nombre = form.cleaned_data['nombre']
             password = form.cleaned_data['password']
             foto = request.FILES["foto_de_perfil"]
-            nombre, extension = os.path.splitext(foto.name)
-            utils.handle_uploaded_file(foto, f'media/foto_perfil/{email}{extension}')
+            fichero, extension = os.path.splitext(foto.name)
+            localizacion = f'media/foto_perfil/{email}{extension}'
+            utils.handle_uploaded_file(foto, localizacion)
             logger.info("Válido el formulario")
 
         else:
