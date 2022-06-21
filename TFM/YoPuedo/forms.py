@@ -1,6 +1,5 @@
 import logging
 from django import forms
-from . import utils
 
 logger = logging.getLogger(__name__)
 
@@ -39,16 +38,8 @@ class registro(forms.Form):
 
         password = self.cleaned_data['password']
         password2 = self.cleaned_data['password_again']
-        foto_perfil = self['foto_de_perfil']
 
         if password != password2:
             self.add_error('password_again', "Las constraseñas deben ser iguales")
-
-        if not foto_perfil.name:
-            self.add_error('foto_de_perfil', "Hay un problema con ese archivo, "
-                                             "utilice otro")
-
-        if not utils.checkear_imagen(foto_perfil.name):
-            self.add_error('foto_de_perfil', 'El archivo dado no es una imagen')
 
         return self
