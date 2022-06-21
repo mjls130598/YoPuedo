@@ -21,7 +21,7 @@
         <h2>Bienvenido a ¡Yo puedo!</h2>
       </div>
       <div id="formulario-registro">
-        <form class="form" method="post" action="{% url 'registrarse' %}">
+        <form class="form" method="post" action="{% url 'registrarse' %}" enctype="multipart/form-data">
           {% csrf_token %}
           {% for field in register_form %}
           <div class='form-group'>
