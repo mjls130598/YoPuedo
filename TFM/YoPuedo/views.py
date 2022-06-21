@@ -24,8 +24,8 @@ def registrarse(request):
             password = form.cleaned_data['password'].value()
             foto = request.FILES["foto_de_perfil"]
             fichero, extension = os.path.splitext(foto.name)
-            localizacion = f'' \
-                           f'{Path(__file__).resolve().parent.parent}/media/foto_perfil/{email}{extension} '
+            localizacion = os.path.join(Path(__file__).resolve().parent.parent,
+                                        "/media/foto_perfil/", email, extension)
             utils.handle_uploaded_file(foto, localizacion)
             logger.info("Válido el formulario")
 
