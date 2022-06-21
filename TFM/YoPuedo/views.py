@@ -17,9 +17,9 @@ def registrarse(request):
         form = registro(request.POST, request.FILES)
 
         if form.is_valid():
-            email = form.cleaned_data['email']
-            nombre = form.cleaned_data['nombre']
-            password = form.cleaned_data['password']
+            email = form.cleaned_data['email'].value()
+            nombre = form.cleaned_data['nombre'].value()
+            password = form.cleaned_data['password'].value()
             foto = request.FILES["foto_de_perfil"]
             fichero, extension = os.path.splitext(foto.name)
             localizacion = f'media/foto_perfil/{email}{extension}'
