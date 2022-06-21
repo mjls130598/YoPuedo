@@ -8,17 +8,22 @@ logger = logging.getLogger(__name__)
 
 def registrarse(request):
     if request.method == 'GET':
+        logger.info("Entramos a la parte GET de REGISTRO")
         form = registro()
 
     else:
-        form = registro(request.POST, request.FILES)
-        foto_perfil = request.FILES.get('foto_de_perfil')
+        logger.info("Entramos a la parte POST de REGISTRO")
 
-        if form.is_valid() and utils.checkear_imagen(foto_perfil):
+        form = registro(request.POST, request.FILES)
+
+        if form.is_valid():
             email = form.cleaned_data['email']
             nombre = form.cleaned_data['nombre']
             password = form.cleaned_data['password']
             password2 = form.cleaned_data['password_again']
+            foto = request.FILES["foto_de_perfil"]
+
+            utils.handle_uploaded_file(foto, email)
 
             logger.info("Válido el formulario")
 
