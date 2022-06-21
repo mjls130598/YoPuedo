@@ -1,5 +1,6 @@
 import logging
 import mimetypes
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +13,8 @@ def checkear_imagen(fichero):
 
 def handle_uploaded_file(f, localizacion):
     logger.info("Guardamos archivos en local")
-    with open(localizacion, 'wb+') as destination:
+    with open(os.path.join(os.path.dirname(os.path.dirname(__file__)), localizacion),
+              'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
             logger.info("Guardado " + localizacion)
