@@ -39,7 +39,7 @@ class registro(forms.Form):
         password2 = self.cleaned_data['password_again']
 
         if password != password2:
-            logger.info("Las contraseñas introducidas no son iguales")
+            logger.error("Las contraseñas introducidas no son iguales")
             self.add_error('password_again', "Las contraseñas deben ser iguales")
 
         return self
