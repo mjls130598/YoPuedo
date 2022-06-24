@@ -1,11 +1,11 @@
 from django.test import TestCase
-from TFM.YoPuedo.models import Usuario
+from ..models import Usuario
 from TFM.settings import BASE_DIR
 
 
 # Comprobamos el funcionamiento de la tabla USUARIO
 class UsuarioModelTest(TestCase):
-    def setUpTestData(cls):
+    def setUpTestData(self):
         Usuario.objects.create(email="mariajesus@gmail.com", nombre="María Jesús",
                                password="Password1.",
                                fotoPerfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
