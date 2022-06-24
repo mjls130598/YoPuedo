@@ -178,7 +178,7 @@ class RegistroFormTests(TestCase):
         self.assertEqual(form.errors['password'], ["Asegúrese de que este valor tenga "
                                                    "menos de 16 caracteres (tiene 17)."])
 
-    def test_no_imagen(self):
+    def test_imagen_vacia(self):
         form_data = {
             'email': 'mariajesus@gmail.com',
             'nombre': 'María Jesús',
@@ -193,3 +193,22 @@ class RegistroFormTests(TestCase):
             foto_perfil.name, foto_perfil.read())})
 
         self.assertEqual(form.errors['foto_de_perfil'], ['El fichero enviado está vacío.'])
+
+    def test_no_imagen(self):
+        form_data = {
+            'email': 'mariajesus@gmail.com',
+            'nombre': 'María Jesús',
+            'password': 'Password1*',
+            'password_again': 'Password1',
+        }
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/prueba2.txt"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
+
+        self.assertEqual(form.errors['foto_de_perfil'], ['Envíe una imagen válida. El '
+                                                         'fichero que ha enviado no era '
+                                                         'una imagen o se trataba de una '
+                                                         'imagen corrupta.'])
