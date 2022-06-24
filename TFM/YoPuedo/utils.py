@@ -1,10 +1,10 @@
-import errno
 import logging
 import os.path
 
 logger = logging.getLogger(__name__)
 
 
+# Función de subida de ficheros
 def handle_uploaded_file(image, localizacion, directorio):
     logger.info("Comprobamos que el directorio donde se va a guardar está creado "
                 "previamente")

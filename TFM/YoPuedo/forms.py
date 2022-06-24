@@ -1,5 +1,8 @@
 import logging
+import re
+
 from django import forms
+from . import utils
 
 logger = logging.getLogger(__name__)
 
@@ -14,7 +17,8 @@ class registro(forms.Form):
     nombre = forms.CharField(label='Nombre:', max_length='100',
                              widget=forms.TextInput(
                                  attrs={
-                                     'class': 'form-control'
+                                     'class': 'form-control',
+                                     'placeholder': 'María Jesús López'
                                  }))
     password = forms.CharField(label='Contraseña:', max_length='16', min_length='8',
                                widget=forms.PasswordInput(
@@ -23,9 +27,9 @@ class registro(forms.Form):
                                    }))
     password_again = forms.CharField(label='Repetir contraseña:', max_length='16',
                                      min_length='8', widget=forms.PasswordInput(
-                                                        attrs={
-                                                            'class': 'form-control'
-                                                        }))
+            attrs={
+                'class': 'form-control'
+            }))
     foto_de_perfil = forms.ImageField(label='Foto de perfil:',
                                       widget=forms.ClearableFileInput(
                                           attrs={
@@ -41,5 +45,23 @@ class registro(forms.Form):
         if password != password2:
             logger.error("Las contraseñas introducidas no son iguales")
             self.add_error('password_again', "Las contraseñas deben ser iguales")
+
+        if not re.findall('\d', password):
+            logger.error("La contraseña no contiene números")
+            self.add_error('password', "La contraseña debe contener al menos un número")
+
+        if not re.findall('[A-Z]', password):
+            logger.error("La contraseña no tiene ninguna mayúscula")
+            self.add_error('password', "La contraseña debe tener al menos una mayúscula")
+
+        if not re.findall('[a-z]', password):
+            logger.error("La contraseña no tiene ninguna minúscula")
+            self.add_error('password', "La contraseña debe contener al menos una letra "
+                                       "en minúscula")
+
+        if not re.findall('[()\[\]{}|\\`~!@#$%^&\*_\-\+=;:\'",<>./\?]', password):
+            logger.error("La contraseña no contiene ningún símbolo")
+            self.add_error('password', "La contraseña debe tener uno de estos símbolos: "
+                                       "()[]{}|\`~!@#$%^&*_-+=;:'\",<>./?")
 
         return self
