@@ -4,9 +4,9 @@ from django.db import models
 # TABLA MisRetos_usuario
 class Usuario(models.Model):
     email = models.EmailField(primary_key=True)
-    nombre = models.CharField(max_length=200)
+    nombre = models.CharField(max_length=100)
     password = models.CharField(max_length=16)
-    fotoPerfil = models.CharField(max_length=100)
+    fotoPerfil = models.CharField(max_length=200)
 
 
 # TABLA MisRetos_amistad

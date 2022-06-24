@@ -5,7 +5,8 @@ from TFM.settings import BASE_DIR
 
 # Comprobamos el funcionamiento de la tabla USUARIO
 class UsuarioModelTest(TestCase):
-    def setUpTestData(self):
+    @classmethod
+    def setUpTestData(cls):
         Usuario.objects.create(email="mariajesus@gmail.com", nombre="María Jesús",
                                password="Password1.",
                                fotoPerfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
