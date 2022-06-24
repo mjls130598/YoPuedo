@@ -1,3 +1,4 @@
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from ..forms import Registro
 from TFM.settings import BASE_DIR
@@ -30,8 +31,10 @@ class RegistroFormTests(TestCase):
         }
 
         foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
 
-        form = Registro(data=form_data, files={'foto_de_perfil': open(foto_perfil, 'rb')})
+        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
 
         self.assertEqual(form.errors['email'], ['Introduzca una dirección de correo '
                                                 'electrónico válida.'])
@@ -46,11 +49,13 @@ class RegistroFormTests(TestCase):
         }
 
         foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
 
-        form = Registro(data=form_data, files={'foto_de_perfil': open(foto_perfil, 'rb')})
+        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
 
-        self.assertEqual(form.errors['nombre'], ["Debe tener como máximo de 100 "
-                                                   "caracteres"])
+        self.assertEqual(form.errors['nombre'], ["Asegúrese de que este valor tenga "
+                                                 "menos de 100 caracteres (tiene 107)."])
 
     def test_no_coinciden_password(self):
         form_data = {
@@ -61,8 +66,10 @@ class RegistroFormTests(TestCase):
         }
 
         foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
 
-        form = Registro(data=form_data, files={'foto_de_perfil': open(foto_perfil, 'rb')})
+        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
 
         self.assertEqual(form.errors['password_again'], ['Las contraseñas deben ser '
                                                          'iguales'])
@@ -76,8 +83,10 @@ class RegistroFormTests(TestCase):
         }
 
         foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
 
-        form = Registro(data=form_data, files={'foto_de_perfil': open(foto_perfil, 'rb')})
+        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
 
         self.assertEqual(form.errors['password'], ['La contraseña debe contener al menos '
                                                    'un número'])
@@ -91,8 +100,10 @@ class RegistroFormTests(TestCase):
         }
 
         foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
 
-        form = Registro(data=form_data, files={'foto_de_perfil': open(foto_perfil, 'rb')})
+        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
 
         self.assertEqual(form.errors['password'], ['La contraseña debe tener al menos '
                                                    'una mayúscula'])
@@ -106,8 +117,10 @@ class RegistroFormTests(TestCase):
         }
 
         foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
 
-        form = Registro(data=form_data, files={'foto_de_perfil': open(foto_perfil, 'rb')})
+        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
 
         self.assertEqual(form.errors['password'], ["La contraseña debe tener al menos "
                                                    "uno de estos símbolos: "
@@ -122,8 +135,10 @@ class RegistroFormTests(TestCase):
         }
 
         foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
 
-        form = Registro(data=form_data, files={'foto_de_perfil': open(foto_perfil, 'rb')})
+        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
 
         self.assertEqual(form.errors['password'],
                          ["La contraseña debe contener al menos una letra "
@@ -138,11 +153,13 @@ class RegistroFormTests(TestCase):
         }
 
         foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
 
-        form = Registro(data=form_data, files={'foto_de_perfil': open(foto_perfil, 'rb')})
+        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
 
-        self.assertEqual(form.errors['password'], ["Debe tener como mínimo de 8 "
-                                                   "caracteres"])
+        self.assertEqual(form.errors['password'], ["Asegúrese de que este valor tenga "
+                                                   "más de 8 caracteres (tiene 5)."])
 
     def test_password_larga(self):
         form_data = {
@@ -153,11 +170,13 @@ class RegistroFormTests(TestCase):
         }
 
         foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
 
-        form = Registro(data=form_data, files={'foto_de_perfil': open(foto_perfil, 'rb')})
+        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
 
-        self.assertEqual(form.errors['password'], ["Debe tener como máximo de 16 "
-                                                   "caracteres"])
+        self.assertEqual(form.errors['password'], ["Asegúrese de que este valor tenga "
+                                                   "menos de 16 caracteres (tiene 17)."])
 
     def test_no_imagen(self):
         form_data = {
@@ -168,8 +187,10 @@ class RegistroFormTests(TestCase):
         }
 
         foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/prueba.txt"
+        foto_perfil = open(foto_perfil, 'rb')
 
-        form = Registro(data=form_data, files={'foto_de_perfil': open(foto_perfil, 'rb')})
+        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
 
         self.assertEqual(form.errors['foto_de_perfil'], ['Envíe una imagen válida. El '
                                                          'fichero que ha enviado no era '
