@@ -24,7 +24,7 @@
         <form class="form" method="post" action="{% url 'registrarse' %}" enctype="multipart/form-data">
           {% csrf_token %}
           {% for field in register_form %}
-          <div class='form-group'>
+          <div class='form-group {% if field.errors %} errorlist {% endif %}'>
             {% if field.name == "email" %}
               <i class="bi bi-envelope-fill"></i>
             {% elif  field.name == "nombre" or field.name == "foto_de_perfil"%}
