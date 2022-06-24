@@ -10,7 +10,7 @@
   {% load static bootstrap5 bootstrap_icons %}
   <link rel="stylesheet" href="{% static 'YoPuedo/css/registro.css'%}">
   <link rel="stylesheet" href="{% static 'YoPuedo/css/base.css'%}">
-  <link rel="stylesheet" href="{% static 'bootstrap_icons/css/bootstrap_icons.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
   {% bootstrap_css %}
   {% bootstrap_javascript %}
   </head>
@@ -35,7 +35,13 @@
 
             {{ field.label }}
             {{ field }}
-            {{ field.errors }}
+
+            {% for error in field.errors%}
+            <div class="errorlist">
+              {% bs_icon 'x-circle-fill' %}
+              {{ error }}
+            </div>
+            {% endfor %}
 
           </div>
           {% endfor %}
