@@ -192,7 +192,4 @@ class RegistroFormTests(TestCase):
         form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
             foto_perfil.name, foto_perfil.read())})
 
-        self.assertEqual(form.errors['foto_de_perfil'], ['Envíe una imagen válida. El '
-                                                         'fichero que ha enviado no era '
-                                                         'una imagen o se trataba de una '
-                                                         'imagen corrupta.'])
+        self.assertEqual(form.errors['foto_de_perfil'], ['El fichero enviado está vacío.'])
