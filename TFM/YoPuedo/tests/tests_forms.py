@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .forms import Registro
+from TFM.YoPuedo.forms import Registro
 from TFM.settings import BASE_DIR
 
 

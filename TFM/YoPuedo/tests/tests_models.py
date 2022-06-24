@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import Usuario
+from TFM.YoPuedo.models import Usuario
 from TFM.settings import BASE_DIR
 
 
