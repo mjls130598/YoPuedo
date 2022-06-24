@@ -2,12 +2,11 @@ import logging
 import re
 
 from django import forms
-from . import utils
 
 logger = logging.getLogger(__name__)
 
 
-class registro(forms.Form):
+class Registro(forms.Form):
     email = forms.EmailField(label='Email:',
                              widget=forms.EmailInput(
                                  attrs={
@@ -61,7 +60,8 @@ class registro(forms.Form):
 
         if not re.findall('[()\[\]{}|\\`~!@#$%^&\*_\-\+=;:\'",<>./\?]', password):
             logger.error("La contraseña no contiene ningún símbolo")
-            self.add_error('password', "La contraseña debe tener uno de estos símbolos: "
+            self.add_error('password', "La contraseña debe tener al menos uno de estos "
+                                       "símbolos: "
                                        "()[]{}|\`~!@#$%^&*_-+=;:'\",<>./?")
 
         return self

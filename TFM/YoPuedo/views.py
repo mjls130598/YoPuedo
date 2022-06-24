@@ -2,7 +2,7 @@ import logging
 import os
 from django.shortcuts import render
 from . import utils
-from .forms import registro
+from .forms import Registro
 from TFM.settings import BASE_DIR
 
 logger = logging.getLogger(__name__)
@@ -11,11 +11,11 @@ logger = logging.getLogger(__name__)
 def registrarse(request):
     if request.method == 'GET':
         logger.info("Entramos a la parte GET de REGISTRO")
-        form = registro()
+        form = Registro()
 
     else:
         logger.info("Entramos a la parte POST de REGISTRO")
-        form = registro(request.POST, request.FILES)
+        form = Registro(request.POST, request.FILES)
 
         if form.is_valid():
             email = form.cleaned_data['email'].value()
