@@ -2,10 +2,17 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from ..forms import Registro
 from TFM.settings import BASE_DIR
+from ..models import Usuario
 
 
 # Comprobamos la validación del formulario de registro
 class RegistroFormTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        Usuario.objects.create(email="mj@gmail.com", nombre="María Jesús",
+                               password="Password1.",
+                               fotoPerfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
     def test_campos_vacios(self):
         form_data = {
             'email': '',
@@ -38,6 +45,23 @@ class RegistroFormTests(TestCase):
 
         self.assertEqual(form.errors['email'], ['Introduzca una dirección de correo '
                                                 'electrónico válida.'])
+
+    def test_email_existente(self):
+        form_data = {
+            'email': 'mj@gmail.com',
+            'nombre': 'María Jesús',
+            'password': 'Password1*',
+            'password_again': 'Password1*',
+        }
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
+
+        self.assertEqual(form.errors['email'], ['Ya existe una cuenta con ese email. '
+                                                'Pruebe con otro.'])
 
     def test_nombre_largo(self):
         form_data = {

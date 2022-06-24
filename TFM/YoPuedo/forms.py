@@ -1,7 +1,7 @@
 import logging
 import re
-
 from django import forms
+from .models import Usuario
 
 logger = logging.getLogger(__name__)
 
@@ -40,6 +40,7 @@ class Registro(forms.Form):
 
         password = self.cleaned_data['password']
         password2 = self.cleaned_data['password_again']
+        email = self.cleaned_data['email'].value()
 
         if password != password2:
             logger.error("Las contraseñas introducidas no son iguales")
@@ -63,5 +64,12 @@ class Registro(forms.Form):
             self.add_error('password', "La contraseña debe tener al menos uno de estos "
                                        "símbolos: "
                                        "()[]{}|\`~!@#$%^&*_-+=;:'\",<>./?")
+
+        usuario = Usuario.objects.get(email=email)
+
+        if usuario:
+            logger.error("Ya existe un usuario con ese email")
+            self.add_error('email', "Ya existe una cuenta con ese email. Pruebe con "
+                                    "otro.")
 
         return self
