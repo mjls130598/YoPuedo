@@ -41,6 +41,11 @@ class Registro(forms.Form):
         password = self['password']
         password2 = self['password_again']
 
+        if len(password) > 16:
+            logger.error("La contraseña tiene más de 16 caracteres")
+            self.add_error('password', "Asegúrese de que este valor tenga menos de 16 "
+                                       "caracteres (tiene 20).")
+
         if password != password2:
             logger.error("Las contraseñas introducidas no son iguales")
             self.add_error('password_again', "Las contraseñas deben ser iguales")
