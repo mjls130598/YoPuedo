@@ -46,34 +46,34 @@
                 <div class="col imagen-password p2"
                      onclick='{% if field.name == "password" %} escribirPassword(password, {% password_imagen bosque %})
                      {% else %} escribirPassword(password_again, {% password_imagen bosque %}) {% endif %}'>
-                  <img src="{% media 'YoPuedo/password/bosque.png' %}">
+                  <img src="{{ MEDIA_URL }}/YoPuedo/password/bosque.png" alt="bosque">
                 </div>
                 <div class="col imagen-password p2"
                      onclick='{% if field.name == "password" %} escribirPassword(password, {% password_imagen mirador %})
                      {% else %} escribirPassword(password_again, {% password_imagen mirador %}) {% endif %}'>
-                  <img src="{% media 'YoPuedo/password/mirador.png' %}">
+                  <img src="{{ MEDIA_URL }}/YoPuedo/password/mirador.png" alt="mirador">
                 </div>
                 <div class="col imagen-password p2"
                      onclick='{% if field.name == "password" %} escribirPassword(password, {% password_imagen montaña %})
                      {% else %} escribirPassword(password_again, {% password_imagen montaña %}) {% endif %}'>
-                  <img src="{% media 'YoPuedo/password/montaña.png' %}">
+                  <img src="{{ MEDIA_URL }}/YoPuedo/password/mirador.png" alt="mirador">
                 </div>
               </div>
               <div class="form-group row">
                 <div class="col imagen-password p2"
                      onclick='{% if field.name == "password" %} escribirPassword(password, {% password_imagen piscina %})
                      {% else %} escribirPassword(password_again, {% password_imagen piscina %}) {% endif %}'>
-                  <img src="{% media 'YoPuedo/password/piscina.png' %}">
+                  <img src="{{ MEDIA_URL }}/YoPuedo/password/piscina.png" alt="piscina">
                 </div>
                 <div class="col imagen-password p2"
                      onclick='{% if field.name == "password" %} escribirPassword(password, {% password_imagen playa %})
                      {% else %} escribirPassword(password_again, {% password_imagen playa %}) {% endif %}'>
-                  <img src="{% media 'YoPuedo/password/playa.png' %}">
+                  <img src="{{ MEDIA_URL }}/YoPuedo/password/playa.png" alt="playa">
                 </div>
                 <div class="col imagen-password p2"
                      onclick='{% if field.name == "password" %} escribirPassword(password, {% password_imagen selva %})
                      {% else %} escribirPassword(password_again, {% password_imagen selva %}) {% endif %}'>
-                  <img src="{% media 'YoPuedo/password/selva.png' %}">
+                  <img src="{{ MEDIA_URL }}/YoPuedo/password/selva.png" alt="selva">
                 </div>
               </div>
             </select>
