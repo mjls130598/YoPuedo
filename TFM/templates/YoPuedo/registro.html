@@ -18,7 +18,10 @@
   <div id="contenedor" class="row align-items-center">
     <section id="registro" class="col">
       <div id="titulo-registro">
-        <h2>Bienvenido a ¡Yo puedo!</h2>
+        <h2>
+          Bienvenido a ¡Yo puedo!
+          <i class="bi bi-award-fill"></i>
+        </h2>
       </div>
       <div id="formulario-registro">
         <form class="form" method="post" action="{% url 'registrarse' %}" enctype="multipart/form-data">
@@ -44,43 +47,43 @@
                   <i class="bi bi-card-image"></i>
                 </button>
 
-                <div id="imagenes_password_{{field_name}}" class="form-group container"
-                     style="visibility: inherit;">
-                  <div class="form-group row">
-                    <div class="col imagen-password p2"
+                <table id="imagenes_password_{{field_name}}" class="table"
+                     style="display: none;">
+                  <tr class="form-group row">
+                    <td class="col imagen-password p2"
                          onclick='{% if field.name == "password" %} escribirPassword(id_password, {% password_imagen "bosque" %})
                          {% else %} escribirPassword(id_password_again, {% password_imagen "bosque" %}) {% endif %}'>
                       <img src="/media/YoPuedo/password/bosque.png" alt="bosque">
-                    </div>
-                    <div class="col imagen-password p2"
+                    </td>
+                    <td class="col imagen-password p2"
                          onclick='{% if field.name == "password" %} escribirPassword(id_password, {% password_imagen "mirador" %})
                          {% else %} escribirPassword(id_password_again, {% password_imagen "mirador" %}) {% endif %}'>
                       <img src="/media/YoPuedo/password/mirador.png" alt="mirador">
-                    </div>
-                    <div class="col imagen-password p2"
+                    </td>
+                    <td class="col imagen-password p2"
                          onclick='{% if field.name == "password" %} escribirPassword(id_password, {% password_imagen "montaña" %})
                          {% else %} escribirPassword(id_password_again, {% password_imagen "montaña" %}) {% endif %}'>
-                      <img src="/media/YoPuedo/password/mirador.png" alt="mirador">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <div class="col imagen-password p2"
+                      <img src="/media/YoPuedo/password/montaña.png" alt="montaña">
+                    </td>
+                  </tr>
+                  <tr class="form-group row">
+                    <td class="col imagen-password p2"
                          onclick='{% if field.name == "password" %} escribirPassword(id_password, {% password_imagen "piscina" %})
                          {% else %} escribirPassword(id_password_again, {% password_imagen "piscina" %}) {% endif %}'>
-                      <img src="{{ MEDIA_URL }}/YoPuedo/password/piscina.png" alt="piscina">
-                    </div>
-                    <div class="col imagen-password p2"
+                      <img src="/media/YoPuedo/password/piscina.png" alt="piscina">
+                    </td>
+                    <td class="col imagen-password p2"
                          onclick='{% if field.name == "password" %} escribirPassword(id_password, {% password_imagen "playa" %})
                          {% else %} escribirPassword(id_password_again, {% password_imagen "playa" %}) {% endif %}'>
                       <img src="/media/YoPuedo/password/playa.png" alt="playa">
-                    </div>
-                    <div class="col imagen-password p2"
+                    </td>
+                    <td class="col imagen-password p2"
                          onclick='{% if field.name == "password" %} escribirPassword(id_password, {% password_imagen "selva" %})
                          {% else %} escribirPassword(id_password_again, {% password_imagen "selva" %}) {% endif %}'>
                       <img src="/media/YoPuedo/password/selva.png" alt="selva">
-                    </div>
-                  </div>
-                </div>
+                    </td>
+                  </tr>
+                </table>
               </div>
             {% else %}
               {{ field }}
@@ -118,25 +121,20 @@
     document.getElementById(input).value += value;
   }
 
-  function mostrarOcultarImagenesPassword(){
-    var visibilidad = document.getElementById("imagenes_password_password").style
-    .visibility;
+  function cambiarVisibilidad(id){
+    var visibilidad = document.getElementById(id).style.display;
 
-    if(visibilidad == "inherit")
-      document.getElementById("imagenes_password_password").style.visibility="visible";
+    if(visibilidad == "none")
+      document.getElementById(id).style.visibility="block";
     else
-      document.getElementById("imagenes_password_password").style.visibility="inherit";
+      document.getElementById(id).style.visibility="none";
+  }
+
+  function mostrarOcultarImagenesPassword(){
+    cambiarVisibilidad("imagenes_password_password");
   }
 
   function mostrarOcultarImagenesPasswordAgain(){
-    var visibilidad = document.getElementById("imagenes_password_password_again").style
-    .visibility;
-
-    if(visibilidad == "inherit")
-      document.getElementById("imagenes_password_password_again").style
-      .visibility="visible";
-    else
-      document.getElementById("imagenes_password_password_again").style
-      .visibility="inherit";
+    cambiarVisibilidad("imagenes_password_password_again");
   }
 </script>
