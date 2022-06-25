@@ -15,7 +15,7 @@ class RegistroFormTests(TestCase):
 
     def test_email_incorrecto(self):
         form_data = {
-            'email': 'mariajesus',
+            'email': 'mariajesus@gmail',
             'nombre': 'María Jesús',
             'password': 'Password1*',
             'password_again': 'Password1*',
@@ -162,7 +162,7 @@ class RegistroFormTests(TestCase):
 
         form = Registro(data=form_data)
 
-        self.assertEqual(form.errors['password_again'], ['Este campo es obligatorio.'])
+        self.assertEqual(form.errors['foto_de_perfil'], ['Este campo es obligatorio.'])
 
     def test_imagen_vacia(self):
         form_data = {
