@@ -22,12 +22,12 @@ class Registro(forms.Form):
     password = forms.CharField(label='Contraseña:', max_length='16', min_length='8',
                                widget=forms.PasswordInput(
                                    attrs={
-                                       'class': 'form-control'
+                                       'class': 'col-12'
                                    }))
     password_again = forms.CharField(label='Repetir contraseña:', max_length='16',
                                      min_length='8', widget=forms.PasswordInput(
             attrs={
-                'class': 'form-control'
+                'class': 'col-12'
             }))
     foto_de_perfil = forms.ImageField(label='Foto de perfil:',
                                       widget=forms.ClearableFileInput(

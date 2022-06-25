@@ -34,49 +34,55 @@
             {% endif %}
 
             {{ field.label }}
-            {{ field }}
 
             {% if field.name == "password" or field.name == "password_again" %}
-            <button id="mostrar_ocultar_password" class="btn btn-primary">
-              <i class="bi bi-card-image"></i>
-            </button>
+            <div class="form-group">
+              {{ field }}
+              <button id="mostrar_ocultar_password" class="btn btn-primary"
+                      onclick="mostrarOcultarImagenes()">
+                <i class="bi bi-card-image"></i>
+              </button>
 
-            <select class="form-group container" style="display: hidden;">
-              <div class="form-group row">
-                <div class="col imagen-password p2"
-                     onclick='{% if field.name == "password" %} escribirPassword(password, {% password_imagen bosque %})
-                     {% else %} escribirPassword(password_again, {% password_imagen bosque %}) {% endif %}'>
-                  <img src="{{ MEDIA_URL }}/YoPuedo/password/bosque.png" alt="bosque">
+              <div id="imagenes_password" class="form-group container"
+                   style="visibility: hidden;">
+                <div class="form-group row">
+                  <div class="col imagen-password p2"
+                       onclick='{% if field.name == "password" %} escribirPassword(password, {% password_imagen bosque %})
+                       {% else %} escribirPassword(password_again, {% password_imagen bosque %}) {% endif %}'>
+                    <img src="{{ MEDIA_URL }}/YoPuedo/password/bosque.png" alt="bosque">
+                  </div>
+                  <div class="col imagen-password p2"
+                       onclick='{% if field.name == "password" %} escribirPassword(password, {% password_imagen mirador %})
+                       {% else %} escribirPassword(password_again, {% password_imagen mirador %}) {% endif %}'>
+                    <img src="{{ MEDIA_URL }}/YoPuedo/password/mirador.png" alt="mirador">
+                  </div>
+                  <div class="col imagen-password p2"
+                       onclick='{% if field.name == "password" %} escribirPassword(password, {% password_imagen montaña %})
+                       {% else %} escribirPassword(password_again, {% password_imagen montaña %}) {% endif %}'>
+                    <img src="{{ MEDIA_URL }}/YoPuedo/password/mirador.png" alt="mirador">
+                  </div>
                 </div>
-                <div class="col imagen-password p2"
-                     onclick='{% if field.name == "password" %} escribirPassword(password, {% password_imagen mirador %})
-                     {% else %} escribirPassword(password_again, {% password_imagen mirador %}) {% endif %}'>
-                  <img src="{{ MEDIA_URL }}/YoPuedo/password/mirador.png" alt="mirador">
-                </div>
-                <div class="col imagen-password p2"
-                     onclick='{% if field.name == "password" %} escribirPassword(password, {% password_imagen montaña %})
-                     {% else %} escribirPassword(password_again, {% password_imagen montaña %}) {% endif %}'>
-                  <img src="{{ MEDIA_URL }}/YoPuedo/password/mirador.png" alt="mirador">
+                <div class="form-group row">
+                  <div class="col imagen-password p2"
+                       onclick='{% if field.name == "password" %} escribirPassword(password, {% password_imagen piscina %})
+                       {% else %} escribirPassword(password_again, {% password_imagen piscina %}) {% endif %}'>
+                    <img src="{{ MEDIA_URL }}/YoPuedo/password/piscina.png" alt="piscina">
+                  </div>
+                  <div class="col imagen-password p2"
+                       onclick='{% if field.name == "password" %} escribirPassword(password, {% password_imagen playa %})
+                       {% else %} escribirPassword(password_again, {% password_imagen playa %}) {% endif %}'>
+                    <img src="{{ MEDIA_URL }}/YoPuedo/password/playa.png" alt="playa">
+                  </div>
+                  <div class="col imagen-password p2"
+                       onclick='{% if field.name == "password" %} escribirPassword(password, {% password_imagen selva %})
+                       {% else %} escribirPassword(password_again, {% password_imagen selva %}) {% endif %}'>
+                    <img src="{{ MEDIA_URL }}/YoPuedo/password/selva.png" alt="selva">
+                  </div>
                 </div>
               </div>
-              <div class="form-group row">
-                <div class="col imagen-password p2"
-                     onclick='{% if field.name == "password" %} escribirPassword(password, {% password_imagen piscina %})
-                     {% else %} escribirPassword(password_again, {% password_imagen piscina %}) {% endif %}'>
-                  <img src="{{ MEDIA_URL }}/YoPuedo/password/piscina.png" alt="piscina">
-                </div>
-                <div class="col imagen-password p2"
-                     onclick='{% if field.name == "password" %} escribirPassword(password, {% password_imagen playa %})
-                     {% else %} escribirPassword(password_again, {% password_imagen playa %}) {% endif %}'>
-                  <img src="{{ MEDIA_URL }}/YoPuedo/password/playa.png" alt="playa">
-                </div>
-                <div class="col imagen-password p2"
-                     onclick='{% if field.name == "password" %} escribirPassword(password, {% password_imagen selva %})
-                     {% else %} escribirPassword(password_again, {% password_imagen selva %}) {% endif %}'>
-                  <img src="{{ MEDIA_URL }}/YoPuedo/password/selva.png" alt="selva">
-                </div>
-              </div>
-            </select>
+            </div>
+            {% else %}
+            {{ field }}
             {% endif %}
 
             {% for error in field.errors%}
@@ -107,5 +113,14 @@
 <script>
   function escribirPassword(input, value){
     document.getElementById(input).value += value;
+  }
+
+  function mostrarOcultarImagenes(){
+    var visibilidad = document.getElementById("imagenes_password").style.visibility;
+
+    if(visibilidad == "hidden")
+      document.getElementById("imagenes_password").style.visibility="visible";
+    else
+      document.getElementById("imagenes_password").style.visibility="hidden";
   }
 </script>
