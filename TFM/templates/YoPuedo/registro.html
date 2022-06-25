@@ -39,13 +39,15 @@
             {{ field.label }}
 
             {% if field.name == "password" or field.name == "password_again" %}
-              <div class="form-group">
-                {{ field }}
-                <button class="btn btn-primary col mostrar_ocultar_password"
-                        onclick="{% if field.name == 'password' %} mostrarOcultarImagenesPassword()
-                                 {% else %} mostrarOcultarImagenesPasswordAgain() {% endif %}">
-                  <i class="bi bi-card-image"></i>
-                </button>
+              <div class="form-group container">
+                <div class="row">
+                  {{ field }}
+                  <button class="btn btn-primary col mostrar_ocultar_password"
+                          onclick="{% if field.name == 'password' %} mostrarOcultarImagenesPassword()
+                                   {% else %} mostrarOcultarImagenesPasswordAgain() {% endif %}">
+                    <i class="bi bi-card-image"></i>
+                  </button>
+                </div>
 
                 <table id="imagenes_password_{{ field.name }}" class="table"
                      style="display: none;">
