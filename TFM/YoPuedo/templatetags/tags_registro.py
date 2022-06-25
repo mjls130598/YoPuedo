@@ -1,4 +1,4 @@
-from tempfile import template
+from django import template
 
 register = template.Library()
 
