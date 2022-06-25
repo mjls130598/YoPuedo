@@ -115,10 +115,12 @@
 <script>
   function escribirPassword(input, value){
     inputValue = document.getElementById(input).value;
-    if(inputValue)
-      document.getElementById(input).value += value;
-    else
-      document.getElementById(input).value = value;
+    if(inputValue.length < 16){
+      if(inputValue)
+        document.getElementById(input).value += value;
+      else
+        document.getElementById(input).value = value;
+    }
   }
 
   function cambiarVisibilidad(id){
