@@ -13,21 +13,21 @@ class RegistroFormTests(TestCase):
                                password="Password1.",
                                fotoPerfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
-    def test_campos_vacios(self):
+    def test_email_vacio(self):
         form_data = {
             'email': '',
-            'nombre': '',
-            'password': '',
-            'password_again': '',
+            'nombre': 'María Jesús',
+            'password': 'Password1*',
+            'password_again': 'Password1*',
         }
 
-        form = Registro(data=form_data)
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
 
         self.assertEqual(form.errors['email'], ['Este campo es obligatorio.'])
-        self.assertEqual(form.errors['nombre'], ['Este campo es obligatorio.'])
-        self.assertEqual(form.errors['password'], ['Este campo es obligatorio.'])
-        self.assertEqual(form.errors['password_again'], ['Este campo es obligatorio.'])
-        self.assertEqual(form.errors['foto_de_perfil'], ['Este campo es obligatorio.'])
 
     def test_email_incorrecto(self):
         form_data = {
@@ -63,6 +63,22 @@ class RegistroFormTests(TestCase):
         self.assertEqual(form.errors['email'], ['Ya existe una cuenta con ese email. '
                                                 'Pruebe con otro.'])
 
+    def test_nombre_vacio(self):
+        form_data = {
+            'email': 'mariajesus@gmail.com',
+            'nombre': '',
+            'password': 'Password1*',
+            'password_again': 'Password1*',
+        }
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
+
+        self.assertEqual(form.errors['nombre'], ['Este campo es obligatorio.'])
+
     def test_nombre_largo(self):
         form_data = {
             'email': 'mariajesus@gmail.com',
@@ -80,6 +96,38 @@ class RegistroFormTests(TestCase):
 
         self.assertEqual(form.errors['nombre'], ["Asegúrese de que este valor tenga "
                                                  "menos de 100 caracteres (tiene 107)."])
+
+    def test_password_vacio(self):
+        form_data = {
+            'email': 'mariajesus@gmail.com',
+            'nombre': 'María Jesús',
+            'password': '',
+            'password_again': 'Password1*',
+        }
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
+
+        self.assertEqual(form.errors['password'], ['Este campo es obligatorio.'])
+
+    def test_password_again_vacio(self):
+        form_data = {
+            'email': 'mariajesus@gmail.com',
+            'nombre': 'María Jesús',
+            'password': 'Password1*',
+            'password_again': '',
+        }
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
+
+        self.assertEqual(form.errors['password_again'], ['Este campo es obligatorio.'])
 
     def test_no_coinciden_password(self):
         form_data = {
@@ -202,6 +250,18 @@ class RegistroFormTests(TestCase):
         self.assertEqual(form.errors['password'], ["Asegúrese de que este valor tenga "
                                                    "menos de 16 caracteres (tiene 17)."])
 
+    def test_foto_de_perfil_vacio(self):
+        form_data = {
+            'email': 'mariajesus@gmail.com',
+            'nombre': 'María Jesús',
+            'password': 'Password1*',
+            'password_again': '',
+        }
+
+        form = Registro(data=form_data)
+
+        self.assertEqual(form.errors['password_again'], ['Este campo es obligatorio.'])
+
     def test_imagen_vacia(self):
         form_data = {
             'email': 'mariajesus@gmail.com',
@@ -216,7 +276,8 @@ class RegistroFormTests(TestCase):
         form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
             foto_perfil.name, foto_perfil.read())})
 
-        self.assertEqual(form.errors['foto_de_perfil'], ['El fichero enviado está vacío.'])
+        self.assertEqual(form.errors['foto_de_perfil'],
+                         ['El fichero enviado está vacío.'])
 
     def test_no_imagen(self):
         form_data = {
