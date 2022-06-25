@@ -27,7 +27,23 @@ class RegistroFormTests(TestCase):
         form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
             foto_perfil.name, foto_perfil.read())})
 
-        self.assertTrue(len[form.errors] == 0)
+        self.assertTrue(len(form.errors) == 0)
+
+    def test_campo_vacio(self):
+        form_data = {
+            'email': '',
+            'nombre': '',
+            'password': '',
+            'password_again': '',
+        }
+
+        form = Registro(data=form_data)
+
+        self.assertEqual(form.errors['email'], ['Este campo es obligatorio.'])
+        self.assertEqual(form.errors['nombre'], ['Este campo es obligatorio.'])
+        self.assertEqual(form.errors['password'], ['Este campo es obligatorio.'])
+        self.assertEqual(form.errors['password_again'], ['Este campo es obligatorio.'])
+        self.assertEqual(form.errors['foto_de_perfil'], ['Este campo es obligatorio.'])
 
     def test_email_incorrecto(self):
         form_data = {
@@ -167,6 +183,41 @@ class RegistroFormTests(TestCase):
         self.assertEqual(form.errors['password'],
                          ["La contraseña debe contener al menos una letra "
                           "en minúscula"])
+
+    def test_password_largo(self):
+        form_data = {
+            'email': 'mariajesus@gmail.com',
+            'nombre': 'María Jesús',
+            'password': 'Password1*Password1*',
+            'password_again': 'Password1*Password1*',
+        }
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
+
+        self.assertEqual(form.errors['password'], ["Asegúrese de que este valor tenga "
+                                                   "menos de 16 caracteres (tiene 20)."])
+
+    def test_password_corto(self):
+        form_data = {
+            'email': 'mariajesus@gmail.com',
+            'nombre': 'María Jesús',
+            'password': 'Pwd1*',
+            'password_again': 'Pwd1*',
+        }
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
+
+        self.assertEqual(form.errors['password'], ["Asegúrese de que este valor tenga "
+                                                   "al menos de 8 caracteres (tiene "
+                                                   "5)."])
 
     def test_foto_de_perfil_vacio(self):
         form_data = {

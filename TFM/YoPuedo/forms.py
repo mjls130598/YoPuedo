@@ -38,8 +38,8 @@ class Registro(forms.Form):
     def clean(self):
         logger.info("Checkeando registro")
 
-        password = self.cleaned_data['password']
-        password2 = self.cleaned_data['password_again']
+        password = self['password']
+        password2 = self['password_again']
 
         if password != password2:
             logger.error("Las contraseñas introducidas no son iguales")
