@@ -215,10 +215,9 @@ class RegistroFormTests(TestCase):
         form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
             foto_perfil.name, foto_perfil.read())})
 
-        self.assertEqual(form.errors['password'], ["Aumenta la longitud del texto a 8 "
-                                                   "caracteres como mínimo ("
-                                                   "actualmente, el texto tiene 5 "
-                                                   "caracteres)."])
+        self.assertEqual(form.errors['password'], ["Asegúrese de que este valor tenga "
+                                                   "al menos de 8 caracteres (tiene "
+                                                   "5)."])
 
     def test_foto_de_perfil_vacio(self):
         form_data = {

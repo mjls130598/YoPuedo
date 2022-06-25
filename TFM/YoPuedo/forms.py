@@ -64,7 +64,7 @@ class Registro(forms.Form):
                                        "símbolos: "
                                        "()[]{}|\`~!@#$%^&*_-+=;:'\",<>./?")
 
-        email = self.cleaned_data['email']
+        email = self['email']
 
         if Usuario.objects.filter(email=email).exists():
             logger.error("Ya existe un usuario con ese email")
