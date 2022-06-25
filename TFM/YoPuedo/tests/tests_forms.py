@@ -13,6 +13,22 @@ class RegistroFormTests(TestCase):
                                password="Password1.",
                                fotoPerfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
+    def test_correcto(self):
+        form_data = {
+            'email': 'mariajesus@gmail.com',
+            'nombre': 'María Jesús',
+            'password': 'Password1*',
+            'password_again': 'Password1*',
+        }
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
+
+        self.assertTrue(len[form.errors] == 0)
+
     def test_email_incorrecto(self):
         form_data = {
             'email': 'mariajesus@gmail',
