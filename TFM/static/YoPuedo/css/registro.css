@@ -40,4 +40,5 @@ body.container {
 .btn.btn-primary.mostrar_ocultar_password{
     background-color: #FF9800;
     border-color: #FF9800;
+    margin-left: 2%;
 }

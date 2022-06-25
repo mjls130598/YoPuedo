@@ -22,12 +22,12 @@ class Registro(forms.Form):
     password = forms.CharField(label='Contraseña:', max_length='16', min_length='8',
                                widget=forms.PasswordInput(
                                    attrs={
-                                       'class': 'form-control col-10'
+                                       'class': 'form-control'
                                    }))
     password_again = forms.CharField(label='Repetir contraseña:', max_length='16',
                                      min_length='8', widget=forms.PasswordInput(
                                                         attrs={
-                                                            'class': 'form-control col-10'
+                                                            'class': 'form-control'
                                                         }))
     foto_de_perfil = forms.ImageField(label='Foto de perfil:',
                                       widget=forms.ClearableFileInput(
@@ -40,11 +40,6 @@ class Registro(forms.Form):
 
         password = self['password']
         password2 = self['password_again']
-
-        if len(password) > 16:
-            logger.error("La contraseña tiene más de 16 caracteres")
-            self.add_error('password', "Asegúrese de que este valor tenga menos de 16 "
-                                       "caracteres (tiene 20).")
 
         if password != password2:
             logger.error("Las contraseñas introducidas no son iguales")

@@ -39,48 +39,52 @@
             {{ field.label }}
 
             {% if field.name == "password" or field.name == "password_again" %}
-              <div class="form-group container">
-                <div class="row">
-                  {{ field }}
-                  <button class="btn btn-primary col mostrar_ocultar_password"
+              <table class="table">
+                <tr class="row">
+                  <td class="col-10">
+                    {{ field }}
+                  </td>
+                  <td class="col">
+                    <button class="btn btn-primary mostrar_ocultar_password"
                           onclick="{% if field.name == 'password' %} mostrarOcultarImagenesPassword()
                                    {% else %} mostrarOcultarImagenesPasswordAgain() {% endif %}">
-                    <i class="bi bi-card-image"></i>
-                  </button>
-                </div>
+                      <i class="bi bi-card-image"></i>
+                    </button>
+                  </td>
+                </tr>
+              </table>
 
-                <table id="imagenes_password_{{ field.name }}" class="table"
-                     style="display: none;">
-                  <tr class="form-group row">
-                    <td class="col imagen-password p2"
-                         onclick="{% if field.name == 'password' %}escribirPassword('id_password', '{% password_imagen 'bosque' %}'){% else %}escribirPassword('id_password_again', '{% password_imagen 'bosque' %}'){% endif %}">
-                      <img src="/media/YoPuedo/password/bosque.png" alt="bosque" class="img-thumbnail">
-                    </td>
-                    <td class="col imagen-password p2"
-                         onclick="{% if field.name == 'password' %}escribirPassword('id_password', '{% password_imagen 'mirador' %}'){% else %}escribirPassword('id_password_again', '{% password_imagen 'mirador' %}'){% endif %}">
-                      <img src="/media/YoPuedo/password/mirador.png" alt="mirador" class="img-thumbnail">
-                    </td>
-                    <td class="col imagen-password p2"
-                         onclick="{% if field.name == 'password' %}escribirPassword('id_password', '{% password_imagen 'montaña' %}'){% else %}escribirPassword('id_password_again', '{% password_imagen 'montaña' %}'){% endif %}">
-                      <img src="/media/YoPuedo/password/montaña.png" alt="montaña" class="img-thumbnail">
-                    </td>
-                  </tr>
-                  <tr class="form-group row">
-                    <td class="col imagen-password p2"
-                         onclick="{% if field.name == 'password' %}escribirPassword('id_password', '{% password_imagen 'piscina' %}'){% else %}escribirPassword('id_password_again', '{% password_imagen 'piscina' %}'){% endif %}">
-                      <img src="/media/YoPuedo/password/piscina.png" alt="piscina" class="img-thumbnail">
-                    </td>
-                    <td class="col imagen-password p2"
-                         onclick="{% if field.name == 'password' %}escribirPassword('id_password', '{% password_imagen 'playa' %}'){% else %}escribirPassword('id_password_again', '{% password_imagen 'playa' %}'){% endif %}">
-                      <img src="/media/YoPuedo/password/playa.png" alt="playa" class="img-thumbnail">
-                    </td>
-                    <td class="col imagen-password p2"
-                         onclick="{% if field.name == 'password' %}escribirPassword('id_password', '{% password_imagen 'selva' %}'){% else %}escribirPassword('id_password_again', '{% password_imagen 'selva' %}'){% endif %}">
-                      <img src="/media/YoPuedo/password/selva.png" alt="selva" class="img-thumbnail">
-                    </td>
-                  </tr>
-                </table>
-              </div>
+              <table id="imagenes_password_{{ field.name }}" class="table"
+                   style="display: none;">
+                <tr class="form-group row">
+                  <td class="col imagen-password p2"
+                       onclick="{% if field.name == 'password' %}escribirPassword('id_password', '{% password_imagen 'bosque' %}'){% else %}escribirPassword('id_password_again', '{% password_imagen 'bosque' %}'){% endif %}">
+                    <img src="/media/YoPuedo/password/bosque.png" alt="bosque" class="img-thumbnail">
+                  </td>
+                  <td class="col imagen-password p2"
+                       onclick="{% if field.name == 'password' %}escribirPassword('id_password', '{% password_imagen 'mirador' %}'){% else %}escribirPassword('id_password_again', '{% password_imagen 'mirador' %}'){% endif %}">
+                    <img src="/media/YoPuedo/password/mirador.png" alt="mirador" class="img-thumbnail">
+                  </td>
+                  <td class="col imagen-password p2"
+                       onclick="{% if field.name == 'password' %}escribirPassword('id_password', '{% password_imagen 'montaña' %}'){% else %}escribirPassword('id_password_again', '{% password_imagen 'montaña' %}'){% endif %}">
+                    <img src="/media/YoPuedo/password/montaña.png" alt="montaña" class="img-thumbnail">
+                  </td>
+                </tr>
+                <tr class="form-group row">
+                  <td class="col imagen-password p2"
+                       onclick="{% if field.name == 'password' %}escribirPassword('id_password', '{% password_imagen 'piscina' %}'){% else %}escribirPassword('id_password_again', '{% password_imagen 'piscina' %}'){% endif %}">
+                    <img src="/media/YoPuedo/password/piscina.png" alt="piscina" class="img-thumbnail">
+                  </td>
+                  <td class="col imagen-password p2"
+                       onclick="{% if field.name == 'password' %}escribirPassword('id_password', '{% password_imagen 'playa' %}'){% else %}escribirPassword('id_password_again', '{% password_imagen 'playa' %}'){% endif %}">
+                    <img src="/media/YoPuedo/password/playa.png" alt="playa" class="img-thumbnail">
+                  </td>
+                  <td class="col imagen-password p2"
+                       onclick="{% if field.name == 'password' %}escribirPassword('id_password', '{% password_imagen 'selva' %}'){% else %}escribirPassword('id_password_again', '{% password_imagen 'selva' %}'){% endif %}">
+                    <img src="/media/YoPuedo/password/selva.png" alt="selva" class="img-thumbnail">
+                  </td>
+                </tr>
+              </table>
             {% else %}
               {{ field }}
             {% endif %}
