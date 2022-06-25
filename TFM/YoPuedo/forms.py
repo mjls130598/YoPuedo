@@ -22,12 +22,12 @@ class Registro(forms.Form):
     password = forms.CharField(label='Contraseña:', max_length='16', min_length='8',
                                widget=forms.PasswordInput(
                                    attrs={
-                                       'class': 'form-control'
+                                       'class': 'form-control col-10'
                                    }))
     password_again = forms.CharField(label='Repetir contraseña:', max_length='16',
                                      min_length='8', widget=forms.PasswordInput(
                                                         attrs={
-                                                            'class': 'form-control'
+                                                            'class': 'form-control col-10'
                                                         }))
     foto_de_perfil = forms.ImageField(label='Foto de perfil:',
                                       widget=forms.ClearableFileInput(
@@ -38,8 +38,8 @@ class Registro(forms.Form):
     def clean(self):
         logger.info("Checkeando registro")
 
-        password = self['password']
-        password2 = self['password_again']
+        password = self.cleaned_data['password']
+        password2 = self.cleaned_data['password_again']
 
         if password != password2:
             logger.error("Las contraseñas introducidas no son iguales")
