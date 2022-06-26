@@ -22,7 +22,7 @@ class Registro(forms.Form):
     password = forms.CharField(label='Contraseña:', max_length='16', min_length='8',
                                widget=forms.PasswordInput(
                                    attrs={
-                                       'class': 'form-control col-10'
+                                       'class': 'form-control'
                                    }))
     password_again = forms.CharField(label='Repetir contraseña:', max_length='16',
                                      min_length='8', widget=forms.PasswordInput(

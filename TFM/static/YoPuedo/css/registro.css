@@ -1,5 +1,6 @@
-#registro{
-    background-color: #E2EEF4;
+#contenedor{
+    font-family: 'Comic Neue', cursive;
+    height:100%;
 }
 
 #titulo-registro{
@@ -12,10 +13,7 @@
     font-weight: bold;
 }
 
-#formulario-registro{
-    padding-left:20%;
-    padding-right:20%;
-}
+
 
 .form-group{
     margin-top: 2%;
@@ -41,4 +39,30 @@ body.container {
     background-color: #FF9800;
     border-color: #FF9800;
     margin-left: 2%;
+}
+
+@media screen and (min-width: 601px){
+    #formulario-registro{
+        padding-left:20%;
+        padding-right:20%;
+    }
+
+    #registro{
+        background-color: #E2EEF4;
+    }
+
+    #contenedor{
+        align-items: center!important;
+    }
+}
+
+@media screen and (max-width: 600px){
+    #formulario-registro{
+        padding-left:5%;
+        padding-right:5%;
+    }
+
+    #contenedor{
+        background-color: #E2EEF4;
+    }
 }
