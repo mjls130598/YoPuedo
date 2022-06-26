@@ -38,10 +38,10 @@ class RegistroForm(forms.Form):
     def clean(self):
         logger.info("Checkeando registro")
 
-        logger.info(self)
+        cleaned_data = super().clean()
 
-        password = self.password
-        password2 = self.password_again
+        password = cleaned_data.get('password')
+        password2 = cleaned_data.get('password_again')
 
         if password != password2:
             logger.error("Las contraseñas introducidas no son iguales")
@@ -66,7 +66,9 @@ class RegistroForm(forms.Form):
                                        "símbolos: "
                                        "()[]{}|\`~!@#$%^&*_-+=;:'\",<>./?")
 
-        if Usuario.objects.filter(email=self.email).exists():
+        email = cleaned_data.get('email')
+
+        if Usuario.objects.filter(email=email).exists():
             logger.error("Ya existe un usuario con ese email")
             self.add_error('email', "Ya existe una cuenta con ese email. Pruebe con "
                                     "otro.")
