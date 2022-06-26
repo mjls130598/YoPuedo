@@ -29,22 +29,6 @@ class RegistroFormTests(TestCase):
 
         self.assertTrue(len(form.errors) == 0)
 
-    def test_campo_vacio(self):
-        form_data = {
-            'email': '',
-            'nombre': '',
-            'password': '',
-            'password_again': '',
-        }
-
-        form = RegistroForm(data=form_data)
-
-        self.assertEqual(form.errors['email'], ['Este campo es obligatorio.'])
-        self.assertEqual(form.errors['nombre'], ['Este campo es obligatorio.'])
-        self.assertEqual(form.errors['password'], ['Este campo es obligatorio.'])
-        self.assertEqual(form.errors['password_again'], ['Este campo es obligatorio.'])
-        self.assertEqual(form.errors['foto_de_perfil'], ['Este campo es obligatorio.'])
-
     def test_email_incorrecto(self):
         form_data = {
             'email': 'mariajesus@gmail',
