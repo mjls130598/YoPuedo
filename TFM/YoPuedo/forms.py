@@ -40,7 +40,7 @@ class RegistroForm(forms.Form):
 
         logger.info(self.cleaned_data)
 
-        cleaned_data = super(RegistroForm)
+        cleaned_data = super(RegistroForm, self).clean()
 
         password = cleaned_data['password']
         password2 = cleaned_data['password_again']
