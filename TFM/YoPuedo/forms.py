@@ -6,7 +6,7 @@ from .models import Usuario
 logger = logging.getLogger(__name__)
 
 
-class Registro(forms.Form):
+class RegistroForm(forms.Form):
     email = forms.EmailField(label='Email:',
                              widget=forms.EmailInput(
                                  attrs={
@@ -40,8 +40,10 @@ class Registro(forms.Form):
 
         logger.info(self.cleaned_data)
 
-        password = self.cleaned_data['password']
-        password2 = self.cleaned_data['password_again']
+        cleaned_data = super(RegistroForm)
+
+        password = cleaned_data['password']
+        password2 = cleaned_data['password_again']
 
         if password != password2:
             logger.error("Las contraseñas introducidas no son iguales")
@@ -66,11 +68,11 @@ class Registro(forms.Form):
                                        "símbolos: "
                                        "()[]{}|\`~!@#$%^&*_-+=;:'\",<>./?")
 
-        email = self.cleaned_data['email']
+        email = cleaned_data['email']
 
         if Usuario.objects.filter(email=email).exists():
             logger.error("Ya existe un usuario con ese email")
             self.add_error('email', "Ya existe una cuenta con ese email. Pruebe con "
                                     "otro.")
 
-        return self
+        return cleaned_data
