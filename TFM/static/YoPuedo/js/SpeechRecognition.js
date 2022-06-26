@@ -57,7 +57,7 @@ recognition.onresult = function(event) {
     document.getElementById(inputSpeech).value = final_transcript;
 };
 
-// Método que activa/apada el reconocimiento de voz desde el HTML
+// Método que activa/apaga el reconocimiento de voz desde el HTML
 function reconocimientoVoz(input){
 
     inputSpeech = input;
@@ -71,4 +71,6 @@ function reconocimientoVoz(input){
         console.log("Activamos reconocimiento");
         recognition.start();
     }
+
+    encendido = !encendido;
 }
