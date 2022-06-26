@@ -13,8 +13,6 @@
     font-weight: bold;
 }
 
-
-
 .form-group{
     margin-top: 2%;
     font-weight: bold;
@@ -70,6 +68,13 @@ body.container {
     body.container{
         background-color: #E2EEF4;
     }
+
+    .btn.btn-primary.mostrar_ocultar_password{
+        margin-bottom:12%
+    }
+}
+
+@media screen and (max-width: 1199px){
 
     .btn.btn-primary.mostrar_ocultar_password{
         margin-bottom:12%
