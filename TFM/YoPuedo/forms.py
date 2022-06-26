@@ -40,8 +40,8 @@ class RegistroForm(forms.Form):
 
         logger.info(self)
 
-        password = self['password']
-        password2 = self['password_again']
+        password = self.password
+        password2 = self.password_again
 
         if password != password2:
             logger.error("Las contraseñas introducidas no son iguales")
@@ -66,9 +66,7 @@ class RegistroForm(forms.Form):
                                        "símbolos: "
                                        "()[]{}|\`~!@#$%^&*_-+=;:'\",<>./?")
 
-        email = self['email']
-
-        if Usuario.objects.filter(email=email).exists():
+        if Usuario.objects.filter(email=self.email).exists():
             logger.error("Ya existe un usuario con ese email")
             self.add_error('email', "Ya existe una cuenta con ese email. Pruebe con "
                                     "otro.")
