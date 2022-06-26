@@ -59,10 +59,6 @@ body.container {
     #registro{
         background-color: #E2EEF4;
     }
-
-    #contenedor{
-        align-items: center!important;
-    }
 }
 
 @media screen and (max-width: 600px){
@@ -71,7 +67,11 @@ body.container {
         padding-right:5%;
     }
 
-    #contenedor{
+    body.container{
         background-color: #E2EEF4;
+    }
+
+    .btn.btn-primary.mostrar_ocultar_password{
+        margin-bottom:12%
     }
 }
