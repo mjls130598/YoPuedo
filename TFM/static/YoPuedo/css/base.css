@@ -15,3 +15,17 @@
 .errorlist{
     color: red;
 }
+
+@media screen and (max-width: 1199px){
+
+    .btn.btn-primary.principales{
+        margin: 5%;
+    }
+}
+
+@media screen and (min-width: 1200px){
+
+    .btn.btn-primary.principales{
+        margin: 2%;
+    }
+}
