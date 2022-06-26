@@ -8,6 +8,13 @@
     padding-right: 5%;
 }
 
+.btn.btn-primary.principales{
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    background-color: #0F27EE;
+}
+
 .window{
     height: 100%;
 }

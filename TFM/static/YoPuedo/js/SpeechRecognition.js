@@ -61,15 +61,23 @@ recognition.onresult = function(event) {
 function reconocimientoVoz(input){
 
     inputSpeech = input;
+    icono = document.getElementById("icono_reconocimiento");
+    boton = document.getElementById("microfono_" + input);
 
     if(encendido){
         console.log("Apagamos reconocimiento");
         recognition.stop();
+        icono.classList.add("bi-mic-fill");
+        icono.classList.remove("bi-mic-mute-fill");
+        boton.style.background-color = "#0F27EE";
     }
 
     else{
         console.log("Activamos reconocimiento");
         recognition.start();
+        icono.classList.remove("bi-mic-fill");
+        icono.classList.add("bi-mic-mute-fill");
+        boton.style.background-color = "red";
     }
 
     encendido = !encendido;
