@@ -184,41 +184,6 @@ class RegistroFormTests(TestCase):
                          ["La contraseña debe contener al menos una letra "
                           "en minúscula"])
 
-    def test_password_largo(self):
-        form_data = {
-            'email': 'mariajesus@gmail.com',
-            'nombre': 'María Jesús',
-            'password': 'Password1*Password1*',
-            'password_again': 'Password1*Password1*',
-        }
-
-        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
-        foto_perfil = open(foto_perfil, 'rb')
-
-        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
-            foto_perfil.name, foto_perfil.read())})
-
-        self.assertEqual(form.errors['password'], ["Asegúrese de que este valor tenga "
-                                                   "menos de 16 caracteres (tiene 20)."])
-
-    def test_password_corto(self):
-        form_data = {
-            'email': 'mariajesus@gmail.com',
-            'nombre': 'María Jesús',
-            'password': 'Pwd1*',
-            'password_again': 'Pwd1*',
-        }
-
-        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
-        foto_perfil = open(foto_perfil, 'rb')
-
-        form = Registro(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
-            foto_perfil.name, foto_perfil.read())})
-
-        self.assertEqual(form.errors['password'], ["Asegúrese de que este valor tenga "
-                                                   "al menos de 8 caracteres (tiene "
-                                                   "5)."])
-
     def test_foto_de_perfil_vacio(self):
         form_data = {
             'email': 'mariajesus@gmail.com',

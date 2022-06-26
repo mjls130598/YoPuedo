@@ -38,6 +38,8 @@ class Registro(forms.Form):
     def clean(self):
         logger.info("Checkeando registro")
 
+        logger.info(self.cleaned_data)
+
         password = self.cleaned_data['password']
         password2 = self.cleaned_data['password_again']
 
@@ -64,7 +66,7 @@ class Registro(forms.Form):
                                        "símbolos: "
                                        "()[]{}|\`~!@#$%^&*_-+=;:'\",<>./?")
 
-        email = self['email']
+        email = self.cleaned_data['email']
 
         if Usuario.objects.filter(email=email).exists():
             logger.error("Ya existe un usuario con ese email")
