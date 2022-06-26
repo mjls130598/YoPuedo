@@ -41,6 +41,15 @@ body.container {
     margin-left: 2%;
 }
 
+.container.inputs{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.inputs>.row>* {
+    padding-right: 0;
+}
+
 @media screen and (min-width: 601px){
     #formulario-registro{
         padding-left:20%;
