@@ -8,11 +8,12 @@
     padding-right: 5%;
 }
 
-.btn.btn-primary.principales{
+.btn.btn-primary.microfono{
     color: white;
     font-weight: bold;
     text-align: center;
     background-color: #0F27EE;
+    border-color: #0F27EE;
 }
 
 .window{

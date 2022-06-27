@@ -61,7 +61,9 @@ recognition.onresult = function(event) {
 function reconocimientoVoz(input){
 
     inputSpeech = input;
-    icono = document.getElementById("icono_reconocimiento");
+    icono = document.evaluate
+    ('//*[@id="microfono_'+ input +'"]/*[@id="icono_reconocimiento"]', document, null,
+    XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     boton = document.getElementById("microfono_" + input);
 
     if(encendido){
@@ -69,7 +71,8 @@ function reconocimientoVoz(input){
         recognition.stop();
         icono.classList.add("bi-mic-fill");
         icono.classList.remove("bi-mic-mute-fill");
-        boton.style.background-color = "#0F27EE";
+        boton.style.backgroundColor = "#0F27EE";
+        boton.style.borderColor = "#0F27EE";
     }
 
     else{
@@ -77,7 +80,8 @@ function reconocimientoVoz(input){
         recognition.start();
         icono.classList.remove("bi-mic-fill");
         icono.classList.add("bi-mic-mute-fill");
-        boton.style.background-color = "red";
+        boton.style.backgroundColor = "red";
+        boton.style.borderColor = "red";
     }
 
     encendido = !encendido;
