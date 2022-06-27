@@ -72,7 +72,7 @@ body.container {
 
 @media screen and (max-width: 1199px){
 
-    .btn.btn-primary.mostrar_ocultar_password{
-        margin-bottom:12%;
+    .col-10.password, .col-10.password_again{
+        width: 66.66666667%;
     }
 }
