@@ -1,0 +1,59 @@
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <!--CABECERA-->
+            <div class="modal-header">
+                <h5>¿Eres tú?</h5>
+            </div>
+
+            <form class="form" method="post" action="{% url 'entrar_aplicacion' %}"
+                  enctype="multipart/form-data">
+
+                <!--CUERPO-->
+                <div class="modal-body">
+                    <div class="explicacion">
+                        <h6>
+                            Acabamos de mandar a tu correo electrónico un código de
+                            verificación para asegurarnos que eres tú. Por favor, ábrelo y
+                            escribe o di el código que hay dentro de él.
+                        </h6>
+                        <button class="btn btn-primary">
+                            <i class="bi bi-volume-up-fill"></i>
+                        </button>
+                    </div>
+                    <div class="introducir-clave">
+                            {% csrf_token %}
+                            {{ register_form }}
+                            <div class="form-group">
+                                <i class="bi bi-check-circle-fill"></i>
+                                Código de verificación
+                                <div class="container inputs">
+                                    <div class="col-10">
+                                        <input type="text" name="clave"
+                                               class="form-control"
+                                               placeholder="Introduzca la clave aquí"
+                                        max-length="6" required id="id_clave">
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-primary microfono"
+                                                onclick="reconocimientoVoz('id_clave')"
+                                                id="microfono_id_clave">
+                                          <i class="bi bi-mic-fill" id="icono_reconocimiento"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+
+                <!--FOOTER-->
+                <div class="modal-footer">
+                   <button id="boton-verificar" type="submit"
+                           class="btn btn-primary principales">Verificar
+                   </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -111,18 +111,27 @@
 
           <div class='form-group d-flex justify-content-center'>
            <button id="boton-registro" type="submit"
-                   class="btn btn-primary principales">REGISTRARSE
+                   class="btn btn-primary principales" data-toggle="modal"
+                   data-target="#clave-modal">
+             <i class="bi bi-person-plus-fill"></i>
+             REGISTRARSE
            </button>
           </div>
         </form>
 
         <div class='form-group d-flex justify-content-center'>
-          <button id="boton-iniciosesion" class="btn btn-primary principales">INICIAR
-            SESIÓN</button>
+          <button id="boton-iniciosesion" class="btn btn-primary principales">
+            <i class="bi bi-box-arrow-in-right"></i>
+            INICIAR SESIÓN
+          </button>
         </div>
       </div>
     </section>
   </div>
+
+  {% if field.errors|length == 0 %}
+    {% include 'clave-modal.html' %}
+  {% endif %}
 </body>
 </html>
 
