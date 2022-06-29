@@ -133,9 +133,9 @@
 
   <script>
     {% if field.errors|length == 0 %}
-        document.getElementById("clave-modal").classList.add(isVisible);
-    {% else %}
-        document.getElementById("clave-modal").classList.remove(isVisible);
+        $(document).ready(function() {
+          $('#myModal').modal('show');
+        });
     {% endif %}
   </script>
 </body>
