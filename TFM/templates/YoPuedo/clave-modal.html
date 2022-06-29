@@ -58,3 +58,11 @@
         </div>
     </div>
 </div>
+
+<script>
+{% if field.errors|length == 0 %}
+    $(document).ready(function() {
+      $('#claves-modal').modal('show');
+    });
+{% endif %}
+</script>
