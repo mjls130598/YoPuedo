@@ -55,9 +55,7 @@
 </div>
 
 <script>
-{% if field.errors|length == 0 %}
-      document.getElementById("clave-modal").style.display="block";
-{% else %}
-      document.getElementById("clave-modal").style.display="none";
+{% if activar_modal %}
+      document.getElementById("clave-modal").classList.add("show");
 {% endif %}
 </script>

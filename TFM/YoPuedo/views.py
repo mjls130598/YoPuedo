@@ -9,6 +9,8 @@ logger = logging.getLogger(__name__)
 
 
 def registrarse(request):
+
+    activar_modal = False
     if request.method == 'GET':
         logger.info("Entramos a la parte GET de REGISTRO")
         form = RegistroForm()
@@ -21,10 +23,12 @@ def registrarse(request):
             logger.info("Válido el formulario")
             email = form.cleaned_data['email']
             # utils.enviar_correo(email)
+            activar_modal = True
         else:
             logger.error("Error al validar el formulario")
 
-    return render(request, "YoPuedo/registro.html", {'register_form': form})
+    return render(request, "YoPuedo/registro.html", {'register_form': form,
+                                                     'activar_modal': activar_modal})
 
 
 def entrar_aplicacion(request):
