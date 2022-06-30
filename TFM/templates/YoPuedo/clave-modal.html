@@ -46,7 +46,7 @@
 
             <!--FOOTER-->
             <div class="modal-footer">
-               <button id="boton-verificar" type="submit"
+               <button id="boton-verificar"
                        class="btn btn-primary principales">Verificar
                </button>
             </div>
@@ -57,5 +57,8 @@
 <script>
 {% if activar_modal %}
       document.getElementById("clave-modal").classList.add("show");
+      document.getElementById("clave-modal").type="submit";
+      document.getElementById("boton-registro").type="button";
+
 {% endif %}
 </script>

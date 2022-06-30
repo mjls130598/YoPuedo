@@ -23,14 +23,15 @@ def registrarse(request):
             logger.info("Válido el formulario")
             email = form.cleaned_data['email']
             # utils.enviar_correo(email)
-            activar_modal = True
+
+            if not request.POST["clave"]:
+                activar_modal = True
+            else:
+
+                logger.info("Mandamos a guardar el usuario")
+                utils.guardar_usuario(request)
         else:
             logger.error("Error al validar el formulario")
 
     return render(request, "YoPuedo/registro.html", {'register_form': form,
                                                      'activar_modal': activar_modal})
-
-
-def entrar_aplicacion(request):
-    if request.method == 'POST':
-        logger.info("Entramos en la aplicación")
