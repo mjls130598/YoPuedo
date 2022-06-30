@@ -1,8 +1,8 @@
 import logging
 import os.path
 from TFM.settings import BASE_DIR
-from TFM.YoPuedo.forms import RegistroForm
-from TFM.YoPuedo.models import Usuario
+from .forms import RegistroForm
+from .models import Usuario
 
 logger = logging.getLogger(__name__)
 
