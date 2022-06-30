@@ -25,7 +25,9 @@
                     </div>
                     <div class="introducir-clave">
                             {% csrf_token %}
-                            {{ register_form }}
+                            <div style="display:'none';">
+                                {{ register_form }}
+                            </div>
                             <div class="form-group">
                                 <i class="bi bi-check-circle-fill"></i>
                                 Código de verificación
@@ -61,8 +63,8 @@
 
 <script>
 {% if field.errors|length == 0 %}
-    $(document).ready(function() {
-      $('#clave-modal').modal('show');
-    });
+      document.getElementById("clave-modal").style.display="block";
+{% else %}
+      document.getElementById("clave-modal").style.display="none";
 {% endif %}
 </script>
