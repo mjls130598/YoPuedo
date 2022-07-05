@@ -21,13 +21,13 @@ def registrarse(request):
 
         if form.is_valid():
             logger.info("Válido el formulario")
-            email = form.cleaned_data['email']
-            # utils.enviar_correo(email)
-
-            if not request.POST["clave"]:
+            enviar_clave = request.POST.get("clave", False)
+            if not enviar_clave:
+                logger.info("Envíamos clave")
                 activar_modal = True
+                email = form.cleaned_data['email']
+                # utils.enviar_correo(email)
             else:
-
                 logger.info("Mandamos a guardar el usuario")
                 utils.guardar_usuario(request)
         else:

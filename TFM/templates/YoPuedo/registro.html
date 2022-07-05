@@ -26,7 +26,6 @@
       <div id="formulario-registro">
         <form class="form" method="post" action="{% url 'registrarse' %}" enctype="multipart/form-data">
           {% csrf_token %}
-            {% include 'YoPuedo/clave-modal.html' %}
           {% for field in register_form %}
           <div class='form-group {% if field.errors %} errorlist {% endif %}'>
             {% if field.name == "email" %}
@@ -128,6 +127,7 @@
       </div>
     </section>
   </div>
+  {% include 'YoPuedo/clave-modal.html' %}
 </body>
 </html>
 
