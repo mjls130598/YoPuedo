@@ -7,6 +7,8 @@ class Usuario(models.Model):
     nombre = models.CharField(max_length=100)
     password = models.CharField(max_length=16)
     fotoPerfil = models.CharField(max_length=200)
+    claveFija = models.CharField(max_length=16)
+    calveAleatoria = models.CharField(max_length=10)
 
 
 # TABLA MisRetos_amistad
