@@ -1,6 +1,11 @@
 import logging
 import os.path
+import random
+import string
+
 from TFM.settings import BASE_DIR
+from django.core.mail import send_mail
+
 from .forms import RegistroForm
 from .models import Usuario
 
@@ -56,14 +61,28 @@ class Utils:
     @staticmethod
     def claves_aleatorias(longitud):
         logger.info("Generamos clave aleatoria")
-        return "numero"
+        letters = string.ascii_letters
+        result_str = ''.join(random.choice(letters) for i in range(longitud))
+        return result_str
 
     # Método para enviar correo con las claves aleatorias
     @staticmethod
-    def enviar_clave(clave_aleatoria,email):
-        logger.info("Enviamos correo con las claves aleatorias")
+    def enviar_clave(clave_aleatoria, email):
+        logger.info(f"Enviamos correo con la clave aleatoria al {email}")
+        send_mail('YoPuedo - Verificación de persona',
+                  f'''El siguiente conjunto de caracteres son para verificar que eres tú 
+                  el que quiere realizar una acción sobre la aplicación YoPuedo. Para 
+                  cerciorarnos que eres tú, debes escribir en la aplicación el 
+                  siguiente código: {clave_aleatoria}''',
+                  'buscadortfg@gmail.com', [email], fail_silently=False)
 
     # Método para enviar correo con las claves fijas
     @staticmethod
     def enviar_clave_fija(clave_fija, email):
-        logger.info("Enviamos correo con las claves aleatorias")
+        logger.info(f"Enviamos correo con la clave fija del usuario {email}")
+        send_mail('YoPuedo - Verificación de persona',
+                  f'''El siguiente conjunto de caracteres son para verificar que eres tú 
+                  cuando no te llegue el correo electrónico con una clave aleatoria 
+                  introduciéndola en la aplicación cuando sea necesario. 
+                  Por favor, guarda en un lugar seguro la siguiente clave: {clave_fija}''',
+                  'buscadortfg@gmail.com', [email], fail_silently=False)
