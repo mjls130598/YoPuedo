@@ -74,7 +74,7 @@ class Utils:
                   el que quiere realizar una acción sobre la aplicación YoPuedo. Para 
                   cerciorarnos que eres tú, debes escribir en la aplicación el 
                   siguiente código: {clave_aleatoria}''',
-                  'buscadortfg@gmail.com', [email], fail_silently=False)
+                  None, [email], fail_silently=False)
 
     # Método para enviar correo con las claves fijas
     @staticmethod
@@ -85,4 +85,4 @@ class Utils:
                   cuando no te llegue el correo electrónico con una clave aleatoria 
                   introduciéndola en la aplicación cuando sea necesario. 
                   Por favor, guarda en un lugar seguro la siguiente clave: {clave_fija}''',
-                  'buscadortfg@gmail.com', [email], fail_silently=False)
+                  None, [email], fail_silently=False)
