@@ -2,6 +2,7 @@ import logging
 import re
 from django import forms
 from .models import Usuario
+from bootstrap_modal_forms.forms import BSModalForm
 
 logger = logging.getLogger(__name__)
 
@@ -26,9 +27,9 @@ class RegistroForm(forms.Form):
                                    }))
     password_again = forms.CharField(label='Repetir contraseña:', max_length='16',
                                      min_length='8', widget=forms.PasswordInput(
-                                                        attrs={
-                                                            'class': 'form-control col-10'
-                                                        }))
+            attrs={
+                'class': 'form-control col-10'
+            }))
     foto_de_perfil = forms.ImageField(label='Foto de perfil:',
                                       widget=forms.ClearableFileInput(
                                           attrs={
@@ -72,5 +73,40 @@ class RegistroForm(forms.Form):
             logger.error("Ya existe un usuario con ese email")
             self.add_error('email', "Ya existe una cuenta con ese email. Pruebe con "
                                     "otro.")
+
+        return self
+
+
+class InicioForm(BSModalForm):
+    email_sesion = forms.EmailField(label='Email:',
+                             widget=forms.EmailInput(
+                                 attrs={
+                                     'class': 'form-control',
+                                     'placeholder': 'ejemplo@ejemplo.com',
+                                 }))
+    password_sesion = forms.CharField(label='Contraseña:', max_length='16',
+                                      min_length='8',
+                               widget=forms.PasswordInput(
+                                   attrs={
+                                       'class': 'form-control'
+                                   }))
+
+    def clean(self):
+        logger.info("Checkeando inicio")
+
+        cleaned_data = super().clean()
+
+        email = cleaned_data.get('email_sesion')
+
+        if not Usuario.objects.filter(email=email).exists():
+            logger.error("No existe un usuario con ese email")
+            self.add_error('password_sesion', "Usuario y/o incorrecto")
+
+        else:
+            password = cleaned_data.get('password_sesion')
+            usuario = Usuario.objects.get(email=email)
+            if usuario.password != password:
+                logger.error("Contraseña incorrecta")
+                self.add_error('password_sesion', "Usuario y/o incorrecto")
 
         return self

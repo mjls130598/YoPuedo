@@ -3,7 +3,7 @@ import logging
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
 from .utils import Utils
-from .forms import RegistroForm
+from .forms import RegistroForm, InicioForm
 from .models import Usuario
 
 logger = logging.getLogger(__name__)
@@ -24,7 +24,7 @@ def registrarse(request):
             logger.info("Mandamos a guardar el usuario (temporalmente)")
             email = form.cleaned_data['email'].value()
             password = form.cleaned_data['password'].value()
-            clave_aleatoria, clave_fija = utils.guardar_usuario(request)
+            clave_aleatoria, clave_fija = utils.guardar_usuario(utils, request)
             utils.enviar_clave(clave_aleatoria, email)
             utils.enviar_clave_fija(clave_fija, email)
 
@@ -38,6 +38,34 @@ def registrarse(request):
             logger.error("Error al validar el formulario")
 
     return render(request, "YoPuedo/registro.html", {'register_form': form})
+
+
+def iniciar_sesion(request):
+    if request.method == 'GET':
+        logger.info("Entramos a la parte GET de INICIAR SESIÓN")
+        form = InicioForm()
+
+    else:
+        logger.info("Entramos a la parte POST de INICIAR SESIÓN")
+        form = InicioForm(request.POST)
+
+        if form.is_valid():
+            logger.info("Válido el formulario")
+            email = form.cleaned_data['email_sesion'].value()
+            password = form.cleaned_data['password_sesion'].value()
+            clave_aleatoria = utils.claves_aleatorias(10)
+            utils.enviar_clave(clave_aleatoria, email)
+
+            user = authenticate(request, username=email, password=password)
+            login(request, user)
+            return render(request, "YoPuedo/peticion-clave.html", {'email': email,
+                                                                   'contador': 0,
+                                                                   'errors': [],
+                                                                   'tipo': 'inicio'})
+        else:
+            logger.error("Error al validar el formulario")
+
+    return render(request, "YoPuedo/iniciar_sesion.html", {'inicio_form': form})
 
 
 def validar_clave(request):

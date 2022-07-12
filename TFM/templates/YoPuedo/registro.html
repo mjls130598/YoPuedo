@@ -54,48 +54,14 @@
                         <i class="bi bi-card-image"></i>
                       </button>
                     {% endif %}
-                    <button class="btn btn-primary microfono"
-                            onclick="reconocimientoVoz('{{field.id_for_label}}')"
-                            id="microfono_{{ field.id_for_label }}">
-                      <i class="bi bi-mic-fill" id="icono_reconocimiento"></i>
-                    </button>
+                    {% include 'YoPuedo/microfono.html' %}
                   </div>
                 {% endif %}
               </div>
             </div>
 
             {% if field.name == "password" or field.name == "password_again" %}
-              <table id="imagenes_password_{{ field.name }}" class="table"
-                   style="display: none;">
-                <tr class="form-group row">
-                  <td class="col imagen-password p2"
-                       onclick="{% if field.name == 'password' %}escribirPassword('id_password', '{% password_imagen 'bosque' %}'){% else %}escribirPassword('id_password_again', '{% password_imagen 'bosque' %}'){% endif %}">
-                    <img src="/media/YoPuedo/password/bosque.png" alt="bosque" class="img-thumbnail">
-                  </td>
-                  <td class="col imagen-password p2"
-                       onclick="{% if field.name == 'password' %}escribirPassword('id_password', '{% password_imagen 'mirador' %}'){% else %}escribirPassword('id_password_again', '{% password_imagen 'mirador' %}'){% endif %}">
-                    <img src="/media/YoPuedo/password/mirador.png" alt="mirador" class="img-thumbnail">
-                  </td>
-                  <td class="col imagen-password p2"
-                       onclick="{% if field.name == 'password' %}escribirPassword('id_password', '{% password_imagen 'montaña' %}'){% else %}escribirPassword('id_password_again', '{% password_imagen 'montaña' %}'){% endif %}">
-                    <img src="/media/YoPuedo/password/montaña.png" alt="montaña" class="img-thumbnail">
-                  </td>
-                </tr>
-                <tr class="form-group row">
-                  <td class="col imagen-password p2"
-                       onclick="{% if field.name == 'password' %}escribirPassword('id_password', '{% password_imagen 'piscina' %}'){% else %}escribirPassword('id_password_again', '{% password_imagen 'piscina' %}'){% endif %}">
-                    <img src="/media/YoPuedo/password/piscina.png" alt="piscina" class="img-thumbnail">
-                  </td>
-                  <td class="col imagen-password p2"
-                       onclick="{% if field.name == 'password' %}escribirPassword('id_password', '{% password_imagen 'playa' %}'){% else %}escribirPassword('id_password_again', '{% password_imagen 'playa' %}'){% endif %}">
-                    <img src="/media/YoPuedo/password/playa.png" alt="playa" class="img-thumbnail">
-                  </td>
-                  <td class="col imagen-password p2"
-                       onclick="{% if field.name == 'password' %}escribirPassword('id_password', '{% password_imagen 'selva' %}'){% else %}escribirPassword('id_password_again', '{% password_imagen 'selva' %}'){% endif %}">
-                    <img src="/media/YoPuedo/password/selva.png" alt="selva" class="img-thumbnail">
-                  </td>
-                </tr>
-              </table>
+              {% include 'YoPuedo/password.html'%}
             {% endif %}
 
 
@@ -119,7 +85,8 @@
         </form>
 
         <div class='form-group d-flex justify-content-center'>
-          <button id="boton-iniciosesion" class="btn btn-primary principales">
+          <button id="boton-iniciosesion" class="btn btn-primary principales"
+                  data-bs-toggle="modal" data-bs-target="#iniciar_sesion">
             <i class="bi bi-box-arrow-in-right"></i>
             INICIAR SESIÓN
           </button>
@@ -127,6 +94,8 @@
       </div>
     </section>
   </div>
+
+{% include 'YoPuedo/iniciar_sesion.html' %}
 </body>
 </html>
 
@@ -157,6 +126,15 @@
   function mostrarOcultarImagenesPasswordAgain(){
     cambiarVisibilidad("imagenes_password_password_again");
   }
+
+  $(document).ready(function() {
+
+    $("#boton-iniciosesion").modalForm({
+        formURL: "{% url 'iniciar_sesion' %}"
+    });
+
+});
 </script>
 <script type="text/javascript"
         src="{% static 'YoPuedo/js/SpeechRecognition.js' %}"></script>
+<script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>

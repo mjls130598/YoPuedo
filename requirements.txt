@@ -3,3 +3,4 @@ pymysql
 django-passwords
 django-bootstrap-v5
 Pillow
+django-bootstrap-modal-forms
