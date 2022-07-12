@@ -86,7 +86,8 @@
 
         <div class='form-group d-flex justify-content-center'>
           <button id="boton-iniciosesion" class="btn btn-primary principales"
-                  data-bs-toggle="modal" data-bs-target="#iniciar_sesion">
+                  data-bs-toggle="modal" data-bs-target="#iniciar_sesion"
+                  hx-get="{% url 'iniciar_sesion' %}" hx-target="#dialog">
             <i class="bi bi-box-arrow-in-right"></i>
             INICIAR SESIÓN
           </button>
@@ -95,7 +96,9 @@
     </section>
   </div>
 
-{% include 'YoPuedo/iniciar_sesion.html' %}
+<div class="modal fade" id="iniciar_sesion">
+    <div class="modal-dialog" id="dialog" hx-target="this"></div>
+</div>
 </body>
 </html>
 
@@ -127,11 +130,26 @@
     cambiarVisibilidad("imagenes_password_password_again");
   }
 
-  $(document).ready(function() {
+  const modal = new bootstrap.Modal(document.getElementById("modal"))
 
-    $("#boton-iniciosesion").modalForm({
-        formURL: "{% url 'iniciar_sesion' %}"
-    });
+  htmx.on("htmx:afterSwap", (e) => {
+    // Response targeting #dialog => show the modal
+    if (e.detail.target.id == "dialog") {
+      modal.show()
+    }
+  })
+
+  htmx.on("htmx:beforeSwap", (e) => {
+  // Empty response targeting #dialog => hide the modal
+  if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
+    modal.hide()
+    e.detail.shouldSwap = false
+  }
+
+  htmx.on("hidden.bs.modal", () => {
+    document.getElementById("dialog").innerHTML = ""
+  })
+})
 
 });
 </script>

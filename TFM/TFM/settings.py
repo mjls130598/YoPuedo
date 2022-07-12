@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap5',
     'YoPuedo',
-    'bootstrap_modal_forms'
 ]
 
 MIDDLEWARE = [

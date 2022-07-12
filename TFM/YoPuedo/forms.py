@@ -2,7 +2,6 @@ import logging
 import re
 from django import forms
 from .models import Usuario
-from bootstrap_modal_forms.forms import BSModalForm
 
 logger = logging.getLogger(__name__)
 
@@ -77,7 +76,7 @@ class RegistroForm(forms.Form):
         return self
 
 
-class InicioForm(BSModalForm):
+class InicioForm(forms.Form):
     email_sesion = forms.EmailField(label='Email:',
                              widget=forms.EmailInput(
                                  attrs={
