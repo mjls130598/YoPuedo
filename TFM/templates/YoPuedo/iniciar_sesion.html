@@ -1,69 +1,66 @@
-<div class="modal fade" id="iniciar_sesion">
-  <div class="modal-dialog" id="dialog" hx-target="this">
-    <form class="form modal-content" hx-post="{% url 'iniciar_sesion' %}">
-      <div class="modal-header">
-        <h5 class="modal-title" id="iniciar_sesion_label">
-          Iniciar sesión
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </h5>
-      </div>
-      <div class="modal-body">
-            {% csrf_token %}
-            {% for field in inicio_form %}
-            <div class='form-group {% if field.errors %} errorlist {% endif %}'>
-              {% if field.name == "email" %}
-                <i class="bi bi-envelope-fill"></i>
-              {% else %}
-                <i class="bi bi-key-fill"></i>
-              {% endif %}
-
-              {{ field.label }}
-
-              <div class="container inputs">
-                <div class="row align-items-center">
-                  <div class="col-10 {{field.name}}">
-                    {{ field }}
-                  </div>
-                  {% if field.name != "foto_de_perfil"%}
-                    <div class="col">
-                      {% if field.name == "password" or field.name == "password_again" %}
-                        <button class="btn btn-primary mostrar_ocultar_password"
-                              onclick="{% if field.name == 'password' %} mostrarOcultarImagenesPassword()
-                                       {% else %} mostrarOcultarImagenesPasswordAgain() {% endif %}">
-                          <i class="bi bi-card-image"></i>
-                        </button>
-                      {% endif %}
-                      {% include 'YoPuedo/microfono.html' %}
-                    </div>
-                  {% endif %}
-                </div>
-              </div>
-
-              {% if field.name == "password_sesion"%}
-                {% include 'YoPuedo/password.html'%}
-              {% endif %}
-
-              {% for error in field.errors%}
-              <div class="errorlist">
-                <i class="bi bi-x-circle-fill"></i>
-                {{ error }}
-              </div>
-              {% endfor %}
-
-            </div>
-            {% endfor %}
-      </div>
-      <div class="modal-footer">
-        <button type="submit" id="boton-iniciosesion" class="btn btn-primary principales">
-          <i class="bi bi-box-arrow-in-right"></i>
-          INICIAR SESIÓN
-        </button>
-      </div>
-    </form>
+<form class="form modal-content" hx-post="{% url 'iniciar_sesion' %}">
+  <div class="modal-header">
+    <h5 class="modal-title" id="iniciar_sesion_label">
+      Iniciar sesión
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </h5>
   </div>
-</div>
+  <div class="modal-body">
+        {% csrf_token %}
+        {% for field in inicio_form %}
+        <div class='form-group {% if field.errors %} errorlist {% endif %}'>
+          {% if field.name == "email" %}
+            <i class="bi bi-envelope-fill"></i>
+          {% else %}
+            <i class="bi bi-key-fill"></i>
+          {% endif %}
+
+          {{ field.label }}
+
+          <div class="container inputs">
+            <div class="row align-items-center">
+              <div class="col-10 {{field.name}}">
+                {{ field }}
+              </div>
+              {% if field.name != "foto_de_perfil"%}
+                <div class="col">
+                  {% if field.name == "password" or field.name == "password_again" %}
+                    <button class="btn btn-primary mostrar_ocultar_password"
+                          onclick="{% if field.name == 'password' %} mostrarOcultarImagenesPassword()
+                                   {% else %} mostrarOcultarImagenesPasswordAgain() {% endif %}">
+                      <i class="bi bi-card-image"></i>
+                    </button>
+                  {% endif %}
+                  {% include 'YoPuedo/microfono.html' %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+
+          {% if field.name == "password_sesion"%}
+            {% include 'YoPuedo/password.html'%}
+          {% endif %}
+
+          {% for error in field.errors%}
+          <div class="errorlist">
+            <i class="bi bi-x-circle-fill"></i>
+            {{ error }}
+          </div>
+          {% endfor %}
+
+        </div>
+        {% endfor %}
+  </div>
+  <div class="modal-footer">
+    <button type="submit" id="boton-iniciosesion" class="btn btn-primary principales">
+      <i class="bi bi-box-arrow-in-right"></i>
+      INICIAR SESIÓN
+    </button>
+  </div>
+</form>
 
 <script>
+  ;(function () {
   const modal = new bootstrap.Modal(document.getElementById("iniciar_sesion"))
 
   htmx.on("htmx:afterSwap", (e) => {
@@ -81,7 +78,9 @@
     }
   })
 
+  // Remove dialog content after hiding
   htmx.on("hidden.bs.modal", () => {
     document.getElementById("dialog").innerHTML = ""
   })
+})()
 </script>
