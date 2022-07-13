@@ -24,6 +24,10 @@
     color: red;
 }
 
+body.container{
+    font-family: 'Comic Neue', cursive;
+}
+
 @media screen and (max-width: 1199px){
 
     .btn.btn-primary.principales{

@@ -127,30 +127,8 @@
   function mostrarOcultarImagenesPasswordAgain(){
     cambiarVisibilidad("imagenes_password_password_again");
   }
-
-  const modal = new bootstrap.Modal(document.getElementById("modal"))
-
-  htmx.on("htmx:afterSwap", (e) => {
-    // Response targeting #dialog => show the modal
-    if (e.detail.target.id == "dialog") {
-      modal.show()
-    }
-  })
-
-  htmx.on("htmx:beforeSwap", (e) => {
-  // Empty response targeting #dialog => hide the modal
-  if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
-    modal.hide()
-    e.detail.shouldSwap = false
-  }
-
-  htmx.on("hidden.bs.modal", () => {
-    document.getElementById("dialog").innerHTML = ""
-  })
-})
-
-});
 </script>
 <script type="text/javascript"
         src="{% static 'YoPuedo/js/SpeechRecognition.js' %}"></script>
-<script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/htmx.org@1.6.1/dist/htmx.min.js"></script>
