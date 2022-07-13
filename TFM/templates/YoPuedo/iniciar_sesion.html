@@ -1,9 +1,9 @@
 <form class="form modal-content" hx-post="{% url 'iniciar_sesion' %}">
   <div class="modal-header">
-    <h5 class="modal-title" id="iniciar_sesion_label">
-      Iniciar sesión
+    <div class="modal-title" id="iniciar_sesion_label">
+      <h5>Iniciar sesión</h5>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    </h5>
+    </div>
   </div>
   <div class="modal-body">
         {% csrf_token %}
