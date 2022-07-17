@@ -24,28 +24,28 @@
     <div class='form-group {% if field.errors %} errorlist {% endif %}'>
       {% if field.name == "clave" %}
         <i class="bi bi-hand-thumbs-up-fill"></i>
+            {{ field.label }}
+
+          <div class="container inputs">
+            <div class="row align-items-center">
+              <div class="col-10">
+                {{ field }}
+              </div>
+              <div class="col">
+                {% include 'YoPuedo/microfono.html' %}
+              </div>
+            </div>
+          </div>
+
+          {% for error in field.errors%}
+          <div class="errorlist">
+            <i class="bi bi-x-circle-fill"></i>
+            {{ error }}
+          </div>
+          {% endfor %}
+      {% else %}
+        {{ field }}
       {% endif %}
-
-      {{ field.label }}
-
-      <div class="container inputs">
-        <div class="row align-items-center">
-          <div class="col-10 {{field.name}}">
-            {{ field }}
-          </div>
-          <div class="col">
-            {% include 'YoPuedo/microfono.html' %}
-          </div>
-        </div>
-      </div>
-
-      {% for error in field.errors%}
-      <div class="errorlist">
-        <i class="bi bi-x-circle-fill"></i>
-        {{ error }}
-      </div>
-      {% endfor %}
-
     </div>
     {% endfor %}
   </div>

@@ -3,7 +3,7 @@ import logging
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
 from .utils import Utils
-from .forms import RegistroForm, InicioForm
+from .forms import RegistroForm, InicioForm, ClaveForm
 from .models import Usuario
 
 logger = logging.getLogger(__name__)
@@ -35,10 +35,11 @@ def registrarse(request):
 
             user = authenticate(request, username=email, password=password)
             login(request, user)
-            return render(request, "YoPuedo/peticion-clave.html", {'email': email,
-                                                                   'contador': 0,
-                                                                   'errors': [],
-                                                                   'tipo': 'registro'})
+
+            data = {'email': email, 'contador': 0, 'tipo': 'registro'}
+            clave_form = ClaveForm(data)
+            return render(request, "YoPuedo/peticion-clave.html", {'peticion_clave':
+                                                                       clave_form})
         else:
             logger.error("Error al validar el formulario")
 
@@ -63,10 +64,11 @@ def iniciar_sesion(request):
 
             user = authenticate(request, username=email, password=password)
             login(request, user)
-            return render(request, "YoPuedo/peticion-clave.html", {'email': email,
-                                                                   'contador': 0,
-                                                                   'errors': [],
-                                                                   'tipo': 'inicio'})
+
+            data = {'email': email, 'contador': 0, 'tipo': 'inicio_sesion'}
+            clave_form = ClaveForm(data)
+            return render(request, "YoPuedo/peticion-clave.html", {'peticion_clave':
+                                                                       clave_form})
         else:
             logger.error("Error al validar el formulario")
 
@@ -77,38 +79,35 @@ def validar_clave(request):
     if request.method == 'POST':
         logger.info("Comprobamos si la clave introducida es la correcta")
 
-        email = request['POST'].get('email')
-        contador = request['POST'].get('contador')
-        tipo = request['POST'].get('tipo')
-        clave_aleatoria = request['POST'].get('clave')
+        clave_form = ClaveForm(request.POST)
 
-        usuario = Usuario.objects.get(email=email)
+        contador = clave_form.cleaned_data['contador']
+        tipo = clave_form.cleaned_data['tipo']
+        email = clave_form.cleaned_data['email']
 
-        clave_fija_usuario = usuario.clave_fija
-        clave_aleatoria_usuario = usuario.clave_aleatoria
+        if clave_form.is_valid():
+            if tipo == 'registro' or tipo == 'inicio_sesion':
+                logger.info("Iniciamos sesión")
+                form = RegistroForm()
+                return render(request, "YoPuedo/registro.html", {'register_form': form})
 
-        if clave_aleatoria != clave_fija_usuario and clave_aleatoria != \
-                clave_aleatoria_usuario:
+        else:
             if contador < 2:
-                logger.info(f"Intento nº {contador - 1}")
-                error = 'La clave introducida no es la correcta. Inténtelo de nuevo'
+                logger.info(f"Intento nº {contador + 1}")
+                clave_form.cleaned_data['contador'] = contador + 1
                 return render(request, "YoPuedo/peticion-clave.html",
-                              {'email': email, 'contador': contador + 1,
-                               'errors': [error]})
+                              {'peticion_clave': clave_form})
             else:
-                if tipo == 'registro':
-                    logger.info("Eliminamos usuario y mandamos al usuario a que se "
-                                "registre de nuevo")
-                    usuario.delete()
+                logout(request)
+                if tipo == 'registro' or tipo == 'inicio sesión':
+                    logger.info("Mandamos a la página de registro")
+
+                    if tipo == 'registro':
+                        Usuario.objects.get(email=email).delete()
+
                     form = RegistroForm()
                     form.add_error('email', 'Error al introducir el código de '
                                             'verificación. Regístrese de nuevo en '
                                             'nuestra aplicación')
                     return render(request, "YoPuedo/registro.html",
                                   {'register_form': form})
-
-        else:
-            logger.info("Validación correcta")
-            logout(request)
-            form = RegistroForm()
-            return render(request, "YoPuedo/registro.html", {'register_form': form})

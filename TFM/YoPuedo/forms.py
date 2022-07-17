@@ -6,6 +6,9 @@ from .models import Usuario
 logger = logging.getLogger(__name__)
 
 
+##########################################################################################
+
+# Formulario de registro
 class RegistroForm(forms.Form):
     email = forms.EmailField(label='Email:',
                              widget=forms.EmailInput(
@@ -76,19 +79,22 @@ class RegistroForm(forms.Form):
         return self
 
 
+##########################################################################################
+
+# Formulario de inicio sesión
 class InicioForm(forms.Form):
     email_sesion = forms.EmailField(label='Email:',
-                             widget=forms.EmailInput(
-                                 attrs={
-                                     'class': 'form-control',
-                                     'placeholder': 'ejemplo@ejemplo.com',
-                                 }))
+                                    widget=forms.EmailInput(
+                                        attrs={
+                                            'class': 'form-control',
+                                            'placeholder': 'ejemplo@ejemplo.com',
+                                        }))
     password_sesion = forms.CharField(label='Contraseña:', max_length='16',
                                       min_length='8',
-                               widget=forms.PasswordInput(
-                                   attrs={
-                                       'class': 'form-control'
-                                   }))
+                                      widget=forms.PasswordInput(
+                                          attrs={
+                                              'class': 'form-control'
+                                          }))
 
     def clean(self):
         logger.info("Checkeando inicio")
@@ -109,3 +115,31 @@ class InicioForm(forms.Form):
                 self.add_error('password_sesion', "Usuario y/o incorrecto")
 
         return self
+
+
+##########################################################################################
+
+# Formulario de petición de claves
+class ClaveForm(forms.Form):
+    email = forms.EmailField(widget=forms.HiddenInput())
+    tipo = forms.CharField(widget=forms.HiddenInput())
+    contador = forms.IntegerField(widget=forms.HiddenInput())
+    clave = forms.CharField(label='Código de verificación:', max_length='16',
+                            widget=forms.TextInput(
+                                attrs={
+                                    'class': 'form-control'
+                                }))
+
+    def clean(self):
+        logger.info("Comprobamos datos de petición de clave")
+
+        cleaned_data = super.clean()
+        email = cleaned_data.get('email')
+        usuario = Usuario.objects.get(email=email)
+
+        clave = cleaned_data.get('clave')
+
+        if clave != usuario.claveFija and clave != usuario.claveAleatoria:
+            logger.info("Clave introducida es errónea")
+            self.add_error('clave', 'La clave introducida no es la correcta. ' +
+                                    'Inténtelo de nuevo')
