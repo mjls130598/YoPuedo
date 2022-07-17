@@ -212,5 +212,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.googlemail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'buscadortfg@gmail.com'
-EMAIL_HOST_PASSWORD = 'esternocleidomastoideo'
+EMAIL_HOST_PASSWORD = open(os.path.join(BASE_DIR, 'conf/.email'), 'r',
+                  encoding='utf-8').read()
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
