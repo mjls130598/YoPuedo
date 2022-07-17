@@ -3,8 +3,8 @@ import os.path
 import random
 import string
 
-from TFM.settings import BASE_DIR
-from django.core.mail import send_mail
+from TFM.settings import BASE_DIR, EMAIL_HOST_USER
+from django.core.mail import EmailMultiAlternatives
 
 from .models import Usuario
 
@@ -58,24 +58,15 @@ class Utils:
         result_str = ''.join(random.choice(letters) for i in range(longitud))
         return result_str
 
-    # Método para enviar correo con las claves aleatorias
+    # Método para enviar correos
     @staticmethod
-    def enviar_clave(clave_aleatoria, email):
-        logger.info(f"Enviamos correo con la clave aleatoria al {email}")
-        send_mail('YoPuedo - Verificación de persona',
-                  f'''El siguiente conjunto de caracteres son para verificar que eres tú 
-                  el que quiere realizar una acción sobre la aplicación YoPuedo. Para 
-                  cerciorarnos que eres tú, debes escribir en la aplicación el 
-                  siguiente código: {clave_aleatoria}''',
-                  None, [email], fail_silently=False)
+    def enviar_correo(content, email, contexto):
+        mail = EmailMultiAlternatives(
+            contexto,
+            'Yo Puedo',
+            EMAIL_HOST_USER,
+            [email]
+        )
 
-    # Método para enviar correo con las claves fijas
-    @staticmethod
-    def enviar_clave_fija(clave_fija, email):
-        logger.info(f"Enviamos correo con la clave fija del usuario {email}")
-        send_mail('YoPuedo - Verificación de persona',
-                  f'''El siguiente conjunto de caracteres son para verificar que eres tú 
-                  cuando no te llegue el correo electrónico con una clave aleatoria 
-                  introduciéndola en la aplicación cuando sea necesario. 
-                  Por favor, guarda en un lugar seguro la siguiente clave: {clave_fija}''',
-                  None, [email], fail_silently=False)
+        mail.attach_alternative(content, 'text/html')
+        mail.send()

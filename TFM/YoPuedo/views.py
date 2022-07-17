@@ -2,6 +2,8 @@ import logging
 
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
+from django.template.loader import get_template
+
 from .utils import Utils
 from .forms import RegistroForm, InicioForm, ClaveForm
 from .models import Usuario
@@ -30,8 +32,8 @@ def registrarse(request):
 
             clave_aleatoria, clave_fija = utils.guardar_usuario(utils, email, nombre,
                                                                 password, foto)
-            utils.enviar_clave(clave_aleatoria, email)
-            utils.enviar_clave_fija(clave_fija, email)
+            enviar_clave(clave_aleatoria, email, "Registro en la aplicación Yo Puedo")
+            enviar_clave_fija(clave_fija, email)
 
             user = authenticate(request, username=email, password=password)
             login(request, user)
@@ -44,6 +46,49 @@ def registrarse(request):
             logger.error("Error al validar el formulario")
 
     return render(request, "YoPuedo/registro.html", {'register_form': form})
+
+
+def enviar_clave(clave, email, contexto):
+    template = get_template('YoPuedo/envio_clave.html')
+    context = {
+        'titulo': "¿Eres tú?",
+        'mensaje': f'''
+        <p>
+        Este correo se ha mandado a través de la aplicación <br>Yo Puedo</br> para 
+        confirmar que deseas seguir hacia delante con <br>{contexto}</br>.
+        </p>
+        <p>
+        Si es así, solo tienes que escribir la siguiente clave en la aplicación y dar a 
+        <br>VERIFICAR</br>. Sino has sido tú, ignora este mensaje.
+        </p>''',
+        'clave': clave
+    }
+    content = template.render(context)
+
+    utils.enviar_correo(content, email, contexto)
+
+
+def enviar_clave_fija(clave, email):
+    template = get_template('YoPuedo/envio_clave.html')
+    context = {
+        'titulo': "¡Bienvenido a Yo Puedo!",
+        'mensaje': f'''
+        <p>
+        Te damos la bienvenida a la aplicación Yo puedo. Esperemos que ella te ayude 
+        a lograr muchas metas y a disfrutar cada uno de los retos en los que formes 
+        parte. 
+        </p>
+        <p>
+        A continuación, te mandamos una clave para que la introduzcas cuando te 
+        solicite una clave para pedirte permiso para realizar una acción sobre tu 
+        cuenta y no te ha llegado un correo con una clave para esa petición. Guárdala, 
+        solamente te la mostramos en este correo.
+        </p>''',
+        'clave': clave
+    }
+    content = template.render(context)
+
+    utils.enviar_correo(content, email, "Clave fija para la cuenta de Yo Puedo")
 
 
 def iniciar_sesion(request):
@@ -60,7 +105,8 @@ def iniciar_sesion(request):
             email = form.cleaned_data['email_sesion'].value()
             password = form.cleaned_data['password_sesion'].value()
             clave_aleatoria = utils.claves_aleatorias(10)
-            utils.enviar_clave(clave_aleatoria, email)
+            enviar_clave(clave_aleatoria, email, "Inicio de sesión en la aplicación Yo "
+                                                 "Puedo")
 
             user = authenticate(request, username=email, password=password)
             login(request, user)
