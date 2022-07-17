@@ -88,7 +88,7 @@ def enviar_clave_fija(clave, email):
     }
     content = template.render(context)
 
-    utils.enviar_correo(content, email, "Clave fija para la cuenta de Yo Puedo")
+    utils.enviar_correo(content, email, "Bienvenido a Yo Puedo")
 
 
 def iniciar_sesion(request):
