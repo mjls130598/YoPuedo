@@ -6,7 +6,6 @@ import string
 from TFM.settings import BASE_DIR
 from django.core.mail import send_mail
 
-from .forms import RegistroForm
 from .models import Usuario
 
 logger = logging.getLogger(__name__)
@@ -34,13 +33,7 @@ class Utils:
 
     # Método para guardar al nuevo usuario en la BBDD
     @staticmethod
-    def guardar_usuario(self, request):
-        form = RegistroForm(request.POST, request.FILES)
-
-        email = form.cleaned_data['email'].value()
-        nombre = form.cleaned_data['nombre'].value()
-        password = form.cleaned_data['password'].value()
-        foto = request.FILES["foto_de_perfil"]
+    def guardar_usuario(self, email, nombre, password, foto):
         fichero, extension = os.path.splitext(foto.name)
         directorio = os.path.join(BASE_DIR, "media", "YoPuedo", "foto_perfil")
         localizacion = os.path.join(directorio, email + extension)

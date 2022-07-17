@@ -22,9 +22,14 @@ def registrarse(request):
         if form.is_valid():
             logger.info("Válido el formulario")
             logger.info("Mandamos a guardar el usuario (temporalmente)")
+
             email = form.cleaned_data['email'].value()
+            nombre = form.cleaned_data['nombre'].value()
             password = form.cleaned_data['password'].value()
-            clave_aleatoria, clave_fija = utils.guardar_usuario(utils, request)
+            foto = request.FILES["foto_de_perfil"]
+
+            clave_aleatoria, clave_fija = utils.guardar_usuario(utils, email, nombre,
+                                                                password, foto)
             utils.enviar_clave(clave_aleatoria, email)
             utils.enviar_clave_fija(clave_fija, email)
 
