@@ -46,8 +46,8 @@ class Utils:
             logger.error("Error al subir la foto de perfil")
 
         Usuario.objects.create(email=email, nombre=nombre, password=password,
-                               fotoPerfil=localizacion, claveFija=clave_fija,
-                               claveAleatoria=clave_aleatoria)
+                               foto_perfil=localizacion, clave_fija=clave_fija,
+                               clave_aleatoria=clave_aleatoria)
         return clave_aleatoria, clave_fija
 
     # Método que genera claves aleatorias
