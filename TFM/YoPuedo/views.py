@@ -1,6 +1,6 @@
 import logging
 
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.shortcuts import render
 from django.template.loader import get_template
 
@@ -128,7 +128,7 @@ def validar_clave(request):
                     logger.info("Mandamos a la página de registro")
 
                     if tipo == 'registro':
-                        Usuario.objects.get(email=email).delete()
+                        get_user_model().objects.get(email=email).delete()
 
                     form = RegistroForm()
                     form.add_error('email', 'Error al introducir el código de '
