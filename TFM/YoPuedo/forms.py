@@ -1,7 +1,7 @@
 import logging
 import re
 from django import forms
-from .models import Usuario
+from django.contrib.auth import get_user_model
 
 logger = logging.getLogger(__name__)
 
@@ -71,7 +71,7 @@ class RegistroForm(forms.Form):
 
         email = cleaned_data.get('email')
 
-        if Usuario.objects.filter(email=email).exists():
+        if get_user_model().objects.filter(email=email).exists():
             logger.error("Ya existe un usuario con ese email")
             self.add_error('email', "Ya existe una cuenta con ese email. Pruebe con "
                                     "otro.")
@@ -103,13 +103,13 @@ class InicioForm(forms.Form):
 
         email = cleaned_data.get('email_sesion')
 
-        if not Usuario.objects.filter(email=email).exists():
+        if not get_user_model().objects.filter(email=email).exists():
             logger.error("No existe un usuario con ese email")
             self.add_error('password_sesion', "Usuario y/o incorrecto")
 
         else:
             password = cleaned_data.get('password_sesion')
-            usuario = Usuario.objects.get(email=email)
+            usuario = get_user_model().objects.get(email=email)
             if usuario.password != password:
                 logger.error("Contraseña incorrecta")
                 self.add_error('password_sesion', "Usuario y/o incorrecto")
@@ -135,7 +135,7 @@ class ClaveForm(forms.Form):
 
         cleaned_data = super.clean()
         email = cleaned_data.get('email')
-        usuario = Usuario.objects.get(email=email)
+        usuario = get_user_model().objects.get(email=email)
 
         clave = cleaned_data.get('clave')
 
