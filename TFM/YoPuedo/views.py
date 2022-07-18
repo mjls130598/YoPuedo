@@ -30,13 +30,13 @@ def registrarse(request):
             password = form.cleaned_data['password'].value()
             foto = request.FILES["foto_de_perfil"]
 
-            clave_aleatoria, clave_fija = utils.guardar_usuario(utils, email, nombre,
-                                                                password, foto)
+            clave_aleatoria, clave_fija, usuario = utils.guardar_usuario(utils, email,
+                                                                         nombre, password,
+                                                                         foto)
             enviar_clave(clave_aleatoria, email, "Registro en la aplicación Yo Puedo")
             enviar_clave_fija(clave_fija, email)
 
-            user = authenticate(request, username=email, password=password)
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            login(request, usuario, backend='django.contrib.auth.backends.ModelBackend')
 
             data = {'email': email, 'contador': 0, 'tipo': 'registro'}
             clave_form = ClaveForm(data)
