@@ -29,7 +29,7 @@ class Usuario(AbstractBaseUser):
     REQUIRED_FIELDS = ['nombre', 'password', 'foto_perfil', 'clave_fija',
                        'clave_aleatoria']
 
-    object = UsuarioManager()
+    objects = UsuarioManager()
 
     def get_username(self):
         return self.email
