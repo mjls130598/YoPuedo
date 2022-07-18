@@ -143,3 +143,5 @@ class ClaveForm(forms.Form):
             logger.info("Clave introducida es errónea")
             self.add_error('clave', 'La clave introducida no es la correcta. ' +
                                     'Inténtelo de nuevo')
+
+        return self
