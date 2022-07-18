@@ -139,7 +139,7 @@ class ClaveForm(forms.Form):
 
         clave = cleaned_data.get('clave')
 
-        if clave != usuario.claveFija and clave != usuario.claveAleatoria:
+        if clave != usuario.clave_fija and clave != usuario.clave_aleatoria:
             logger.info("Clave introducida es errónea")
             self.add_error('clave', 'La clave introducida no es la correcta. ' +
                                     'Inténtelo de nuevo')

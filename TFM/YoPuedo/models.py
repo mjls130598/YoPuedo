@@ -1,16 +1,41 @@
+from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
 
 
+class UsuarioManager(BaseUserManager):
+    def create_user(self, email, nombre, password, foto_perfil, clave_fija, clave_aleatoria):
+        usuario = self.model(email=email, nombre=nombre, password=password,
+                             foto_perfil=foto_perfil, clave_fija=clave_fija,
+                             clave_aleatoria=clave_aleatoria)
+        usuario.set_password(password)
+        usuario.is_superuser = False
+        usuario.save(using=self._db)
+        return usuario
+
+    def get_by_natural_key(self, username):
+        return self.get(email=username)
+
+
 # TABLA YoPuedo_usuario
-class Usuario(models.Model):
+class Usuario(AbstractBaseUser):
     email = models.EmailField(primary_key=True)
     nombre = models.CharField(max_length=100)
     password = models.CharField(max_length=16)
-    fotoPerfil = models.CharField(max_length=200)
-    claveFija = models.CharField(max_length=16)
-    claveAleatoria = models.CharField(max_length=10)
+    foto_perfil = models.CharField(max_length=200)
+    clave_fija = models.CharField(max_length=16)
+    clave_aleatoria = models.CharField(max_length=10)
 
     USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['nombre', 'password', 'foto_perfil', 'clave_fija',
+                       'clave_aleatoria']
+
+    object = UsuarioManager()
+
+    def get_username(self):
+        return self.email
+
+    def natural_key(self):
+        return self.email
 
 
 # TABLA YoPuedo_amistad
