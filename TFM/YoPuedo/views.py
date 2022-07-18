@@ -52,15 +52,7 @@ def enviar_clave(clave, email, contexto):
     template = get_template('YoPuedo/envio_clave.html')
     context = {
         'titulo': "¿Eres tú?",
-        'mensaje': f'''
-        <p>
-        Este correo se ha mandado a través de la aplicación <br>Yo Puedo</br> para 
-        confirmar que deseas seguir hacia delante con <br>{contexto}</br>.
-        </p>
-        <p>
-        Si es así, solo tienes que escribir la siguiente clave en la aplicación y dar a 
-        <br>VERIFICAR</br>. Sino has sido tú, ignora este mensaje.
-        </p>''',
+        'contexto': contexto,
         'clave': clave
     }
     content = template.render(context)
@@ -69,7 +61,7 @@ def enviar_clave(clave, email, contexto):
 
 
 def enviar_clave_fija(clave, email):
-    template = get_template('YoPuedo/envio_clave.html')
+    template = get_template('YoPuedo/envio_clave_fija.html')
     context = {
         'titulo': "¡Bienvenido a Yo Puedo!",
         'mensaje': f'''

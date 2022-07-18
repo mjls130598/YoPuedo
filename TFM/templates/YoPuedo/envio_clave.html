@@ -14,9 +14,16 @@
         </h2>
       </div>
       <div id="mensaje">
-          {{ mensaje }}
           <p>
-              <br>CLAVE: {{clave}}</br>
+              Este correo se ha mandado a través de la aplicación <b>Yo Puedo</b> para
+              confirmar que deseas seguir hacia delante con <b>{{contexto}}</b>.
+          </p>
+          <p>
+            Si es así, solo tienes que escribir la siguiente clave en la aplicación y dar a
+            <b>VERIFICAR</b>. Sino has sido tú, ignora este mensaje.
+          </p>
+          <p>
+              <b>CLAVE: {{clave}}</b>
           </p>
       </div>
     </section>
