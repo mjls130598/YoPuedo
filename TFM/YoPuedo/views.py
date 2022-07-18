@@ -63,19 +63,6 @@ def enviar_clave(clave, email, contexto):
 def enviar_clave_fija(clave, email):
     template = get_template('YoPuedo/envio_clave_fija.html')
     context = {
-        'titulo': "¡Bienvenido a Yo Puedo!",
-        'mensaje': f'''
-        <p>
-        Te damos la bienvenida a la aplicación Yo puedo. Esperemos que ella te ayude 
-        a lograr muchas metas y a disfrutar cada uno de los retos en los que formes 
-        parte. 
-        </p>
-        <p>
-        A continuación, te mandamos una clave para que la introduzcas cuando te 
-        solicite una clave para pedirte permiso para realizar una acción sobre tu 
-        cuenta y no te ha llegado un correo con una clave para esa petición. Guárdala, 
-        solamente te la mostramos en este correo.
-        </p>''',
         'clave': clave
     }
     content = template.render(context)
