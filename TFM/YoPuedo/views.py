@@ -36,7 +36,7 @@ def registrarse(request):
             enviar_clave_fija(clave_fija, email)
 
             user = authenticate(request, username=email, password=password)
-            login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
             data = {'email': email, 'contador': 0, 'tipo': 'registro'}
             clave_form = ClaveForm(data)
@@ -88,7 +88,7 @@ def iniciar_sesion(request):
                                                  "Puedo")
 
             user = authenticate(request, username=email, password=password)
-            login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
             data = {'email': email, 'contador': 0, 'tipo': 'inicio_sesion'}
             clave_form = ClaveForm(data)
