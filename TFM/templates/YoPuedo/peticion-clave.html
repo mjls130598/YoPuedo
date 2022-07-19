@@ -1,5 +1,4 @@
-<form class="form modal-content"
-      hx-post="{{ request.path }}">
+<form class="form modal-content" hx-post="{{ request.path }}">
   <div class="modal-header">
     <h5 class="modal-title font-weight-bold" id="validar_clave_label">
       ¿Eres tú?
@@ -57,29 +56,3 @@
     </button>
   </div>
 </form>
-
-<script>
-  ;(function () {
-  const modal = new bootstrap.Modal(document.getElementById("validar_clave"))
-
-  htmx.on("htmx:afterSwap", (e) => {
-    // Response targeting #dialog => show the modal
-    if (e.detail.target.id == "dialog-clave") {
-      modal.show()
-    }
-  })
-
-  htmx.on("htmx:beforeSwap", (e) => {
-    // Empty response targeting #dialog => hide the modal
-    if (e.detail.target.id == "dialog-clave" && !e.detail.xhr.response) {
-      modal.hide()
-      e.detail.shouldSwap = false
-    }
-  })
-
-  // Remove dialog content after hiding
-  htmx.on("hidden.bs.modal", () => {
-    document.getElementById("dialog-clave").innerHTML = ""
-  })
-})()
-</script>

@@ -96,15 +96,11 @@
     </section>
   </div>
 
-<div class="modal fade" id="iniciar_sesion">
+<div class="modal fade" id="modal">
   <div class="modal-dialog row align-items-center" id="dialog" hx-target="this">
   </div>
 </div>
 
-<div class="modal fade" id="validar_clave">
-  <div class="modal-dialog" id="dialog-clave" hx-target="this">
-  </div>
-</div>
 </body>
 </html>
 
@@ -130,3 +126,29 @@
 </script>
 <script type="text/javascript"
         src="{% static 'YoPuedo/js/SpeechRecognition.js' %}"></script>
+
+<script>
+  ;(function () {
+  const modal = new bootstrap.Modal(document.getElementById("modal"))
+
+  htmx.on("htmx:afterSwap", (e) => {
+    // Response targeting #dialog => show the modal
+    if (e.detail.target.id == "dialog") {
+      modal.show()
+    }
+  })
+
+  htmx.on("htmx:beforeSwap", (e) => {
+    // Empty response targeting #dialog => hide the modal
+    if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
+      modal.hide()
+      e.detail.shouldSwap = false
+    }
+  })
+
+  // Remove dialog content after hiding
+  htmx.on("hidden.bs.modal", () => {
+    document.getElementById("dialog").innerHTML = ""
+  })
+})()
+</script>
