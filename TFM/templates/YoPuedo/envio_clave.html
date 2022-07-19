@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Envío clave</title>
+    {% include "YoPuedo/base.html" %}
+</head>
+<body class="container">
+  <div id="contenedor" class="row align-items-center">
+    <section id="registro" class="col">
+      <div id="titulo-registro">
+        <h2>
+            {{titulo}}
+        </h2>
+      </div>
+      <div id="mensaje">
+          <p>
+              Este correo se ha mandado a través de la aplicación <b>Yo Puedo</b> para
+              confirmar que deseas seguir hacia delante con <b>{{contexto}}</b>.
+          </p>
+          <p>
+            Si es así, solo tienes que escribir la siguiente clave en la aplicación y dar a
+            <b>VERIFICAR</b>. Sino has sido tú, ignora este mensaje.
+          </p>
+          <p>
+              <b>CLAVE: {{clave}}</b>
+          </p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
