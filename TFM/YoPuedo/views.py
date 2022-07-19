@@ -108,15 +108,14 @@ def validar_clave(request, tipo, email):
 
         clave_form = ClaveForm(request.POST)
 
-        contador = clave_form['contador']
-
         if clave_form.is_valid():
             if tipo == 'registro' or tipo == 'inicio_sesion':
                 logger.info("Iniciamos sesión")
-                form = RegistroForm()
-                return render(request, "YoPuedo/registro.html", {'register_form': form})
+                return redirect('registrarse')
 
         else:
+            contador = int(clave_form['contador'].value())
+
             if contador < 2:
                 logger.info(f"Intento nº {contador + 1}")
                 clave_form['contador'] = str(contador + 1)
@@ -134,5 +133,5 @@ def validar_clave(request, tipo, email):
                     form.add_error('email', 'Error al introducir el código de '
                                             'verificación. Regístrese de nuevo en '
                                             'nuestra aplicación')
-                    return render(request, "YoPuedo/registro.html",
-                                  {'register_form': form})
+
+                    return redirect('registrarse')
