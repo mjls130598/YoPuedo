@@ -50,8 +50,7 @@
                   <div class="col">
                     {% if field.name == "password" or field.name == "password_again" %}
                       <button class="btn btn-primary mostrar_ocultar_password"
-                            onclick="{% if field.name == 'password' %} mostrarOcultarImagenesPassword()
-                                     {% else %} mostrarOcultarImagenesPasswordAgain() {% endif %}">
+                          onclick="cambiarVisibilidad('imagenes_{{ field.name }}')">
                         <i class="bi bi-card-image"></i>
                       </button>
                     {% endif %}
@@ -127,14 +126,6 @@
       document.getElementById(id).style.display="block";
     else
       document.getElementById(id).style.display="none";
-  }
-
-  function mostrarOcultarImagenesPassword(){
-    cambiarVisibilidad("imagenes_password_password");
-  }
-
-  function mostrarOcultarImagenesPasswordAgain(){
-    cambiarVisibilidad("imagenes_password_password_again");
   }
 </script>
 <script type="text/javascript"

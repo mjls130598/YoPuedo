@@ -26,10 +26,9 @@
               </div>
               {% if field.name != "foto_de_perfil"%}
                 <div class="col">
-                  {% if field.name == "password" or field.name == "password_again" %}
+                  {% if field.name == "password_session" %}
                     <button class="btn btn-primary mostrar_ocultar_password"
-                          onclick="{% if field.name == 'password' %} mostrarOcultarImagenesPassword()
-                                   {% else %} mostrarOcultarImagenesPasswordAgain() {% endif %}">
+                          onclick="cambiarVisibilidad('imagenes_{{ field.name }}')">
                       <i class="bi bi-card-image"></i>
                     </button>
                   {% endif %}
