@@ -112,7 +112,7 @@ def validar_clave(request, tipo, email):
         else:
             if contador < 2:
                 logger.info(f"Intento nº {contador + 1}")
-                clave_form.cleaned_data['contador'] = contador + 1
+                clave_form['contador'] = contador + 1
                 return render(request, "YoPuedo/peticion-clave.html",
                               {'peticion_clave': clave_form})
             else:
