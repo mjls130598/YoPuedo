@@ -118,7 +118,9 @@ def validar_clave(request, tipo, email):
 
             if contador < 2:
                 logger.info(f"Intento nº {contador + 1}")
-                clave_form['contador'] = str(contador + 1)
+                error = clave_form.errors['clave'].as_data()
+                clave_form = ClaveForm(initial={'contador': contador + 1})
+                clave_form.add_error('clave', error)
                 return render(request, "YoPuedo/peticion-clave.html",
                               {'peticion_clave': clave_form})
             else:
