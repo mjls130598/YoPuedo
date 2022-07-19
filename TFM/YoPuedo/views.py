@@ -131,7 +131,7 @@ def validar_clave(request, tipo, email):
                                   {'register_form': form})
 
     else:
-        data = {'contador': 0}
+        data = {'email': email, 'contador': 0, 'tipo': tipo}
         clave_form = ClaveForm(data)
         return render(request, "YoPuedo/peticion-clave.html",
                       {'peticion_clave': clave_form, 'email': email, 'tipo': tipo})

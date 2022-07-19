@@ -121,6 +121,8 @@ class InicioForm(forms.Form):
 
 # Formulario de petición de claves
 class ClaveForm(forms.Form):
+    email = forms.EmailField(widget=forms.HiddenInput())
+    tipo = forms.CharField(widget=forms.HiddenInput())
     contador = forms.IntegerField(widget=forms.HiddenInput())
     clave = forms.CharField(label='Código de verificación:', max_length='16',
                             widget=forms.TextInput(
@@ -138,7 +140,7 @@ class ClaveForm(forms.Form):
         clave = cleaned_data.get('clave')
 
         if clave != usuario.clave_fija and clave != usuario.clave_aleatoria:
-            logger.info("Clave introducida es errónea")
+            logger.error("Clave introducida es errónea")
             self.add_error('clave', 'La clave introducida no es la correcta. ' +
                                     'Inténtelo de nuevo')
 
