@@ -98,7 +98,7 @@ def iniciar_sesion(request):
 def validar_clave(request, tipo, email):
     if request.method == 'GET':
         logger.info("Entramos en la parte GET de VALIDAR CLAVE")
-        clave_form = ClaveForm(email=email)
+        clave_form = ClaveForm(initial={'email': email})
         return render(request, "YoPuedo/peticion-clave.html",
                       {'peticion_clave': clave_form, 'email': email, 'tipo': tipo})
 
