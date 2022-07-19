@@ -1,4 +1,5 @@
-<form class="form modal-content" hx-post="{% url 'validar_clave' %}">
+<form class="form modal-content"
+      hx-post="{% url 'validar_clave' tipo=tipo email=email %}">
   <div class="modal-header">
     <h5 class="modal-title font-weight-bold" id="validar_clave_label">
       ¿Eres tú?

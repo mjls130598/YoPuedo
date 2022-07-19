@@ -1,6 +1,8 @@
 import logging
+from http import HTTPStatus
 
 from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.loader import get_template
 
@@ -38,10 +40,7 @@ def registrarse(request):
 
             login(request, usuario, backend='django.contrib.auth.backends.ModelBackend')
 
-            data = {'email': email, 'contador': 0, 'tipo': 'registro'}
-            clave_form = ClaveForm(data)
-            return render(request, "YoPuedo/peticion-clave.html",
-                          {'peticion_clave': clave_form})
+            return HttpResponse(status=HTTPStatus.CREATED)
         else:
             logger.error("Error al validar el formulario")
 
@@ -90,25 +89,21 @@ def iniciar_sesion(request):
             user = authenticate(request, username=email, password=password)
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
-            data = {'email': email, 'contador': 0, 'tipo': 'inicio_sesion'}
-            clave_form = ClaveForm(data)
-            return render(request, "YoPuedo/peticion-clave.html",
-                          {'peticion_clave': clave_form})
+            return HttpResponse(status=HTTPStatus.ACCEPTED)
         else:
             logger.error("Error al validar el formulario")
 
     return render(request, "YoPuedo/iniciar_sesion.html", {'inicio_form': form})
 
 
-def validar_clave(request):
+def validar_clave(request, tipo, email):
     if request.method == 'POST':
+        logger.info("Entramos en la parte POST de VALIDAR CLAVE")
         logger.info("Comprobamos si la clave introducida es la correcta")
 
         clave_form = ClaveForm(request.POST)
 
         contador = clave_form.cleaned_data['contador']
-        tipo = clave_form.cleaned_data['tipo']
-        email = clave_form.cleaned_data['email']
 
         if clave_form.is_valid():
             if tipo == 'registro' or tipo == 'inicio_sesion':
@@ -136,3 +131,9 @@ def validar_clave(request):
                                             'nuestra aplicación')
                     return render(request, "YoPuedo/registro.html",
                                   {'register_form': form})
+
+    else:
+        data = {'email': email, 'contador': 0, 'tipo': tipo}
+        clave_form = ClaveForm(data)
+        return render(request, "YoPuedo/peticion-clave.html",
+                      {'peticion_clave': clave_form})

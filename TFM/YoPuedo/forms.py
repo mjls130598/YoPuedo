@@ -121,8 +121,6 @@ class InicioForm(forms.Form):
 
 # Formulario de petición de claves
 class ClaveForm(forms.Form):
-    email = forms.EmailField(widget=forms.HiddenInput())
-    tipo = forms.CharField(widget=forms.HiddenInput())
     contador = forms.IntegerField(widget=forms.HiddenInput())
     clave = forms.CharField(label='Código de verificación:', max_length='16',
                             widget=forms.TextInput(
