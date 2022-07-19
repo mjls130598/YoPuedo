@@ -101,7 +101,7 @@ def validar_clave(request, tipo, email):
 
         clave_form = ClaveForm(request.POST)
 
-        contador = clave_form.cleaned_data['contador']
+        contador = int(clave_form.cleaned_data['contador'])
 
         if clave_form.is_valid():
             if tipo == 'registro' or tipo == 'inicio_sesion':
@@ -112,7 +112,7 @@ def validar_clave(request, tipo, email):
         else:
             if contador < 2:
                 logger.info(f"Intento nº {contador + 1}")
-                clave_form['contador'] = contador + 1
+                clave_form['contador'] = str(contador + 1)
                 return render(request, "YoPuedo/peticion-clave.html",
                               {'peticion_clave': clave_form})
             else:
