@@ -40,8 +40,8 @@ def registrarse(request):
 
             data = {'email': email, 'contador': 0, 'tipo': 'registro'}
             clave_form = ClaveForm(data)
-            return render(request, "YoPuedo/peticion-clave.html", {'peticion_clave':
-                                                                       clave_form})
+            return render(request, "YoPuedo/peticion-clave.html",
+                          {'peticion_clave': clave_form})
         else:
             logger.error("Error al validar el formulario")
 
@@ -92,8 +92,8 @@ def iniciar_sesion(request):
 
             data = {'email': email, 'contador': 0, 'tipo': 'inicio_sesion'}
             clave_form = ClaveForm(data)
-            return render(request, "YoPuedo/peticion-clave.html", {'peticion_clave':
-                                                                       clave_form})
+            return render(request, "YoPuedo/peticion-clave.html",
+                          {'peticion_clave': clave_form})
         else:
             logger.error("Error al validar el formulario")
 

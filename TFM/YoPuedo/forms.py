@@ -131,9 +131,9 @@ class ClaveForm(forms.Form):
                                 }))
 
     def clean(self):
-        logger.info("Comprobamos datos de petición de clave")
+        logger.info("Checkeando petición de clave")
 
-        cleaned_data = super.clean()
+        cleaned_data = self.cleaned_data
         email = cleaned_data.get('email')
         usuario = Usuario.objects.get(email=email)
 
