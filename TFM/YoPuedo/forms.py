@@ -122,21 +122,18 @@ class InicioForm(forms.Form):
 # Formulario de petición de claves
 class ClaveForm(forms.Form):
     contador = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+    email = forms.EmailField(widget=forms.HiddenInput())
     clave = forms.CharField(label='Código de verificación:', max_length='16',
                             widget=forms.TextInput(
                                 attrs={
                                     'class': 'form-control'
                                 }))
-    email = ""
 
-    def __init__(self, email):
-        self.email = email
-        super(ClaveForm, self).__init__()
-
-    def clean(self, email):
+    def clean(self):
         logger.info("Checkeando petición de clave")
 
         cleaned_data = super.clean()
+        email = cleaned_data.get('email')
         usuario = Usuario.objects.get(email=email)
 
         clave = cleaned_data.get('clave')
