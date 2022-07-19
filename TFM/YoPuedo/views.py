@@ -40,7 +40,7 @@ def registrarse(request):
 
             login(request, usuario, backend='django.contrib.auth.backends.ModelBackend')
 
-            return HttpResponse(status=HTTPStatus.CREATED)
+            return redirect(f'/validar_clave/registro/{email}')
         else:
             logger.error("Error al validar el formulario")
 
@@ -89,7 +89,7 @@ def iniciar_sesion(request):
             user = authenticate(request, username=email, password=password)
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
-            return HttpResponse(status=HTTPStatus.ACCEPTED)
+            return redirect(f'/validar_clave/inicio_sesion/{email}')
         else:
             logger.error("Error al validar el formulario")
 
