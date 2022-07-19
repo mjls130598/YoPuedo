@@ -81,12 +81,11 @@ def iniciar_sesion(request):
         if form.is_valid():
             logger.info("Válido el formulario")
             email = form.cleaned_data['email_sesion'].value()
-            password = form.cleaned_data['password_sesion'].value()
             clave_aleatoria = utils.claves_aleatorias(10)
             enviar_clave(clave_aleatoria, email, "Inicio de sesión en la aplicación Yo "
                                                  "Puedo")
 
-            user = authenticate(request, username=email, password=password)
+            user = Usuario.objects.get(email=email)
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
             return redirect(f'/validar_clave/inicio_sesion/{email}')
