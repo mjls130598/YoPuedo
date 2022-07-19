@@ -108,7 +108,7 @@ def validar_clave(request, tipo, email):
 
         clave_form = ClaveForm(request.POST)
 
-        contador = int(clave_form['contador'])
+        contador = clave_form['contador']
 
         if clave_form.is_valid():
             if tipo == 'registro' or tipo == 'inicio_sesion':
