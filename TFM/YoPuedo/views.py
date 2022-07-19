@@ -1,9 +1,7 @@
 import logging
-from http import HTTPStatus
 
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template.loader import get_template
 
 from .utils import Utils
@@ -40,7 +38,7 @@ def registrarse(request):
 
             login(request, usuario, backend='django.contrib.auth.backends.ModelBackend')
 
-            return HttpResponse(status=HTTPStatus.CREATED)
+            return redirect('validar_clave', tipo='iniciar_sesion', email=email)
         else:
             logger.error("Error al validar el formulario")
 
@@ -89,7 +87,7 @@ def iniciar_sesion(request):
             user = authenticate(request, username=email, password=password)
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
-            return HttpResponse(status=HTTPStatus.ACCEPTED)
+            return redirect('validar_clave', tipo='iniciar_sesion', email=email)
         else:
             logger.error("Error al validar el formulario")
 
