@@ -1,8 +1,6 @@
 import logging
-from http import HTTPStatus
 
-from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
+from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect
 from django.template.loader import get_template
 
@@ -99,8 +97,6 @@ def validar_clave(request, tipo, email):
     if request.method == 'GET':
         logger.info("Entramos en la parte GET de VALIDAR CLAVE")
         clave_form = ClaveForm(initial={'email': email})
-        return render(request, "YoPuedo/peticion-clave.html",
-                      {'peticion_clave': clave_form, 'email': email, 'tipo': tipo})
 
     else:
         logger.info("Entramos en la parte POST de VALIDAR CLAVE")
@@ -121,8 +117,7 @@ def validar_clave(request, tipo, email):
                 error = clave_form.errors['clave'].as_data()
                 clave_form = ClaveForm(initial={'contador': contador + 1, 'email': email})
                 clave_form.add_error('clave', error)
-                return render(request, "YoPuedo/peticion-clave.html",
-                              {'peticion_clave': clave_form})
+
             else:
                 logout(request)
                 if tipo == 'registro' or tipo == 'inicio sesión':
@@ -137,3 +132,5 @@ def validar_clave(request, tipo, email):
                                             'nuestra aplicación')
 
                     return redirect('registrarse')
+
+    return render(request, "YoPuedo/peticion-clave.html", {'peticion_clave': clave_form})
