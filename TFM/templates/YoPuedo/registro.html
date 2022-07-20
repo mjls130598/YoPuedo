@@ -78,7 +78,8 @@
           <div class='form-group d-flex justify-content-center'>
            <button id="boton-registro" type="submit"
                    class="btn btn-primary principales"
-                   data-bs-toggle="modal" data-bs-target="#dialog">
+                   data-bs-toggle="modal"
+                  hx-get="{% url 'validar_clave' %}" hx-target="#dialog">
              <i class="bi bi-person-plus-fill"></i>
              REGISTRARSE
            </button>
@@ -134,7 +135,7 @@
 
   htmx.on("htmx:afterSwap", (e) => {
     // Response targeting #dialog => show the modal
-    if (e.detail.target.id == "dialog") {
+    if (e.detail.target.id == "dialog" and {{register_form.errors.length == 0}}) {
       modal.show()
     }
   })
