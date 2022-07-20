@@ -123,8 +123,8 @@ def validar_clave(request, tipo, email):
 
             else:
                 logger.info("Demasiados intentos. Volvemos al principio")
-                logout(request)
                 if tipo == 'registro' or tipo == 'inicio_sesion':
+                    logout(request)
                     logger.info("Mandamos a la página de registro")
                     if tipo == 'registro':
                         Usuario.objects.get(email=email).delete()
