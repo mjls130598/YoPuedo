@@ -97,8 +97,6 @@ def validar_clave(request, tipo, email):
     if request.method == 'GET':
         logger.info("Entramos en la parte GET de VALIDAR CLAVE")
         clave_form = ClaveForm(initial={'email': email, 'contador': 0})
-        return render(request, "YoPuedo/peticion-clave.html",
-                      {'peticion_clave': clave_form})
 
     else:
         logger.info("Entramos en la parte POST de VALIDAR CLAVE")
@@ -113,15 +111,16 @@ def validar_clave(request, tipo, email):
 
         else:
             contador = int(clave_form['contador'].value())
+            clave = clave_form['clave'].value()
 
             if contador < 2:
                 logger.info(f"Intento nº {contador + 1}")
-                clave_form = ClaveForm(initial={'contador': contador + 1, 'email': email})
+                clave_form = ClaveForm(initial={'contador': contador + 1, 'email': email,
+                                                'clave': clave})
                 clave_form.is_valid()
-                return render(request, "YoPuedo/peticion-clave.html",
-                              {'peticion_clave': clave_form})
 
             else:
+                logger.info("Demasiados intentos. Volvemos al principio")
                 logout(request)
                 if tipo == 'registro' or tipo == 'inicio sesión':
                     logger.info("Mandamos a la página de registro")
@@ -131,7 +130,9 @@ def validar_clave(request, tipo, email):
 
                     form = RegistroForm()
                     form.add_error('email', 'Error al introducir el código de '
-                                            'verificación. Regístrese de nuevo en '
-                                            'nuestra aplicación')
+                                            'verificación. Regístrese o inicie sesión de '
+                                            'nuevo en nuestra aplicación')
 
                     return redirect('registrarse')
+
+    return render(request, "YoPuedo/peticion-clave.html",{'peticion_clave': clave_form})

@@ -124,7 +124,7 @@ class ClaveForm(forms.Form):
     email = forms.EmailField(widget=forms.HiddenInput())
     contador = forms.IntegerField(widget=forms.HiddenInput())
     clave = forms.CharField(label='Código de verificación:', max_length='16',
-                                      widget=forms.TextInput(
+                            min_length='10', widget=forms.TextInput(
                                           attrs={
                                               'class': 'form-control'
                                           }))
