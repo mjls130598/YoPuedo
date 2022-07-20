@@ -124,15 +124,8 @@ def validar_clave(request, tipo, email):
                 logout(request)
                 if tipo == 'registro' or tipo == 'inicio_sesion':
                     logger.info("Mandamos a la página de registro")
-
                     if tipo == 'registro':
                         Usuario.objects.get(email=email).delete()
-
-                    form = RegistroForm()
-                    form.add_error('email', 'Error al introducir el código de '
-                                            'verificación. Regístrese o inicie sesión de '
-                                            'nuevo en nuestra aplicación')
-
                     return redirect('registrarse')
 
-    return render(request, "YoPuedo/peticion-clave.html",{'peticion_clave': clave_form})
+    return render(request, "YoPuedo/peticion-clave.html", {'peticion_clave': clave_form})
