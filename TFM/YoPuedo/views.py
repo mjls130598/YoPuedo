@@ -96,7 +96,7 @@ def iniciar_sesion(request):
 def validar_clave(request, tipo, email):
     if request.method == 'GET':
         logger.info("Entramos en la parte GET de VALIDAR CLAVE")
-        clave_form = ClaveForm(initial={'email': email})
+        clave_form = ClaveForm(initial={'email': email, 'contador': 0})
 
     else:
         logger.info("Entramos en la parte POST de VALIDAR CLAVE")
