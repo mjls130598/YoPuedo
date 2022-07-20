@@ -115,8 +115,8 @@ def validar_clave(request, tipo, email):
 
             if contador < 2:
                 logger.info(f"Intento nº {contador + 1}")
-                clave_form = ClaveForm(initial={'contador': contador + 1, 'email': email,
-                                                'clave': clave})
+                data = {'contador': contador + 1, 'email': email, 'clave': clave}
+                clave_form = ClaveForm(data)
                 clave_form.is_valid()
 
             else:
