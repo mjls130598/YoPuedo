@@ -145,7 +145,3 @@ class ClaveForm(forms.Form):
                                     'introdúcela de nuevo.')
 
         return self
-
-    def adderror(self, field, error):
-        self.add_error(field, error)
-        return self
