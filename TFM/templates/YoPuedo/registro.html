@@ -140,7 +140,7 @@
 
   htmx.on("htmx:afterOnLoad", (e) => {
     // Response targeting #dialog => show the modal
-    if (e.detail.target.id == "dialog") {
+    if (e.detail.target.id == "dialog" && e.detail.xhr.response) {
       modal.show()
     }
   })
