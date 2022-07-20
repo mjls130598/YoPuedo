@@ -97,6 +97,8 @@ def validar_clave(request, tipo, email):
     if request.method == 'GET':
         logger.info("Entramos en la parte GET de VALIDAR CLAVE")
         clave_form = ClaveForm(initial={'email': email, 'contador': 0})
+        return render(request, "YoPuedo/peticion-clave.html",
+                      {'peticion_clave': clave_form})
 
     else:
         logger.info("Entramos en la parte POST de VALIDAR CLAVE")
@@ -116,6 +118,8 @@ def validar_clave(request, tipo, email):
                 logger.info(f"Intento nº {contador + 1}")
                 clave_form = ClaveForm(initial={'contador': contador + 1, 'email': email})
                 clave_form.is_valid()
+                return render(request, "YoPuedo/peticion-clave.html",
+                              {'peticion_clave': clave_form})
 
             else:
                 logout(request)
@@ -131,5 +135,3 @@ def validar_clave(request, tipo, email):
                                             'nuestra aplicación')
 
                     return redirect('registrarse')
-
-    return render(request, "YoPuedo/peticion-clave.html", {'peticion_clave': clave_form})
