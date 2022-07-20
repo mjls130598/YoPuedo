@@ -122,7 +122,7 @@ def validar_clave(request, tipo, email):
             else:
                 logger.info("Demasiados intentos. Volvemos al principio")
                 logout(request)
-                if tipo == 'registro' or tipo == 'inicio sesión':
+                if tipo == 'registro' or tipo == 'inicio_sesion':
                     logger.info("Mandamos a la página de registro")
 
                     if tipo == 'registro':
