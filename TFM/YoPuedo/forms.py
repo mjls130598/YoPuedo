@@ -131,12 +131,10 @@ class ClaveForm(forms.Form):
 
     def clean(self):
         logger.info("Checkeando petición de clave")
-
-        cleaned_data = super.clean()
-        email = cleaned_data.get('email')
+        email = self.get('email')
         usuario = Usuario.objects.get(email=email)
 
-        clave = cleaned_data.get('clave')
+        clave = self.get('clave')
 
         if clave != usuario.clave_fija and clave != usuario.clave_aleatoria:
             logger.error("Clave introducida es errónea")
