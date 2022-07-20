@@ -79,7 +79,8 @@
            <button id="boton-registro" type="submit"
                    class="btn btn-primary principales"
                    data-bs-toggle="modal"
-                  hx-get="{% url 'validar_clave' %}" hx-target="#dialog">
+                   hx-get="{% url 'validar_clave' tipo='registro' email=register_form['email'].value %}"
+                   hx-target="#dialog">
              <i class="bi bi-person-plus-fill"></i>
              REGISTRARSE
            </button>
