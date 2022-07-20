@@ -1,6 +1,8 @@
 import logging
+from http import HTTPStatus
 
 from django.contrib.auth import login, logout
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import get_template
 
@@ -107,7 +109,7 @@ def validar_clave(request, tipo, email):
         if clave_form.is_valid():
             if tipo == 'registro' or tipo == 'inicio_sesion':
                 logger.info("Iniciamos sesión")
-                return redirect('registrarse')
+                return HttpResponse(status=HTTPStatus.ACCEPTED)
 
         else:
             contador = int(clave_form['contador'].value())
@@ -126,6 +128,7 @@ def validar_clave(request, tipo, email):
                     logger.info("Mandamos a la página de registro")
                     if tipo == 'registro':
                         Usuario.objects.get(email=email).delete()
-                    return redirect('registrarse')
+
+                return HttpResponse(status=HTTPStatus.FORBIDDEN)
 
     return render(request, "YoPuedo/peticion-clave.html", {'peticion_clave': clave_form})
