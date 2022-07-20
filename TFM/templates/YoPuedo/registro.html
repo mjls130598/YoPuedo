@@ -77,7 +77,8 @@
 
           <div class='form-group d-flex justify-content-center'>
            <button id="boton-registro" type="submit"
-                   class="btn btn-primary principales">
+                   class="btn btn-primary principales"
+                   data-bs-toggle="modal" data-bs-target="#dialog">
              <i class="bi bi-person-plus-fill"></i>
              REGISTRARSE
            </button>
@@ -86,7 +87,7 @@
 
         <div class='form-group d-flex justify-content-center'>
           <button id="boton-iniciosesion" class="btn btn-primary principales"
-                  data-bs-toggle="modal" data-bs-target="#iniciar_sesion"
+                  data-bs-toggle="modal"
                   hx-get="{% url 'iniciar_sesion' %}" hx-target="#dialog">
             <i class="bi bi-box-arrow-in-right"></i>
             INICIAR SESIÓN
@@ -134,13 +135,6 @@
   htmx.on("htmx:afterSwap", (e) => {
     // Response targeting #dialog => show the modal
     if (e.detail.target.id == "dialog") {
-      modal.show()
-    }
-  })
-
-  htmx.on("htmx:afterOnLoad", (e) => {
-    // Response targeting #dialog => show the modal
-    if (e.detail.target.id == "dialog" && e.detail.xhr.response) {
       modal.show()
     }
   })
