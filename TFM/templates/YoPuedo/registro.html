@@ -138,11 +138,23 @@
     }
   })
 
+  htmx.on("htmx:afterOnLoad", (e) => {
+    // Response targeting #dialog => show the modal
+    if (e.detail.target.id == "dialog") {
+      modal.show()
+    }
+  })
+
   htmx.on("htmx:beforeSwap", (e) => {
     // Empty response targeting #dialog => hide the modal
     if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
       modal.hide()
       e.detail.shouldSwap = false
+      if(e.detail.xhr.response.status == 202){
+        {% if tipo=='registro' or tipo=='inicio_sesion'}
+          location.href = '/'
+        {% endif %}
+      }
     }
   })
 
