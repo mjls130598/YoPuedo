@@ -1,6 +1,7 @@
+<link rel="stylesheet" href="{% static 'YoPuedo/css/peticion-clave.css'%}">
 <form class="form modal-content" hx-post="{{ request.path }}">
   <div class="modal-header">
-    <h5 class="modal-title font-weight-bold" id="validar_clave_label">
+    <h5 class="modal-title titulo-peticionclave" id="validar_clave_label">
       ¿Eres tú?
     </h5>
   </div>
@@ -8,12 +9,12 @@
     {% csrf_token %}
     <div class="row align-items-center">
         <div class="col-10">
-            <h4>
+            <h6>
                 Te acabamos de mandar un correo con un código de
                 verificación para asegurarnos que eres tú quien realiza
                 esta acción. Por favor, ábrelo y escribe o di el código que
                 hay dentro de él para continuar:
-            </h4>
+            </h6>
         </div>
         <div class="col">
             {% include 'YoPuedo/altavoz.html' %}
