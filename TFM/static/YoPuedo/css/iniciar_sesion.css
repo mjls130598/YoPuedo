@@ -3,6 +3,11 @@
     font-weight: bold;
 }
 
+.boton-recuperarcontrasena{
+    border-color: #03A9F4;
+    background-color: #03A9F4;
+}
+
 @media screen and (min-width: 768px) and (max-width: 1199px){
 
     .col-10.password_sesion{

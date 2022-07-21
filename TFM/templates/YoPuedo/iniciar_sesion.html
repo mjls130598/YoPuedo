@@ -4,54 +4,59 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
   </div>
   <div class="modal-body">
-        {% csrf_token %}
-        {% for field in inicio_form %}
-        <div class='form-group {% if field.errors %} errorlist {% endif %}'>
-          {% if field.name == "email_sesion" %}
-            <i class="bi bi-envelope-fill"></i>
-          {% else %}
-            <i class="bi bi-key-fill"></i>
-          {% endif %}
+    {% csrf_token %}
+    {% for field in inicio_form %}
+    <div class='form-group {% if field.errors %} errorlist {% endif %}'>
+      {% if field.name == "email_sesion" %}
+        <i class="bi bi-envelope-fill"></i>
+      {% else %}
+        <i class="bi bi-key-fill"></i>
+      {% endif %}
 
-          {{ field.label }}
+      {{ field.label }}
 
-          <div class="container inputs">
-            <div class="row align-items-center">
-              <div class="col-10 {{field.name}}">
-                {{ field }}
-              </div>
-              {% if field.name != "foto_de_perfil"%}
-                <div class="col">
-                  {% if field.name == "password_sesion" %}
-                    <button class="btn btn-primary mostrar_ocultar_password"
-                          onclick="cambiarVisibilidad('imagenes_{{ field.name }}')">
-                      <i class="bi bi-card-image"></i>
-                    </button>
-                  {% endif %}
-                  {% include 'YoPuedo/microfono.html' %}
-                </div>
+      <div class="container inputs">
+        <div class="row align-items-center">
+          <div class="col-10 {{field.name}}">
+            {{ field }}
+          </div>
+          {% if field.name != "foto_de_perfil"%}
+            <div class="col">
+              {% if field.name == "password_sesion" %}
+                <button class="btn btn-primary mostrar_ocultar_password"
+                      onclick="cambiarVisibilidad('imagenes_{{ field.name }}')">
+                  <i class="bi bi-card-image"></i>
+                </button>
               {% endif %}
+              {% include 'YoPuedo/microfono.html' %}
             </div>
-          </div>
-
-          {% if field.name == "password_sesion"%}
-            {% include 'YoPuedo/password.html'%}
           {% endif %}
-
-          {% for error in field.errors%}
-          <div class="errorlist">
-            <i class="bi bi-x-circle-fill"></i>
-            {{ error }}
-          </div>
-          {% endfor %}
-
         </div>
-        {% endfor %}
+      </div>
+
+      {% if field.name == "password_sesion"%}
+        {% include 'YoPuedo/password.html'%}
+      {% endif %}
+
+      {% for error in field.errors%}
+      <div class="errorlist">
+        <i class="bi bi-x-circle-fill"></i>
+        {{ error }}
+      </div>
+      {% endfor %}
+
+    </div>
+    {% endfor %}
   </div>
-  <div class="modal-footer">
+  <div class="modal-footer justify-content-center">
     <button type="submit" id="boton-iniciosesion" class="btn btn-primary principales">
       <i class="bi bi-box-arrow-in-right"></i>
       INICIAR SESIÓN
+    </button>
+    <button type="button" id="boton-recuperarcontrasena"
+            class="btn btn-primary principales">
+      <i class="bi bi-box-arrow-in-right"></i>
+      ¿No te acuerdas de la contraseña?
     </button>
   </div>
 </form>
