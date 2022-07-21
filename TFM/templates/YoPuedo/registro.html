@@ -15,7 +15,8 @@
   {% bootstrap_css %}
   {% bootstrap_javascript %}
 </head>
-<body class="container">
+<body class="container" hx-trigger="load, claveCorrecta from:body"
+      hx-get="/" hx-target="this">
   <div id="contenedor" class="row align-items-center">
     <section id="registro" class="col">
       <div id="titulo-registro">
@@ -128,31 +129,25 @@
         src="{% static 'YoPuedo/js/SpeechRecognition.js' %}"></script>
 
 <script>
-  ;(function () {
-  const modal = new bootstrap.Modal(document.getElementById("modal"))
 
-  htmx.on("htmx:afterSwap", (e) => {
-    // Response targeting #dialog => show the modal
-    if (e.detail.target.id == "dialog") {
-      modal.show()
-    }
-  })
+const modal = new bootstrap.Modal(document.getElementById("modal"))
 
-  htmx.on("htmx:beforeSwap", (e) => {
-    // Empty response targeting #dialog => hide the modal
-    console.log("Respuesta: " + e.detail.xhr.response);
-    if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
-      modal.hide()
-      e.detail.shouldSwap = false
-      if(e.detail.xhr.response.status == 202){
-          location.href = '/'
-      }
-    }
-  })
+htmx.on("htmx:afterSwap", (e) => {
+  // Response targeting #dialog => show the modal
+  if (e.detail.target.id == "dialog") {
+    modal.show()
+  }
+})
 
-  // Remove dialog content after hiding
-  htmx.on("hidden.bs.modal", () => {
-    document.getElementById("dialog").innerHTML = ""
-  })
-})()
+htmx.on("htmx:beforeSwap", (e) => {
+  // Empty response targeting #dialog => hide the modal
+  if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
+    modal.hide()
+    e.detail.shouldSwap = false
+  }
+})
+
+htmx.on("hidden.bs.modal", () => {
+  document.getElementById("dialog").innerHTML = ""
+})
 </script>
