@@ -28,6 +28,10 @@
     margin-bottom: 2%;
 }
 
+.titulo-iniciosesion{
+    color: #E91E63;
+}
+
 body.container {
     height: 100%;
 }

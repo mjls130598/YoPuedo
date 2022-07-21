@@ -1,17 +1,13 @@
 <form class="form modal-content" hx-post="{{ request.path }}">
   <div class="modal-header">
-    <div class="modal-title" id="iniciar_sesion_label">
-      <h5>Iniciar sesión</h5>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
+        <h5 class="modal-title titulo-iniciosesion">Iniciar sesión</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
   </div>
   <div class="modal-body">
         {% csrf_token %}
         {% for field in inicio_form %}
         <div class='form-group {% if field.errors %} errorlist {% endif %}'>
-          {% if field.name == "email" %}
+          {% if field.name == "email_sesion" %}
             <i class="bi bi-envelope-fill"></i>
           {% else %}
             <i class="bi bi-key-fill"></i>
