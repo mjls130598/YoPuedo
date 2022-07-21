@@ -37,6 +37,10 @@ class Usuario(AbstractBaseUser):
     def natural_key(self):
         return self.email
 
+    def update_clave(self, clave):
+        self.clave_aleatoria = clave
+        self.save()
+
 
 # TABLA YoPuedo_amistad
 class Amistad(models.Model):
