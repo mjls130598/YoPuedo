@@ -151,7 +151,7 @@
       modal.hide()
       e.detail.shouldSwap = false
       if(e.detail.xhr.response.status == 202){
-        {% if tipo=='registro' or tipo=='inicio_sesion'}
+        {% if tipo=='registro' or tipo=='inicio_sesion' %}
           location.href = '/'
         {% endif %}
       }
