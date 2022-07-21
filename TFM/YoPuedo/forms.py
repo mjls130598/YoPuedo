@@ -121,29 +121,27 @@ class InicioForm(forms.Form):
 
 # Formulario de petición de claves
 class ClaveForm(forms.Form):
-    contador = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+    email = forms.EmailField(widget=forms.HiddenInput())
+    contador = forms.IntegerField(widget=forms.HiddenInput())
     clave = forms.CharField(label='Código de verificación:', max_length='16',
-                            widget=forms.TextInput(
-                                attrs={
-                                    'class': 'form-control'
-                                }))
-    email = ""
+                            min_length='10', widget=forms.TextInput(
+                                          attrs={
+                                              'class': 'form-control'
+                                          }))
 
-    def __init__(self, email):
-        self.email = email
-        super(ClaveForm, self).__init__()
+    def clean(self):
+        logger.info("Checkeando petición clave")
 
-    def clean(self, email):
-        logger.info("Checkeando petición de clave")
+        cleaned_data = super().clean()
 
-        cleaned_data = super.clean()
+        email = cleaned_data.get('email')
         usuario = Usuario.objects.get(email=email)
 
         clave = cleaned_data.get('clave')
 
-        if clave != usuario.clave_fija and clave != usuario.clave_aleatoria:
-            logger.error("Clave introducida es errónea")
-            self.add_error('clave', 'La clave introducida no es la correcta. ' +
-                                    'Inténtelo de nuevo')
+        if usuario.clave_fija != clave and usuario.clave_aleatoria != clave:
+            logger.error("Las claves no coinciden con la introducida")
+            self.add_error('clave', 'La clave introducida es incorrecta. Por favor, '
+                                    'introdúcela de nuevo.')
 
         return self
