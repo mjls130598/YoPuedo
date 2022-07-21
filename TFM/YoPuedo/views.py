@@ -86,8 +86,7 @@ def iniciar_sesion(request):
                                                  "Puedo")
 
             user = Usuario.objects.get(email=email)
-            user.clave_aleatoria = clave_aleatoria
-            user.save()
+            user.update(clave_aleatoria=clave_aleatoria)
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
             return redirect(f'/validar_clave/inicio_sesion/{email}')
