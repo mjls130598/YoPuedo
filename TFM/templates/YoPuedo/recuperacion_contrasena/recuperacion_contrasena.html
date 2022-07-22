@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    {% for field in password_reset_form %}
+    {% for field in form %}
     <div class='form-group {% if field.errors %} errorlist {% endif %}'>
       <i class="bi bi-envelope-fill"></i>
       {{ field.label }}
