@@ -3,7 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Envío clave</title>
-    {% include "YoPuedo/base.html" %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    {% load i18n static bootstrap5 tags_registro %}
+    <link rel="stylesheet" href="{% static 'YoPuedo/css/registro.css'%}">
+    <link rel="stylesheet" href="{% static 'YoPuedo/css/base.css'%}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <script src="https://unpkg.com/htmx.org@1.8.0"></script>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
 </head>
 <body class="container">
   <div id="contenedor" class="row align-items-center">
