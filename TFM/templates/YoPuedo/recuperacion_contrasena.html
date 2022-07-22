@@ -1,0 +1,53 @@
+<form class="form modal-content" hx-post="{{ request.path }}">
+  <div class="modal-header">
+        <h5 class="modal-title titulo-recuperarcontrasena">Recuperar cuenta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    {% csrf_token %}
+    <div class="row align-items-center">
+        <div class="col-10">
+            <h6>
+              A continuación, escribe el correo electrónico a tu cuenta y se te enviará
+              un email a dicho correo con los pasos que debes seguir para recuperar tu
+              cuenta en Yo Puedo.
+            </h6>
+        </div>
+        <div class="col">
+            {% include 'YoPuedo/elementos/altavoz.html' %}
+        </div>
+    </div>
+
+    {% for field in recuperar_form %}
+    <div class='form-group {% if field.errors %} errorlist {% endif %}'>
+      <i class="bi bi-envelope-fill"></i>
+      {{ field.label }}
+      <div class="container inputs">
+        <div class="row align-items-center">
+          <div class="col-10 {{field.name}}">
+            {{ field }}
+          </div>
+          <div class="col">
+            {% include 'YoPuedo/elementos/microfono.html' %}
+          </div>
+        </div>
+      </div>
+
+      {% for error in field.errors%}
+      <div class="errorlist">
+        <i class="bi bi-x-circle-fill"></i>
+        {{ error }}
+      </div>
+      {% endfor %}
+
+    </div>
+    {% endfor %}
+  </div>
+  <div class="modal-footer justify-content-center">
+    <button type="submit" id="boton-recuperarcontrasena"
+            class="btn btn-primary principales">
+      <i class="bi bi-box-arrow-in-right"></i>
+      RECUPERAR CUENTA
+    </button>
+  </div>
+</form>
