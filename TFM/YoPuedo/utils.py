@@ -61,6 +61,7 @@ class Utils:
     # Método para enviar correos
     @staticmethod
     def enviar_correo(content, email, contexto):
+        logger.info(f"Enviamos correo a {email}")
         mail = EmailMultiAlternatives(
             contexto,
             'Yo Puedo',

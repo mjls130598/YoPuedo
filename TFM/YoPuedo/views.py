@@ -7,13 +7,16 @@ from django.shortcuts import render, redirect
 from django.template.loader import get_template
 
 from .utils import Utils
-from .forms import RegistroForm, InicioForm, ClaveForm
+from .forms import RegistroForm, InicioForm, ClaveForm, RecuperarContrasenaForm
 from .models import Usuario
 
 logger = logging.getLogger(__name__)
 utils = Utils()
 
 
+##########################################################################################
+
+# Función de registro
 def registrarse(request):
     if request.method == 'GET':
         logger.info("Entramos a la parte GET de REGISTRO")
@@ -47,8 +50,11 @@ def registrarse(request):
     return render(request, "YoPuedo/registro.html", {'register_form': form})
 
 
+##########################################################################################
+
+# Función de envío de claves
 def enviar_clave(clave, email, contexto):
-    template = get_template('YoPuedo/envio_clave.html')
+    template = get_template('YoPuedo/envio_correos/envio_clave.html')
     context = {
         'titulo': "¿Eres tú?",
         'contexto': contexto,
@@ -59,8 +65,11 @@ def enviar_clave(clave, email, contexto):
     utils.enviar_correo(content, email, contexto)
 
 
+##########################################################################################
+
+# Función de envío de clave fija
 def enviar_clave_fija(clave, email):
-    template = get_template('YoPuedo/envio_clave_fija.html')
+    template = get_template('YoPuedo/envio_correos/envio_clave_fija.html')
     context = {
         'clave': clave
     }
@@ -69,6 +78,9 @@ def enviar_clave_fija(clave, email):
     utils.enviar_correo(content, email, "Bienvenido a Yo Puedo")
 
 
+##########################################################################################
+
+# Función de inicio de sesión
 def iniciar_sesion(request):
     if request.method == 'GET':
         logger.info("Entramos a la parte GET de INICIAR SESIÓN")
@@ -96,6 +108,9 @@ def iniciar_sesion(request):
     return render(request, "YoPuedo/iniciar_sesion.html", {'inicio_form': form})
 
 
+##########################################################################################
+
+# Función de validación de clave
 def validar_clave(request, tipo, email):
     if request.method == 'GET':
         logger.info("Entramos en la parte GET de VALIDAR CLAVE")
@@ -134,3 +149,39 @@ def validar_clave(request, tipo, email):
                 return HttpResponse(status=HTTPStatus.FORBIDDEN)
 
     return render(request, "YoPuedo/peticion-clave.html", {'peticion_clave': clave_form})
+
+
+##########################################################################################
+
+# Función de recuperación de contraseña
+def recuperar_contrasena(request):
+    if request.method == 'GET':
+        logger.info("Entramos a la parte GET de RECUPERAR CONTRASEÑA")
+        form = RecuperarContrasenaForm()
+
+    else:
+        logger.info("Entramos a la parte POST de RECUPERAR CONTRASEÑA")
+        form = RecuperarContrasenaForm(request.POST)
+
+        if form.is_valid():
+            logger.info("Válido el formulario")
+            email = form.cleaned_data['email'].value()
+            enviar_recuperacion(email)
+
+            return render(request, "YoPuedo/enviada_recuperacion.html")
+        else:
+            logger.error("Error al validar el formulario")
+
+    return render(request, "YoPuedo/recuperar_contrasena.html", {'recuperar_form': form})
+
+
+##########################################################################################
+
+# Función de envío de recuperación de contraseña
+def enviar_recuperacion(email):
+    template = get_template('YoPuedo/envio_recuperar_contrasena.html')
+    context = {
+    }
+    content = template.render(context)
+
+    utils.enviar_correo(content, email, "Recuperación de la cuenta de Yo Puedo")

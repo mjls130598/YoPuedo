@@ -105,14 +105,14 @@ class InicioForm(forms.Form):
 
         if not Usuario.objects.filter(email=email).exists():
             logger.error("No existe un usuario con ese email")
-            self.add_error('password_sesion', "Usuario y/o incorrecto")
+            self.add_error('password_sesion', "Usuario y/o contraseña incorrect@")
 
         else:
             password = cleaned_data.get('password_sesion')
             usuario = Usuario.objects.get(email=email)
             if usuario.password != password:
                 logger.error("Contraseña incorrecta")
-                self.add_error('password_sesion', "Usuario y/o incorrecto")
+            self.add_error('password_sesion', "Usuario y/o contraseña incorrect@")
 
         return self
 
@@ -145,3 +145,26 @@ class ClaveForm(forms.Form):
                                     'introdúcela de nuevo.')
 
         return self
+
+
+##########################################################################################
+
+# Formulario de petición de claves
+class RecuperarContrasenaForm(forms.Form):
+    email = forms.EmailField(label='Email:',
+                                    widget=forms.EmailInput(
+                                        attrs={
+                                            'class': 'form-control',
+                                            'placeholder': 'ejemplo@ejemplo.com',
+                                        }))
+
+    def clean(self):
+        logger.info("Checkeando recuperar contraseña")
+
+        cleaned_data = super().clean()
+
+        email = cleaned_data.get('email')
+
+        if not Usuario.objects.filter(email=email).exists():
+            logger.error("No existe un usuario con ese email")
+            self.add_error('email', "Usuario incorrecto")

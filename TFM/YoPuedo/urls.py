@@ -6,4 +6,6 @@ urlpatterns = [
     path('validar_clave/<str:tipo>/<str:email>', views.validar_clave,
          name="validar_clave"),
     path('iniciar_sesion/', views.iniciar_sesion, name="iniciar_sesion"),
+    path('recuperar_contrasena/', views.recuperar_contrasena(),
+         name="recuperar_contrasena"),
 ]
