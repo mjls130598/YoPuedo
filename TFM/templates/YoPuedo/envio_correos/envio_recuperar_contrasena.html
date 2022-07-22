@@ -21,7 +21,7 @@
           </p>
           <p>
               Si es así, solo tienes que pulsar sobre <b><a
-              href="{% url 'contrasena_reset' uidb64=uid token=token %}">Recuperar
+              href="{{ protocol}}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}">Recuperar
               cuenta</a></b>. Sino has sido tú, ignora este mensaje.
           </p>
       </div>

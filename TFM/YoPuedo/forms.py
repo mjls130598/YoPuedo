@@ -145,26 +145,3 @@ class ClaveForm(forms.Form):
                                     'introdúcela de nuevo.')
 
         return self
-
-
-##########################################################################################
-
-# Formulario de petición de claves
-class RecuperarContrasenaForm(forms.Form):
-    email = forms.EmailField(label='Email:',
-                                    widget=forms.EmailInput(
-                                        attrs={
-                                            'class': 'form-control',
-                                            'placeholder': 'ejemplo@ejemplo.com',
-                                        }))
-
-    def clean(self):
-        logger.info("Checkeando recuperar contraseña")
-
-        cleaned_data = super().clean()
-
-        email = cleaned_data.get('email')
-
-        if not Usuario.objects.filter(email=email).exists():
-            logger.error("No existe un usuario con ese email")
-            self.add_error('email', "Usuario incorrecto")

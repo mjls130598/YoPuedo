@@ -151,37 +151,5 @@ def validar_clave(request, tipo, email):
     return render(request, "YoPuedo/peticion-clave.html", {'peticion_clave': clave_form})
 
 
-##########################################################################################
-
-# Función de recuperación de contraseña
-def recuperar_contrasena(request):
-    if request.method == 'GET':
-        logger.info("Entramos a la parte GET de RECUPERAR CONTRASEÑA")
-        form = RecuperarContrasenaForm()
-
-    else:
-        logger.info("Entramos a la parte POST de RECUPERAR CONTRASEÑA")
-        form = RecuperarContrasenaForm(request.POST)
-
-        if form.is_valid():
-            logger.info("Válido el formulario")
-            email = form.cleaned_data['email'].value()
-            enviar_recuperacion(email)
-
-            return render(request, "YoPuedo/enviada_recuperacion.html")
-        else:
-            logger.error("Error al validar el formulario")
-
-    return render(request, "YoPuedo/recuperar_contrasena.html", {'recuperar_form': form})
-
-
-##########################################################################################
-
-# Función de envío de recuperación de contraseña
-def enviar_recuperacion(email):
-    template = get_template('YoPuedo/envio_recuperar_contrasena.html')
-    context = {
-    }
-    content = template.render(context)
-
-    utils.enviar_correo(content, email, "Recuperación de la cuenta de Yo Puedo")
+def index():
+    return HttpResponse(status=HTTPStatus.OK)

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recuperar cuenta</title>
+    {% include "YoPuedo/base.html" %}
+</head>
+<body class="container">
+{% if validlink %}
+  <div id="contenedor" class="row align-items-center">
+    <section id="registro" class="col">
+      <div id="titulo-registro">
+        <h2>
+          Recuperar cuentra de ¡Yo puedo!
+          <i class="bi bi-award-fill"></i>
+        </h2>
+      </div>
+      <div id="formulario-registro">
+        <form class="form" method="post" action="{% url 'cambiar_contrasena' %}"
+              enctype="multipart/form-data">
+          {% csrf_token %}
+          {% for field in register_form %}
+          <div class='form-group {% if field.errors %} errorlist {% endif %}'>
+            <i class="bi bi-key-fill"></i>
+            {{ field.label }}
+            <div class="container inputs">
+              <div class="row align-items-center">
+                <div class="col-10 {{field.name}}">
+                  {{ field }}
+                </div>
+                  <div class="col">
+                    <button class="btn btn-primary mostrar_ocultar_password"
+                        onclick="cambiarVisibilidad('imagenes_{{ field.name }}')">
+                      <i class="bi bi-card-image"></i>
+                    </button>
+                    {% include 'YoPuedo/elementos/microfono.html' %}
+                  </div>
+              </div>
+            </div>
+
+            {% include 'YoPuedo/elementos/password.html'%}
+
+            {% for error in field.errors%}
+            <div class="errorlist">
+              <i class="bi bi-x-circle-fill"></i>
+              {{ error }}
+            </div>
+            {% endfor %}
+
+          </div>
+          {% endfor %}
+
+          <div class='form-group d-flex justify-content-center'>
+           <button id="boton-registro" type="submit"
+                   class="btn btn-primary principales">
+             <i class="bi bi-key-fill"></i>
+             CAMBIAR CONTRASEÑA
+           </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+{% else %}
+<div id="contenedor" class="row align-items-center">
+    <section id="registro" class="col">
+      <div id="titulo-registro">
+        <h1>
+          ENLACE NO VÁLIDO
+        </h1>
+      </div>
+    </section>
+</div>
+{% endif %}
+</body>
+</html>
+
+<script>
+  function escribirPassword(input, value){
+    inputValue = document.getElementById(input).value;
+    if((inputValue.length + value.length) < 16){
+      if(inputValue)
+        document.getElementById(input).value += value;
+      else
+        document.getElementById(input).value = value;
+    }
+  }
+
+  function cambiarVisibilidad(id){
+    var visibilidad = document.getElementById(id).style.display;
+
+    if(visibilidad == "none")
+      document.getElementById(id).style.display="block";
+    else
+      document.getElementById(id).style.display="none";
+  }
+</script>
+<script type="text/javascript"
+        src="{% static 'YoPuedo/js/SpeechRecognition.js' %}"></script>
