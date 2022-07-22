@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.template.loader import get_template
 
 from .utils import Utils
-from .forms import RegistroForm, InicioForm, ClaveForm, RecuperarContrasenaForm
+from .forms import RegistroForm, InicioForm, ClaveForm
 from .models import Usuario
 
 logger = logging.getLogger(__name__)
