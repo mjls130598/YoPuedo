@@ -1,5 +1,6 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
+from django.utils import timezone
 
 
 class UsuarioManager(BaseUserManager):
@@ -24,6 +25,9 @@ class Usuario(AbstractBaseUser):
     foto_perfil = models.CharField(max_length=200)
     clave_fija = models.CharField(max_length=16)
     clave_aleatoria = models.CharField(max_length=10)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(default=timezone.now)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['nombre', 'password', 'foto_perfil', 'clave_fija',
