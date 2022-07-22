@@ -28,7 +28,7 @@
         </h2>
       </div>
       <div id="formulario-registro">
-        <form class="form" method="post" action="{% url 'cambiar_contrasena' %}"
+        <form class="form" method="post" action="{% url request.path %}"
               enctype="multipart/form-data">
           {% csrf_token %}
           {% for field in form %}
