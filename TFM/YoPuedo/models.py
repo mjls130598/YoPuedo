@@ -4,7 +4,8 @@ from django.utils import timezone
 
 
 class UsuarioManager(BaseUserManager):
-    def create_user(self, email, nombre, password, foto_perfil, clave_fija, clave_aleatoria):
+    def create_user(self, email, nombre, password, foto_perfil, clave_fija,
+                    clave_aleatoria):
         usuario = self.model(email=email, nombre=nombre, password=password,
                              foto_perfil=foto_perfil, clave_fija=clave_fija,
                              clave_aleatoria=clave_aleatoria)

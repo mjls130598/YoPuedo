@@ -11,7 +11,7 @@ urlpatterns = [
     path('iniciar_sesion/', views.iniciar_sesion, name="iniciar_sesion"),
     path('password_reset/', auth_views.PasswordResetView.as_view(
         template_name='YoPuedo/recuperacion_contrasena/recuperacion_contrasena.html',
-        email_template_name='YoPuedo/envio_correos/envio_recuperar_contrasena.html',
+        html_email_template_name='YoPuedo/envio_correos/envio_recuperar_contrasena.html',
     ), name="password_reset"),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(
         template_name='YoPuedo/recuperacion_contrasena/recuperacion_contrasena_enviado.html'
