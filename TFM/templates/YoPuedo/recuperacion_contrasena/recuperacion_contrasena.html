@@ -21,24 +21,17 @@
     {% for field in recuperar_form %}
     <div class='form-group {% if field.errors %} errorlist {% endif %}'>
       <i class="bi bi-envelope-fill"></i>
-      {{ field.label }}
+      {{ password_reset_form.label }}
       <div class="container inputs">
         <div class="row align-items-center">
-          <div class="col-10 {{field.name}}">
-            {{ field }}
+          <div class="col-10">
+            {{ password_reset_form }}
           </div>
           <div class="col">
             {% include 'YoPuedo/elementos/microfono.html' %}
           </div>
         </div>
       </div>
-
-      {% for error in field.errors%}
-      <div class="errorlist">
-        <i class="bi bi-x-circle-fill"></i>
-        {{ error }}
-      </div>
-      {% endfor %}
 
     </div>
     {% endfor %}

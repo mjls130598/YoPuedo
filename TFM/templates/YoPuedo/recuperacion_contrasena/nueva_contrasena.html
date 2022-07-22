@@ -19,7 +19,7 @@
         <form class="form" method="post" action="{% url 'cambiar_contrasena' %}"
               enctype="multipart/form-data">
           {% csrf_token %}
-          {% for field in register_form %}
+          {% for field in form %}
           <div class='form-group {% if field.errors %} errorlist {% endif %}'>
             <i class="bi bi-key-fill"></i>
             {{ field.label }}
