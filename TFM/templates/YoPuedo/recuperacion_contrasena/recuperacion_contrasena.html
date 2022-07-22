@@ -18,14 +18,14 @@
         </div>
     </div>
 
-    {% for field in recuperar_form %}
+    {% for field in password_reset_form %}
     <div class='form-group {% if field.errors %} errorlist {% endif %}'>
       <i class="bi bi-envelope-fill"></i>
-      {{ password_reset_form.label }}
+      {{ field.label }}
       <div class="container inputs">
         <div class="row align-items-center">
           <div class="col-10">
-            {{ password_reset_form }}
+            {{ field }}
           </div>
           <div class="col">
             {% include 'YoPuedo/elementos/microfono.html' %}

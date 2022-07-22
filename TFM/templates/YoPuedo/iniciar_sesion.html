@@ -51,11 +51,12 @@
       <i class="bi bi-box-arrow-in-right"></i>
       INICIAR SESIÓN
     </button>
-    <button type="button" id="boton-recuperarcontrasena"
-            class="btn btn-primary principales" data-bs-toggle="modal"
-            hx-get="{% url 'password_reset' %}" hx-target="#dialog">
-      <i class="bi bi-box-arrow-in-right"></i>
-      ¿No te acuerdas de la contraseña?
-    </button>
+    <a href="{% url 'password_reset' %}">
+      <button type="button" id="boton-recuperarcontrasena"
+              class="btn btn-primary principales">
+        <i class="bi bi-box-arrow-in-right"></i>
+        ¿No te acuerdas de la contraseña?
+      </button>
+    </a>
   </div>
 </form>
