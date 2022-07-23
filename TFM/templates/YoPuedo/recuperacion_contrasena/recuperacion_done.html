@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
     {% load i18n static bootstrap5 tags_registro %}
     <link rel="stylesheet" href="{% static 'YoPuedo/css/registro.css'%}">
+    <link rel="stylesheet" href="{% static 'YoPuedo/css/recuperacion_done.css'%}">
     <link rel="stylesheet" href="{% static 'YoPuedo/css/base.css'%}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
     <script src="https://unpkg.com/htmx.org@1.8.0"></script>
@@ -19,16 +20,16 @@
   <div id="contenedor" class="row align-items-center">
     <section id="registro" class="col">
       <div class="row align-items-center">
-        <div id="titulo-registro">
-            <h2>
+        <div id="titulo-recuperacion">
+            <h1>
               ¡Ya está recuperada tu cuenta Yo Puedo!
-            </h2>
+            </h1>
         </div>
-        <div>
-            <h6>
+        <div id="contenedor-mensaje">
+            <h4>
                 Si quieres entrar de nuevo a la aplicación, pulsa sobre el
                 siguiente botón:
-            </h6>
+            </h4>
         </div>
       </div>
       <div class='form-group d-flex justify-content-center'>
