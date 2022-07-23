@@ -1,7 +1,7 @@
 from django.test import TestCase
 from TFM.settings import BASE_DIR
 from http import HTTPStatus
-from TFM.YoPuedo.models import Usuario
+from ..models import Usuario
 
 
 ##########################################################################################

@@ -9,7 +9,7 @@ class UsuarioModelTest(TestCase):
     def setUpTestData(cls):
         Usuario.objects.create(email="mariajesus@gmail.com", nombre="María Jesús",
                                password="Password1.",
-                               fotoPerfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def test_email(self):
         usuario = Usuario.objects.get(email="mariajesus@gmail.com")

@@ -1,6 +1,6 @@
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
-from ..forms import RegistroForm, ClaveForm
+from ..forms import RegistroForm, ClaveForm, InicioForm
 from TFM.settings import BASE_DIR
 from ..models import Usuario
 
@@ -13,7 +13,7 @@ class RegistroFormTests(TestCase):
     def setUpTestData(cls):
         Usuario.objects.create(email="mj@gmail.com", nombre="María Jesús",
                                password="Password1.",
-                               fotoPerfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def test_correcto(self):
         form_data = {
@@ -228,7 +228,7 @@ class ClaveFormTest(TestCase):
         Usuario.objects.create(email="mj@gmail.com", nombre="María Jesús",
                                password="Password1.", clave_aleatoria="clave_aleatoria",
                                clave_fija="clave_fija",
-                               fotoPerfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def test_clave_aleatoria_valida(self):
         data = {
