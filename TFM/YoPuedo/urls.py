@@ -18,6 +18,8 @@ urlpatterns = [
     ), name="password_reset_done"),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
         template_name='YoPuedo/recuperacion_contrasena/nueva_contrasena.html',
-        success_url='index'
     ), name="password_reset_confirm"),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(
+        template_name='YoPuedo/recuperacion_contrasena/recuperacion_done.html',
+    ), name="password_reset_complete"),
 ]
