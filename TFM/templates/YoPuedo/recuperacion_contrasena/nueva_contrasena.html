@@ -24,7 +24,7 @@
     <section id="registro" class="col">
       <div id="titulo-registro">
         <h2>
-          Recuperar cuentra de ¡Yo puedo!
+          Recuperar cuenta de ¡Yo puedo!
           <i class="bi bi-award-fill"></i>
         </h2>
       </div>
@@ -76,10 +76,23 @@
 {% else %}
 <div id="contenedor" class="row align-items-center">
     <section id="registro" class="col">
-      <div id="titulo-registro">
-        <h1>
-            <b>ENLACE NO VÁLIDO</b>
-        </h1>
+      <div class="row align-items-center">
+        <div class="col-10">
+            <div id="titulo-registro">
+                <h2>
+                  ENLACE INVÁLIDO
+                </h2>
+            </div>
+            <div>
+                <h6>
+                    Comprueba que el enlace dado es el esperado. Si es así, vuelve a
+                    empezar de nuevo la operación que te ha llevado a esta página.
+                </h6>
+            </div>
+        </div>
+        <div class="col">
+            {% include 'YoPuedo/elementos/altavoz.html' %}
+        </div>
       </div>
     </section>
 </div>
