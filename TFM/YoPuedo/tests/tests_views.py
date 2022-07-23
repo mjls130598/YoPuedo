@@ -67,12 +67,6 @@ class ClaveViewTest(TestCase):
         self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
 
     def test_post_inicio_incorrecto(self):
-        Usuario.objects.create(email="clave_view@gmail.com", nombre="María Jesús",
-                               password="Password1.", clave_aleatoria="clave_aleatoria",
-                               clave_fija="clave_fija",
-                               foto_perfil=f""
-                                          f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
-
         data = {
             'email': 'clave_view@gmail.com',
             'contador': '1',
@@ -85,10 +79,6 @@ class ClaveViewTest(TestCase):
         self.assertTrue(Usuario.objects.filter(email='mariajesus@gmail.com').exists())
 
     def test_post_registro_incorrecto(self):
-        Usuario.objects.create(email="clave_view@gmail.com", nombre="María Jesús",
-                               password="Password1.", clave_aleatoria="clave_aleatoria",
-                               clave_fija="clave_fija",
-                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
         data = {
             'email': 'clave_view@gmail.com',
