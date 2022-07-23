@@ -28,8 +28,7 @@
         </h2>
       </div>
       <div id="formulario-registro">
-        <form class="form" method="post" action="{% url request.path %}"
-              enctype="multipart/form-data">
+        <form class="form" method="post" enctype="multipart/form-data">
           {% csrf_token %}
           {% for field in form %}
           <div class='form-group {% if field.errors %} errorlist {% endif %}'>
