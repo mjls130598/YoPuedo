@@ -233,7 +233,7 @@ class ClaveFormTest(TestCase):
     def test_clave_aleatoria_valida(self):
         data = {
             'email': 'mj@gmail.com',
-            'contador': '0',
+            'contador': 0,
             'clave': 'clave_aleatoria'
         }
 

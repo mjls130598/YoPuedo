@@ -15,7 +15,7 @@ class RegistroViewTest(TestCase):
 
     def test_post_registro(self):
         data = {
-            'email': "mariajesus@gmail.com",
+            'email': "mjls130598@gmail.com",
             'nombre': "María Jesús",
             'password': 'Password1.',
             'password_again': 'Password1.',
@@ -23,7 +23,8 @@ class RegistroViewTest(TestCase):
         }
         resp = self.client.post('/registrarse/', data)
         self.assertEqual(resp.status_code, HTTPStatus.OK)
-        self.assertTrue(resp.context['user'].is_authenticated)
+        user = Usuario.objects.get(email='mjls130598@gmail.com')
+        self.assertTrue(user.is_authenticated)
 
 
 ##########################################################################################
@@ -36,7 +37,7 @@ class ClaveViewTest(TestCase):
         Usuario.objects.create(email="mj@gmail.com", nombre="María Jesús",
                                password="Password1.", clave_aleatoria="clave_aleatoria",
                                clave_fija="clave_fija",
-                               fotoPerfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def test_url_registro_accesible(self):
         resp = self.client.get('/validar_clave/registro/mj@gmail.com')
@@ -60,7 +61,7 @@ class ClaveViewTest(TestCase):
         Usuario.objects.create(email="mariajesus@gmail.com", nombre="María Jesús",
                                password="Password1.", clave_aleatoria="clave_aleatoria",
                                clave_fija="clave_fija",
-                               fotoPerfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
         data = {
             'email': 'mariajesus@gmail.com',
@@ -87,7 +88,8 @@ class ClaveViewTest(TestCase):
         Usuario.objects.create(email="mariajesus@gmail.com", nombre="María Jesús",
                                password="Password1.", clave_aleatoria="clave_aleatoria",
                                clave_fija="clave_fija",
-                               fotoPerfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                               foto_perfil=f""
+                                          f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
         data = {
             'email': 'mariajesus@gmail.com',
@@ -108,10 +110,10 @@ class InicioViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        Usuario.objects.create(email="mj@gmail.com", nombre="María Jesús",
+        Usuario.objects.create(email="mjls130598@gmail.com", nombre="María Jesús",
                                password="Password1.", clave_aleatoria="clave_aleatoria",
                                clave_fija="clave_fija",
-                               fotoPerfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def test_url_accesible(self):
         resp = self.client.get('/inicio_sesion/')
@@ -119,9 +121,10 @@ class InicioViewTest(TestCase):
 
     def test_post_inicio(self):
         data = {
-            'email_sesion': "mariajesus@gmail.com",
+            'email_sesion': "mjls130598@gmail.com",
             'password_sesion': 'Password1.',
         }
         resp = self.client.post('/inicio_sesion/', data)
         self.assertEqual(resp.status_code, HTTPStatus.OK)
-        self.assertTrue(resp.context['user'].is_authenticated)
+        user = Usuario.objects.get(email='mjls130598@gmail.com')
+        self.assertTrue(user.is_authenticated)
