@@ -45,7 +45,7 @@ class Utils:
         except:
             logger.error("Error al subir la foto de perfil")
 
-        usuario = Usuario.objects.create(email=email, nombre=nombre, password=password,
+        usuario = Usuario.objects.create_user(email=email, nombre=nombre, password=password,
                                foto_perfil=localizacion, clave_fija=clave_fija,
                                clave_aleatoria=clave_aleatoria)
         return clave_aleatoria, clave_fija, usuario

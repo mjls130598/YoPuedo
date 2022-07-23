@@ -7,8 +7,9 @@ from TFM.settings import BASE_DIR
 class UsuarioModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        Usuario.objects.create(email="mariajesus@gmail.com", nombre="María Jesús",
-                               password="Password1.",
+        Usuario.objects.create_user(email="mariajesus@gmail.com", nombre="María Jesús",
+                               password="Password1.", clave_fija='clave_fija',
+                               clave_aleatoria='clave_aleatoria',
                                foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def test_email(self):

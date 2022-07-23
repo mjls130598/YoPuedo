@@ -127,9 +127,9 @@ class ClaveForm(forms.Form):
     contador = forms.IntegerField(widget=forms.HiddenInput())
     clave = forms.CharField(label='Código de verificación:', max_length='16',
                             min_length='10', widget=forms.TextInput(
-                                          attrs={
-                                              'class': 'form-control'
-                                          }))
+            attrs={
+                'class': 'form-control'
+            }))
 
     def clean(self):
         logger.info("Checkeando petición clave")
