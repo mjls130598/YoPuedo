@@ -21,7 +21,7 @@ class UsuarioModelTest(TestCase):
 
     def test_password(self):
         usuario = Usuario.objects.get(email="mariajesus@gmail.com")
-        self.assertEqual(usuario.password, 'Password1.')
+        self.assertTrue(usuario.check_password('Password1.'))
 
     def test_foto_perfil(self):
         usuario = Usuario.objects.get(email="mariajesus@gmail.com")
