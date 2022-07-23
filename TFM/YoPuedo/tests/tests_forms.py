@@ -1,9 +1,11 @@
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
-from ..forms import RegistroForm
+from ..forms import RegistroForm, ClaveForm
 from TFM.settings import BASE_DIR
 from ..models import Usuario
 
+
+##########################################################################################
 
 # Comprobamos la validación del formulario de registro
 class RegistroFormTests(TestCase):
@@ -215,3 +217,47 @@ class RegistroFormTests(TestCase):
                                                          'fichero que ha enviado no era '
                                                          'una imagen o se trataba de una '
                                                          'imagen corrupta.'])
+
+
+##########################################################################################
+
+# Comprobamos la validación del formulario de validar clave
+class ClaveFormTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        Usuario.objects.create(email="mj@gmail.com", nombre="María Jesús",
+                               password="Password1.", clave_aleatoria="clave_aleatoria",
+                               clave_fija="clave_fija",
+                               fotoPerfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+    def test_clave_aleatoria_valida(self):
+        data = {
+            'email': 'mj@gmail.com',
+            'contador': '0',
+            'clave': 'clave_aleatoria'
+        }
+
+        form = ClaveForm(data)
+        self.assertTrue(len(form.errors) == 0)
+
+    def test_clave_fija_valida(self):
+        data = {
+            'email': 'mj@gmail.com',
+            'contador': '0',
+            'clave': 'clave_fija'
+        }
+
+        form = ClaveForm(data)
+        self.assertTrue(len(form.errors) == 0)
+
+    def test_clave_erronea(self):
+        data = {
+            'email': 'mj@gmail.com',
+            'contador': '0',
+            'clave': 'clave_erronea'
+        }
+
+        form = ClaveForm(data)
+
+        self.assertEqual(form.errors['clave'], ['La clave introducida es incorrecta. Por '
+                                                'favor, introdúcela de nuevo.'])
