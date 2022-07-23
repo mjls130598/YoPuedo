@@ -3,6 +3,8 @@ import re
 from django import forms
 from .models import Usuario
 
+from django.contrib.auth.hashers import check_password
+
 logger = logging.getLogger(__name__)
 
 
@@ -110,7 +112,7 @@ class InicioForm(forms.Form):
         else:
             password = cleaned_data.get('password_sesion')
             usuario = Usuario.objects.get(email=email)
-            if usuario.password != password:
+            if check_password(password, usuario.password):
                 logger.error("Contraseña incorrecta")
             self.add_error('password_sesion', "Usuario y/o contraseña incorrect@")
 
