@@ -2,13 +2,13 @@
     height:100%;
 }
 
-#titulo-registro{
+#titulo-registro, #titulo-recuperacion{
     color: #8DCB97;
     text-align: center;
     padding-top: 2%;
 }
 
-#titulo-registro>h2{
+#titulo-registro>h2, #titulo-recuperacion>h1{
     font-weight: bold;
 }
 
@@ -48,7 +48,7 @@ body.container {
 }
 
 @media screen and (min-width: 601px){
-    #formulario-registro{
+    #formulario-registro, #contenedor-mensaje{
         padding-left:20%;
         padding-right:20%;
     }
@@ -59,7 +59,7 @@ body.container {
 }
 
 @media screen and (max-width: 600px){
-    #formulario-registro{
+    #formulario-registro, #contenedor-mensaje{
         padding-left:5%;
         padding-right:5%;
     }
@@ -69,16 +69,18 @@ body.container {
     }
 }
 
-@media screen and (min-width: 768px) and (max-width: 1199px){
+@media screen and (min-width: 768px){
 
-    .col-10.password, .col-10.password_again{
+    .col-10.password, .col-10.password_again, .col-10.new_password1,
+    .col-10.new_password2{
         width: 75%;
     }
 }
 
 @media screen and (max-width: 768px){
 
-    .col-10.password, .col-10.password_again{
+    .col-10.password, .col-10.password_again, .col-10.new_password1,
+    .col-10.new_password2{
         width: 66.66666667%;
     }
 }

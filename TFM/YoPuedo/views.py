@@ -1,7 +1,9 @@
 import logging
+from http import HTTPStatus
 
-from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render
+from django.contrib.auth import login, logout
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from django.template.loader import get_template
 
 from .utils import Utils
@@ -12,6 +14,9 @@ logger = logging.getLogger(__name__)
 utils = Utils()
 
 
+##########################################################################################
+
+# Función de registro
 def registrarse(request):
     if request.method == 'GET':
         logger.info("Entramos a la parte GET de REGISTRO")
@@ -38,18 +43,18 @@ def registrarse(request):
 
             login(request, usuario, backend='django.contrib.auth.backends.ModelBackend')
 
-            data = {'email': email, 'contador': 0, 'tipo': 'registro'}
-            clave_form = ClaveForm(data)
-            return render(request, "YoPuedo/peticion-clave.html", {'peticion_clave':
-                                                                       clave_form})
+            return redirect(f'/validar_clave/registro/{email}')
         else:
             logger.error("Error al validar el formulario")
 
     return render(request, "YoPuedo/registro.html", {'register_form': form})
 
 
+##########################################################################################
+
+# Función de envío de claves
 def enviar_clave(clave, email, contexto):
-    template = get_template('YoPuedo/envio_clave.html')
+    template = get_template('YoPuedo/envio_correos/envio_clave.html')
     context = {
         'titulo': "¿Eres tú?",
         'contexto': contexto,
@@ -60,8 +65,11 @@ def enviar_clave(clave, email, contexto):
     utils.enviar_correo(content, email, contexto)
 
 
+##########################################################################################
+
+# Función de envío de clave fija
 def enviar_clave_fija(clave, email):
-    template = get_template('YoPuedo/envio_clave_fija.html')
+    template = get_template('YoPuedo/envio_correos/envio_clave_fija.html')
     context = {
         'clave': clave
     }
@@ -70,6 +78,9 @@ def enviar_clave_fija(clave, email):
     utils.enviar_correo(content, email, "Bienvenido a Yo Puedo")
 
 
+##########################################################################################
+
+# Función de inicio de sesión
 def iniciar_sesion(request):
     if request.method == 'GET':
         logger.info("Entramos a la parte GET de INICIAR SESIÓN")
@@ -82,57 +93,63 @@ def iniciar_sesion(request):
         if form.is_valid():
             logger.info("Válido el formulario")
             email = form.cleaned_data['email_sesion'].value()
-            password = form.cleaned_data['password_sesion'].value()
             clave_aleatoria = utils.claves_aleatorias(10)
             enviar_clave(clave_aleatoria, email, "Inicio de sesión en la aplicación Yo "
                                                  "Puedo")
 
-            user = authenticate(request, username=email, password=password)
+            user = Usuario.objects.get(email=email)
+            user.update_clave(clave_aleatoria)
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
-            data = {'email': email, 'contador': 0, 'tipo': 'inicio_sesion'}
-            clave_form = ClaveForm(data)
-            return render(request, "YoPuedo/peticion-clave.html", {'peticion_clave':
-                                                                       clave_form})
+            return redirect(f'/validar_clave/inicio_sesion/{email}')
         else:
             logger.error("Error al validar el formulario")
 
     return render(request, "YoPuedo/iniciar_sesion.html", {'inicio_form': form})
 
 
-def validar_clave(request):
-    if request.method == 'POST':
+##########################################################################################
+
+# Función de validación de clave
+def validar_clave(request, tipo, email):
+    if request.method == 'GET':
+        logger.info("Entramos en la parte GET de VALIDAR CLAVE")
+        clave_form = ClaveForm(initial={'email': email, 'contador': 0})
+
+    else:
+        logger.info("Entramos en la parte POST de VALIDAR CLAVE")
         logger.info("Comprobamos si la clave introducida es la correcta")
 
         clave_form = ClaveForm(request.POST)
 
-        contador = clave_form.cleaned_data['contador']
-        tipo = clave_form.cleaned_data['tipo']
-        email = clave_form.cleaned_data['email']
-
         if clave_form.is_valid():
             if tipo == 'registro' or tipo == 'inicio_sesion':
                 logger.info("Iniciamos sesión")
-                form = RegistroForm()
-                return render(request, "YoPuedo/registro.html", {'register_form': form})
+                return HttpResponse(status=HTTPStatus.ACCEPTED,
+                                    headers={'HX-Trigger': 'claveCorrecta'})
 
         else:
+            contador = int(clave_form['contador'].value())
+            clave = clave_form['clave'].value()
+
             if contador < 2:
                 logger.info(f"Intento nº {contador + 1}")
-                clave_form.cleaned_data['contador'] = contador + 1
-                return render(request, "YoPuedo/peticion-clave.html",
-                              {'peticion_clave': clave_form})
-            else:
-                logout(request)
-                if tipo == 'registro' or tipo == 'inicio sesión':
-                    logger.info("Mandamos a la página de registro")
+                data = {'contador': contador + 1, 'email': email, 'clave': clave}
+                clave_form = ClaveForm(data)
+                clave_form.is_valid()
 
+            else:
+                logger.info("Demasiados intentos. Volvemos al principio")
+                if tipo == 'registro' or tipo == 'inicio_sesion':
+                    logout(request)
+                    logger.info("Mandamos a la página de registro")
                     if tipo == 'registro':
                         Usuario.objects.get(email=email).delete()
 
-                    form = RegistroForm()
-                    form.add_error('email', 'Error al introducir el código de '
-                                            'verificación. Regístrese de nuevo en '
-                                            'nuestra aplicación')
-                    return render(request, "YoPuedo/registro.html",
-                                  {'register_form': form})
+                return HttpResponse(status=HTTPStatus.FORBIDDEN)
+
+    return render(request, "YoPuedo/peticion-clave.html", {'peticion_clave': clave_form})
+
+
+def index():
+    return HttpResponse(status=HTTPStatus.OK)

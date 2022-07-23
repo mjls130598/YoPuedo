@@ -3,6 +3,8 @@ import re
 from django import forms
 from .models import Usuario
 
+from django.contrib.auth.hashers import check_password
+
 logger = logging.getLogger(__name__)
 
 
@@ -105,14 +107,14 @@ class InicioForm(forms.Form):
 
         if not Usuario.objects.filter(email=email).exists():
             logger.error("No existe un usuario con ese email")
-            self.add_error('password_sesion', "Usuario y/o incorrecto")
+            self.add_error('password_sesion', "Usuario y/o contraseña incorrect@")
 
         else:
             password = cleaned_data.get('password_sesion')
             usuario = Usuario.objects.get(email=email)
-            if usuario.password != password:
+            if usuario.check_password(password):
                 logger.error("Contraseña incorrecta")
-                self.add_error('password_sesion', "Usuario y/o incorrecto")
+                self.add_error('password_sesion', "Usuario y/o contraseña incorrect@")
 
         return self
 
@@ -122,24 +124,26 @@ class InicioForm(forms.Form):
 # Formulario de petición de claves
 class ClaveForm(forms.Form):
     email = forms.EmailField(widget=forms.HiddenInput())
-    tipo = forms.CharField(widget=forms.HiddenInput())
     contador = forms.IntegerField(widget=forms.HiddenInput())
     clave = forms.CharField(label='Código de verificación:', max_length='16',
-                            widget=forms.TextInput(
-                                attrs={
-                                    'class': 'form-control'
-                                }))
+                            min_length='10', widget=forms.TextInput(
+                                          attrs={
+                                              'class': 'form-control'
+                                          }))
 
     def clean(self):
-        logger.info("Comprobamos datos de petición de clave")
+        logger.info("Checkeando petición clave")
 
-        cleaned_data = super.clean()
+        cleaned_data = super().clean()
+
         email = cleaned_data.get('email')
         usuario = Usuario.objects.get(email=email)
 
         clave = cleaned_data.get('clave')
 
-        if clave != usuario.clave_fija and clave != usuario.clave_aleatoria:
-            logger.info("Clave introducida es errónea")
-            self.add_error('clave', 'La clave introducida no es la correcta. ' +
-                                    'Inténtelo de nuevo')
+        if usuario.clave_fija != clave and usuario.clave_aleatoria != clave:
+            logger.error("Las claves no coinciden con la introducida")
+            self.add_error('clave', 'La clave introducida es incorrecta. Por favor, '
+                                    'introdúcela de nuevo.')
+
+        return self

@@ -1,0 +1,23 @@
+.titulo-iniciosesion{
+    color: #E91E63;
+    font-weight: bold;
+}
+
+.boton-recuperarcontrasena{
+    border-color: #03A9F4;
+    background-color: #03A9F4;
+}
+
+@media screen and (min-width: 768px){
+
+    .col-10.password_sesion{
+        width: 75%;
+    }
+}
+
+@media screen and (max-width: 768px){
+
+    .col-10.password_sesion{
+        width: 66.66666667%;
+    }
+}

@@ -16,6 +16,14 @@
     border-color: #0F27EE;
 }
 
+.btn.btn-primary.altavoz{
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    background-color: #673AB7;
+    border-color: #673AB7;
+}
+
 .window{
     height: 100%;
 }

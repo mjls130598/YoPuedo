@@ -1,6 +1,6 @@
-<form class="form modal-content" hx-post="{% url 'validar_clave' %}">
+<form class="form modal-content" hx-post="{{ request.path }}">
   <div class="modal-header">
-    <h5 class="modal-title font-weight-bold" id="validar_clave_label">
+    <h5 class="modal-title titulo-peticionclave" id="validar_clave_label">
       ¿Eres tú?
     </h5>
   </div>
@@ -8,15 +8,15 @@
     {% csrf_token %}
     <div class="row align-items-center">
         <div class="col-10">
-            <h4>
+            <h6>
                 Te acabamos de mandar un correo con un código de
                 verificación para asegurarnos que eres tú quien realiza
                 esta acción. Por favor, ábrelo y escribe o di el código que
                 hay dentro de él para continuar:
-            </h4>
+            </h6>
         </div>
         <div class="col">
-            {% include 'YoPuedo/altavoz.html' %}
+            {% include 'YoPuedo/elementos/altavoz.html' %}
         </div>
     </div>
 
@@ -32,7 +32,7 @@
                 {{ field }}
               </div>
               <div class="col">
-                {% include 'YoPuedo/microfono.html' %}
+                {% include 'YoPuedo/elementos/microfono.html' %}
               </div>
             </div>
           </div>
@@ -49,36 +49,10 @@
     </div>
     {% endfor %}
   </div>
-  <div class="modal-footer">
+  <div class="modal-footer justify-content-center">
     <button id="boton-registro" type="submit" class="btn btn-primary principales">
       <i class="bi bi-check"></i>
       VERIFICAR
     </button>
   </div>
 </form>
-
-<script>
-  ;(function () {
-  const modal = new bootstrap.Modal(document.getElementById("validar_clave"))
-
-  htmx.on("htmx:afterSwap", (e) => {
-    // Response targeting #dialog => show the modal
-    if (e.detail.target.id == "dialog-clave") {
-      modal.show()
-    }
-  })
-
-  htmx.on("htmx:beforeSwap", (e) => {
-    // Empty response targeting #dialog => hide the modal
-    if (e.detail.target.id == "dialog-clave" && !e.detail.xhr.response) {
-      modal.hide()
-      e.detail.shouldSwap = false
-    }
-  })
-
-  // Remove dialog content after hiding
-  htmx.on("hidden.bs.modal", () => {
-    document.getElementById("dialog-clave").innerHTML = ""
-  })
-})()
-</script>

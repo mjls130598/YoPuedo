@@ -1,9 +1,11 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
+from django.utils import timezone
 
 
 class UsuarioManager(BaseUserManager):
-    def create_user(self, email, nombre, password, foto_perfil, clave_fija, clave_aleatoria):
+    def create_user(self, email, nombre, password, foto_perfil, clave_fija,
+                    clave_aleatoria):
         usuario = self.model(email=email, nombre=nombre, password=password,
                              foto_perfil=foto_perfil, clave_fija=clave_fija,
                              clave_aleatoria=clave_aleatoria)
@@ -24,6 +26,9 @@ class Usuario(AbstractBaseUser):
     foto_perfil = models.CharField(max_length=200)
     clave_fija = models.CharField(max_length=16)
     clave_aleatoria = models.CharField(max_length=10)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(default=timezone.now)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['nombre', 'password', 'foto_perfil', 'clave_fija',
@@ -36,6 +41,10 @@ class Usuario(AbstractBaseUser):
 
     def natural_key(self):
         return self.email
+
+    def update_clave(self, clave):
+        self.clave_aleatoria = clave
+        self.save()
 
 
 # TABLA YoPuedo_amistad

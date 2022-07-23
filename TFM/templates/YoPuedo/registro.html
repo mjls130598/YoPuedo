@@ -3,9 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <title>¡Yo puedo!</title>
-  {% include "YoPuedo/base.html" %}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+  {% load i18n static bootstrap5 tags_registro %}
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/registro.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/base.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/iniciar_sesion.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/peticion-clave.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/recuperar_contrasena.css'%}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+  <script src="https://unpkg.com/htmx.org@1.8.0"></script>
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
 </head>
-<body class="container">
+<body class="container" hx-trigger="load, claveCorrecta from:body"
+      hx-get="/" hx-target="this">
   <div id="contenedor" class="row align-items-center">
     <section id="registro" class="col">
       <div id="titulo-registro">
@@ -40,19 +54,18 @@
                   <div class="col">
                     {% if field.name == "password" or field.name == "password_again" %}
                       <button class="btn btn-primary mostrar_ocultar_password"
-                            onclick="{% if field.name == 'password' %} mostrarOcultarImagenesPassword()
-                                     {% else %} mostrarOcultarImagenesPasswordAgain() {% endif %}">
+                          onclick="cambiarVisibilidad('imagenes_{{ field.name }}')">
                         <i class="bi bi-card-image"></i>
                       </button>
                     {% endif %}
-                    {% include 'YoPuedo/microfono.html' %}
+                    {% include 'YoPuedo/elementos/microfono.html' %}
                   </div>
                 {% endif %}
               </div>
             </div>
 
             {% if field.name == "password" or field.name == "password_again" %}
-              {% include 'YoPuedo/password.html'%}
+              {% include 'YoPuedo/elementos/password.html'%}
             {% endif %}
 
 
@@ -77,7 +90,7 @@
 
         <div class='form-group d-flex justify-content-center'>
           <button id="boton-iniciosesion" class="btn btn-primary principales"
-                  data-bs-toggle="modal" data-bs-target="#iniciar_sesion"
+                  data-bs-toggle="modal"
                   hx-get="{% url 'iniciar_sesion' %}" hx-target="#dialog">
             <i class="bi bi-box-arrow-in-right"></i>
             INICIAR SESIÓN
@@ -87,15 +100,11 @@
     </section>
   </div>
 
-  <div class="modal fade" id="iniciar_sesion">
-    <div class="modal-dialog row align-items-center" id="dialog" hx-target="this">
-    </div>
+<div class="modal fade" id="modal">
+  <div class="modal-dialog row align-items-center" id="dialog" hx-target="this">
   </div>
+</div>
 
-  <div class="modal fade" id="validar_clave">
-    <div class="modal-dialog" id="dialog-clave" hx-target="this">
-    </div>
-  </div>
 </body>
 </html>
 
@@ -118,12 +127,30 @@
     else
       document.getElementById(id).style.display="none";
   }
+</script>
+<script type="text/javascript"
+        src="{% static 'YoPuedo/js/SpeechRecognition.js' %}"></script>
 
-  function mostrarOcultarImagenesPassword(){
-    cambiarVisibilidad("imagenes_password_password");
-  }
+<script>
 
-  function mostrarOcultarImagenesPasswordAgain(){
-    cambiarVisibilidad("imagenes_password_password_again");
+const modal = new bootstrap.Modal(document.getElementById("modal"))
+
+htmx.on("htmx:afterSwap", (e) => {
+  // Response targeting #dialog => show the modal
+  if (e.detail.target.id == "dialog") {
+    modal.show()
   }
+})
+
+htmx.on("htmx:beforeSwap", (e) => {
+  // Empty response targeting #dialog => hide the modal
+  if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
+    modal.hide()
+    e.detail.shouldSwap = false
+  }
+})
+
+htmx.on("hidden.bs.modal", () => {
+  document.getElementById("dialog").innerHTML = ""
+})
 </script>

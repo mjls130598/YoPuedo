@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" class="window">
+<head>
+    <meta charset="UTF-8">
+    <title>Recuperar cuenta</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    {% load i18n static bootstrap5 tags_registro %}
+    <link rel="stylesheet" href="{% static 'YoPuedo/css/registro.css'%}">
+    <link rel="stylesheet" href="{% static 'YoPuedo/css/recuperacion_done.css'%}">
+    <link rel="stylesheet" href="{% static 'YoPuedo/css/base.css'%}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <script src="https://unpkg.com/htmx.org@1.8.0"></script>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body class="container">
+  <div id="contenedor" class="row align-items-center">
+    <section id="registro" class="col">
+      <div class="row align-items-center">
+        <div id="titulo-recuperacion">
+            <h1>
+              ¡Ya está recuperada tu cuenta Yo Puedo!
+            </h1>
+        </div>
+        <div id="contenedor-mensaje">
+            <h4>
+                Si quieres entrar de nuevo a la aplicación, pulsa sobre el
+                siguiente botón:
+            </h4>
+        </div>
+      </div>
+      <div class='form-group d-flex justify-content-center'>
+        <button id="boton-iniciosesion" class="btn btn-primary principales"
+            onclick="location.href='{% url 'registrarse' %}'">
+          <i class="bi bi-box-arrow-in-right"></i>
+          INICIAR SESIÓN
+        </button>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
