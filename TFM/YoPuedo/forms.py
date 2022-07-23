@@ -114,7 +114,7 @@ class InicioForm(forms.Form):
             usuario = Usuario.objects.get(email=email)
             if usuario.check_password(password):
                 logger.error("Contraseña incorrecta")
-            self.add_error('password_sesion', "Usuario y/o contraseña incorrect@")
+                self.add_error('password_sesion', "Usuario y/o contraseña incorrect@")
 
         return self
 
