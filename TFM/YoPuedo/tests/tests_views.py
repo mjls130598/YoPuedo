@@ -23,7 +23,7 @@ class RegistroViewTest(TestCase):
         }
         resp = self.client.post('/registrarse/', data)
         self.assertEqual(resp.status_code, HTTPStatus.OK)
-        self.assertTrue(resp.context['user'].is_active)
+        self.assertTrue(resp.context['user'].is_authenticated)
 
 
 ##########################################################################################
@@ -70,7 +70,7 @@ class ClaveViewTest(TestCase):
 
         resp = self.client.post('/validar/registro/mariajesus@gmail.com/', data)
         self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
-        self.assertTrue(not resp.context['user'].is_active)
+        self.assertTrue(not resp.context['user'].is_authenticated)
         self.assertTrue(not Usuario.objects.filter(email='mariajesus@gmail.com').exists())
 
     def test_post_inicio_correcto(self):
@@ -97,5 +97,31 @@ class ClaveViewTest(TestCase):
 
         resp = self.client.post('/validar/registro/mariajesus@gmail.com/', data)
         self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
-        self.assertTrue(not resp.context['user'].is_active)
+        self.assertTrue(not resp.context['user'].is_authenticated)
         self.assertTrue(Usuario.objects.filter(email='mariajesus@gmail.com').exists())
+
+
+##########################################################################################
+
+# Comprobamos el funcionamiento de la URL registrarse
+class InicioViewTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        Usuario.objects.create(email="mj@gmail.com", nombre="María Jesús",
+                               password="Password1.", clave_aleatoria="clave_aleatoria",
+                               clave_fija="clave_fija",
+                               fotoPerfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+    def test_url_accesible(self):
+        resp = self.client.get('/inicio_sesion/')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+
+    def test_post_inicio(self):
+        data = {
+            'email_sesion': "mariajesus@gmail.com",
+            'password_sesion': 'Password1.',
+        }
+        resp = self.client.post('/inicio_sesion/', data)
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertTrue(resp.context['user'].is_authenticated)
