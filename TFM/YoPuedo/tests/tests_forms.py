@@ -261,3 +261,44 @@ class ClaveFormTest(TestCase):
 
         self.assertEqual(form.errors['clave'], ['La clave introducida es incorrecta. Por '
                                                 'favor, introdúcela de nuevo.'])
+
+
+##########################################################################################
+
+# Comprobamos la validación del formulario de iniciar sesión
+class InicioFormTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        Usuario.objects.create(email="mj@gmail.com", nombre="María Jesús",
+                               password="Password1.", clave_aleatoria="clave_aleatoria",
+                               clave_fija="clave_fija",
+                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+    def test_inicio_valido(self):
+        data = {
+            'email_sesion': 'mj@gmail.com',
+            'password_sesion': 'Password1.'
+        }
+
+        form = InicioForm(data)
+        self.assertTrue(len(form.errors) == 0)
+
+    def test_email_incorrecto(self):
+        data = {
+            'email_sesion': 'mjesus@gmail.com',
+            'password_sesion': 'Password1.'
+        }
+
+        form = InicioForm(data)
+        self.assertEqual(form.errors['password_sesion'], ["Usuario y/o contraseña "
+                                                          "incorrect@"])
+
+    def test_password_incorrecto(self):
+        data = {
+            'email_sesion': 'mjesus@gmail.com',
+            'password_sesion': 'Password2.'
+        }
+
+        form = InicioForm(data)
+        self.assertEqual(form.errors['password_sesion'], ["Usuario y/o contraseña "
+                                                          "incorrect@"])
