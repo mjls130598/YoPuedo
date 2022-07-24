@@ -138,15 +138,6 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Password Hashers
-PASSWORD_HASHERS = [
-    'django.contrib.auth.hashers.ScryptPasswordHasher',
-    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
-    'django.contrib.auth.hashers.Argon2PasswordHasher',
-    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
-]
-
 LOGOUT_REDIRECT_URL = '/registrarse/'
 LOGIN_REDIRECT_URL = '/registrarse/'
 

@@ -22,7 +22,6 @@ class UsuarioManager(BaseUserManager):
 class Usuario(AbstractBaseUser):
     email = models.EmailField(primary_key=True)
     nombre = models.CharField(max_length=100)
-    password = models.CharField(max_length=16)
     foto_perfil = models.CharField(max_length=200)
     clave_fija = models.CharField(max_length=16)
     clave_aleatoria = models.CharField(max_length=10)
