@@ -19,7 +19,7 @@
   {% bootstrap_javascript %}
 </head>
 <body class="container" hx-trigger="load, claveCorrecta from:body"
-      hx-get="/" hx-target="this">
+      hx-get="{% url 'index' %}" hx-target="this">
   <div id="contenedor" class="row align-items-center">
     <section id="registro" class="col">
       <div id="titulo-registro">
