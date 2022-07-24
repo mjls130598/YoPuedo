@@ -151,5 +151,7 @@ def validar_clave(request, tipo, email):
     return render(request, "YoPuedo/peticion-clave.html", {'peticion_clave': clave_form})
 
 
-def index():
-    return HttpResponse(status=HTTPStatus.OK)
+def index(request):
+    logger.info("Entramos a la parte GET de INDEX")
+    form = RegistroForm()
+    return render(request, "YoPuedo/registro.html", {'register_form': form})
