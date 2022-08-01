@@ -34,7 +34,7 @@ class ClaveViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         Usuario.objects.create_user(email="clave_view@gmail.com", nombre="María Jesús",
-                               password="Password1.", clave_aleatoria="clave_aleatoria",
+                               password="Password1.", clave_aleatoria="clavealeatoria",
                                clave_fija="clave_fija",
                                foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
@@ -50,7 +50,7 @@ class ClaveViewTest(TestCase):
         data = {
             'email': 'clave_view@gmail.com',
             'contador': '0',
-            'clave': 'clave_aleatoria'
+            'clave': 'clavealeatoria'
         }
 
         resp = self.client.post('/validar_clave/registro/clave_view@gmail.com/', data)
@@ -60,7 +60,7 @@ class ClaveViewTest(TestCase):
         data = {
             'email': 'clave_view@gmail.com',
             'contador': '0',
-            'clave': 'clave_aleatoria'
+            'clave': 'clavealeatoria'
         }
 
         resp = self.client.post('/validar_clave/inicio_sesion/clave_view@gmail.com/', data)
@@ -105,7 +105,7 @@ class InicioViewTest(TestCase):
                                foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def test_url_accesible(self):
-        resp = self.client.get('/inicio_sesion/')
+        resp = self.client.get('/iniciar_sesion/')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
 
     def test_post_inicio(self):
@@ -113,7 +113,7 @@ class InicioViewTest(TestCase):
             'email_sesion': "inicio_view@gmail.com",
             'password_sesion': 'Password1.',
         }
-        resp = self.client.post('/inicio_sesion/', data)
+        resp = self.client.post('/iniciar_sesion/', data)
         self.assertEqual(resp.status_code, HTTPStatus.OK)
         user = Usuario.objects.get(email='inicio_view@gmail.com')
         self.assertTrue(user.is_authenticated)
