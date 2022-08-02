@@ -228,15 +228,15 @@ class ClaveFormTest(TestCase):
     def setUpTestData(cls):
         Usuario.objects.create_user(email="validar_clave@gmail.com", nombre="María Jesús",
                                     password="Password1.",
-                                    clave_aleatoria="clave_aleatoria",
-                                    clave_fija="clave_fija",
+                                    clave_aleatoria="clave1",
+                                    clave_fija="clave2",
                                     foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def test_clave_aleatoria_valida(self):
         data = {
             'email': 'validar_clave@gmail.com',
             'contador': 0,
-            'clave': 'clave_aleatoria'
+            'clave': 'clave1'
         }
 
         form = ClaveForm(data)
@@ -246,7 +246,7 @@ class ClaveFormTest(TestCase):
         data = {
             'email': 'validar_clave@gmail.com',
             'contador': '0',
-            'clave': 'clave_fija'
+            'clave': 'clave2'
         }
 
         form = ClaveForm(data)
@@ -273,8 +273,8 @@ class InicioFormTest(TestCase):
     def setUpTestData(cls):
         Usuario.objects.create_user(email="inicio@gmail.com", nombre="María Jesús",
                                     password="Password1.",
-                                    clave_aleatoria="clave_aleatoria",
-                                    clave_fija="clave_fija",
+                                    clave_aleatoria="clave1",
+                                    clave_fija="clave2",
                                     foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def test_inicio_valido(self):
