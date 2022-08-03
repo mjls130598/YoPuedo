@@ -228,15 +228,15 @@ class ClaveFormTest(TestCase):
     def setUpTestData(cls):
         Usuario.objects.create_user(email="validar_clave@gmail.com", nombre="María Jesús",
                                     password="Password1.",
-                                    clave_aleatoria="clave1",
-                                    clave_fija="clave2",
+                                    clave_aleatoria="clavealeat",
+                                    clave_fija="clavefija",
                                     foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def test_clave_aleatoria_valida(self):
         data = {
             'email': 'validar_clave@gmail.com',
             'contador': 0,
-            'clave': 'clave1'
+            'clave': 'clavealeat'
         }
 
         form = ClaveForm(data)
@@ -245,8 +245,8 @@ class ClaveFormTest(TestCase):
     def test_clave_fija_valida(self):
         data = {
             'email': 'validar_clave@gmail.com',
-            'contador': '0',
-            'clave': 'clave2'
+            'contador': 0,
+            'clave': 'clavefija'
         }
 
         form = ClaveForm(data)
@@ -255,7 +255,7 @@ class ClaveFormTest(TestCase):
     def test_clave_erronea(self):
         data = {
             'email': 'validar_clave@gmail.com',
-            'contador': '0',
+            'contador': 0,
             'clave': 'clave_erronea'
         }
 
