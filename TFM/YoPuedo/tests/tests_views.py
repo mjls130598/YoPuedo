@@ -1,3 +1,4 @@
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from TFM.settings import BASE_DIR
 from http import HTTPStatus
@@ -14,14 +15,18 @@ class RegistroViewTest(TestCase):
         self.assertEqual(resp.status_code, HTTPStatus.OK)
 
     def test_post_registro(self):
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/prueba.txt"
+        foto_perfil = open(foto_perfil, 'rb')
+
         data = {
-            'email': "registro@view.com",
+            'email': "registro@email.com",
             'nombre': "María Jesús",
             'password': 'Password1.',
             'password_again': 'Password1.',
-            'foto_de_perfil': f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+            'foto_de_perfil': SimpleUploadedFile(foto_perfil.name, foto_perfil.read())
         }
-        resp = self.client.post('/registrarse/', data)
+        resp = self.client.post('/registrarse/', data, format='multipart')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
         self.assertTrue(Usuario.objects.filter(email='registro@view.com').exists())
 
