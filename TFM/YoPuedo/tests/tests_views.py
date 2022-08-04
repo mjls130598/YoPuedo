@@ -16,7 +16,7 @@ class RegistroViewTest(TestCase):
 
     def test_post_registro(self):
 
-        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/prueba.txt"
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
         foto_perfil = open(foto_perfil, 'rb')
 
         data = {
