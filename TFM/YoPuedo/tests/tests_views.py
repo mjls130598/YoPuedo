@@ -53,7 +53,7 @@ class ClaveViewTest(TestCase):
             'clave': 'clavealeat'
         }
 
-        resp = self.client.post('/validar_clave/registro/clave_view@gmail.com/', data)
+        resp = self.client.post('/validar_clave/registro/clave_view@gmail.com', data)
         self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
 
     def test_post_inicio_correcto(self):
@@ -63,7 +63,7 @@ class ClaveViewTest(TestCase):
             'clave': 'clavealeat'
         }
 
-        resp = self.client.post('/validar_clave/inicio_sesion/clave_view@gmail.com/', data)
+        resp = self.client.post('/validar_clave/inicio_sesion/clave_view@gmail.com', data)
         self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
 
     def test_post_inicio_incorrecto(self):
@@ -73,10 +73,10 @@ class ClaveViewTest(TestCase):
             'clave': 'clavealeat'
         }
 
-        resp = self.client.post('/validar_clave/registro/mariajesus@gmail.com/', data)
+        resp = self.client.post('/validar_clave/inicio_sesion/clave_view@gmail.com', data)
         self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
         self.assertTrue(not resp.context['user'].is_authenticated)
-        self.assertTrue(Usuario.objects.filter(email='mariajesus@gmail.com').exists())
+        self.assertTrue(Usuario.objects.filter(email='clave_view@gmail.com').exists())
 
     def test_post_registro_incorrecto(self):
 
@@ -86,10 +86,10 @@ class ClaveViewTest(TestCase):
             'clave': 'clavealeat'
         }
 
-        resp = self.client.post('/validar_clave/registro/clave_view@gmail.com/', data)
+        resp = self.client.post('/validar_clave/registro/clave_view@gmail.com', data)
         self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
         self.assertTrue(not resp.context['user'].is_authenticated)
-        self.assertTrue(not Usuario.objects.filter(email='mariajesus@gmail.com').exists())
+        self.assertTrue(not Usuario.objects.filter(email='clave_view@gmail.com').exists())
 
 
 ##########################################################################################
@@ -114,6 +114,6 @@ class InicioViewTest(TestCase):
             'password_sesion': 'Password1.',
         }
         resp = self.client.post('/iniciar_sesion/', data)
-        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         user = Usuario.objects.get(email='inicio_view@gmail.com')
         self.assertTrue(user.is_authenticated)
