@@ -34,8 +34,8 @@ class ClaveViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         Usuario.objects.create_user(email="clave_view@gmail.com", nombre="María Jesús",
-                               password="Password1.", clave_aleatoria="clavealeatoria",
-                               clave_fija="clave_fija",
+                               password="Password1.", clave_aleatoria="clavealeat",
+                               clave_fija="clavefijausuario",
                                foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def test_url_registro_accesible(self):
@@ -49,8 +49,8 @@ class ClaveViewTest(TestCase):
     def test_post_registro_correcto(self):
         data = {
             'email': 'clave_view@gmail.com',
-            'contador': '0',
-            'clave': 'clavealeatoria'
+            'contador': 0,
+            'clave': 'clavealeat'
         }
 
         resp = self.client.post('/validar_clave/registro/clave_view@gmail.com/', data)
@@ -59,8 +59,8 @@ class ClaveViewTest(TestCase):
     def test_post_inicio_correcto(self):
         data = {
             'email': 'clave_view@gmail.com',
-            'contador': '0',
-            'clave': 'clavealeatoria'
+            'contador': 0,
+            'clave': 'clavealeat'
         }
 
         resp = self.client.post('/validar_clave/inicio_sesion/clave_view@gmail.com/', data)
@@ -69,8 +69,8 @@ class ClaveViewTest(TestCase):
     def test_post_inicio_incorrecto(self):
         data = {
             'email': 'clave_view@gmail.com',
-            'contador': '1',
-            'clave': 'clave'
+            'contador': 1,
+            'clave': 'clavealeat'
         }
 
         resp = self.client.post('/validar_clave/registro/mariajesus@gmail.com/', data)
@@ -82,8 +82,8 @@ class ClaveViewTest(TestCase):
 
         data = {
             'email': 'clave_view@gmail.com',
-            'contador': '1',
-            'clave': 'clave'
+            'contador': 1,
+            'clave': 'clavealeat'
         }
 
         resp = self.client.post('/validar_clave/registro/clave_view@gmail.com/', data)
@@ -100,8 +100,8 @@ class InicioViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         Usuario.objects.create_user(email="inicio_view@gmail.com", nombre="María Jesús",
-                               password="Password1.", clave_aleatoria="clave_aleatoria",
-                               clave_fija="clave_fija",
+                               password="Password1.", clave_aleatoria="clavealeat",
+                               clave_fija="clavefijausuario",
                                foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def test_url_accesible(self):
