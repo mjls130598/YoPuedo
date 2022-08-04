@@ -15,7 +15,7 @@ class RegistroViewTest(TestCase):
 
     def test_post_registro(self):
         data = {
-            'email': "mjls130598@gmail.com",
+            'email': "registro@view.com",
             'nombre': "María Jesús",
             'password': 'Password1.',
             'password_again': 'Password1.',
@@ -23,7 +23,7 @@ class RegistroViewTest(TestCase):
         }
         resp = self.client.post('/registrarse/', data)
         self.assertEqual(resp.status_code, HTTPStatus.OK)
-        self.assertTrue(Usuario.objects.filter(email='mjls130598@gmail.com').exists())
+        self.assertTrue(Usuario.objects.filter(email='registro@view.com').exists())
 
 
 ##########################################################################################
@@ -70,7 +70,7 @@ class ClaveViewTest(TestCase):
         data = {
             'email': 'clave_view@gmail.com',
             'contador': 1,
-            'clave': 'clavealeat'
+            'clave': 'clavealeatoria'
         }
 
         resp = self.client.post('/validar_clave/inicio_sesion/clave_view@gmail.com', data)
@@ -83,7 +83,7 @@ class ClaveViewTest(TestCase):
         data = {
             'email': 'clave_view@gmail.com',
             'contador': 1,
-            'clave': 'clavealeat'
+            'clave': 'clavealeatoria'
         }
 
         resp = self.client.post('/validar_clave/registro/clave_view@gmail.com', data)
