@@ -69,7 +69,7 @@ class ClaveViewTest(TestCase):
     def test_post_inicio_incorrecto(self):
         data = {
             'email': 'clave_view@gmail.com',
-            'contador': 1,
+            'contador': 2,
             'clave': 'clavealeatoria'
         }
 
@@ -82,7 +82,7 @@ class ClaveViewTest(TestCase):
 
         data = {
             'email': 'clave_view@gmail.com',
-            'contador': 1,
+            'contador': 2,
             'clave': 'clavealeatoria'
         }
 
