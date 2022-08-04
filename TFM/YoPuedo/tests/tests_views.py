@@ -27,7 +27,7 @@ class RegistroViewTest(TestCase):
             'foto_de_perfil': SimpleUploadedFile(foto_perfil.name, foto_perfil.read())
         }
         resp = self.client.post('/registrarse/', data, format='multipart')
-        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertTrue(Usuario.objects.filter(email='registro@view.com').exists())
 
 
