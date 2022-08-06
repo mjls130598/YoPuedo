@@ -80,7 +80,6 @@ class ClaveViewTest(TestCase):
 
         resp = self.client.post('/validar_clave/inicio_sesion/clave_view@gmail.com', data)
         self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
-        self.assertTrue(not resp.context['user'].is_authenticated)
         self.assertTrue(Usuario.objects.filter(email='clave_view@gmail.com').exists())
 
     def test_post_registro_incorrecto(self):
@@ -93,7 +92,6 @@ class ClaveViewTest(TestCase):
 
         resp = self.client.post('/validar_clave/registro/clave_view@gmail.com', data)
         self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
-        self.assertTrue(not resp.context['user'].is_authenticated)
         self.assertTrue(not Usuario.objects.filter(email='clave_view@gmail.com').exists())
 
 
