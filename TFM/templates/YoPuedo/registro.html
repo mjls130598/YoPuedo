@@ -91,7 +91,7 @@
   </div>
 <div class="modal fade" id="modal">
   <div class="modal-dialog row align-items-center" id="dialog" hx-target="this"
-  {% if url %} hx-get="{{url}}" hx-trigger="postRegistro from:body" {% endif %}>
+  {% if url %} hx-get="{{url}}"{% endif %} hx-trigger="postRegistro from:body" >
   </div>
 </div>
 </body>
