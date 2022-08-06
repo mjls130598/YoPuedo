@@ -45,7 +45,7 @@ def registrarse(request):
 
             response = render(request, "YoPuedo/registro.html",
                               {'register_form': form,
-                               'url': f'/validar_clave/registro/{email}/'},
+                               'url': f'/validar_clave/registro/{email}'},
                               status=HTTPStatus.CREATED)
 
             response['HX-Trigger'] = 'postRegistro'
