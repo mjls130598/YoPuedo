@@ -89,7 +89,8 @@
       </div>
     </section>
   </div>
-<div class="modal fade" id="modal">
+<div class="modal fade {% if url %} show {% endif %}" id="modal"
+     {% if url %} style="display: block;" aria-modal="true" role="dialog" {% endif %}>
   <div class="modal-dialog row align-items-center" id="dialog" hx-target="this"
   {% if url %} hx-get="{{url}}"{% endif %} hx-trigger="postRegistro from:body" >
   </div>
