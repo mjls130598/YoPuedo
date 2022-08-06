@@ -17,7 +17,8 @@
   {% bootstrap_css %}
   {% bootstrap_javascript %}
 </head>
-<body class="container">
+<body class="container {% if url % }modal-open"
+      style="overflow: hidden; padding-right: 12px;{% endif %}">
   <div id="contenedor" class="row align-items-center">
     <section id="registro" class="col">
       <div id="titulo-registro">
@@ -95,6 +96,10 @@
   {% if url %} hx-get="{{url}}"{% endif %} hx-trigger="postRegistro from:body" >
   </div>
 </div>
+
+{% if url %}
+<div class="modal-backdrop fade show"></div>
+{% endif %}
 </body>
 </html>
 <script>
