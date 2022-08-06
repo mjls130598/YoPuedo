@@ -2,7 +2,7 @@ import logging
 from http import HTTPStatus
 
 from django.contrib.auth import login, logout
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.template.loader import get_template
 
@@ -43,7 +43,9 @@ def registrarse(request):
 
             login(request, usuario, backend='django.contrib.auth.backends.ModelBackend')
 
-            return redirect(f'/validar_clave/registro/{email}')
+            return JsonResponse(status=HTTPStatus.CREATED,
+                                headers={'HX-Trigger': 'postRegistro'},
+                                data={'url': f'/validar_clave/registro/{email}/'})
         else:
             logger.error("Error al validar el formulario")
 
