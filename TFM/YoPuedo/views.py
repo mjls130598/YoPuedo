@@ -43,9 +43,14 @@ def registrarse(request):
 
             login(request, usuario, backend='django.contrib.auth.backends.ModelBackend')
 
-            return JsonResponse(status=HTTPStatus.CREATED,
-                                headers={'HX-Trigger': 'postRegistro'},
-                                data={'url': f'/validar_clave/registro/{email}/'})
+            response = render(request, "YoPuedo/registro.html",
+                              {'register_form': form,
+                               'url': f'/validar_clave/registro/{email}/'},
+                              status=HTTPStatus.CREATED)
+
+            response['HX-Trigger'] = 'postRegistro'
+
+            return response
         else:
             logger.error("Error al validar el formulario")
 
