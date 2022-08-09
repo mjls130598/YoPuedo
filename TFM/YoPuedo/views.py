@@ -129,9 +129,8 @@ def validar_clave(request, tipo, email):
         if clave_form.is_valid():
             if tipo == 'registro' or tipo == 'inicio_sesion':
                 logger.info("Iniciamos sesión")
-                return render(request, "YoPuedo/registro.html",
-                              {'register_form': RegistroForm()},
-                              status=HTTPStatus.ACCEPTED)
+                return HttpResponse(status=HTTPStatus.CREATED,
+                                    headers={'HX-Trigger': 'postRegistro'})
 
         else:
             contador = int(clave_form['contador'].value())
