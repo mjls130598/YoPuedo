@@ -43,11 +43,8 @@ def registrarse(request):
 
             login(request, usuario, backend='django.contrib.auth.backends.ModelBackend')
 
-            return render(request, "YoPuedo/registro.html",
-                          {'register_form': form,
-                           'url': f'/validar_clave/registro/{email}',
-                           'peticion_clave': ClaveForm(initial={'email': email, 'contador': 0})},
-                          status=HTTPStatus.CREATED)
+            return HttpResponse(status=HTTPStatus.CREATED,
+                                headers={'HX-Trigger': 'postRegistro'})
         else:
             logger.error("Error al validar el formulario")
 
@@ -130,7 +127,7 @@ def validar_clave(request, tipo, email):
             if tipo == 'registro' or tipo == 'inicio_sesion':
                 logger.info("Iniciamos sesión")
                 return HttpResponse(status=HTTPStatus.CREATED,
-                                    headers={'HX-Trigger': 'postRegistro'})
+                                    headers={'HX-Trigger': 'postClave'})
 
         else:
             contador = int(clave_form['contador'].value())
@@ -150,9 +147,7 @@ def validar_clave(request, tipo, email):
                     if tipo == 'registro':
                         Usuario.objects.get(email=email).delete()
 
-                return render(request, "YoPuedo/registro.html",
-                              {'register_form': RegistroForm()},
-                              status=HTTPStatus.FORBIDDEN)
+                return HttpResponse(status=HTTPStatus.FORBIDDEN)
 
     return render(request, "YoPuedo/peticion-clave.html", {'peticion_clave': clave_form})
 

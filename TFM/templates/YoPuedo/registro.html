@@ -17,10 +17,8 @@
   {% bootstrap_css %}
   {% bootstrap_javascript %}
 </head>
-<body class="container {% if url %}modal-open {% endif %}"
-      {% if url %}style="overflow: hidden; padding-right: 12px;"{% endif %}
-      hx-trigger="postRegistro from:body" hx-get="{% url 'index' %}" hx-target="this"
->
+<body class="container" hx-trigger="postClave from:body" hx-get="{% url 'index' %}"
+      hx-target="this">
   <div id="contenedor" class="row align-items-center">
     <section id="registro" class="col">
       <div id="titulo-registro">
@@ -30,7 +28,10 @@
         </h2>
       </div>
       <div id="formulario-registro">
-        <form class="form" method="post" action="{% url 'registrarse' %}" enctype="multipart/form-data">
+        <form class="form" method="post" action="{% url 'registrarse' %}" enctype="multipart/form-data"
+        hx-get = "{% url 'validar_clave' tipo='registro' email=register_form.email %}"
+              hx-trigger="postRegistro from:body"
+              hx-target="#dialog">
           {% csrf_token %}
           {% for field in register_form %}
           <div class='form-group {% if field.errors %} errorlist {% endif %}'>
@@ -92,13 +93,8 @@
       </div>
     </section>
   </div>
-<div class="modal fade {% if url %} show {% endif %}" id="modal"
-     {% if url %} style="display: block;" aria-modal="true" role="dialog" {% endif %}>
-  <div class="modal-dialog row align-items-center" id="dialog" hx-target="this"
-  {% if url %} hx-get="{{url}}"{% endif %}>
-    {% if url %}
-      {% include 'YoPuedo/peticion-clave.html' %}
-    {% endif %}
+<div class="modal fade" id="modal">
+  <div class="modal-dialog row align-items-center" id="dialog" hx-target="this">
   </div>
 </div>
 
