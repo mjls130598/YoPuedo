@@ -19,9 +19,8 @@
 </head>
 <body class="container" hx-trigger="postClave from:body" hx-get="{% url 'index' %}"
       hx-target="this">
-  <div id="contenedor" class="row align-items-center"
-              {% if email %}hx-get =
-                      "{% url 'validar_clave' tipo='registro' email=email %}" {% endif %}
+  <div id="contenedor" class="row align-items-center" data-bs-toggle="modal"
+              {% if email %}hx-get="{% url 'validar_clave' tipo='registro' email=email %}" {% endif %}
               hx-trigger="postRegistro from:body" hx-target="#dialog">
     <section id="registro" class="col">
       <div id="titulo-registro">
