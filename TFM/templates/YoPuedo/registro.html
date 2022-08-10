@@ -19,7 +19,10 @@
 </head>
 <body class="container" hx-trigger="postClave from:body" hx-get="{% url 'index' %}"
       hx-target="this">
-  <div id="contenedor" class="row align-items-center">
+  <div id="contenedor" class="row align-items-center"
+              {% if email %}hx-get =
+                      "{% url 'validar_clave' tipo='registro' email=email %}" {% endif %}
+              hx-trigger="postRegistro from:body" hx-target="#dialog">
     <section id="registro" class="col">
       <div id="titulo-registro">
         <h2>
@@ -28,10 +31,7 @@
         </h2>
       </div>
       <div id="formulario-registro">
-        <form class="form" method="post" action="{% url 'registrarse' %}" enctype="multipart/form-data"
-              {% if email %}hx-get =
-                      "{% url 'validar_clave' tipo='registro' email=email %}" {% endif %}
-              hx-trigger="postRegistro from:body" hx-target="#dialog">
+        <form class="form" method="post" action="{% url 'registrarse' %}" enctype="multipart/form-data">
           {% csrf_token %}
           {% for field in register_form %}
           <div class='form-group {% if field.errors %} errorlist {% endif %}'>
