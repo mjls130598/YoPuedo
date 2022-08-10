@@ -29,9 +29,9 @@
       </div>
       <div id="formulario-registro">
         <form class="form" method="post" action="{% url 'registrarse' %}" enctype="multipart/form-data"
-        hx-get = "{% url 'validar_clave' tipo='registro' email=register_form.email %}"
-              hx-trigger="postRegistro from:body"
-              hx-target="#dialog">
+              hx-get =
+                      "{% url 'validar_clave' tipo='registro' email=register_form.email.value %}"
+              hx-trigger="postRegistro from:body" hx-target="#dialog">
           {% csrf_token %}
           {% for field in register_form %}
           <div class='form-group {% if field.errors %} errorlist {% endif %}'>
