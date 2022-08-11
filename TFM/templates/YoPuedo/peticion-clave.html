@@ -1,8 +1,3 @@
-{% load i18n static bootstrap5 tags_registro %}
-<link rel="stylesheet" href="{% static 'YoPuedo/css/registro.css'%}">
-<link rel="stylesheet" href="{% static 'YoPuedo/css/iniciar_sesion.css'%}">
-<link rel="stylesheet" href="{% static 'YoPuedo/css/peticion-clave.css'%}">
-<link rel="stylesheet" href="{% static 'YoPuedo/css/base.css'%}">
 <form class="form modal-content" hx-post="{{ request.path }}">
   <div class="modal-header">
     <h5 class="modal-title titulo-peticionclave" id="validar_clave_label">
