@@ -95,11 +95,24 @@
   </div>
 </div>
 
+<div class="modal fade" id="clave-modal">
+  <div class="modal-dialog row align-items-center" id="dialog-clave" hx-target="this">
+    {% include 'YoPuedo/peticion-clave.html'%}
+  </div>
+</div>
+
 {% if url %}
 <div class="modal-backdrop fade show"></div>
 {% endif %}
 </body>
 </html>
+{% if url %}
+<script>
+  $(document).ready(function(){
+    $("#clave-modal").modal();
+  });
+</script>
+{% endif %}
 <script>
   function escribirPassword(input, value){
     inputValue = document.getElementById(input).value;
@@ -142,8 +155,4 @@
     document.getElementById("dialog").innerHTML = ""
   })
 })()
-
-$(document).ready(function(){
-        $("#modal").modal('show');
-    });
 </script>
