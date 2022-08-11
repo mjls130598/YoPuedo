@@ -43,8 +43,12 @@ def registrarse(request):
 
             login(request, usuario, backend='django.contrib.auth.backends.ModelBackend')
 
+            clave_form = ClaveForm(initial={'email': email, 'contador': 0})
+
             return render(request, "YoPuedo/registro.html",
-                          {'register_form': form, 'url': f'/validar_clave/registro/{email}'})
+                          {'register_form': form,
+                           'url': f'/validar_clave/registro/{email}',
+                           'peticion_clave': clave_form})
 
         else:
             logger.error("Error al validar el formulario")
