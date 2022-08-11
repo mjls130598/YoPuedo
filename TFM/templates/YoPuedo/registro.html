@@ -113,7 +113,9 @@
     $("#clave-modal").modal('show');
   });
 </script>
-{% else %}
+{% endif %}
+
+{% if modalOff%}
 <script>
   $(document).ready(function(){
     $("#clave-modal").modal('hide');
