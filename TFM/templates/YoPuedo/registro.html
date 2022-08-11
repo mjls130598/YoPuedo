@@ -28,8 +28,7 @@
         </h2>
       </div>
       <div id="formulario-registro">
-        <form class="form" method="post" action="{% url 'registrarse' %}" enctype="multipart/form-data"
-        hx-get="{% url 'iniciar_sesion' %}" hx-target="#dialog" data-bs-toggle="modal">
+        <form class="form" method="post" action="{% url 'registrarse' %}" enctype="multipart/form-data">
           {% csrf_token %}
           {% for field in register_form %}
           <div class='form-group {% if field.errors %} errorlist {% endif %}'>
