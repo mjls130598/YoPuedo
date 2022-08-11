@@ -91,7 +91,8 @@
     </section>
   </div>
 <div class="modal fade" id="modal">
-  <div class="modal-dialog row align-items-center" id="dialog" hx-target="this">
+  <div class="modal-dialog row align-items-center" id="dialog"
+  hx-trigger="postRegistro from:body" hx-get="{% url 'iniciar_sesion' %}" hx-target="this">
   </div>
 </div>
 
@@ -130,21 +131,10 @@
     }
   })
 
-  htmx.on("htmx:afterOnLoad", (e) => {
-    // Response targeting #dialog => show the modal
-    if (e.detail.target.id == "dialog") {
-      modal.show()
-    }
-  })
-
   htmx.on("htmx:beforeSwap", (e) => {
     // Empty response targeting #dialog => hide the modal
     if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
       modal.hide()
-      e.detail.shouldSwap = false
-      if(e.detail.xhr.response.status == 202){
-          location.href = '/'
-      }
     }
   })
   // Remove dialog content after hiding
