@@ -28,7 +28,8 @@
         </h2>
       </div>
       <div id="formulario-registro">
-        <form class="form" method="post" action="{% url 'registrarse' %}" enctype="multipart/form-data">
+        <form class="form" method="post" action="{% url 'registrarse' %}" enctype="multipart/form-data"
+        hx-get="{% url iniciar_sesion %}" hx-target="#dialog" data-bs-toggle="modal">
           {% csrf_token %}
           {% for field in register_form %}
           <div class='form-group {% if field.errors %} errorlist {% endif %}'>
@@ -91,9 +92,7 @@
     </section>
   </div>
 <div class="modal fade" id="modal">
-  <div class="modal-dialog row align-items-center" id="dialog"
-  hx-trigger="postRegistro" hx-post="{% url 'iniciar_sesion' %}"
-       hx-target="this">
+  <div class="modal-dialog row align-items-center" id="dialog" hx-target="this">
   </div>
 </div>
 
