@@ -92,7 +92,8 @@
   </div>
 <div class="modal fade" id="modal">
   <div class="modal-dialog row align-items-center" id="dialog"
-  hx-trigger="postRegistro from:body" hx-get="{% url 'iniciar_sesion' %}" hx-target="this">
+  hx-trigger="postRegistro" hx-post="{% url 'iniciar_sesion' %}"
+       hx-target="this">
   </div>
 </div>
 
