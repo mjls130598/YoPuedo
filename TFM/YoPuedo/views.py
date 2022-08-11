@@ -43,8 +43,7 @@ def registrarse(request):
 
             login(request, usuario, backend='django.contrib.auth.backends.ModelBackend')
 
-            response = render(request, "YoPuedo/registro.html", {'register_form': form},
-                          status=HTTPStatus.CREATED)
+            response = render(request, "YoPuedo/registro.html", {'register_form': form})
 
             response.headers = {'HX-Trigger': 'postRegistro'}
             return response
