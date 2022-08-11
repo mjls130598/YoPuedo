@@ -131,8 +131,9 @@ def validar_clave(request, tipo, email):
         if clave_form.is_valid():
             if tipo == 'registro' or tipo == 'inicio_sesion':
                 logger.info("Iniciamos sesión")
-                return HttpResponse(status=HTTPStatus.CREATED,
-                                    headers={'HX-Trigger': 'postClave'})
+                return JsonResponse(status=HTTPStatus.CREATED,
+                                    headers={'HX-Trigger': 'postClave'},
+                                    data={'modalOff': 'true'})
 
         else:
             contador = int(clave_form['contador'].value())
@@ -152,7 +153,8 @@ def validar_clave(request, tipo, email):
                     if tipo == 'registro':
                         Usuario.objects.get(email=email).delete()
 
-                return HttpResponse(status=HTTPStatus.FORBIDDEN)
+                return JsonResponse(status=HTTPStatus.FORBIDDEN,
+                                    data={'modalOff': 'true'})
 
     return render(request, "YoPuedo/peticion-clave.html", {'peticion_clave': clave_form})
 

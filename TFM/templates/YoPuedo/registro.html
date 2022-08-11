@@ -113,6 +113,12 @@
     $("#clave-modal").modal('show');
   });
 </script>
+{% else %}
+<script>
+  $(document).ready(function(){
+    $("#clave-modal").modal('hide');
+  });
+</script>
 {% endif %}
 <script>
   function escribirPassword(input, value){
