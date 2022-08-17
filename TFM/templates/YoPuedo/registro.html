@@ -92,13 +92,8 @@
     </section>
   </div>
 <div class="modal fade" id="modal">
-  <div class="modal-dialog row align-items-center" id="dialog" hx-target="this">
-  </div>
-</div>
-
-<div class="modal fade" id="clave-modal">
-  <div class="modal-dialog row align-items-center" id="dialog-clave" hx-target="this">
-    {% include 'YoPuedo/peticion-clave.html'%}
+  <div class="modal-dialog row align-items-center" id="dialog" hx-target="this"
+       hx-get="{% url url %}">
   </div>
 </div>
 
@@ -110,18 +105,11 @@
 {% if url %}
 <script>
   $(document).ready(function(){
-    $("#clave-modal").modal('show');
+    $("#modal").modal('show');
   });
 </script>
 {% endif %}
 
-{% if modalOff%}
-<script>
-  $(document).ready(function(){
-    $("#clave-modal").modal('hide');
-  });
-</script>
-{% endif %}
 <script>
   function escribirPassword(input, value){
     inputValue = document.getElementById(input).value;

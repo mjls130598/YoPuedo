@@ -47,8 +47,7 @@ def registrarse(request):
 
             return render(request, "YoPuedo/registro.html",
                           {'register_form': form,
-                           'url': f'/validar_clave/registro/{email}',
-                           'peticion_clave': clave_form})
+                           'url': f'/validar_clave/registro/{email}'})
 
         else:
             logger.error("Error al validar el formulario")
@@ -131,9 +130,8 @@ def validar_clave(request, tipo, email):
         if clave_form.is_valid():
             if tipo == 'registro' or tipo == 'inicio_sesion':
                 logger.info("Iniciamos sesión")
-                return JsonResponse(status=HTTPStatus.CREATED,
-                                    headers={'HX-Trigger': 'postClave'},
-                                    data={'modalOff': 'true'})
+                return HttpResponse(status=HTTPStatus.CREATED,
+                                    headers={'HX-Trigger': 'postClave'})
 
         else:
             contador = int(clave_form['contador'].value())
@@ -153,8 +151,7 @@ def validar_clave(request, tipo, email):
                     if tipo == 'registro':
                         Usuario.objects.get(email=email).delete()
 
-                return JsonResponse(status=HTTPStatus.FORBIDDEN,
-                                    data={'modalOff': 'true'})
+                return HttpResponse(status=HTTPStatus.FORBIDDEN)
 
     return render(request, "YoPuedo/peticion-clave.html", {'peticion_clave': clave_form})
 
