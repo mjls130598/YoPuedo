@@ -28,7 +28,7 @@ class RegistroViewTest(TestCase):
         }
         resp = self.client.post('/registrarse/', data, format='multipart')
         self.assertEqual(resp.status_code, HTTPStatus.CREATED)
-        self.assertTrue(Usuario.objects.filter(email='registro@view.com').exists())
+        self.assertTrue(Usuario.objects.filter(email='registro@email.com').exists())
 
 
 ##########################################################################################
