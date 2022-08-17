@@ -91,12 +91,16 @@
       </div>
     </section>
   </div>
-<div class="modal fade" id="modal">
-  <div class="modal-dialog row align-items-center" id="dialog" hx-target="this"
-       {% if url %} hx-get="{{ url }}" hx-trigger="postRegistro" data-bs-toggle="modal"
-       {% endif %}>
+
+  {% if url %}
+  <div hx-get="{{ url }}" hx-trigger="load" data-bs-toggle="modal" hx-target="#dialog">
   </div>
-</div>
+  {% endif %}
+
+  <div class="modal fade" id="modal">
+    <div class="modal-dialog row align-items-center" id="dialog" hx-target="this">
+    </div>
+  </div>
 </body>
 </html>
 
