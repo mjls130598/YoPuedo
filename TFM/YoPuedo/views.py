@@ -45,7 +45,8 @@ def registrarse(request):
 
             return render(request, "YoPuedo/registro.html",
                           {'register_form': form,
-                           'url': f'/validar_clave/registro/{email}'})
+                           'url': f'/validar_clave/registro/{email}'},
+                          status=HTTPStatus.CREATED)
 
         else:
             logger.error("Error al validar el formulario")
