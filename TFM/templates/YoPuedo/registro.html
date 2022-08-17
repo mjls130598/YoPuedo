@@ -93,7 +93,7 @@
   </div>
 <div class="modal fade" id="modal">
   <div class="modal-dialog row align-items-center" id="dialog" hx-target="this"
-       {% if url %} hx-get="{{ url }}" hx-trigger="load" {% endif %}>
+       {% if url %} hx-get="{{ url }}" hx-trigger="load" data-bs-toggle="modal" {% endif %}>
   </div>
 </div>
 
@@ -102,13 +102,6 @@
 {% endif %}
 </body>
 </html>
-{% if url %}
-<script>
-  $(document).ready(function(){
-    $("#modal").modal('show');
-  });
-</script>
-{% endif %}
 
 <script>
   function escribirPassword(input, value){
