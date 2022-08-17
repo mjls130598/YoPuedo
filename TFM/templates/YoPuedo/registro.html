@@ -93,7 +93,7 @@
   </div>
 <div class="modal fade" id="modal">
   <div class="modal-dialog row align-items-center" id="dialog" hx-target="this"
-       hx-get="{{ url }}" hx-trigger="load">
+       {% if url %} hx-get="{{ url }}" hx-trigger="load" {% endif %}>
   </div>
 </div>
 
