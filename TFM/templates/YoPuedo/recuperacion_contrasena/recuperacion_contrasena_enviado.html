@@ -1,4 +1,4 @@
-<div class="modal-content"">
+<div class="modal-content">
   <div class="modal-header">
         <h5 class="modal-title titulo-recuperarcontrasena">Recuperar cuenta enviado</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -12,7 +12,8 @@
             </h6>
         </div>
         <div class="col">
-            {% include 'YoPuedo/elementos/altavoz.html' %}
+            {% include 'YoPuedo/elementos/altavoz.html'  with
+            elementSpeech='texto_reproducir'%}
         </div>
     </div>
   </div>
