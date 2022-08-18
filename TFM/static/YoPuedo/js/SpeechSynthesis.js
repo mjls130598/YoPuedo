@@ -14,7 +14,7 @@ function sintesisVoz(elementSpeech){
     console.log("'Traducimos' texto a voz");
 
     // Seleccionamos el idioma en el que lo tiene que decir (castellano)
-    speechUtterance.voice = synth.getVoices()[14];
+    speechUtterance.voice = synth.getVoices()[15];
     console.log("Seleccionamos idioma");
 
     // Mandamos al altavoz la "traducción" recogida
