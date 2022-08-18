@@ -20,3 +20,10 @@
     border-radius: 0.25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
+
+@media screen and (min-width: 768px){
+
+    ..col-10.speech, .col-10.recuperar-contrasena{
+        width: 75%;
+    }
+}

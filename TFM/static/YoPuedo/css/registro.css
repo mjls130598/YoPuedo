@@ -72,15 +72,15 @@ body.container {
 @media screen and (min-width: 768px){
 
     .col-10.password, .col-10.password_again, .col-10.new_password1,
-    .col-10.new_password2, .col-10.speech, .col-10.recuperar-contrasena{
+    .col-10.new_password2{
         width: 75%;
     }
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 767px){
 
     .col-10.password, .col-10.password_again, .col-10.new_password1,
-    .col-10.new_password2, .col-10.speech, .col-10.recuperar-contrasena{
+    .col-10.new_password2{
         width: 66.66666667%;
     }
 }
