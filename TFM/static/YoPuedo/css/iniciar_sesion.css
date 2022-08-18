@@ -8,10 +8,17 @@
     background-color: #03A9F4;
 }
 
-@media screen and (min-width: 768px){
+@media screen and (min-width: 465px){
 
     .col-10.password_sesion{
         width: 75%;
+    }
+}
+
+@media screen and (min-width: 396px) and (max-width: 464px){
+
+    .col-10.password_sesion{
+        width: 70%;
     }
 }
 
@@ -22,7 +29,14 @@
     }
 }
 
-@media screen and (max-width: 412px){
+@media screen and (max-width: 412px) and (min-width: 373px){
+
+    .col-10.password_sesion{
+        width: 68%;
+    }
+}
+
+@media screen and (max-width: 374px){
 
     .col-10.password_sesion{
         width: 65%;
