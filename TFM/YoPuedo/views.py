@@ -154,6 +154,11 @@ def validar_clave(request, tipo, email):
 
     return render(request, "YoPuedo/peticion-clave.html", {'peticion_clave': clave_form})
 
+##########################################################################################
+
+# Función de validación de clave
+def mis_retos(request):
+    return render(request, "YoPuedo/mis_retos.html")
 
 def index(request):
     logger.info("Entramos a la parte GET de INDEX")

@@ -22,4 +22,5 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(
         template_name='YoPuedo/recuperacion_contrasena/recuperacion_done.html',
     ), name="password_reset_complete"),
+    path('mis_retos/', views.mis_retos, name="mis_retos"),
 ]
