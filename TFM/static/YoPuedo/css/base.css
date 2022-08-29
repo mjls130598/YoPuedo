@@ -56,6 +56,7 @@ body.container{
     align-items: stretch;
     perspective: 1500px;
     height: 100%;
+    margin: 0%;
 }
 
 #sidebar {
@@ -113,8 +114,8 @@ body.container{
 }
 
 #sidebar ul.components {
-    padding: 20px 0;
-    border-bottom: 1px solid #04C5B3;
+    padding: 0;
+    margin: 0;
 }
 
 #sidebar ul li a {
@@ -132,7 +133,7 @@ body.container{
 
 #sidebar ul li a:hover {
     color: #04C5B3;
-    background: #white;
+    background-color: #white;
 }
 
 #sidebar ul li.active > a, a[aria-expanded="true"] {
@@ -148,16 +149,8 @@ ul ul a {
 #sidebarCollapse {
     width: 40px;
     height: 40px;
-    background: #f5f5f5;
-}
-
-#sidebarCollapse span {
-    width: 80%;
-    height: 2px;
-    margin: 0 auto;
-    display: block;
-    background: #555;
-    transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
+    background: #035D55;
+    color: white;
 }
 
 #sidebarCollapse span:first-of-type {
@@ -179,4 +172,8 @@ ul ul a {
     /* all bars are visible */
     opacity: 1;
     margin: 5px auto;
+}
+
+.content{
+    width: 100%;
 }

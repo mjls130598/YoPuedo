@@ -18,46 +18,50 @@
   {% endblock %}
 </head>
 <body class="container">
+  <div class="wrapper">
+    <!-- MENÚ DESPLEGABLE -->
+    <nav id="sidebar">
+      <!-- Sidebar Header -->
+      <div class="sidebar-header"></div>
 
-<div class="wrapper">
-  <!-- MENÚ DESPLEGABLE -->
-  <nav id="sidebar">
-    <!-- Sidebar Links -->
-    <ul class="list-unstyled components">
-      <li class="active">
-        <a href="{% url 'mis_retos' %}">
-          <i class="bi bi-graph-up"></i>Mis retos
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="bi bi-people-fill"></i>Mis amigos
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="bi bi-person-fill"></i>Mi perfil
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="bi bi-bell-fill"></i>Notificaciones
-        </a>
-      </li>
-    </ul>
-  </nav>
+      <!-- Sidebar Links -->
+      <ul class="list-unstyled components">
+        <li class="active">
+          <a href="{% url 'mis_retos' %}">
+            <i class="bi bi-graph-up"></i>Mis retos
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="bi bi-people-fill"></i>Mis amigos
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="bi bi-person-fill"></i>Mi perfil
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="bi bi-bell-fill"></i>Notificaciones
+          </a>
+        </li>
+      </ul>
+    </nav>
 
-  <div id="content">
-    <button type="button" id="sidebarCollapse" class="navbar-btn">
+    <div id="content">
+      <div class="sidebar-header">
+        <button type="button" id="sidebarCollapse" class="btn btn-primary navbar-btn">
+          <i class="bi bi-list"></i>
+        </button>
+      </div>
 
-    </button>
+      {% block contenido %}
+      {% endblock %}
 
-    {% block contenido %}
-    {% endblock %}
+    </div>
 
   </div>
-
-</div>
 </body>
 <script>
   $(document).ready(function () {
