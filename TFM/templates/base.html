@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>¡Yo puedo!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
@@ -16,15 +17,11 @@
   {% block static %}
   {% endblock %}
 </head>
-<body>
+<body class="container">
 
 <div class="wrapper">
   <!-- MENÚ DESPLEGABLE -->
   <nav id="sidebar">
-    <!-- Sidebar Header -->
-    <div class="sidebar-header">
-    </div>
-
     <!-- Sidebar Links -->
     <ul class="list-unstyled components">
       <li class="active">
@@ -52,9 +49,7 @@
 
   <div id="content">
     <button type="button" id="sidebarCollapse" class="navbar-btn">
-    <span></span>
-    <span></span>
-    <span></span>
+
     </button>
 
     {% block contenido %}

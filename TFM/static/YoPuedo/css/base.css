@@ -34,6 +34,7 @@
 
 body.container{
     font-family: 'Comic Neue', cursive;
+    height: 100%;
 }
 
 @media screen and (max-width: 1199px){
@@ -54,13 +55,13 @@ body.container{
     display: flex;
     align-items: stretch;
     perspective: 1500px;
+    height: 100%;
 }
 
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: #7386D5;
-    color: #fff;
+    background: #04C5B3;
     transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);
     transform-origin: center left; /* Set the transformed position of sidebar to center left side. */
 }
@@ -111,39 +112,37 @@ body.container{
     }
 }
 
-#sidebar .sidebar-header {
-    padding: 20px;
-    background: #6d7fcc;
-}
-
 #sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #47748b;
-}
-
-#sidebar ul p {
-    color: #fff;
-    padding: 10px;
+    border-bottom: 1px solid #04C5B3;
 }
 
 #sidebar ul li a {
     padding: 10px;
     font-size: 1.1em;
     display: block;
+    color: white;
+    font-weight: bold;
 }
+
+#sidecar i {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
 #sidebar ul li a:hover {
-    color: #7386D5;
-    background: #fff;
+    color: #04C5B3;
+    background: #white;
 }
 
 #sidebar ul li.active > a, a[aria-expanded="true"] {
-    color: #fff;
-    background: #6d7fcc;
+    color: #white;
+    background: #035D55;
 }
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #6d7fcc;
+    background: #035D55;
 }
 
 #sidebarCollapse {
