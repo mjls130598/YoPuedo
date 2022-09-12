@@ -35,7 +35,6 @@
 body.container{
     font-family: 'Comic Neue', cursive;
     height: 100%;
-    margin: 0%;
 }
 
 @media screen and (max-width: 1199px){
