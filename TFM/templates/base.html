@@ -51,17 +51,17 @@
     </nav>
 
     <div id="content">
-      <div class="sidebar-header">
-        <button type="button" id="sidebarCollapse" class="btn btn-primary navbar-btn">
-          <i class="bi bi-list"></i>
-        </button>
-        <div id="nombre-app">
-          <h3>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light sidebar-header">
+        <div class="container-fluid">
+          <button type="button" id="sidebarCollapse" class="btn btn-primary navbar-btn">
+            <i class="bi bi-list"></i>
+          </button>
+          <h5 class="collapse navbar-collapse">
             ¡Yo puedo!
             <i class="bi bi-award-fill"></i>
-          </h3>
+          </h5>
         </div>
-      </div>
+      </nav>
 
       {% block contenido %}
       {% endblock %}
