@@ -42,7 +42,7 @@ body.container.basic{
     padding: 0;
 }
 
-h5.collapse.navbar-collapse.align-items-center {
+h5.collapse.navbar-collapse {
     justify-content: center;
     color: white;
     font-weight: bold;
