@@ -140,6 +140,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGOUT_REDIRECT_URL = '/registrarse/'
 LOGIN_REDIRECT_URL = '/registrarse/'
+LOGIN_URL = '/registrarse/'
 
 LOG_FILE = os.path.join(BASE_DIR, 'Server.log')
 
