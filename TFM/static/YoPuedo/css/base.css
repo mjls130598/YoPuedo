@@ -115,7 +115,6 @@ body.container{
 #sidebar ul.components {
     padding: 0;
     margin: 0;
-    border: 2px solid #035D55;
 }
 
 #sidebar ul li a {
@@ -124,11 +123,6 @@ body.container{
     display: block;
     color: white;
     font-weight: bold;
-}
-
-#sidebar li{
-    border-top: 2px solid #035D55;
-    border-bottom: 2px solid #035D55;
 }
 
 #sidecar i {
@@ -154,9 +148,10 @@ ul ul a {
 #sidebarCollapse {
     width: 40px;
     height: 40px;
-    background: #04C5B3;
-    color: white;
-    border-right: 2px solid #035D55;
+    color: #04C5B3;
+    background: white;
+    border-color: white;
+    border-style: solid;
 }
 
 #sidebarCollapse span:first-of-type {
@@ -189,10 +184,6 @@ ul ul a {
     background: #04C5B3;
 }
 
-#content > .sidebar-header.row {
-    border: 2px solid #035D55;
-}
-
-#sidebar > .sidebar-header, .components > li{
-    border-bottom: 2px solid #035D55;
+a > i {
+    margin-right: 2%;
 }
