@@ -35,8 +35,29 @@
 body.container{
     font-family: 'Comic Neue', cursive;
     height: 100%;
+}
+
+body.container.basic{
     max-width: 100%;
     padding: 0;
+}
+
+h5.collapse.navbar-collapse.align-items-center {
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    padding-top: 1%;
+}
+
+.sidebar-header > .container-fluid {
+    padding: 0;
+    margin: 0;
+}
+
+.navbar{
+    background: #04C5B3;
+    padding: 20px;
+    margin: 0;
 }
 
 @media screen and (max-width: 1199px){
@@ -179,11 +200,6 @@ ul ul a {
 
 #content{
     width: 100%;
-}
-
-.sidebar-header {
-    height: 40px;
-    background: #04C5B3;
 }
 
 a > i {
