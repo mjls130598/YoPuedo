@@ -132,6 +132,7 @@ h5.titulo {
     display: block;
     color: white;
     font-weight: bold;
+    text-decoration: none;
 }
 
 #sidecar i {
