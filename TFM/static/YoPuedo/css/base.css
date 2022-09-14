@@ -43,13 +43,11 @@ body.container{
 }
 
 h5.titulo {
-    justify-content: center;
+    text-align: center;
     color: white;
     font-weight: bold;
     padding-top: 1%;
 }
-
-
 
 #cabecera{
     background: #04C5B3;
@@ -58,7 +56,14 @@ h5.titulo {
     padding-left: 0.5%;
 }
 
-@media screen and (min-width: 1255px){
+@media screen and (min-width: 1590px) and (max-width: 15px){
+
+    .titulo.col-11{
+        width: 97%;
+    }
+}
+
+@media screen and (min-width: 1255px) and (max-width: 1589px){
 
     .titulo.col-11{
         width: 96%;
