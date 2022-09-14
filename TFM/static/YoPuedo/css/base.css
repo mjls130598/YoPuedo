@@ -85,7 +85,7 @@ h5.titulo {
     }
 }
 
-@media screen and (((min-width: 566px) and (max-width: 666px)) or ((min-width: 825px) and
+@media screen and (((min-width: 567px) and (max-width: 666px)) or ((min-width: 825px) and
 (max-width: 939px))){
 
     .titulo.col-11{
