@@ -168,10 +168,7 @@ h5.titulo {
 }
 
 .wrapper {
-    display: flex;
-    align-items: stretch;
-    perspective: 1500px;
-    height: 100%;
+    display: block;
 }
 
 #sidebar {
@@ -182,6 +179,11 @@ h5.titulo {
     top: 0;
     left: 0;
     z-index: 9999;
+    height: 100%;
+}
+
+#sidebar.active {
+    left: 0;
 }
 
 .overlay {
