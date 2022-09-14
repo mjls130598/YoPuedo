@@ -56,99 +56,6 @@ h5.titulo {
     padding-left: 0.5%;
 }
 
-@media screen and (min-width: 1590px) and (max-width: 15px){
-
-    .titulo.col-11{
-        width: 97%;
-    }
-}
-
-@media screen and (min-width: 1255px) and (max-width: 1589px){
-
-    .titulo.col-11{
-        width: 96%;
-    }
-}
-
-@media screen and (min-width: 1054px) and (max-width: 1254px){
-
-    .titulo.col-11{
-        width: 95%;
-    }
-}
-
-@media screen and (((min-width: 667px) and (max-width: 767px)) or ((min-width: 940px) and
-(max-width: 1053px))){
-
-    .titulo.col-11{
-        width: 94%;
-    }
-}
-
-@media screen and (((min-width: 567px) and (max-width: 666px)) or ((min-width: 825px) and
-(max-width: 939px))){
-
-    .titulo.col-11{
-        width: 93%;
-    }
-}
-
-@media screen and (min-width: 500px) and (max-width: 565px){
-
-    .titulo.col-11{
-        width: 92%;
-    }
-}
-
-@media screen and (min-width: 445px) and (max-width: 499px){
-
-    .titulo.col-11{
-        width: 91%;
-    }
-}
-
-@media screen and (min-width: 400px) and (max-width: 444px){
-
-    .titulo.col-11{
-        width: 90%;
-    }
-}
-
-@media screen and (min-width: 364px) and (max-width: 399px){
-
-    .titulo.col-11{
-        width: 89%;
-    }
-}
-
-@media screen and (min-width: 334px) and (max-width: 363px){
-
-    .titulo.col-11{
-        width: 88%;
-    }
-}
-
-@media screen and (min-width: 308px) and (max-width: 333px){
-
-    .titulo.col-11{
-        width: 87%;
-    }
-}
-
-@media screen and (min-width: 286px) and (max-width: 307px){
-
-    .titulo.col-11{
-        width: 86%;
-    }
-}
-
-@media screen and (max-width: 285px){
-
-    .titulo.col-11{
-        width: 85%;
-    }
-}
-
 @media screen and (max-width: 1199px){
 
     .btn.btn-primary.principales{
@@ -254,6 +161,7 @@ ul ul a {
     background: white;
     border-color: white;
     border-style: solid;
+    flex: 0;
 }
 
 #sidebarCollapse span:first-of-type {
