@@ -24,6 +24,7 @@
     <nav id="sidebar">
       <!-- Sidebar Links -->
       <ul class="list-unstyled components">
+
         <li class="active">
           <a href="{% url 'mis_retos' %}">
             <i class="bi bi-graph-up"></i>Mis retos
@@ -48,17 +49,18 @@
     </nav>
 
     <div id="content">
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid">
-          <button type="button" id="sidebarCollapse" class="btn btn-primary navbar-btn">
+      <div id="cabecera" class="container basic">
+        <div class="row">
+          <button type="button" id="sidebarCollapse"
+                  class="btn btn-primary col">
             <i class="bi bi-list"></i>
           </button>
-          <h5 class="collapse navbar-collapse">
+          <h5 class="titulo col-11">
             ¡Yo puedo!
             <i class="bi bi-award-fill"></i>
           </h5>
         </div>
-      </nav>
+      </div>
 
       {% block contenido %}
       {% endblock %}
