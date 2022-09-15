@@ -25,7 +25,9 @@
     <nav id="sidebar">
 
       <div id="dismiss">
+        <button id="cierre_menu" class="btn btn-primary principales">
           <i class="bi bi-arrow-left"></i>
+        </button>
       </div>
 
       <ul class="list-unstyled components">
@@ -56,11 +58,11 @@
     <div id="content">
       <div id="cabecera" class="container basic">
         <div class="row">
-          <button type="button" id="sidebarCollapse"
+          <button type="button" id="apertura_menu"
                   class="btn btn-primary col">
             <i class="bi bi-list"></i>
           </button>
-          <h5 class="titulo col-11">
+          <h5 class="titulo col">
             ¡Yo puedo!
             <i class="bi bi-award-fill"></i>
           </h5>
@@ -82,14 +84,14 @@
             theme: "minimal"
         });
 
-        $('#dismiss, .overlay').on('click', function () {
+        $('#cierre_menu, .overlay').on('click', function () {
             // hide sidebar
             $('#sidebar').removeClass('active');
             // hide overlay
             $('.overlay').removeClass('active');
         });
 
-        $('#sidebarCollapse').on('click', function () {
+        $('#apertura_menu').on('click', function () {
             // open sidebar
             $('#sidebar').addClass('active');
             // fade in the overlay

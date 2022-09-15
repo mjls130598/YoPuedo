@@ -99,7 +99,7 @@ h5.titulo {
     width: 100vw;
     height: 100vh;
     /* transparent black */
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.2);
     /* middle layer, i.e. appears below the sidebar */
     z-index: 998;
     opacity: 0;
@@ -110,15 +110,6 @@ h5.titulo {
 .overlay.active {
     display: block;
     opacity: 1;
-}
-
-#dismiss {
-    width: 35px;
-    height: 35px;
-    position: absolute;
-    /* top right corner of the sidebar */
-    top: 10px;
-    right: 10px;
 }
 
 #sidebar ul.components {
@@ -155,9 +146,7 @@ ul ul a {
     background: #035D55;
 }
 
-#sidebarCollapse {
-    width: 40px;
-    height: 40px;
+#apertura_menu, #cierre_menu {
     color: #04C5B3;
     background: white;
     border-color: white;
@@ -165,20 +154,20 @@ ul ul a {
     flex: 0;
 }
 
-#sidebarCollapse span:first-of-type {
+#apertura_menu span:first-of-type {
     /* rotate first one */
     transform: rotate(45deg) translate(2px, 2px);
 }
-#sidebarCollapse span:nth-of-type(2) {
+#apertura_menu span:nth-of-type(2) {
     /* second one is not visible */
     opacity: 0;
 }
-#sidebarCollapse span:last-of-type {
+#apertura_menu span:last-of-type {
     /* rotate third one */
     transform: rotate(-45deg) translate(1px, -1px);
 }
 
-#sidebarCollapse.active span {
+#apertura_menu.active span {
     /* no rotation */
     transform: none;
     /* all bars are visible */
