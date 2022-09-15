@@ -2,6 +2,7 @@ import logging
 from http import HTTPStatus
 
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.template.loader import get_template
@@ -154,11 +155,14 @@ def validar_clave(request, tipo, email):
 
     return render(request, "YoPuedo/peticion-clave.html", {'peticion_clave': clave_form})
 
+
 ##########################################################################################
 
 # Función de validación de clave
+@login_required
 def mis_retos(request):
     return render(request, "YoPuedo/mis_retos.html")
+
 
 def index(request):
     logger.info("Entramos a la parte GET de INDEX")
