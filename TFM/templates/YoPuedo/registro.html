@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" class="window" hx-trigger="postClave from:body"
-      hx-get="{{ request.path }}">
+      hx-get="{{ request.build_absolute_uri() }}">
 <head>
   <meta charset="UTF-8">
   <title>¡Yo puedo!</title>
