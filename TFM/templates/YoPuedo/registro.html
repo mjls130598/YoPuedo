@@ -83,7 +83,7 @@
         <div class='form-group d-flex justify-content-center'>
           <button id="boton-iniciosesion" class="btn btn-primary principales"
                   data-bs-toggle="modal"
-                  hx-get="{% url 'iniciar_sesion' %}" data-target="#dialog">
+                  hx-get="{% url 'iniciar_sesion' %}" hx-target="#dialog">
             <i class="bi bi-box-arrow-in-right"></i>
             INICIAR SESIÓN
           </button>
@@ -98,7 +98,7 @@
   {% endif %}
 
   <div class="modal fade" id="modal">
-    <div class="modal-dialog row align-items-center" id="dialog" data-target="this">
+    <div class="modal-dialog row align-items-center" id="dialog" hx-target="this">
     </div>
   </div>
 </body>
