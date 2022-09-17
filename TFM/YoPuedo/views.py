@@ -20,6 +20,14 @@ utils = Utils()
 # Función de registro
 def registrarse(request):
     if request.method == 'GET':
+        if request.user.is_authenticated():
+            logger.info("Nos redirigimos a la siguiente página")
+            valuenext = request.POST.get('next')
+            if valuenext:
+                return redirect(valuenext)
+            else:
+                return redirect('mis_retos')
+
         logger.info("Entramos a la parte GET de REGISTRO")
         form = RegistroForm()
 
@@ -131,7 +139,8 @@ def validar_clave(request, tipo, email):
                 if user is not None:
                     logger.info("Iniciamos sesión")
                     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                    return HttpResponse(status=HTTPStatus.ACCEPTED)
+                    return HttpResponse(status=HTTPStatus.ACCEPTED,
+                                        headers={'HX-Trigger': 'postClave'})
 
         else:
             contador = int(clave_form['contador'].value())
