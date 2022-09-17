@@ -131,7 +131,7 @@ def validar_clave(request, tipo, email):
                 if user is not None:
                     logger.info("Iniciamos sesión")
                     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                    return redirect('mis_retos')
+                    return HttpResponse(status=HTTPStatus.ACCEPTED)
 
         else:
             contador = int(clave_form['contador'].value())
