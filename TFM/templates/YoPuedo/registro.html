@@ -83,7 +83,7 @@
         <div class='form-group d-flex justify-content-center'>
           <button id="boton-iniciosesion" class="btn btn-primary principales"
                   data-bs-toggle="modal"
-                  hx-get="{% url 'iniciar_sesion' %}" hx-target="#dialog">
+                  data-get="{% url 'iniciar_sesion' %}" data-target="#dialog">
             <i class="bi bi-box-arrow-in-right"></i>
             INICIAR SESIÓN
           </button>
@@ -93,7 +93,8 @@
   </div>
 
   {% if url %}
-  <div hx-get="{{ url }}" hx-trigger="load" data-bs-toggle="modal" hx-target="#dialog">
+  <div data-get="{{ url }}" hx-trigger="load" data-bs-toggle="modal"
+       data-target="#dialog">
   </div>
   {% endif %}
 
