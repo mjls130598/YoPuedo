@@ -20,13 +20,14 @@ utils = Utils()
 # Función de registro
 def registrarse(request):
     if request.method == 'GET':
-        if request.user.is_authenticated():
-            logger.info("Nos redirigimos a la siguiente página")
-            valuenext = request.POST.get('next')
-            if valuenext:
-                return redirect(valuenext)
-            else:
-                return redirect('mis_retos')
+        if request.user:
+            if request.user.is_authenticated():
+                logger.info("Nos redirigimos a la siguiente página")
+                valuenext = request.POST.get('next')
+                if valuenext:
+                    return redirect(valuenext)
+                else:
+                    return redirect('mis_retos')
 
         logger.info("Entramos a la parte GET de REGISTRO")
         form = RegistroForm()
