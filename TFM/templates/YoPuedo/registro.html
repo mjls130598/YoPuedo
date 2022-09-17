@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="window" hx-trigger="postClave from:body"
-      hx-get="{{ request.get_full_path }}">
+<html lang="es" class="window">
 <head>
   <meta charset="UTF-8">
   <title>¡Yo puedo!</title>
@@ -20,7 +19,8 @@
   {% bootstrap_css %}
   {% bootstrap_javascript %}
 </head>
-<body class="container">
+<body class="container" hx-trigger="postClave from:body"
+      hx-get="{{ request.get_full_path }}" hx-target="this">
   <div id="contenedor" class="row align-items-center">
     <section id="registro" class="col">
       <div id="titulo-registro">
