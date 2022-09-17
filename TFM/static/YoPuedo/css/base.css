@@ -51,8 +51,8 @@ h5.titulo {
 
 #cabecera{
     background: #04C5B3;
-    padding-bottom: 1%;
-    padding-top: 1%;
+    padding-bottom: 0.15%;
+    padding-top: 0.15%;
     padding-left: 0.5%;
 }
 
@@ -70,9 +70,20 @@ h5.titulo {
     }
 }
 
-#cabecera > div.row {
-    margin: 1%;
+@media screen and (max-width: 799px){
+
+    #cabecera_fila {
+        margin: 1%;
+    }
 }
+
+@media screen and (min-width: 800px){
+
+    #cabecera_fila {
+        margin: 0.5%;
+    }
+}
+
 
 .wrapper {
     display: block;
