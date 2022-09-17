@@ -3,7 +3,7 @@ from http import HTTPStatus
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.template.loader import get_template
 
@@ -130,8 +130,7 @@ def validar_clave(request, tipo, email):
         if clave_form.is_valid():
             if tipo == 'registro' or tipo == 'inicio_sesion':
                 logger.info("Iniciamos sesión")
-                return HttpResponse(status=HTTPStatus.ACCEPTED,
-                                    headers={'HX-Trigger': 'postClave'})
+                return HttpResponseRedirect('/mis_retos/')
 
         else:
             contador = int(clave_form['contador'].value())
