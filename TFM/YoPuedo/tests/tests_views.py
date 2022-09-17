@@ -60,6 +60,9 @@ class ClaveViewTest(TestCase):
 
         resp = self.client.post('/validar_clave/registro/clave_view@gmail.com', data)
         self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
+        user = Usuario.objects.get(email='clave_view@gmail.com')
+        self.assertTrue(user.is_authenticated)
+        self.assertEqual(resp.path, '/mis_retos/')
 
     def test_post_inicio_correcto(self):
         data = {
@@ -70,6 +73,9 @@ class ClaveViewTest(TestCase):
 
         resp = self.client.post('/validar_clave/inicio_sesion/clave_view@gmail.com', data)
         self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
+        user = Usuario.objects.get(email='clave_view@gmail.com')
+        self.assertTrue(user.is_authenticated)
+        self.assertEqual(resp.path, '/mis_retos/')
 
     def test_post_inicio_incorrecto(self):
         data = {
@@ -81,6 +87,7 @@ class ClaveViewTest(TestCase):
         resp = self.client.post('/validar_clave/inicio_sesion/clave_view@gmail.com', data)
         self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
         self.assertTrue(Usuario.objects.filter(email='clave_view@gmail.com').exists())
+        self.assertEqual(resp.path, '/registrarse/')
 
     def test_post_registro_incorrecto(self):
 
@@ -93,6 +100,7 @@ class ClaveViewTest(TestCase):
         resp = self.client.post('/validar_clave/registro/clave_view@gmail.com', data)
         self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
         self.assertTrue(not Usuario.objects.filter(email='clave_view@gmail.com').exists())
+        self.assertEqual(resp.path, '/registrarse/')
 
 
 ##########################################################################################
@@ -118,5 +126,3 @@ class InicioViewTest(TestCase):
         }
         resp = self.client.post('/iniciar_sesion/', data)
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
-        user = Usuario.objects.get(email='inicio_view@gmail.com')
-        self.assertTrue(user.is_authenticated)
