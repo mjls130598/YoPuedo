@@ -19,8 +19,7 @@
   {% bootstrap_css %}
   {% bootstrap_javascript %}
 </head>
-<body class="container" hx-trigger="postClave from:body"
-      hx-get="{{ request.get_full_path }}" hx-target="this">
+<body class="container">
   <div id="contenedor" class="row align-items-center">
     <section id="registro" class="col">
       <div id="titulo-registro">
@@ -128,6 +127,9 @@
 <script type="text/javascript"
         src="{% static 'YoPuedo/js/SpeechSynthesis.js' %}"></script>
 <script>
+
+// Métodos para la gestión del modal
+
   ;(function () {
   const modal = new bootstrap.Modal(document.getElementById("modal"))
   htmx.on("htmx:afterSwap", (e) => {
@@ -149,4 +151,12 @@
     document.getElementById("dialog").innerHTML = ""
   })
 })()
+
+{% if url %}
+// Función para la redirección a una nueva página
+  function redirect(){
+    window.location.href = "{{ request.get_full_path }}";
+  }
+  redirect();
+{% endif %}
 </script>
