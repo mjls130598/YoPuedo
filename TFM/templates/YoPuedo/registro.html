@@ -149,14 +149,7 @@
   // Remove dialog content after hiding
   htmx.on("hidden.bs.modal", () => {
     document.getElementById("dialog").innerHTML = ""
+    window.location.href = "{{ request.get_full_path }}";
   })
 })()
-
-{% if url %}
-// Función para la redirección a una nueva página
-  function redirect(){
-    window.location.href = "{{ request.get_full_path }}";
-  }
-  redirect();
-{% endif %}
 </script>
