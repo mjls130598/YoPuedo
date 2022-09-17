@@ -26,7 +26,7 @@ def registrarse(request):
             if valuenext:
                 return HttpResponseRedirect(valuenext)
             else:
-                return HttpResponseRedirect('mis_retos')
+                return HttpResponseRedirect('/mis_retos/')
 
         logger.info("Entramos a la parte GET de REGISTRO")
         form = RegistroForm()
