@@ -3,7 +3,7 @@ from http import HTTPStatus
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.template.loader import get_template
 
@@ -36,13 +36,11 @@ def registrarse(request):
             password = form.cleaned_data['password'].value()
             foto = request.FILES["foto_de_perfil"]
 
-            clave_aleatoria, clave_fija, usuario = utils.guardar_usuario(utils, email,
+            clave_aleatoria, clave_fija = utils.guardar_usuario(utils, email,
                                                                          nombre, password,
                                                                          foto)
             enviar_clave(clave_aleatoria, email, "Registro en la aplicación Yo Puedo")
             enviar_clave_fija(clave_fija, email)
-
-            login(request, usuario, backend='django.contrib.auth.backends.ModelBackend')
 
             return render(request, "YoPuedo/registro.html",
                           {'register_form': form,
@@ -130,7 +128,10 @@ def validar_clave(request, tipo, email):
         if clave_form.is_valid():
             if tipo == 'registro' or tipo == 'inicio_sesion':
                 logger.info("Iniciamos sesión")
-                return HttpResponse(status=HTTPStatus.ACCEPTED)
+                user = Usuario.objects.get(email=email)
+                if user is not None:
+                    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                    HttpResponseRedirect("/mis_retos/")
 
         else:
             contador = int(clave_form['contador'].value())
@@ -145,7 +146,6 @@ def validar_clave(request, tipo, email):
             else:
                 logger.info("Demasiados intentos. Volvemos al principio")
                 if tipo == 'registro' or tipo == 'inicio_sesion':
-                    logout(request)
                     logger.info("Mandamos a la página de registro")
                     if tipo == 'registro':
                         Usuario.objects.get(email=email).delete()
