@@ -127,9 +127,9 @@ def validar_clave(request, tipo, email):
 
         if clave_form.is_valid():
             if tipo == 'registro' or tipo == 'inicio_sesion':
-                logger.info("Iniciamos sesión")
                 user = Usuario.objects.get(email=email)
                 if user is not None:
+                    logger.info("Iniciamos sesión")
                     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                     HttpResponseRedirect("/mis_retos/")
 
