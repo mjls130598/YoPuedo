@@ -1,0 +1,14 @@
+#botones_misretos{
+    margin: 1%;
+}
+
+#label_categoria > h6{
+    font-weight: bold;
+}
+
+.btn.btn-primary.nuevo_reto {
+    background: #00BCD4;
+    border: #00BCD4;
+    font-weight: bold;
+}
+

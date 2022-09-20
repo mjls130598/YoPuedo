@@ -1,5 +1,61 @@
 {% extends "base.html" %}
 
-{% block contenido %}
+{% load tags_categorias %}
 
+{% block static %}
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/mis_retos.css'%}">
+{% endblock %}
+
+{% block contenido %}
+    <section>
+        <h4 id="titulo">
+            <i class="bi bi-graph-up"></i>
+            Mis retos
+        </h4>
+    </section>
+    <section class="row justify-content-between" id="botones_misretos">
+        <div class="col-2 align-items-start">
+            <button class="btn btn-primary nuevo_reto">
+                <div class="row">
+                    <div class="col-2">
+                        <i class="bi bi-plus-circle-fill "></i>
+                    </div>
+                    <div class="d-none d-md-block col-9">
+                        Nuevo reto
+                    </div>
+                </div>
+            </button>
+        </div>
+        <div class="col-md-3 col-10 align-items-end row">
+            <div class="col" id="label_categoria">
+                <h6>
+                    <div class="row">
+                        <div class="col-2">
+                            <i class="bi bi-search"></i>
+                        </div>
+                        <div class="d-none d-md-block col-9">
+                            Filtrar por:
+                        </div>
+                    </div>
+                </h6>
+            </div>
+            <select class="form-select col-10 col-md-7" aria-label="select_categoria">
+              <option selected value="{% categoria_valor 'Todas categorías' %}">
+                  Todas categorías
+              </option>
+              <option value="{% categoria_valor 'Ahorro' %}">
+                  Ahorro
+              </option>
+              <option value="{% categoria_valor 'Conocimientos' %}">
+                  Conocimientos
+              </option>
+              <option value="{% categoria_valor 'Deporte' %}">
+                  Deporte
+              </option>
+              <option value="{% categoria_valor 'Miedos' %}">
+                  Miedos
+              </option>
+            </select>
+        </div>
+    </section>
 {% endblock %}
