@@ -7,12 +7,15 @@
 {% endblock %}
 
 {% block contenido %}
+    <!-- CABECERA -->
     <section>
         <h4 id="titulo">
             <i class="bi bi-graph-up"></i>
             Mis retos
         </h4>
     </section>
+
+    <!-- BOTONES CABECERA -->
     <section class="row justify-content-between" id="botones_misretos">
         <div class="col-2 align-items-start">
             <button class="btn btn-primary nuevo_reto">
@@ -57,5 +60,70 @@
               </option>
             </select>
         </div>
+    </section>
+
+    <!-- CUERPO -->
+    <section id="retos">
+
+        <!-- BOTONES NAVEGACIÓN TABS -->
+        <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="tab-propuestos" data-mdb-toggle="tab"
+               href="#tab-propuestos" role="tab" aria-controls="tab-propuestos"
+               aria-selected="true">
+                <div class="row">
+                    <div class="col-2">
+                        <i class="bi bi-inboxes-fill"></i>
+                    </div>
+                    <div class="d-none d-md-block col-9">
+                        Propuestos
+                    </div>
+                </div>
+            </a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="tab-proceso" data-mdb-toggle="tab"
+               href="#tab-proceso" role="tab" aria-controls="tab_proceso"
+               aria-selected="false">
+                <div class="row">
+                    <div class="col-2">
+                        <i class="bi bi-gear-wide-connected"></i>
+                    </div>
+                    <div class="d-none d-md-block col-9">
+                        En proceso
+                    </div>
+                </div>
+            </a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="tab-finalizados" data-mdb-toggle="tab"
+               href="#tab-finalizados" role="tab" aria-controls="tab-finalizados"
+               aria-selected="false">
+                <div class="row">
+                    <div class="col-2">
+                        <i class="bi bi-check2-square"></i>
+                    </div>
+                    <div class="d-none d-md-block col-9">
+                        Finalizados
+                    </div>
+                </div>
+            </a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="tab-animando" data-mdb-toggle="tab"
+               href="#tab-animando" role="tab" aria-controls="tab-animando"
+               aria-selected="false">
+                <div class="row">
+                    <div class="col-2">
+                        <i class="bi bi-hearts"></i>
+                    </div>
+                    <div class="d-none d-md-block col-9">
+                        Animando
+                    </div>
+                </div>
+            </a>
+          </li>
+        </ul>
+
     </section>
 {% endblock %}

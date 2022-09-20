@@ -12,3 +12,39 @@
     font-weight: bold;
 }
 
+#retos {
+    margin: 1%;
+}
+
+.nav-item{
+    margin-right: 5px;
+}
+
+.nav-link, .nav-link.active{
+    color: black;
+}
+
+.nav-link.active{
+    font-weight: bold;
+}
+
+#tab-propuestos {
+    background: #FBF3AD;
+    border-color: #FBF3AD;
+}
+
+#tab-proceso{
+    background: #FBC370;
+    border-color: #FBC370;
+}
+
+#tab-finalizados{
+    background: #B6FF61;
+    border-color: #B6FF61;
+}
+
+#tab-animando{
+    background: #ECABF7;
+    border-color: #ECABF7;
+}
+
