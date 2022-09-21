@@ -52,3 +52,7 @@
     border-color: #ECABF7;
 }
 
+.nav-link.active > .row > .d-none{
+    display: block!important;
+}
+
