@@ -1,9 +1,9 @@
 from django import template
 
-categoria = template.Library()
+register = template.Library()
 
 
-@categoria.simple_tag
+@register.simple_tag
 def categoria_valor(value):
     if value == "Todas categorías":
         return ""
