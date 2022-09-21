@@ -16,6 +16,10 @@
     margin: 1%;
 }
 
+#categorias {
+    max-width: 100%;
+}
+
 .nav-item{
     margin-right: 5px;
 }
