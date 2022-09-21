@@ -49,22 +49,22 @@
     font-weight: bold;
 }
 
-#propuestos-tab {
+#propuestos-tab, #propuestos {
     background: #FBF3AD;
     border-color: #FBF3AD;
 }
 
-#proceso-tab {
+#proceso-tab, #proceso {
     background: #FBC370;
     border-color: #FBC370;
 }
 
-#finalizados-tab {
+#finalizados-tab, #finalizados {
     background: #B6FF61;
     border-color: #B6FF61;
 }
 
-#animando-tab {
+#animando-tab, #animando {
     background: #ECABF7;
     border-color: #ECABF7;
 }
