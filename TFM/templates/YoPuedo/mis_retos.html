@@ -200,8 +200,11 @@
   </div>
 
   <script>
-    window.onload = () => {
-        $('#modal').modal('show');
-    }
+    {% if request.get_full_path == "/mis_retos/" %}
+        window.onload = () => {
+            $('#modal').modal('show');
+        }
+    {% endif %}
+
   </script>
 {% endblock %}
