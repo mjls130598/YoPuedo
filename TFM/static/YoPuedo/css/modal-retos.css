@@ -1,11 +1,32 @@
-#individuales, #colectivos{
+#individuales > div > h5, #colectivos > div > h5{
     font-weight: bold;
 }
 
+#individuales > div > h1, #colectivos > div > h1{
+    font-size: 6rem;
+}
+
+
 #individuales{
     background: #3F51B5;
+    border: #3F51B5;
 }
 
 #colectivos{
     background: #2196F3;
+    border: #2196F3;
+}
+
+@media screen and (max-width: 991px){
+    .modal-body.container{
+        width: 75%!important;
+    }
+
+    #individual{
+        margin-bottom: 5%;
+    }
+
+    #colectivo{
+        margin-top: 5%;
+    }
 }
