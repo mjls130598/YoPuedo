@@ -172,6 +172,7 @@ def mis_retos(request):
     if request.method == 'GET':
         tipo = request.POST.get("tipo")
         if tipo:
+            tipo_reto = ""
             if tipo == "individual":
                 tipo_reto = "Retos individuales"
             if tipo == "colectivo":
