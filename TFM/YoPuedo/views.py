@@ -170,8 +170,10 @@ def validar_clave(request, tipo, email):
 def mis_retos(request):
 
     if request.method == 'GET':
+        logger.info("Entramos en la parte GET de MIS RETOS")
         tipo = request.POST.get("tipo")
         if tipo:
+            logger.info(f"Mostramos los retos {tipo}")
             tipo_reto = ""
             if tipo == "individual":
                 tipo_reto = "Retos individuales"
