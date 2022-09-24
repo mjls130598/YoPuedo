@@ -44,20 +44,33 @@
                 </h6>
             </div>
             <select class="col-10 col-md-7" aria-label="select_categoria" id="categorias">
-              <option selected value="{% categoria_valor 'Todas categorías' %}">
-                  Todas categorías
+              <option selected>
+                  <a href="{{ request.get_full_path }}&categoria={% categoria_valor 'Todas categorias' %}">
+                      Todas categorías
+                  </a>
               </option>
-              <option value="{% categoria_valor 'Ahorro' %}">
-                  Ahorro
+
+              <option>
+                  <a href="{{ request.get_full_path }}&categoria={% categoria_valor '{% categoria_valor 'Ahorro' %}">
+                      Ahorro
+                  </a>
               </option>
-              <option value="{% categoria_valor 'Conocimientos' %}">
-                  Conocimientos
+
+              <option>
+                  <a href="{{ request.get_full_path }}&categoria={% categoria_valor 'Conocimientos' %}">
+                      Conocimientos
+                  </a>
               </option>
-              <option value="{% categoria_valor 'Deporte' %}">
-                  Deporte
+
+              <option>
+                  <a href="{{ request.get_full_path }}&categoria={% categoria_valor 'Deporte' %}">
+                      Deporte
+                  </a>
               </option>
-              <option value="{% categoria_valor 'Miedos' %}">
-                  Miedos
+              <option>
+                  <a href="{{ request.get_full_path }}&categoria={% categoria_valor 'Miedos' %}">
+                      Miedos
+                  </a>
               </option>
             </select>
         </div>
@@ -134,19 +147,27 @@
         <div class="tab-content p-3" id="tab-retos-content">
           <div class="tab-pane fade show active" id="propuestos" role="tabpanel"
                aria-labelledby="propuestos-tab">
-            Tab 1 content {% if tipo_reto %} {{ tipo_reto }} {% endif %}
+            Tab 1 content
+              {% if tipo_reto %} {{ tipo_reto }} {% endif %}
+              {% if categoria %} {{ categoria }} {% endif %}
           </div>
           <div class="tab-pane fade" id="proceso" role="tabpanel"
                aria-labelledby="proceso-tab">
-            Tab 2 content {% if tipo_reto %} {{ tipo_reto }} {% endif %}
+            Tab 2 content
+              {% if tipo_reto %} {{ tipo_reto }} {% endif %}
+              {% if categoria %} {{ categoria }} {% endif %}
           </div>
           <div class="tab-pane fade" id="finalizados" role="tabpanel"
                aria-labelledby="finalizados-tab">
-            Tab 3 content {% if tipo_reto %} {{ tipo_reto }} {% endif %}
+            Tab 3 content
+              {% if tipo_reto %} {{ tipo_reto }} {% endif %}
+              {% if categoria %} {{ categoria }} {% endif %}
           </div>
           <div class="tab-pane fade" id="animando" role="tabpanel"
                aria-labelledby="animando-tab">
-            Tab 4 content {% if tipo_reto %} {{ tipo_reto }} {% endif %}
+            Tab 4 content
+              {% if tipo_reto %} {{ tipo_reto }} {% endif %}
+              {% if categoria %} {{ categoria }} {% endif %}
           </div>
         </div>
 

@@ -172,15 +172,21 @@ def mis_retos(request):
     if request.method == 'GET':
         logger.info("Entramos en la parte GET de MIS RETOS")
         tipo = request.GET.get("tipo")
+        tipo_reto = ""
         if tipo:
             logger.info(f"Mostramos los retos {tipo}")
-            tipo_reto = ""
             if tipo == "individual":
                 tipo_reto = "Retos individuales"
             if tipo == "colectivo":
                 tipo_reto = "Retos colectivos"
 
-            return render(request, "YoPuedo/mis_retos.html", {"tipo_reto": tipo_reto})
+        categoria = request.GET.get("categoria")
+        categoria_reto = ""
+        if categoria:
+            categoria_reto = categoria
+
+        return render(request, "YoPuedo/mis_retos.html",
+                      {"tipo_reto": tipo_reto, "categoria": categoria_reto})
 
     return render(request, "YoPuedo/mis_retos.html")
 
