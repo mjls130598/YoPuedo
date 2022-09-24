@@ -167,6 +167,9 @@
         </div>
     </section>
 
+<div hx-trigger="load" data-bs-toggle="modal" hx-target="#dialog">
+</div>
+
 <!-- MODAL DEL TIPO DE RETOS-->
 <div class="modal fade" id="modal">
     <div class="modal-dialog row align-items-center" id="dialog" hx-target="this">
@@ -195,9 +198,5 @@
             break;
         }
     }
-
-    $(document).ready(function(){
-        $("#modal").modal('show');
-    });
 </script>
 {% endblock %}
