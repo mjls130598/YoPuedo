@@ -134,19 +134,19 @@
         <div class="tab-content p-3" id="tab-retos-content">
           <div class="tab-pane fade show active" id="propuestos" role="tabpanel"
                aria-labelledby="propuestos-tab">
-            Tab 1 content
+            Tab 1 content {% if tipo_reto %} {{ tipo_reto }} {% endif %}
           </div>
           <div class="tab-pane fade" id="proceso" role="tabpanel"
                aria-labelledby="proceso-tab">
-            Tab 2 content
+            Tab 2 content {% if tipo_reto %} {{ tipo_reto }} {% endif %}
           </div>
           <div class="tab-pane fade" id="finalizados" role="tabpanel"
                aria-labelledby="finalizados-tab">
-            Tab 3 content
+            Tab 3 content {% if tipo_reto %} {{ tipo_reto }} {% endif %}
           </div>
           <div class="tab-pane fade" id="animando" role="tabpanel"
                aria-labelledby="animando-tab">
-            Tab 4 content
+            Tab 4 content {% if tipo_reto %} {{ tipo_reto }} {% endif %}
           </div>
         </div>
 

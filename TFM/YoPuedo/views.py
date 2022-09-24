@@ -168,7 +168,17 @@ def validar_clave(request, tipo, email):
 # Función de validación de clave
 @login_required
 def mis_retos(request):
-    return render(request, "YoPuedo/mis_retos.html")
+
+    tipo_reto = ""
+
+    if request.method == 'GET':
+        tipo = request.POST.get("tipo")
+        if tipo == "individual":
+            tipo_reto = "Retos individuales"
+        else:
+            tipo_reto = "Retos colectivos"
+
+    return render(request, "YoPuedo/mis_retos.html", {"tipo_reto": tipo_reto})
 
 
 def index(request):
