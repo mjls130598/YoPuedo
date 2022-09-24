@@ -198,7 +198,8 @@
 
     window.onload = function showModal(){
         const modal = new bootstrap.Modal(document.getElementById("modal"))
-        modal.show()
+        var modalToggle = document.getElementById('dialog')
+        modal.show(modalToggle)
     }
 
 </script>
