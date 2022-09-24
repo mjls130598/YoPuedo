@@ -183,6 +183,7 @@ def mis_retos(request):
         categoria = request.GET.get("categoria")
         categoria_reto = ""
         if categoria:
+            logger.info(f"Mostramos los retos  de la categoría {categoria}")
             categoria_reto = categoria
 
         return render(request, "YoPuedo/mis_retos.html",
