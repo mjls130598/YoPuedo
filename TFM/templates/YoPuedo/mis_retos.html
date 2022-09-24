@@ -167,10 +167,6 @@
         </div>
     </section>
 
-<div hx-trigger="load" data-bs-toggle="modal" hx-target="#dialog"
-     hx-get="{% url 'mis_retos' %}">
-</div>
-
 <!-- MODAL DEL TIPO DE RETOS-->
 <div class="modal fade" id="modal">
     <div class="modal-dialog row align-items-center" id="dialog" hx-target="this">
@@ -200,30 +196,10 @@
         }
     }
 
-    // Métodos para la gestión del modal
-
-  ;(function () {
-      const modal = new bootstrap.Modal(document.getElementById("modal"))
-      htmx.on("htmx:afterSwap", (e) => {
-        // Response targeting #dialog => show the modal
-        if (e.detail.target.id == "dialog") {
-          modal.show()
-        }
-      })
-
-      htmx.on("htmx:beforeSwap", (e) => {
-        // Empty response targeting #dialog => hide the modal
-        if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
-          modal.hide()
-          e.detail.shouldSwap = false
-        }
-      })
-      // Remove dialog content after hiding
-      htmx.on("hidden.bs.modal", () => {
-        document.getElementById("dialog").innerHTML = ""
-        window.location.href = "{{ request.get_full_path }}";
-      })
-    })()
+    window.onload = function showModal(){
+        var modalToggle = document.getElementById('modal')
+        myModal.show(modalToggle)
+    }
 
 </script>
 {% endblock %}
