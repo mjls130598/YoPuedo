@@ -196,10 +196,8 @@
         }
     }
 
-    window.onload = function showModal(){
-        const myModalEl = document.getElementById('modal')
-        const modal = new mdb.Modal(myModalEl)
-        modal.show()
+    window.onload = () => {
+        $('#modal').modal('show');
     }
 
 </script>
