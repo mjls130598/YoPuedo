@@ -192,19 +192,18 @@
 {% endblock %}
 
 {% block modales %}
-  <!-- MODAL DEL TIPO DE RETOS-->
-  <div class="modal fade" id="modal">
+    <!-- MODAL DEL TIPO DE RETOS-->
+    <div class="modal fade" id="modal">
       <div class="modal-dialog row align-items-center" id="dialog">
           {% include 'YoPuedo/elementos/modal-retos.html' %}
       </div>
-  </div>
+    </div>
 
-  <script>
     {% if request.get_full_path == "/mis_retos/" %}
-        window.onload = () => {
-            $('#modal').modal('show');
-        }
+      <script>
+            window.onload = () => {
+                $('#modal').modal('show');
+            }
+      </script>
     {% endif %}
-
-  </script>
 {% endblock %}

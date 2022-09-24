@@ -169,16 +169,17 @@ def validar_clave(request, tipo, email):
 @login_required
 def mis_retos(request):
 
-    tipo_reto = ""
-
     if request.method == 'GET':
         tipo = request.POST.get("tipo")
-        if tipo == "individual":
-            tipo_reto = "Retos individuales"
-        if tipo == "colectivo":
-            tipo_reto = "Retos colectivos"
+        if tipo:
+            if tipo == "individual":
+                tipo_reto = "Retos individuales"
+            if tipo == "colectivo":
+                tipo_reto = "Retos colectivos"
 
-    return render(request, "YoPuedo/mis_retos.html", {"tipo_reto": tipo_reto})
+            return render(request, "YoPuedo/mis_retos.html", {"tipo_reto": tipo_reto})
+
+    return render(request, "YoPuedo/mis_retos.html")
 
 
 def index(request):
