@@ -197,8 +197,9 @@
     }
 
     window.onload = function showModal(){
-        const modal = new bootstrap.Modal(document.getElementById("modal"))
-        modal.toggle()
+        const myModalEl = document.getElementById('modal')
+        const modal = new mdb.Modal(myModalEl)
+        modal.show()
     }
 
 </script>
