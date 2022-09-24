@@ -1,0 +1,11 @@
+#individuales, #colectivos{
+    font-weight: bold;
+}
+
+#individuales{
+    background: #3F51B5;
+}
+
+#colectivos{
+    background: #2196F3;
+}

@@ -4,6 +4,7 @@
 
 {% block static %}
   <link rel="stylesheet" href="{% static 'YoPuedo/css/mis_retos.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/modal-retos.css'%}">
 {% endblock %}
 
 {% block contenido %}
@@ -164,8 +165,16 @@
               </ul>
             </nav>
         </div>
-
     </section>
+
+<div hx-trigger="load" data-bs-toggle="modal" data-target="#dialog">
+</div>
+
+<div class="modal fade" id="modal">
+    <div class="modal-dialog row align-items-center" id="dialog" hx-target="this">
+        {% include 'YoPuedo/elementos/modal-retos' %}
+    </div>
+</div>
 
 <script>
     function cambiarColorCuerpo(id){
