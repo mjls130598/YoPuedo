@@ -43,26 +43,13 @@
                     </div>
                 </h6>
             </div>
-            <select class="col-10 col-md-7" aria-label="select_categoria" id="categorias">
-              <a href="{{ request.get_full_path }}&categoria={% categoria_valor 'Todas categorias' %}">
-                  <option selected>Todas categorías</option>
-              </a>
-
-              <a href="{{ request.get_full_path }}&categoria={% categoria_valor 'Ahorro' %}">
-                <option>Ahorro</option>
-              </a>
-
-              <a href="{{ request.get_full_path }}&categoria={% categoria_valor 'Conocimientos' %}">
-                  <option>Conocimientos</option>
-              </a>
-
-              <a href="{{ request.get_full_path }}&categoria={% categoria_valor 'Deporte' %}">
-                  <option>Deporte</option>
-              </a>
-
-              <a href="{{ request.get_full_path }}&categoria={% categoria_valor 'Miedos' %}">
-                  <option>Miedos</option>
-              </a>
+            <select class="col-10 col-md-7" aria-label="select_categoria"
+                    id="categorias" onchange="cambioCategoria(this)">
+              <option selected value="{% categoria_valor 'Todas categorias' %}">Todas categorías</option>
+              <option value="{% categoria_valor 'Ahorro' %}">Ahorro</option>
+              <option value="{% categoria_valor 'Conocimientos' %}">Conocimientos</option>
+              <option value="{% categoria_valor 'Deporte' %}">Deporte</option>
+              <option value="{% categoria_valor 'Miedos' %}">Miedos</option>
             </select>
         </div>
     </section>
@@ -198,6 +185,10 @@
                 document.getElementById("tab-retos-content").style.borderColor = "#ECABF7";
             break;
         }
+    }
+
+    function cambioCategoria(opcion){
+        window.location.href = "{{ request.get_full_path }}?categoria=" + opcion.value;
     }
 
 </script>
