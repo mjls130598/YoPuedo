@@ -191,6 +191,13 @@
         window.location.href = "{{ request.get_full_path }}&categoria=" + opcion.value;
     }
 
+    window.onload = () => {
+        const urlParams = new URLSearchParams("{{request.get_full_path}}");
+
+        if(urlParams.has('categoria'))
+            document.getElementById("categorias").value = urlParams.get('categoria');
+    }
+
 </script>
 {% endblock %}
 
