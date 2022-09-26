@@ -46,10 +46,22 @@
             <select class="col-10 col-md-7" aria-label="select_categoria"
                     id="categorias" onchange="cambioCategoria(this)">
               <option selected value="{% categoria_valor 'Todas categorias' %}">Todas categorías</option>
-              <option value="{% categoria_valor 'Ahorro' %}">Ahorro</option>
-              <option value="{% categoria_valor 'Conocimientos' %}">Conocimientos</option>
-              <option value="{% categoria_valor 'Deporte' %}">Deporte</option>
-              <option value="{% categoria_valor 'Miedos' %}">Miedos</option>
+              <option value="{% categoria_valor 'Ahorro' %}">
+                  <i class="bi bi-piggy-bank-fill"></i>
+                  Ahorro
+              </option>
+              <option value="{% categoria_valor 'Conocimientos' %}">
+                  <i class="bi bi-journals"></i>
+                  Conocimientos
+              </option>
+              <option value="{% categoria_valor 'Deporte' %}">
+                  <i class="bi bi-heart-pulse-fill"></i>
+                  Deporte
+              </option>
+              <option value="{% categoria_valor 'Miedos' %}">
+                  <i class="bi bi-cloud-haze2-fill"></i>
+                  Miedos
+              </option>
             </select>
         </div>
     </section>
