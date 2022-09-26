@@ -169,26 +169,24 @@ def validar_clave(request, tipo, email):
 @login_required
 def mis_retos(request):
 
-    if request.method == 'GET':
-        logger.info("Entramos en la parte GET de MIS RETOS")
-        tipo = request.GET.get("tipo")
-        tipo_reto = ""
-        if tipo:
-            logger.info(f"Mostramos los retos {tipo}")
-            if tipo == "individual":
-                tipo_reto = "Retos individuales"
-            if tipo == "colectivo":
-                tipo_reto = "Retos colectivos"
+    logger.info("Entramos en la parte GET de MIS RETOS")
+    tipo = request.GET.get("tipo")
+    tipo_reto = ""
+    if tipo:
+        logger.info(f"Mostramos los retos {tipo}")
+        if tipo == "individual":
+            tipo_reto = "Retos individuales"
+        if tipo == "colectivo":
+            tipo_reto = "Retos colectivos"
 
-        categoria = request.GET.get("categoria")
-        categoria_reto = ""
-        if categoria:
-            logger.info(f"Mostramos los retos  de la categoría {categoria}")
-            categoria_reto = categoria
+    categoria = request.GET.get("categoria")
+    categoria_reto = ""
+    if categoria:
+        logger.info(f"Mostramos los retos  de la categoría {categoria}")
+        categoria_reto = categoria
 
-        return JsonResponse({"tipo_reto": tipo_reto, "categoria": categoria_reto})
-
-    return render(request, "YoPuedo/mis_retos.html")
+    return render(request, "YoPuedo/mis_retos.html",
+                  {"tipo_reto": tipo_reto, "categoria": categoria_reto})
 
 
 def index(request):
