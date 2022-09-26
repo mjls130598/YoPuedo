@@ -186,8 +186,7 @@ def mis_retos(request):
             logger.info(f"Mostramos los retos  de la categoría {categoria}")
             categoria_reto = categoria
 
-        return render(request, "YoPuedo/mis_retos.html",
-                      {"tipo_reto": tipo_reto, "categoria": categoria_reto})
+        return JsonResponse({"tipo_reto": tipo_reto, "categoria": categoria_reto})
 
     return render(request, "YoPuedo/mis_retos.html")
 
