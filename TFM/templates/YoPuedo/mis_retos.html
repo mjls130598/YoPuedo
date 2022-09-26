@@ -188,13 +188,13 @@
     }
 
     function cambioCategoria(opcion){
-        const urlParams = new URLSearchParams("{{request.get_full_path}}");
+        const urlParams = new URLSearchParams(window.location.search);
         window.location.href = "{% url 'mis_retos' %}?tipo=" +
             urlParams.get('tipo') + "&categoria=" + opcion.value;
     }
 
     window.onload = () => {
-        const urlParams = new URLSearchParams("{{request.get_full_path}}");
+        const urlParams = new URLSearchParams(window.location.search);
 
         if(urlParams.has('categoria')){
             const select = document.querySelector('#categorias');
