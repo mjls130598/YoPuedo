@@ -188,14 +188,17 @@
     }
 
     function cambioCategoria(opcion){
-        window.location.href = "{{ request.get_full_path }}&categoria=" + opcion.value;
+        const urlParams = new URLSearchParams("{{request.get_full_path}}");
+        window.location.href = "{% url 'mis_retos' %}?tipo=" +
+            urlParams.get('tipo') + "&categoria=" + opcion.value;
     }
 
     window.onload = () => {
         const urlParams = new URLSearchParams("{{request.get_full_path}}");
 
         if(urlParams.has('categoria'))
-            document.getElementById("categorias").value = urlParams.get('categoria');
+            const $select = document.querySelector('#categorias');
+            $select.value = urlParams.get('categoria');
     }
 
 </script>
