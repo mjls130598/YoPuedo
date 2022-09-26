@@ -196,9 +196,10 @@
     window.onload = () => {
         const urlParams = new URLSearchParams("{{request.get_full_path}}");
 
-        if(urlParams.has('categoria'))
-            const $select = document.querySelector('#categorias');
-            $select.value = urlParams.get('categoria');
+        if(urlParams.has('categoria')){
+            const select = document.querySelector('#categorias');
+            select.value = urlParams.get('categoria');
+        }
     }
 
 </script>
