@@ -110,7 +110,6 @@ def iniciar_sesion(request):
 
             user = Usuario.objects.get(email=email)
             user.update_clave(clave_aleatoria)
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
             return redirect(f'/validar_clave/inicio_sesion/{email}')
         else:
@@ -168,7 +167,6 @@ def validar_clave(request, tipo, email):
 # Función de validación de clave
 @login_required
 def mis_retos(request):
-
     logger.info("Entramos en la parte GET de MIS RETOS")
     tipo = request.GET.get("tipo")
     tipo_reto = ""
