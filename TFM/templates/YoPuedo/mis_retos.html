@@ -188,7 +188,7 @@
     }
 
     function cambioCategoria(opcion){
-        window.location.href = "{{ request.get_full_path }}?categoria=" + opcion.value;
+        window.location.href = "{{ request.get_full_path }}&categoria=" + opcion.value;
     }
 
 </script>
