@@ -5,6 +5,13 @@
 {% block static %}
   <link rel="stylesheet" href="{% static 'YoPuedo/css/mis_retos.css'%}">
   <link rel="stylesheet" href="{% static 'YoPuedo/css/modal-retos.css'%}">
+  <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet"
+       type="text/css">
+  <script src="{% static 'fontawesomefree/js/fontawesome.js' %}"></script>
+  <script src="{% static 'fontawesomefree/js/solid.js' %}"></script>
+  <script src="{% static 'fontawesomefree/js/brands.js' %}"></script>
 {% endblock %}
 
 {% block contenido %}
@@ -45,21 +52,21 @@
             </div>
             <select class="col-10 col-md-7" aria-label="select_categoria"
                     id="categorias" onchange="cambioCategoria(this)">
-              <option selected value="{% categoria_valor 'Todas categorias' %}">Todas categorías</option>
-              <option value="{% categoria_valor 'Ahorro' %}">
+              <option selected value="{% categoria_valor 'Todas categorias' %}">
+                  Todas categorías
+              </option>
+              <option value="{% categoria_valor 'Ahorro' %}" data-icon="fa-sharp fa-solid fa-piggy-bank">
                   <i class="bi bi-piggy-bank-fill"></i>
                   Ahorro
               </option>
-              <option value="{% categoria_valor 'Conocimientos' %}">
+              <option value="{% categoria_valor 'Conocimientos' %}" data-icon="fa-duotone fa-books">
                   <i class="bi bi-journals"></i>
                   Conocimientos
               </option>
-              <option value="{% categoria_valor 'Deporte' %}">
-                  <i class="bi bi-heart-pulse-fill"></i>
+              <option value="{% categoria_valor 'Deporte' %}" data-icon="fa-solid fa-heart-pulse">
                   Deporte
               </option>
-              <option value="{% categoria_valor 'Miedos' %}">
-                  <i class="bi bi-cloud-haze2-fill"></i>
+              <option value="{% categoria_valor 'Miedos' %}" data-icon="fa-duotone fa-face-scream">
                   Miedos
               </option>
             </select>
