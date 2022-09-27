@@ -3,4 +3,4 @@ pymysql
 django-passwords
 django-bootstrap-v5
 Pillow
-fontawesomefree==version_number
+fontawesomefree==6.2.0
