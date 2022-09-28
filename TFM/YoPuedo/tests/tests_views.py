@@ -19,7 +19,7 @@ class RegistroViewTest(TestCase):
         self.assertEqual(resp.status_code, HTTPStatus.OK)
 
     def test_post_registro(self):
-        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mjls130598@gmail.com.jpg"
         foto_perfil = open(foto_perfil, 'rb')
 
         data = {
@@ -44,7 +44,7 @@ class ClaveViewTest(TestCase):
         Usuario.objects.create_user(email="clave_view@gmail.com", nombre="María Jesús",
                                     password="Password1.", clave_aleatoria="clavealeat",
                                     clave_fija="clavefijausuario",
-                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mjls130598@gmail.com.jpg")
 
     def test_url_registro_accesible(self):
         resp = self.client.get('/validar_clave/registro/clave_view@gmail.com')
@@ -111,7 +111,7 @@ class InicioViewTest(TestCase):
         Usuario.objects.create_user(email="inicio_view@gmail.com", nombre="María Jesús",
                                     password="Password1.", clave_aleatoria="clavealeat",
                                     clave_fija="clavefijausuario",
-                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mjls130598@gmail.com.jpg")
 
     def test_url_accesible(self):
         resp = self.client.get('/iniciar_sesion/')
@@ -137,7 +137,7 @@ class MisRetosViewTest(TestCase):
                                               nombre="María Jesús", password="Password1.",
                                               clave_aleatoria="clavealeat",
                                               clave_fija="clavefijausuario",
-                                              foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                                              foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mjls130598@gmail.com.jpg")
 
         login(request, usuario, backend='django.contrib.auth.backends.ModelBackend')
 

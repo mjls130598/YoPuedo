@@ -8,9 +8,9 @@ class UsuarioModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         Usuario.objects.create_user(email="mariajesus@gmail.com", nombre="María Jesús",
-                               password="Password1.", clave_fija='clave_fija',
-                               clave_aleatoria='clave_aleatoria',
-                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                                    password="Password1.", clave_fija='clave_fija',
+                                    clave_aleatoria='clave_aleatoria',
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mjls130598@gmail.com")
 
     def test_email(self):
         usuario = Usuario.objects.get(email="mariajesus@gmail.com")
@@ -26,4 +26,5 @@ class UsuarioModelTest(TestCase):
 
     def test_foto_perfil(self):
         usuario = Usuario.objects.get(email="mariajesus@gmail.com")
-        self.assertEqual(usuario.foto_perfil, f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+        self.assertEqual(usuario.foto_perfil,
+                         f"{BASE_DIR}/media/YoPuedo/foto_perfil/mjls130598@gmail.com")
