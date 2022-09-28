@@ -5,6 +5,9 @@
 {% block static %}
   <link rel="stylesheet" href="{% static 'YoPuedo/css/mis_retos.css'%}">
   <link rel="stylesheet" href="{% static 'YoPuedo/css/modal-retos.css'%}">
+  <script type="text/javascript"
+        src="{% static 'YoPuedo/js/SpeechSynthesis.js' %}"></script>
+  <script src="https://kit.fontawesome.com/05cfaef439.js" crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block contenido %}
@@ -49,6 +52,7 @@
                   Todas categorías
               </option>
               <option value="{% categoria_valor 'Ahorro' %}">
+                  <i class="fa-solid fa-piggy-bank"></i>
                   Ahorro
               </option>
               <option value="{% categoria_valor 'Conocimientos' %}">
@@ -135,9 +139,33 @@
         <div class="tab-content p-3" id="tab-retos-content">
           <div class="tab-pane fade show active" id="propuestos" role="tabpanel"
                aria-labelledby="propuestos-tab">
-            Tab 1 content
-              {% if tipo_reto %} {{ tipo_reto }} {% endif %}
-              {% if categoria %} {{ categoria }} {% endif %}
+            <div class="row justify-content-between">
+                <div class="col" id="categoria">
+                    <i class="fa-solid fa-piggy-bank"></i>
+                </div>
+                <div class="col-md-11 col-10 row justify-content-between" id="objetivo">
+                    <div class="col-md-10 col-9" id="informacion">
+                        <h5>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            In fringilla, erat ut molestie aliquet, elit dui porttitor
+                            tellus, eget ultrices tortor urna eget arcu. Suspendisse
+                            volutpat ligula eu lorem sagittis, id pretium nibh dictum.
+                            Praesent maximus pulvinar dui at pellentesque. Integer feugiat
+                            laoreet pharetra. Pellentesque habitant morbi tristique senectus
+                            et netus et malesuada fames ac turpis egestas. Etiam metus
+                            dolor, vestibulum a rhoncus at, egestas at ligula. Proin
+                            tincidunt dignissim augue, eget tristique turpis malesuada sed.
+                            Nunc sed dolor malesuada magna venenatis dapibus quis a ligula.
+                            Nullam nec faucibus est. Nunc nec tempor sapien. Quisque ac
+                            aliquet lacus.
+                        </h5>
+                    </div>
+                    <div class="col align-self-center text-center" id="boton-ayuda">
+                        {% include 'YoPuedo/elementos/altavoz.html' with
+                        elementSpeech='informacion' %}
+                    </div>
+                </div>
+            </div>
           </div>
           <div class="tab-pane fade" id="proceso" role="tabpanel"
                aria-labelledby="proceso-tab">
