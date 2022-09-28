@@ -124,7 +124,7 @@ h5.titulo {
 }
 /* display .overlay when it has the .active class */
 .overlay.active {
-    opacity: 1;
+    opacity: 0.5;
     /* transparent black */
     background: rgba(0, 0, 0, 0.2);
 }
