@@ -5,13 +5,6 @@
 {% block static %}
   <link rel="stylesheet" href="{% static 'YoPuedo/css/mis_retos.css'%}">
   <link rel="stylesheet" href="{% static 'YoPuedo/css/modal-retos.css'%}">
-  <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
-  <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
-  <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet"
-       type="text/css">
-  <script src="{% static 'fontawesomefree/js/fontawesome.js' %}"></script>
-  <script src="{% static 'fontawesomefree/js/solid.js' %}"></script>
-  <script src="{% static 'fontawesomefree/js/brands.js' %}"></script>
 {% endblock %}
 
 {% block contenido %}
@@ -55,18 +48,16 @@
               <option selected value="{% categoria_valor 'Todas categorias' %}">
                   Todas categorías
               </option>
-              <option value="{% categoria_valor 'Ahorro' %}" data-icon="fa-sharp fa-solid fa-piggy-bank">
-                  <i class="bi bi-piggy-bank-fill"></i>
+              <option value="{% categoria_valor 'Ahorro' %}">
                   Ahorro
               </option>
-              <option value="{% categoria_valor 'Conocimientos' %}" data-icon="fa-duotone fa-books">
-                  <i class="bi bi-journals"></i>
+              <option value="{% categoria_valor 'Conocimientos' %}">
                   Conocimientos
               </option>
-              <option value="{% categoria_valor 'Deporte' %}" data-icon="fa-solid fa-heart-pulse">
+              <option value="{% categoria_valor 'Deporte' %}">
                   Deporte
               </option>
-              <option value="{% categoria_valor 'Miedos' %}" data-icon="fa-duotone fa-face-scream">
+              <option value="{% categoria_valor 'Miedos' %}">
                   Miedos
               </option>
             </select>
