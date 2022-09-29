@@ -84,6 +84,7 @@
 .categoria {
     font-size: -webkit-xxx-large;
     color: #E91E63;
+    font-weight: bold
 }
 
 .nav-link > .row > .col-2 > i {
