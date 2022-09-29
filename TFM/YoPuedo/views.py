@@ -172,10 +172,10 @@ def mis_retos(request):
     tipo_reto = ""
     if tipo:
         logger.info(f"Mostramos los retos {tipo}")
-        if tipo == "individual":
-            tipo_reto = "Retos individuales"
-        if tipo == "colectivo":
-            tipo_reto = "Retos colectivos"
+        if tipo == "individuales":
+            tipo_reto = "individuales"
+        if tipo == "colectivos":
+            tipo_reto = "colectivos"
 
     categoria = request.GET.get("categoria")
     categoria_reto = ""
