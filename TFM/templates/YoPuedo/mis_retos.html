@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load static tags_categorias media %}
+{% load static tags_categorias %}
 
 {% block static %}
   <link rel="stylesheet" href="{% static 'YoPuedo/css/mis_retos.css'%}">
@@ -168,7 +168,7 @@
                   <div class="col-md-10 col-9 informacion">
                       <h4 class="titulo_reto fw-bolder"> Título </h4>
                       <img class="imagen_reto img-fluid img-thumbnail"
-                           src="{% media 'YoPuedo/foto_perfil/mariajesus@gmail.com.jpg' %}"/>
+                           src="{% url 'media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg' %}"/>
                   </div>
                   <div class="col align-self-center text-center">
                       {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='texto_reto' %}
