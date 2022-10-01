@@ -24,7 +24,7 @@ class RegistroFormTests(TestCase):
             'password_again': 'Password1*',
         }
 
-        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mjls130598@gmail.com.jpg"
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
         foto_perfil = open(foto_perfil, 'rb')
 
         form = RegistroForm(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
@@ -230,7 +230,7 @@ class ClaveFormTest(TestCase):
                                     password="Password1.",
                                     clave_aleatoria="clavealeat",
                                     clave_fija="clavefijausuario",
-                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mjls130598@gmail.com.jpg")
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def test_clave_aleatoria_valida(self):
         data = {
@@ -275,7 +275,7 @@ class InicioFormTest(TestCase):
                                     password="Password1.",
                                     clave_aleatoria="clave1",
                                     clave_fija="clave2",
-                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mjls130598@gmail.com.jpg")
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def test_inicio_valido(self):
         data = {
