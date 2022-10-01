@@ -84,16 +84,16 @@
 .categoria {
     font-size: -webkit-xxx-large;
     color: #E91E63;
-    font-weight: bold
 }
 
 .nav-link > .row > .col-2 > i {
     font-size: larger;
 }
 
-.titulo_reto{
-    font-weight: bold;
-    color: black;
+@media screen and (max-width: 991px){
+    .texto_reto{
+        font-size: 1rem!important;
+    }
 }
 
 
