@@ -143,10 +143,10 @@
                     <i class="fa-solid fa-piggy-bank"></i>
                     <h5 class="fw-bolder">Ahorro</h5>
                 </div>
-                <div class="col-md-11 col-10 row justify-content-between" id="objetivo">
+                <div class="col-md-11 col-10 row justify-content-between objetivo">
                     <div class="col-md-10 col-9 informacion">
                         <h4 class="titulo_reto fw-bolder"> Título </h4>
-                        <h5 id="texto_reto">
+                        <h5 class="texto_reto">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                             In fringilla, erat ut molestie aliquet, elit dui porttitor
                             tellus, eget ultrices tortor urna eget arcu. Suspendisse
@@ -157,6 +157,23 @@
                         {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='texto_reto' %}
                     </div>
                 </div>
+            </div>
+
+            <div class="row justify-content-between">
+              <div class="col text-center align-self-center categoria">
+                  <i class="fa-solid fa-piggy-bank"></i>
+                  <h5 class="fw-bolder">Ahorro</h5>
+              </div>
+              <div class="col-md-11 col-10 row justify-content-between objetivo">
+                  <div class="col-md-10 col-9 informacion">
+                      <h4 class="titulo_reto fw-bolder"> Título </h4>
+                      <img class="imagen_reto img-fluid img-thumbnail"
+                           src="{% media 'YoPuedo/foto_perfil/mariajesus@gmail.com.jpg' %}"/>
+                  </div>
+                  <div class="col align-self-center text-center">
+                      {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='texto_reto' %}
+                  </div>
+              </div>
             </div>
           </div>
           <div class="tab-pane fade" id="proceso" role="tabpanel"
