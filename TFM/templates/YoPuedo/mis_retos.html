@@ -166,12 +166,13 @@
               </div>
               <div class="col-md-11 col-10 row justify-content-between objetivo">
                   <div class="col-md-10 col-9 informacion">
-                      <h4 class="titulo_reto fw-bolder"> Título </h4>
-                      <img class="imagen_reto img-fluid img-thumbnail"
-                           src="/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"/>
+                      <h4 class="titulo_reto fw-bolder" id="titulo_imagen"> Título </h4>
+                      <img class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                      col-xl-5" src="/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg">
                   </div>
                   <div class="col align-self-center text-center">
-                      {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='texto_reto' %}
+                      {% include 'YoPuedo/elementos/altavoz.html' with
+                      elementSpeech='titulo_imagen' %}
                   </div>
               </div>
             </div>
