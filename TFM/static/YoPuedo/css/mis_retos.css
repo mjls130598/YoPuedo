@@ -102,31 +102,7 @@
     height: 72vh;
 }
 
-#pButton {
-  float: left;
-  margin-top: 12px;
-  cursor: pointer;
+audio {
+    width: -webkit-fill-available;
 }
-
-#timeline {
-  width: 90%;
-  height: 2px;
-  margin-top: 20px;
-  margin-left: 10px;
-  float: left;
-  -webkit-border-radius: 15px;
-  border-radius: 15px;
-  background: rgba(0, 0, 0, 0.3);
-}
-
-#playhead {
-  width: 8px;
-  height: 8px;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
-  margin-top: -3px;
-  background: black;
-  cursor: pointer;
-}
-
 
