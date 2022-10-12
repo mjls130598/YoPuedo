@@ -3,6 +3,7 @@
 audioURL = "https://mariajesuslopez.pythonanywhere.com/"
 const APIKey = "69e712f90368467fa893f3b024fb0b42"
 divID = ""
+const refreshInterval = 5000
 
 // Creamos conexión con el servidor que transcribe
 const assembly = axios.create({
