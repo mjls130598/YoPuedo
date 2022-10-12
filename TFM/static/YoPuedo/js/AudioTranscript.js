@@ -1,6 +1,6 @@
 // MÉTODO PARA TRANSCRIBIR LOS AUDIOS Y LOS VÍDEOS A TEXTO
 
-audioURL = ""
+audioURL = "https://mariajesuslopez.pythonanywhere.com/"
 const APIKey = "69e712f90368467fa893f3b024fb0b42"
 divID = ""
 
@@ -37,7 +37,7 @@ const getTranscript = async () => {
 }
 
 function obtenerAudio(audioUrl, divId){
-    audioURL = audioUrl
+    audioURL += audioUrl
     divID = divId
     getTranscript()
 }

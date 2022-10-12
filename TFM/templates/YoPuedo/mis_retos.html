@@ -199,8 +199,10 @@
                       <script type="text/javascript">
                           const audio = document.getElementById("audio");
 
-                          if(!audio.paused)
-                            obtenerAudio("/media/YoPuedo/audio-ejemplo.mp3","texto_audio");
+                          if(!audio.paused){
+                            console.log("Empezamos transcripción");
+                            obtenerAudio("media/YoPuedo/audio-ejemplo.mp3","texto_audio");
+                          }
                       </script>
                   </div>
               </div>
