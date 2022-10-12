@@ -28,12 +28,14 @@ const getTranscript = async () => {
 
     if (transcriptStatus !== "completed") {
       console.log(`Transcript Status: ${transcriptStatus}`)
-      document.getElementById(divID).value = transcript.data.text;
+      let transcriptText = transcript.data.text
+      console.log(`Your transcribed text:\n\n${transcriptText}`)
+      document.getElementById(divID).textContent = transcriptText;
     } else if (transcriptStatus === "completed") {
       console.log("\nTranscription completed!\n")
       let transcriptText = transcript.data.text
       console.log(`Your transcribed text:\n\n${transcriptText}`)
-      document.getElementById(divID).value = transcript.data.text;
+      document.getElementById(divID).value = transcriptText;
       clearInterval(checkCompletionInterval)
     }
   }, refreshInterval)
