@@ -8,9 +8,7 @@
   <script type="text/javascript"
         src="{% static 'YoPuedo/js/SpeechSynthesis.js' %}"></script>
   <script src="https://kit.fontawesome.com/05cfaef439.js" crossorigin="anonymous"></script>
-  <script type="text/javascript"
-          src="{% static 'YoPuedo/js/AudioTranscript.js' %}"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 {% endblock %}
 
 {% block contenido %}
@@ -285,6 +283,8 @@
         }
     }
 </script>
+<script type="text/javascript"
+        src="{% static 'YoPuedo/js/AudioTranscript.js' %}"></script>
 {% endblock %}
 
 {% block modales %}
