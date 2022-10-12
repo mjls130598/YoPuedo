@@ -8,6 +8,8 @@
   <script type="text/javascript"
         src="{% static 'YoPuedo/js/SpeechSynthesis.js' %}"></script>
   <script src="https://kit.fontawesome.com/05cfaef439.js" crossorigin="anonymous"></script>
+  <script type="text/javascript"
+          src="{% static 'YoPuedo/js/AudioTranscript.js' %}"></script>
 {% endblock %}
 
 {% block contenido %}
@@ -190,9 +192,17 @@
               <div class="col-md-10 col-8 row justify-content-between objetivo">
                   <div class="col-md-10 col-12 mb-4 m-md-0 informacion">
                       <h4 class="titulo_reto fw-bolder"> Título </h4>
-                      <audio controls="">
+                      <audio controls id="audio">
                         <source src="/media/YoPuedo/audio-ejemplo.mp3" type="audio/mpeg">
                       </audio>
+                  </div>
+                  <div class="col align-self-center text-center" id="texto_audio">
+                      <script type="text/javascript">
+                          const audio = document.getElementById("audio");
+
+                          if(!audio.paused)
+                            obtenerAudio("/media/YoPuedo/audio-ejemplo.mp3","texto_audio");
+                      </script>
                   </div>
               </div>
               <div class="col text-center align-self-center ver-reto">
@@ -273,7 +283,6 @@
             select.value = urlParams.get('categoria');
         }
     }
-
 </script>
 {% endblock %}
 
