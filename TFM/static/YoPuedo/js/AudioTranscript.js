@@ -17,7 +17,8 @@ const assembly = axios.create({
 const getTranscript = async () => {
   // Sends the audio file to AssemblyAI for transcription
   const response = await assembly.post("/transcript", {
-    audio_url: audioURL,
+    "audio_url": audioURL,
+    "language_code": "es"
   })
 
   // Interval for checking transcript completion
