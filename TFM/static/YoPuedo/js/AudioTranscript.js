@@ -39,5 +39,6 @@ const getTranscript = async () => {
 function obtenerAudio(audioUrl, divId){
     audioURL += audioUrl
     divID = divId
+    console.log("Comenzamos con la transcripción")
     getTranscript()
 }
