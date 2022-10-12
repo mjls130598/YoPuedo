@@ -1,4 +1,5 @@
 // MÉTODO PARA TRANSCRIBIR LOS AUDIOS Y LOS VÍDEOS A TEXTO
+import axios from 'axios';
 
 audioURL = ""
 const APIKey = "69e712f90368467fa893f3b024fb0b42"
