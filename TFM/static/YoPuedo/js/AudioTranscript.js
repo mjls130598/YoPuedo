@@ -32,7 +32,7 @@ const getTranscript = async () => {
       console.log("\nTranscription completed!\n")
       let transcriptText = transcript.data.text
       console.log(`Your transcribed text:\n\n${transcriptText}`)
-      document.getElementById(h6ID).contentText = transcriptText;
+      document.getElementById(h6ID).textContent = transcriptText;
       clearInterval(checkCompletionInterval)
     }
   }, refreshInterval)
