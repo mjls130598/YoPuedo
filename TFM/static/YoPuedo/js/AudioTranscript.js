@@ -2,7 +2,7 @@
 
 audioURL = "https://mariajesuslopez.pythonanywhere.com/"
 const APIKey = "69e712f90368467fa893f3b024fb0b42"
-divID = ""
+h6ID = ""
 const refreshInterval = 5000
 
 // Creamos conexión con el servidor que transcribe
@@ -28,22 +28,19 @@ const getTranscript = async () => {
 
     if (transcriptStatus !== "completed") {
       console.log(`Transcript Status: ${transcriptStatus}`)
-      let transcriptText = transcript.data.text
-      console.log(`Your transcribed text:\n\n${transcriptText}`)
-      document.getElementById(divID).textContent = transcriptText;
     } else if (transcriptStatus === "completed") {
       console.log("\nTranscription completed!\n")
       let transcriptText = transcript.data.text
       console.log(`Your transcribed text:\n\n${transcriptText}`)
-      document.getElementById(divID).value = transcriptText;
+      document.getElementById(h6ID).contentText = transcriptText;
       clearInterval(checkCompletionInterval)
     }
   }, refreshInterval)
 }
 
-function obtenerAudio(audioUrl, divId){
+function obtenerAudio(audioUrl, id){
     audioURL += audioUrl
-    divID = divId
+    h6ID = id
     console.log("Comenzamos con la transcripción")
     getTranscript()
 }
