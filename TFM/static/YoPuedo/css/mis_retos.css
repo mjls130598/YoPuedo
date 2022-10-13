@@ -114,3 +114,7 @@ audio {
     font-size: -webkit-xxx-large;
 }
 
+.audio {
+    height: 10vh;
+}
+

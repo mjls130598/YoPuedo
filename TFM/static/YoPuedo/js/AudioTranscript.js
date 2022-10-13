@@ -28,6 +28,9 @@ const getTranscript = async () => {
 
     if (transcriptStatus !== "completed") {
       console.log(`Transcript Status: ${transcriptStatus}`)
+      document.getElementById(h6ID).textContent = "Procesando... Espere";
+      if (transcriptStatus === "error")
+        document.getElementById(h6ID).textContent = "Ha ocurrido un error. Inténtelo más tarde";
     } else if (transcriptStatus === "completed") {
       console.log("\nTranscription completed!\n")
       let transcriptText = transcript.data.text
