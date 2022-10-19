@@ -2,7 +2,6 @@
 
 audioURL = "https://mariajesuslopez.pythonanywhere.com/"
 const APIKey = "69e712f90368467fa893f3b024fb0b42"
-h6ID = ""
 const refreshInterval = 5000
 
 // Creamos conexión con el servidor que transcribe
@@ -14,7 +13,7 @@ const assembly = axios.create({
   },
 })
 
-const getTranscript = async () => {
+const getTranscript = async (divDivSpinner, elemento, ) => {
   // Sends the audio file to AssemblyAI for transcription
   const response = await assembly.post("/transcript", {
     "audio_url": audioURL,
@@ -28,14 +27,20 @@ const getTranscript = async () => {
 
     if (transcriptStatus !== "completed") {
       console.log(`Transcript Status: ${transcriptStatus}`)
-      document.getElementById(h6ID).textContent = "Procesando... Espere";
-      if (transcriptStatus === "error")
-        document.getElementById(h6ID).textContent = "Ha ocurrido un error. Inténtelo más tarde";
+      divDivSpinner.style.display = "flex"
+
+      if (transcriptStatus === "error"){
+        elemento.textContent = "Ha ocurrido un error. Inténtelo más tarde";
+      elemento.parentNode.removeChild(divDivSpinner)
+        elemento.style.color = "red";
+      }
     } else if (transcriptStatus === "completed") {
       console.log("\nTranscription completed!\n")
       let transcriptText = transcript.data.text
       console.log(`Your transcribed text:\n\n${transcriptText}`)
-      document.getElementById(h6ID).textContent = transcriptText;
+      elemento.textContent = transcriptText;
+      elemento.style.color = "black";
+      elemento.parentNode.removeChild(divDivSpinner)
       clearInterval(checkCompletionInterval)
     }
   }, refreshInterval)
@@ -43,7 +48,27 @@ const getTranscript = async () => {
 
 function obtenerAudio(audioUrl, id){
     audioURL += audioUrl
-    h6ID = id
+    elemento = document.getElementById(id)
+
+    var divDivSpinner = document.createElement("div")
+    divDivSpinner.classList.add("d-flex")
+    divDivSpinner.classList.add("justify-content-center")
+    divDivSpinner.classList.add("align-items-center")
+    divDivSpinner.classList.add("h-100")
+    divDivSpinner.style.display = "none"
+
+    var divSpinner = document.createElement("div")
+    divSpinner.classList.add("spinner-border")
+    divSpinner.classList.add("text-primary")
+    divSpinner.setAttribute("role", "status")
+
+    var spanSpinner = document.createElement("span")
+    spanSpinner.classList.add("sr-only")
+
+    divSpinner.appendChild(spanSpinner)
+    divDivSpinner.appendChild(divSpinner)
+    elemento.parentNode.insertBefore(divDivSpinner, elemento)
+
     console.log("Comenzamos con la transcripción")
-    getTranscript()
+    getTranscript(divDivSpinner, elemento)
 }
