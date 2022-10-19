@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% load static tags_categorias %}
+
+{% block static %}
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/nuevos_retos.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/mis_retos.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/modal-retos.css'%}">
+  <script type="text/javascript"
+        src="{% static 'YoPuedo/js/SpeechSynthesis.js' %}"></script>
+  <script src="https://kit.fontawesome.com/05cfaef439.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+{% endblock %}
+
+{% block contenido %}
+  <!-- CABECERA -->
+  <section>
+      <h4 id="titulo">
+        {% if tipo_reto == "individuales %}
+          <i class="bi bi-person-fill"></i>
+        {% else %}
+          <i class="bi bi-people-fill"></i>
+        {% endif %}
+          Nuevo reto {{ tipo_reto }}
+      </h4>
+  </section>
+
+  <section id="formulario_reto" class="m-1">
+    <!-- BOTONES NAVEGACIÓN TABS -->
+    <ul class="nav nav-tabs" id="tab-estados" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="general-tab"
+          data-bs-toggle="tab" data-bs-target="#general" type="button"
+          role="tab" aria-controls="general" aria-selected="true"
+          onclick="cambiarColorCuerpo('general')">
+          <div class="row">
+            <div class="col-2">
+              <i class="fa-sharp fa-solid fa-clipboard-list-check"></i>
+            </div>
+            <div class="d-none d-md-block col-10">
+              <h5>General</h5>
+            </div>
+          </div>
+        </button>
+      </li>
+
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="etapas-tab" data-bs-toggle="tab"
+          data-bs-target="#etapas" type="button" role="tab"
+          aria-controls="etapas" aria-selected="false"
+          onclick="cambiarColorCuerpo('etapas')">
+          <div class="row">
+            <div class="col-2">
+              <i class="fa-solid fa-chart-simple"></i>
+            </div>
+            <div class="d-none d-md-block col-10">
+              <h5>Etapas</h5>
+            </div>
+          </div>
+        </button>
+      </li>
+
+      {% if tipo_reto == "colectivos" %}
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="participantes-tab" data-bs-toggle="tab"
+          data-bs-target="#participantes" type="button" role="tab"
+          aria-controls="participantes" aria-selected="false"
+          onclick="cambiarColorCuerpo('participantes')">
+          <div class="row">
+            <div class="col-2">
+              <i class="fa-solid fa-people-group"></i>
+            </div>
+            <div class="d-none d-md-block col-10">
+              <h5>Participantes</h5>
+            </div>
+          </div>
+        </button>
+      </li>
+      {% endif %}
+
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="animadores-tab" data-bs-toggle="tab"
+          data-bs-target="#animadores" type="button" role="tab"
+          aria-controls="animadores" aria-selected="false"
+          onclick="cambiarColorCuerpo('animadores')">
+          <div class="row">
+            <div class="col-2">
+              <i class="fa-sharp fa-solid fa-hand-holding-hand"></i>
+            </div>
+            <div class="d-none d-md-block col-10">
+              <h5>Animadores</h5>
+            </div>
+          </div>
+        </button>
+      </li>
+    </ul>
+  </section>
+
+<script>
+    function cambiarColorCuerpo(id){
+        switch(id){
+            case "general":
+                document.getElementById("tab-retos-content").style.backgroundColor = "#F7C985";
+                document.getElementById("tab-retos-content").style.borderColor = "#F7C985";
+            break;
+            case "etapas":
+                document.getElementById("tab-retos-content").style.backgroundColor = "#CAE8A6";
+                document.getElementById("tab-retos-content").style.borderColor = "#CAE8A6";
+            break;
+            case "participantes":
+                document.getElementById("tab-retos-content").style.backgroundColor = "#BBF1F7";
+                document.getElementById("tab-retos-content").style.borderColor = "#BBF1F7";
+            break;
+            case "animadores":
+                document.getElementById("tab-retos-content").style.backgroundColor = "#F0CEF6";
+                document.getElementById("tab-retos-content").style.borderColor = "#F0CEF6";
+            break;
+        }
+    }
+</script>
+{% endblock %}
