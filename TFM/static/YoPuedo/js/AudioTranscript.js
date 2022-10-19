@@ -31,8 +31,9 @@ const getTranscript = async (divDivSpinner, elemento, ) => {
 
       if (transcriptStatus === "error"){
         elemento.textContent = "Ha ocurrido un error. Inténtelo más tarde";
-      elemento.parentNode.removeChild(divDivSpinner)
+        elemento.parentNode.removeChild(divDivSpinner)
         elemento.style.color = "red";
+        clearInterval(checkCompletionInterval)
       }
     } else if (transcriptStatus === "completed") {
       console.log("\nTranscription completed!\n")
