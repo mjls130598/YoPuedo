@@ -46,8 +46,8 @@ class Utils:
             logger.error("Error al subir la foto de perfil")
 
         Usuario.objects.create_user(email=email, nombre=nombre, password=password,
-                               foto_perfil=localizacion, clave_fija=clave_fija,
-                               clave_aleatoria=clave_aleatoria)
+                                    foto_perfil=localizacion, clave_fija=clave_fija,
+                                    clave_aleatoria=clave_aleatoria)
         return clave_aleatoria, clave_fija
 
     # Método que genera claves aleatorias
@@ -71,3 +71,10 @@ class Utils:
 
         mail.attach_alternative(content, 'text/html')
         mail.send()
+
+    CATEGORIAS_CHOOSE = (
+        ("economia", "Ahorro"),
+        ("inteligencia", "Conocimientos"),
+        ("salud", "Deporte"),
+        ("mente", "Miedos")
+    )

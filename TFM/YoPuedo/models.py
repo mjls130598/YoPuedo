@@ -55,6 +55,7 @@ class Amistad(models.Model):
 # TABLA YoPuedo_reto
 class Reto(models.Model):
     id_reto = models.CharField(max_length=50, primary_key=True)
+    titulo = models.CharField(max_length=500)
     objetivo = models.CharField(max_length=500)
     recompensa = models.CharField(max_length=500)
     estado = models.CharField(max_length=10, default="Propuesto")

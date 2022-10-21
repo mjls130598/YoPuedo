@@ -1,4 +1,4 @@
-#general-tab, #tab-retos-content {
+#general-tab, #form-reto-content {
     background: #F7C985;
     border-color: #F7C985;
 }
@@ -16,4 +16,24 @@
 #animadores-tab {
     background: #F0CEF6;
     border-color: #F0CEF6;
+}
+
+.imagen{
+    background: #3F51B5;
+    border-color: #3F51B5;
+}
+
+.audio{
+    background: #2196F3;
+    border-color: #2196F3;
+}
+
+.video{
+    background: #00BCD4;
+    border-color: #00BCD4;
+}
+
+#boton-siguiente{
+    background: #795548;
+    border-color: #795548;
 }

@@ -3,7 +3,7 @@ import re
 from django import forms
 from .models import Usuario
 
-from django.contrib.auth.hashers import check_password
+from .utils import Utils
 
 logger = logging.getLogger(__name__)
 
@@ -147,3 +147,63 @@ class ClaveForm(forms.Form):
                                     'introdúcela de nuevo.')
 
         return self
+
+
+##########################################################################################
+
+# Formulario de petición de claves
+class RetoGeneralForm(forms.Form):
+    titulo = forms.CharField(label='Título:', max_length='500',
+                             min_length='10', widget=forms.TextInput(
+            attrs={
+                'class': 'form-control'
+            }))
+    objetivo_imagen = forms.ImageField(label="Subir foto",
+                                       widget=forms.ClearableFileInput(
+                                           attrs={
+                                               'class': 'form-control imagen'
+                                           }))
+    objetivo_audio = forms.FileField(label="Subir audio",
+                                     widget=forms.ClearableFileInput(
+                                         attrs={
+                                             'class': 'form-control audio',
+                                             'accept': "audio/*"
+                                         }))
+    objetivo_video = forms.FileField(label="Subir vídeo",
+                                     widget=forms.ClearableFileInput(
+                                         attrs={
+                                             'class': 'form-control video',
+                                             'accept': "audio/*"
+                                         }))
+
+    objetivo_texto = forms.CharField(max_length='500', widget=forms.Textarea(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'O escribe el objetivo ...',
+        }))
+
+    categoria = forms.ChoiceField(label="Categoría: ", choices=Utils.CATEGORIAS_CHOOSE)
+
+    recompensa_imagen = forms.ImageField(label="Subir vídeo",
+                                         widget=forms.ClearableFileInput(
+                                             attrs={
+                                                 'class': 'form-control imagen'
+                                             }))
+    recompensa_audio = forms.FileField(label="Subir vídeo",
+                                       widget=forms.ClearableFileInput(
+                                           attrs={
+                                               'class': 'form-control audio',
+                                               'accept': "audio/*"
+                                           }))
+    recompensa_video = forms.FileField(label="Subir vídeo",
+                                       widget=forms.ClearableFileInput(
+                                           attrs={
+                                               'class': 'form-control video',
+                                               'accept': "video/*"
+                                           }))
+
+    recompensa_texto = forms.CharField(max_length='500', widget=forms.Textarea(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'O escribe la recompensa ...',
+        }))

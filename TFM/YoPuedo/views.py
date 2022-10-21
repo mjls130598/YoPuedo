@@ -3,12 +3,12 @@ from http import HTTPStatus
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.template.loader import get_template
 
 from .utils import Utils
-from .forms import RegistroForm, InicioForm, ClaveForm
+from .forms import RegistroForm, InicioForm, ClaveForm, RetoGeneralForm
 from .models import Usuario
 
 logger = logging.getLogger(__name__)
@@ -164,7 +164,7 @@ def validar_clave(request, tipo, email):
 
 ##########################################################################################
 
-# Función de validación de clave
+# Función de obtención de retos
 @login_required
 def mis_retos(request):
     logger.info("Entramos en la parte GET de MIS RETOS")
@@ -172,10 +172,7 @@ def mis_retos(request):
     tipo_reto = ""
     if tipo:
         logger.info(f"Mostramos los retos {tipo}")
-        if tipo == "individuales":
-            tipo_reto = "individuales"
-        if tipo == "colectivos":
-            tipo_reto = "colectivos"
+        tipo_reto = tipo
 
     categoria = request.GET.get("categoria")
     categoria_reto = ""
@@ -186,8 +183,14 @@ def mis_retos(request):
     return render(request, "YoPuedo/mis_retos.html",
                   {"tipo_reto": tipo_reto, "categoria": categoria_reto})
 
+@login_required
+def nuevo_reto(request):
+    logger.info("Entramos en la parte GET de MIS RETOS")
+    tipo = request.GET.get("tipo")
 
-def index(request):
-    logger.info("Entramos a la parte GET de INDEX")
-    form = RegistroForm()
-    return render(request, "YoPuedo/registro.html", {'register_form': form})
+    form = RetoGeneralForm()
+
+    return render(request, "YoPuedo/nuevo_reto.html",
+                  {"tipo_reto": tipo, "general_form": form})
+
+
