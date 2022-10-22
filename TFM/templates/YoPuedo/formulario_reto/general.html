@@ -1,4 +1,5 @@
 <div class='form-group {% if field.errors %} errorlist {% endif %}'>
+    {{ general_form.titulo.label }}
     {{ general_form.titulo }}
 
     {% for error in general_form.titulo.errors %}
@@ -28,6 +29,7 @@
 </div>
 
 <div class='form-group {% if field.errors %} errorlist {% endif %}'>
+    {{ general_form.categoria.label }}
     {{ general_form.categoria }}
 
     {% for error in general_form.categoria.errors%}
@@ -58,7 +60,7 @@
 
 <div class='form-group d-flex justify-content-end'>
     <button id="boton-siguiente" type="submit" class="btn btn-primary principales"
-            onclick='$("#tab-estados").tabs( "select", "etapas-tab" );cambiarColorCuerpo("etapas");'>
+            onclick='$("#tab-pasos").tabs( "select", "etapas-tab" );cambiarColorCuerpo("etapas");'>
         Siguiente
         <i class="fa-solid fa-angle-right"></i>
     </button>

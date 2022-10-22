@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="{% static 'YoPuedo/css/nuevo_reto.css'%}">
   <link rel="stylesheet" href="{% static 'YoPuedo/css/mis_retos.css'%}">
   <link rel="stylesheet" href="{% static 'YoPuedo/css/modal-retos.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/registro.css'%}">
   <script type="text/javascript"
         src="{% static 'YoPuedo/js/SpeechSynthesis.js' %}"></script>
   <script src="https://kit.fontawesome.com/05cfaef439.js" crossorigin="anonymous"></script>
@@ -27,7 +28,7 @@
 
   <section id="formulario_reto" class="m-1">
     <!-- BOTONES NAVEGACIÓN TABS -->
-    <ul class="nav nav-tabs" id="tab-estados" role="tablist">
+    <ul class="nav nav-tabs" id="tab-pasos" role="tablist">
       <li class="nav-item" role="presentation">
         <button class="nav-link active" id="general-tab"
           data-bs-toggle="tab" data-bs-target="#general" type="button"
@@ -35,9 +36,9 @@
           onclick="cambiarColorCuerpo('general')">
           <div class="row">
             <div class="col-2">
-              <i class="fa-sharp fa-solid fa-clipboard-list-check"></i>
+              <i class="fa-solid fa-clipboard"></i>
             </div>
-            <div class="d-none d-md-block col-10">
+            <div class="d-none d-md-block col-9">
               <h5>General</h5>
             </div>
           </div>
@@ -53,7 +54,7 @@
             <div class="col-2">
               <i class="fa-solid fa-chart-simple"></i>
             </div>
-            <div class="d-none d-md-block col-10">
+            <div class="d-none d-md-block col-9">
               <h5>Etapas</h5>
             </div>
           </div>

@@ -173,23 +173,24 @@ class RetoGeneralForm(forms.Form):
                                      widget=forms.ClearableFileInput(
                                          attrs={
                                              'class': 'form-control video',
-                                             'accept': "audio/*"
+                                             'accept': "video/*"
                                          }))
 
     objetivo_texto = forms.CharField(max_length='500', widget=forms.Textarea(
         attrs={
             'class': 'form-control',
             'placeholder': 'O escribe el objetivo ...',
+            'rows': '2'
         }))
 
     categoria = forms.ChoiceField(label="Categoría: ", choices=Utils.CATEGORIAS_CHOOSE)
 
-    recompensa_imagen = forms.ImageField(label="Subir vídeo",
+    recompensa_imagen = forms.ImageField(label="Subir foto",
                                          widget=forms.ClearableFileInput(
                                              attrs={
                                                  'class': 'form-control imagen'
                                              }))
-    recompensa_audio = forms.FileField(label="Subir vídeo",
+    recompensa_audio = forms.FileField(label="Subir audio",
                                        widget=forms.ClearableFileInput(
                                            attrs={
                                                'class': 'form-control audio',
@@ -206,4 +207,5 @@ class RetoGeneralForm(forms.Form):
         attrs={
             'class': 'form-control',
             'placeholder': 'O escribe la recompensa ...',
+            'rows': '2'
         }))
