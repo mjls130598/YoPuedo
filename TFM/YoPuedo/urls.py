@@ -4,7 +4,6 @@ from . import views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('', views.index, name='index'),
     path('registrarse/', views.registrarse, name="registrarse"),
     path('validar_clave/<str:tipo>/<str:email>', views.validar_clave,
          name="validar_clave"),
@@ -23,4 +22,5 @@ urlpatterns = [
         template_name='YoPuedo/recuperacion_contrasena/recuperacion_done.html',
     ), name="password_reset_complete"),
     path('mis_retos/', views.mis_retos, name="mis_retos"),
+    path('nuevo_reto/', views.nuevo_reto, name="nuevo_reto")
 ]
