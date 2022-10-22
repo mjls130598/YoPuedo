@@ -162,26 +162,29 @@ class RetoGeneralForm(forms.Form):
                                        widget=forms.ClearableFileInput(
                                            attrs={
                                                'class': 'form-control uploadfile'
-                                           }))
+                                           }),
+                                       required="false")
     objetivo_audio = forms.FileField(label="Subir audio",
                                      widget=forms.ClearableFileInput(
                                          attrs={
                                              'class': 'form-control uploadfile',
                                              'accept': "audio/*"
-                                         }))
+                                         }),
+                                     required="false")
     objetivo_video = forms.FileField(label="Subir vídeo",
                                      widget=forms.ClearableFileInput(
                                          attrs={
                                              'class': 'form-control uploadfile',
                                              'accept': "video/*"
-                                         }))
+                                         }),
+                                     required="false")
 
     objetivo_texto = forms.CharField(max_length='500', widget=forms.Textarea(
         attrs={
             'class': 'form-control mt-2 mb-2',
             'placeholder': 'O escribe el objetivo ...',
             'rows': '2'
-        }))
+        }), required="false")
 
     categoria = forms.ChoiceField(label="Categoría: ", choices=Utils.CATEGORIAS_CHOOSE)
 
@@ -189,23 +192,53 @@ class RetoGeneralForm(forms.Form):
                                          widget=forms.ClearableFileInput(
                                              attrs={
                                                  'class': 'form-control uploadfile'
-                                             }))
+                                             }),
+                                         required="false")
     recompensa_audio = forms.FileField(label="Subir audio",
                                        widget=forms.ClearableFileInput(
                                            attrs={
                                                'class': 'form-control uploadfile',
                                                'accept': "audio/*"
-                                           }))
+                                           }),
+                                       required="false")
     recompensa_video = forms.FileField(label="Subir vídeo",
                                        widget=forms.ClearableFileInput(
                                            attrs={
                                                'class': 'form-control uploadfile',
                                                'accept': "video/*"
-                                           }))
+                                           }),
+                                       required="false")
 
     recompensa_texto = forms.CharField(max_length='500', widget=forms.Textarea(
         attrs={
             'class': 'form-control mt-2 mb-2',
             'placeholder': 'O escribe la recompensa ...',
             'rows': '2'
-        }))
+        }), required="false")
+
+    def clean(self):
+        logger.info("Checkeando nuevo reto - General")
+
+        cleaned_data = super().clean()
+
+        objetivo_texto = cleaned_data.get('objetivo_texto')
+        objetivo_imagen = cleaned_data.get('objetivo_imagen')
+        objetivo_audio = cleaned_data.get('objetivo_audio')
+        objetivo_video = cleaned_data.get('objetivo_video')
+
+        recompensa_texto = cleaned_data.get('recompensa_texto')
+        recompensa_imagen = cleaned_data.get('recompensa_imagen')
+        recompensa_audio = cleaned_data.get('recompensa_audio')
+        recompensa_video = cleaned_data.get('recompensa_video')
+
+        if not objetivo_texto and not objetivo_imagen and not objetivo_video and not \
+                objetivo_audio:
+            logger.error("No se ha indicado el objetivo")
+            self.add_error('objetivo_texto', 'Debes indicar el objetivo del reto')
+
+        if not recompensa_texto and not recompensa_imagen and not recompensa_audio and \
+                not recompensa_video:
+            logger.error("No se ha indicado la recompensa")
+            self.add_error('recompensa_texto', 'Debes indicar la recompensa del reto')
+
+        return self
