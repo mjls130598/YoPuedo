@@ -33,6 +33,10 @@
     border-color: #00BCD4;
 }
 
+.container-input{
+    width: 50%;
+}
+
 #boton-siguiente{
     background: #795548;
     border-color: #795548;

@@ -13,9 +13,29 @@
 <div class='form-group {% if field.errors %} errorlist {% endif %}'>
     Objetivo:
     <div class="objetivo botones">
-        {{ general_form.objetivo_imagen }}
-        {{ general_form.objetivo_audio }}
-        {{ general_form.objetivo_video }}
+        <div class="container-input imagen">
+            {{ general_form.objetivo_imagen }}
+            <label for="objetivo_imagen">
+                <i class="fa-solid fa-image"></i>
+                <span class="label">{{ general_form.objetivo_imagen.label }}</span>
+            </label>
+        </div>
+
+        <div class="container-input audio">
+            {{ general_form.objetivo_audio }}
+            <label for="objetivo_audio">
+                <i class="fa-solid fa-file-audio"></i>
+                <span class="label">{{ general_form.objetivo_audio.label }}</span>
+            </label>
+        </div>
+
+        <div class="container-input video">
+            {{ general_form.objetivo_video }}
+            <label for="objetivo_video">
+                <i class="fa-solid fa-video"></i>
+                <span class="label">{{ general_form.objetivo_video.label }}</span>
+            </label>
+        </div>
     </div>
 
     {{ general_form.objetivo_texto }}
@@ -43,9 +63,29 @@
 <div class='form-group {% if field.errors %} errorlist {% endif %}'>
     Recompensa:
     <div class="recompensa botones">
-        {{ general_form.recompensa_imagen }}
-        {{ general_form.recompensa_audio }}
-        {{ general_form.recompensa_video }}
+        <div class="container-input imagen">
+            {{ general_form.recompensa_imagen }}
+            <label for="recompensa_imagen">
+                <i class="fa-solid fa-image"></i>
+                <span class="label">{{ general_form.recompensa_imagen.label }}</span>
+            </label>
+        </div>
+
+        <div class="container-input audio">
+            {{ general_form.recompensa_audio }}
+            <label for="recompensa_audio">
+                <i class="fa-solid fa-file-audio"></i>
+                <span class="label">{{ general_form.recompensa_audio.label }}</span>
+            </label>
+        </div>
+
+        <div class="container-input video">
+            {{ general_form.recompensa_video }}
+            <label for="recompensa_video">
+                <i class="fa-solid fa-video"></i>
+                <span class="label">{{ general_form.recompensa_video.label }}</span>
+            </label>
+        </div>
     </div>
 
     {{ general_form.recompensa_texto }}
