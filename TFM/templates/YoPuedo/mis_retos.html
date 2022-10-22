@@ -271,7 +271,7 @@
     }
 
     function nuevoReto(){
-        window.location.href = "{% url 'nuevo_reto' %}?tipo={{ tipo_reto }}"
+        window.location.href = "{% url 'nuevo_reto' tipo=tipo_reto %}";
     }
 
     window.onload = () => {

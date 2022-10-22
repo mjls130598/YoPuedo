@@ -184,9 +184,8 @@ def mis_retos(request):
                   {"tipo_reto": tipo_reto, "categoria": categoria_reto})
 
 @login_required
-def nuevo_reto(request):
+def nuevo_reto(request, tipo):
     logger.info("Entramos en la parte GET de MIS RETOS")
-    tipo = request.GET.get("tipo")
 
     form = RetoGeneralForm()
 
