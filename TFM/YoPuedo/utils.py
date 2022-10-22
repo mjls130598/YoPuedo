@@ -73,6 +73,7 @@ class Utils:
         mail.send()
 
     CATEGORIAS_CHOOSE = (
+        ("", "")
         ("economia", "Ahorro"),
         ("inteligencia", "Conocimientos"),
         ("salud", "Deporte"),

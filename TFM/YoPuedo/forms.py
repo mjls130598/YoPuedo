@@ -231,6 +231,8 @@ class RetoGeneralForm(forms.Form):
         recompensa_audio = cleaned_data.get('recompensa_audio')
         recompensa_video = cleaned_data.get('recompensa_video')
 
+        categoria = cleaned_data.get('categoria')
+
         if not objetivo_texto and not objetivo_imagen and not objetivo_video and not \
                 objetivo_audio:
             logger.error("No se ha indicado el objetivo")
@@ -240,5 +242,9 @@ class RetoGeneralForm(forms.Form):
                 not recompensa_video:
             logger.error("No se ha indicado la recompensa")
             self.add_error('recompensa_texto', 'Debes indicar la recompensa del reto')
+
+        if categoria == "":
+            logger.error("No ha seleccionado una categoría")
+            self.add_error('categoria', 'Debes indicar qué tipo de categoría es el reto')
 
         return self
