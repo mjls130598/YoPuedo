@@ -32,7 +32,7 @@
                 {{ field }}
               </div>
               <div class="col">
-                {% include 'YoPuedo/elementos/microfono.html' %}
+                {% include 'YoPuedo/elementos/microfono.html' with elementSpeech=field.id_for_label %}
               </div>
             </div>
           </div>

@@ -6,7 +6,7 @@
             {{ general_form.titulo }}
         </div>
         <div class="col">
-            {% include 'YoPuedo/elementos/microfono.html' %}
+            {% include 'YoPuedo/elementos/microfono.html' with elementSpeech=general_form.titulo.id_for_label %}
         </div>
     </div>
 
@@ -58,7 +58,7 @@
             {{ general_form.objetivo_texto }}
         </div>
         <div class="col">
-            {% include 'YoPuedo/elementos/microfono.html' %}
+            {% include 'YoPuedo/elementos/microfono.html' with elementSpeech=general_form.objetivo_texto.id_for_label %}
         </div>
     </div>
 
@@ -123,7 +123,7 @@
             {{ general_form.recompensa_texto }}
         </div>
         <div class="col">
-            {% include 'YoPuedo/elementos/microfono.html' %}
+            {% include 'YoPuedo/elementos/microfono.html' with elementSpeech=general_form.recompensa_texto.id_for_label %}
         </div>
     </div>
 
