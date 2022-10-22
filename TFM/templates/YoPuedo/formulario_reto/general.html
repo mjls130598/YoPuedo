@@ -1,6 +1,11 @@
-<div class='form-group {% if field.errors %} errorlist {% endif %}'>
+<div class='form-group fw-bold {% if field.errors %} errorlist {% endif %}'>
     {{ general_form.titulo.label }}
-    {{ general_form.titulo }}
+    <div class="col-10 {{ general_form.titulo.name }}">
+        {{ general_form.titulo }}
+    </div>
+    <div class="col">
+        {% include 'YoPuedo/elementos/microfono.html' %}
+    </div>
 
     {% for error in general_form.titulo.errors %}
     <div class="errorlist">
@@ -10,22 +15,22 @@
     {% endfor %}
 </div>
 
-<div class='form-group {% if field.errors %} errorlist {% endif %} mt-2'>
+<div class='form-group fw-bold {% if field.errors %} errorlist {% endif %} mt-2'>
     Objetivo:
     <div class="objetivo botones row m-1 justify-content-between">
         <button class="col-3 imagen p-2 btn btn-primary fw-bold">
             {{ general_form.objetivo_imagen }}
             <label for="id_objetivo_imagen">
                 <i class="fa-solid fa-image"></i>
-                <span class="label">{{ general_form.objetivo_imagen.label }}</span>
+                <span class="label d-none d-md-block">{{ general_form.objetivo_imagen.label }}</span>
             </label>
         </button>
 
         <button class="col-3 uploadaudio p-2 btn btn-primary fw-bold">
             {{ general_form.objetivo_audio }}
             <label for="id_objetivo_audio">
-                <i class="fa-solid fa-file-audio"></i>
-                <span class="label">{{ general_form.objetivo_audio.label }}</span>
+                <i class="fa-solid fa-volume"></i>
+                <span class="label d-none d-md-block">{{ general_form.objetivo_audio.label }}</span>
             </label>
         </button>
 
@@ -33,12 +38,17 @@
             {{ general_form.objetivo_video }}
             <label for="id_objetivo_video">
                 <i class="fa-solid fa-video"></i>
-                <span class="label">{{ general_form.objetivo_video.label }}</span>
+                <span class="label d-none d-md-block">{{ general_form.objetivo_video.label }}</span>
             </label>
         </button>
     </div>
 
-    {{ general_form.objetivo_texto }}
+    <div class="col-10 {{ general_form.objetivo_texto.name }}">
+        {{ general_form.objetivo_texto }}
+    </div>
+    <div class="col">
+        {% include 'YoPuedo/elementos/microfono.html' %}
+    </div>
 
     {% for error in general_form.objetivo_texto.errors%}
     <div class="errorlist">
@@ -48,7 +58,7 @@
     {% endfor %}
 </div>
 
-<div class='form-group {% if field.errors %} errorlist {% endif %} mt-2'>
+<div class='form-group fw-bold {% if field.errors %} errorlist {% endif %} mt-2'>
     {{ general_form.categoria.label }}
     {{ general_form.categoria }}
 
@@ -60,22 +70,22 @@
     {% endfor %}
 </div>
 
-<div class='form-group {% if field.errors %} errorlist {% endif %} mt-2'>
+<div class='form-group fw-bold {% if field.errors %} errorlist {% endif %} mt-2'>
     Recompensa:
     <div class="recompensa botones row m-1 justify-content-between">
         <button class="col-3 imagen p-2 btn btn-primary fw-bold">
             {{ general_form.recompensa_imagen }}
             <label for="id_recompensa_imagen">
                 <i class="fa-solid fa-image"></i>
-                <span class="label">{{ general_form.recompensa_imagen.label }}</span>
+                <span class="label d-none d-md-block">{{ general_form.recompensa_imagen.label }}</span>
             </label>
         </button>
 
         <button class="col-3 uploadaudio p-2 btn btn-primary fw-bold">
             {{ general_form.recompensa_audio }}
             <label for="id_recompensa_audio">
-                <i class="fa-solid fa-file-audio"></i>
-                <span class="label">{{ general_form.recompensa_audio.label }}</span>
+                <i class="fa-solid fa-volume"></i>
+                <span class="label d-none d-md-block">{{ general_form.recompensa_audio.label }}</span>
             </label>
         </button>
 
@@ -83,12 +93,17 @@
             {{ general_form.recompensa_video }}
             <label for="id_recompensa_video">
                 <i class="fa-solid fa-video"></i>
-                <span class="label">{{ general_form.recompensa_video.label }}</span>
+                <span class="label d-none d-md-block">{{ general_form.recompensa_video.label }}</span>
             </label>
         </button>
     </div>
 
-    {{ general_form.recompensa_texto }}
+    <div class="col-10 {{ general_form.recompensa_texto.name }}">
+        {{ general_form.recompensa_texto }}
+    </div>
+    <div class="col">
+        {% include 'YoPuedo/elementos/microfono.html' %}
+    </div>
 
     {% for error in general_form.objetivo_texto.errors%}
     <div class="errorlist">
@@ -98,8 +113,8 @@
     {% endfor %}
 </div>
 
-<div class='form-group d-flex justify-content-end'>
-    <button id="boton-siguiente" type="submit" class="btn btn-primary principales"
+<div class='form-group d-flex justify-content-end mt-5'>
+    <button id="boton-siguiente" type="submit" class="btn btn-primary fw-bold"
             onclick='$("#tab-pasos").tabs( "select", "etapas-tab" );cambiarColorCuerpo("etapas");'>
         Siguiente
         <i class="fa-solid fa-angle-right"></i>
