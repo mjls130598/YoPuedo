@@ -94,7 +94,8 @@
     </ul>
 
     <!-- CUERPO DE LOS TABS -->
-    <form class="form tab-content p-3" method="post" action="{% url 'nuevo_reto' %}"
+    <form class="form tab-content p-3" method="post"
+          action="{% url 'nuevo_reto' tipo=tipo_reto %}"
           enctype="multipart/form-data" id="form-reto-content">
       {% csrf_token %}
       <div class="tab-pane fade show active" id="general" role="tabpanel"
