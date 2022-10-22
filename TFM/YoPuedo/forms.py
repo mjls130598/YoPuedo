@@ -153,7 +153,7 @@ class ClaveForm(forms.Form):
 
 # Formulario de petición de claves
 class RetoGeneralForm(forms.Form):
-    titulo = forms.CharField(label='Título:', max_length='500',
+    titulo = forms.CharField(label='Título: ', max_length='500',
                              min_length='10', widget=forms.TextInput(
             attrs={
                 'class': 'form-control'
