@@ -1,10 +1,12 @@
 <div class='form-group fw-bold {% if field.errors %} errorlist {% endif %}'>
     {{ general_form.titulo.label }}
-    <div class="col-10 {{ general_form.titulo.name }}">
-        {{ general_form.titulo }}
-    </div>
-    <div class="col">
-        {% include 'YoPuedo/elementos/microfono.html' %}
+    <div class="row">
+        <div class="col-10 {{ general_form.titulo.name }}">
+            {{ general_form.titulo }}
+        </div>
+        <div class="col">
+            {% include 'YoPuedo/elementos/microfono.html' %}
+        </div>
     </div>
 
     {% for error in general_form.titulo.errors %}
@@ -22,15 +24,19 @@
             {{ general_form.objetivo_imagen }}
             <label for="id_objetivo_imagen">
                 <i class="fa-solid fa-image"></i>
-                <span class="label d-none d-md-block">{{ general_form.objetivo_imagen.label }}</span>
+                <span class="label d-none d-md-inline">{{
+                    general_form.objetivo_imagen.label
+                    }}</span>
             </label>
         </button>
 
         <button class="col-3 uploadaudio p-2 btn btn-primary fw-bold">
             {{ general_form.objetivo_audio }}
             <label for="id_objetivo_audio">
-                <i class="fa-solid fa-volume"></i>
-                <span class="label d-none d-md-block">{{ general_form.objetivo_audio.label }}</span>
+                <i class="fa-solid fa-headphones"></i>
+                <span class="label d-none d-md-inline">{{
+                    general_form.objetivo_audio.label
+                    }}</span>
             </label>
         </button>
 
@@ -38,16 +44,20 @@
             {{ general_form.objetivo_video }}
             <label for="id_objetivo_video">
                 <i class="fa-solid fa-video"></i>
-                <span class="label d-none d-md-block">{{ general_form.objetivo_video.label }}</span>
+                <span class="label d-none d-md-inline">{{
+                    general_form.objetivo_video.label
+                    }}</span>
             </label>
         </button>
     </div>
 
-    <div class="col-10 {{ general_form.objetivo_texto.name }}">
-        {{ general_form.objetivo_texto }}
-    </div>
-    <div class="col">
-        {% include 'YoPuedo/elementos/microfono.html' %}
+    <div class="row">
+        <div class="col-10 {{ general_form.objetivo_texto.name }}">
+            {{ general_form.objetivo_texto }}
+        </div>
+        <div class="col">
+            {% include 'YoPuedo/elementos/microfono.html' %}
+        </div>
     </div>
 
     {% for error in general_form.objetivo_texto.errors%}
@@ -76,8 +86,9 @@
         <button class="col-3 imagen p-2 btn btn-primary fw-bold">
             {{ general_form.recompensa_imagen }}
             <label for="id_recompensa_imagen">
-                <i class="fa-solid fa-image"></i>
-                <span class="label d-none d-md-block">{{ general_form.recompensa_imagen.label }}</span>
+                <i class="fa-solid fa-headphones"></i>
+                <span class="label d-none d-md-inline">{{
+                    general_form.recompensa_imagen.label }}</span>
             </label>
         </button>
 
@@ -85,7 +96,8 @@
             {{ general_form.recompensa_audio }}
             <label for="id_recompensa_audio">
                 <i class="fa-solid fa-volume"></i>
-                <span class="label d-none d-md-block">{{ general_form.recompensa_audio.label }}</span>
+                <span class="label d-none d-md-inline">{{
+                    general_form.recompensa_audio.label }}</span>
             </label>
         </button>
 
@@ -93,7 +105,8 @@
             {{ general_form.recompensa_video }}
             <label for="id_recompensa_video">
                 <i class="fa-solid fa-video"></i>
-                <span class="label d-none d-md-block">{{ general_form.recompensa_video.label }}</span>
+                <span class="label d-none d-md-inline">{{
+                    general_form.recompensa_video.label }}</span>
             </label>
         </button>
     </div>
