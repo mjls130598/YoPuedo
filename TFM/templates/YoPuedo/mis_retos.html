@@ -16,7 +16,7 @@
     <section>
         <h4 id="titulo">
             <i class="bi bi-graph-up"></i>
-            Mis retos {{ tipo_reto }}
+            Mis retos {% if tipo_reto % }{{ tipo_reto }}{% endif %}
         </h4>
     </section>
 
