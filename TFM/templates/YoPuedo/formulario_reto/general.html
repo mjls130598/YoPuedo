@@ -1,7 +1,7 @@
 <div class='form-group fw-bold {% if field.errors %} errorlist {% endif %}'>
     {{ general_form.titulo.label }}
-    <div class="row">
-        <div class="col-10 {{ general_form.titulo.name }}">
+    <div class="row align-items-center">
+        <div class="col-9 col-md-11 {{ general_form.titulo.name }}">
             {{ general_form.titulo }}
         </div>
         <div class="col">
@@ -51,8 +51,8 @@
         </button>
     </div>
 
-    <div class="row">
-        <div class="col-10 {{ general_form.objetivo_texto.name }}">
+    <div class="row align-items-center">
+        <div class="col-9 col-md-11 {{ general_form.objetivo_texto.name }}">
             {{ general_form.objetivo_texto }}
         </div>
         <div class="col">
@@ -114,11 +114,13 @@
         </button>
     </div>
 
-    <div class="col-10 {{ general_form.recompensa_texto.name }}">
-        {{ general_form.recompensa_texto }}
-    </div>
-    <div class="col">
-        {% include 'YoPuedo/elementos/microfono.html' %}
+    <div class="row align-items-center">
+        <div class="col-9 col-md-11 {{ general_form.recompensa_texto.name }}">
+            {{ general_form.recompensa_texto }}
+        </div>
+        <div class="col">
+            {% include 'YoPuedo/elementos/microfono.html' %}
+        </div>
     </div>
 
     {% for error in general_form.objetivo_texto.errors%}
