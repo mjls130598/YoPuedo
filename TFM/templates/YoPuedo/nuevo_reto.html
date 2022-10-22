@@ -42,7 +42,7 @@
         </button>
       </li>
 
-      <li class="nav-item" role="presentation">
+      <li class="nav-item d-none" role="presentation">
         <button class="nav-link" id="etapas-tab" data-bs-toggle="tab"
           data-bs-target="#etapas" type="button" role="tab"
           aria-controls="etapas" aria-selected="false"
@@ -59,7 +59,7 @@
       </li>
 
       {% if tipo_reto == "colectivos" %}
-      <li class="nav-item" role="presentation">
+      <li class="nav-item d-none" role="presentation">
         <button class="nav-link" id="participantes-tab" data-bs-toggle="tab"
           data-bs-target="#participantes" type="button" role="tab"
           aria-controls="participantes" aria-selected="false"
@@ -76,7 +76,7 @@
       </li>
       {% endif %}
 
-      <li class="nav-item" role="presentation">
+      <li class="nav-item d-none" role="presentation">
         <button class="nav-link" id="animadores-tab" data-bs-toggle="tab"
           data-bs-target="#animadores" type="button" role="tab"
           aria-controls="animadores" aria-selected="false"
@@ -95,7 +95,7 @@
 
     <!-- CUERPO DE LOS TABS -->
     <form class="form tab-content p-3" method="post"
-          action="{% url 'nuevo_reto' tipo=tipo_reto %}"
+          action="{% url 'nuevo_reto' %}"
           enctype="multipart/form-data" id="form-reto-content">
       {% csrf_token %}
       <div class="tab-pane fade show active" id="general" role="tabpanel"
@@ -142,8 +142,9 @@
     }
 
     function cambiarPestana(id){
-      $('#tab-pasos button[aria-controls="'+ id +'"]').tab('show')
-
+      elementto = document.getElementById(id + "-tab");
+      elemento.tab('show');
+      elemento.classList.remove("d-none");
       cambiarColorCuerpo(id);
     }
 </script>
@@ -151,4 +152,21 @@
 
 <script type="text/javascript"
       src="{% static 'YoPuedo/js/SpeechSynthesis.js' %}"></script>
+{% endblock %}
+
+{% block modales %}
+    <!-- MODAL DEL TIPO DE RETOS-->
+    <div class="modal fade" id="modal">
+      <div class="modal-dialog row align-items-center" id="dialog">
+          {% include 'YoPuedo/elementos/modal-retos.html' %}
+      </div>
+    </div>
+
+    {% if request.get_full_path == "/nuevo_reto/" %}
+      <script>
+            window.onload = () => {
+                $('#modal').modal('show');
+            }
+      </script>
+    {% endif %}
 {% endblock %}
