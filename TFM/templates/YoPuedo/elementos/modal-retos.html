@@ -2,7 +2,7 @@
   <div class="modal-body container">
     <div class="row align-items-center">
       <div id="individual" class="col-md">
-        <a href="{% url 'mis_retos' %}?tipo=individuales">
+        <a href="{{ request.path }}?tipo=individuales">
           <button
               class="btn btn-primary rounded-circle container align-items-center" id="individuales">
             <div class="row texto mt-5">
@@ -15,7 +15,7 @@
         </a>
       </div>
       <div id="colectivo" class="col-md">
-        <a href="{% url 'mis_retos' %}?tipo=colectivos">
+        <a href="{{ request.path }}?tipo=colectivos">
           <button class="btn btn-primary rounded-circle container" id="colectivos">
             <div class="row texto mt-5">
               <h5>Retos colectivos</h5>
