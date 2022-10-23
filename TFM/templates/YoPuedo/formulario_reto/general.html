@@ -143,3 +143,20 @@
     </button>
 </div>
 
+<script>
+    ;( function ( document, window, index )
+    {
+        var inputs = document.querySelectorAll( '.uploadfile' );
+        Array.prototype.forEach.call( inputs, function( input )
+        {
+            var label	 = input.nextElementSibling;
+
+            input.addEventListener( 'change', function( e )
+            {
+                var fileName = e.target.value.split( '\\' ).pop();
+                label.innerHTML = fileName;
+            });
+        });
+    }( document, window, 0 ));
+</script>
+
