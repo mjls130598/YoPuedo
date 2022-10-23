@@ -186,7 +186,11 @@ class RetoGeneralForm(forms.Form):
             'rows': '2'
         }), required=False)
 
-    categoria = forms.ChoiceField(label="Categoría: ", choices=Utils.CATEGORIAS_CHOOSE)
+    categoria = forms.ChoiceField(label="Categoría: ", choices=Utils.CATEGORIAS_CHOOSE,
+                                  widget=forms.Select(
+        attrs={
+            'class': 'col'
+        }))
 
     recompensa_imagen = forms.ImageField(label="Subir foto",
                                          widget=forms.ClearableFileInput(

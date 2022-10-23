@@ -71,8 +71,10 @@
 </div>
 
 <div class='form-group fw-bold {% if field.errors %} errorlist {% endif %} mt-4'>
-    <i class="fa-solid fa-square-check"></i>
-    {{ general_form.categoria.label }}
+    <div class="col-md-2">
+        <i class="fa-solid fa-square-check"></i>
+        {{ general_form.categoria.label }}
+    </div>
     {{ general_form.categoria }}
 
     {% for error in general_form.categoria.errors%}
@@ -149,12 +151,17 @@
         var inputs = document.querySelectorAll( '.uploadfile' );
         Array.prototype.forEach.call( inputs, function( input )
         {
-            var label	 = input.nextElementSibling;
+            var label	 = input.nextElementSibling,
+			labelVal = label.innerHTML;
 
             input.addEventListener( 'change', function( e )
             {
                 var fileName = e.target.value.split( '\\' ).pop();
-                label.innerHTML = fileName;
+
+                if(fileName)
+                    label.innerHTML = fileName;
+                else
+                    label.innerHTML = labelVal;
             });
         });
     }( document, window, 0 ));
