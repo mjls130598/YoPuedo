@@ -79,3 +79,14 @@ class Utils:
         ("salud", "Deporte"),
         ("mente", "Miedos")
     )
+
+    def numeroElementosImportados(self, importados):
+
+        numElementos = 0
+
+        for elemento in importados:
+            if elemento:
+                numElementos +=1
+
+        return numElementos
+
