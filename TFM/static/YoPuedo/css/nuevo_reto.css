@@ -41,7 +41,7 @@
 .uploadfile {
     opacity: 0;
     position: absolute;
-    width: fit-content;
+    width: inherit;
 }
 
 .uploadfile + label {
