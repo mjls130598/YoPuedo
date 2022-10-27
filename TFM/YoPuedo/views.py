@@ -45,8 +45,8 @@ def registrarse(request):
             foto = request.FILES["foto_de_perfil"]
 
             clave_aleatoria, clave_fija = utils.guardar_usuario(utils, email,
-                                                                         nombre, password,
-                                                                         foto)
+                                                                nombre, password,
+                                                                foto)
             enviar_clave(clave_aleatoria, email, "Registro en la aplicación Yo Puedo")
             enviar_clave_fija(clave_fija, email)
 
@@ -137,7 +137,8 @@ def validar_clave(request, tipo, email):
                 user = Usuario.objects.get(email=email)
                 if user is not None:
                     logger.info("Iniciamos sesión")
-                    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                    login(request, user,
+                          backend='django.contrib.auth.backends.ModelBackend')
                     return HttpResponse(status=HTTPStatus.ACCEPTED)
 
         else:
@@ -183,6 +184,7 @@ def mis_retos(request):
     return render(request, "YoPuedo/mis_retos.html",
                   {"tipo_reto": tipo_reto, "categoria": categoria_reto})
 
+
 @login_required
 def nuevo_reto(request):
     logger.info("Entramos en la parte GET de MIS RETOS")
@@ -193,5 +195,3 @@ def nuevo_reto(request):
 
     return render(request, "YoPuedo/nuevo_reto.html",
                   {"tipo_reto": tipo, "general_form": form})
-
-

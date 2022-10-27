@@ -24,7 +24,7 @@
     <div class="objetivo botones row m-1 justify-content-between">
         <div class="col-3 p-0">
             {{ general_form.objetivo_imagen }}
-            <button class="imagen p-2 btn btn-primary fw-bold">
+            <button class="imagen p-3 btn btn-primary fw-bold">
                 <label for="id_objetivo_imagen">
                     <i class="fa-solid fa-image"></i>
                     <span class="label d-none d-md-inline">
@@ -36,7 +36,7 @@
 
         <div class="col-3 p-0">
             {{ general_form.objetivo_audio }}
-            <button class="uploadaudio p-2 btn btn-primary fw-bold">
+            <button class="uploadaudio p-3 btn btn-primary fw-bold">
                 <label for="id_objetivo_audio">
                     <i class="fa-solid fa-headphones"></i>
                     <span class="label d-none d-md-inline">
@@ -48,7 +48,7 @@
 
         <div class="col-3 p-0">
             {{ general_form.objetivo_video }}
-            <button class="video p-2 btn btn-primary fw-bold">
+            <button class="video p-3 btn btn-primary fw-bold">
                 <label for="id_objetivo_video">
                     <i class="fa-solid fa-video"></i>
                     <span class="label d-none d-md-inline">
@@ -76,7 +76,7 @@
     {% endfor %}
 </div>
 
-<div class='form-group fw-bold {% if field.errors %} errorlist {% endif %} mt-4'>
+<div class='form-group fw-bold {% if field.errors %} errorlist {% endif %} mt-4 row'>
     <div class="col-md-2">
         <i class="fa-solid fa-square-check"></i>
         {{ general_form.categoria.label }}
@@ -97,7 +97,7 @@
     <div class="recompensa botones row m-1 justify-content-between">
         <div class="col-3 p-0">
             {{ general_form.recompensa_imagen }}
-            <button class="imagen p-2 btn btn-primary fw-bold">
+            <button class="imagen p-3 btn btn-primary fw-bold">
                 <label for="id_recompensa_imagen">
                     <i class="fa-solid fa-image"></i>
                     <span class="label d-none d-md-inline">
@@ -109,7 +109,7 @@
 
         <div class="col-3 p-0">
             {{ general_form.recompensa_audio }}
-            <button class="uploadaudio p-2 btn btn-primary fw-bold">
+            <button class="uploadaudio p-3 btn btn-primary fw-bold">
                 <label for="id_recompensa_audio">
                     <i class="fa-solid fa-headphones"></i>
                     <span class="label d-none d-md-inline">
@@ -121,7 +121,7 @@
 
         <div class="col-3 p-0">
             {{ general_form.recompensa_video }}
-            <button class="video p-2 btn btn-primary fw-bold">
+            <button class="video p-3 btn btn-primary fw-bold">
                 <label for="id_recompensa_video">
                     <i class="fa-solid fa-video"></i>
                     <span class="label d-none d-md-inline">
