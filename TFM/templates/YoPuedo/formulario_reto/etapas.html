@@ -132,7 +132,9 @@
     {% if siguiente_etapa != '' %}
       cambiarPestanaEtapa('{{ siguiente_etapa }}');
     {% endif %}
-    $("#boton-siguiente").attr("name") = getActualName();
-    $("#boton-anterior").attr("name") = getActualName();
+    {% if siguiente == "etapas" %}
+      $("#boton-siguiente").attr("name") = getActualName();
+      $("#boton-anterior").attr("name") = getActualName();
+    {% endif %}
   }
 </script>

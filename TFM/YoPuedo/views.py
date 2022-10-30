@@ -222,6 +222,8 @@ def nuevo_reto(request):
                 siguiente_etapa = '2-etapa'
             else:
                 logger.error("Hay errores en la pestaña 1º ETAPA")
+                siguiente_paso = 'etapas'
+                siguiente_etapa = '1-etapa'
 
         if '2-etapa' in request.POST:
             etapa_2_form = RetoEtapasForm(data=request.POST, prefix='2-etapa-form')
@@ -232,6 +234,8 @@ def nuevo_reto(request):
                 siguiente_etapa = '3-etapa'
             else:
                 logger.error("Hay errores en la pestaña 2º ETAPA")
+                siguiente_paso = 'etapas'
+                siguiente_etapa = '2-etapa'
 
         if '3-etapa' in request.POST:
             etapa_3_form = RetoEtapasForm(data=request.POST, prefix='3-etapa-form')
@@ -242,6 +246,8 @@ def nuevo_reto(request):
                 siguiente_etapa = '4-etapa'
             else:
                 logger.error("Hay errores en la pestaña 3º ETAPA")
+                siguiente_paso = 'etapas'
+                siguiente_etapa = '3-etapa'
 
         if '4-etapa' in request.POST:
             etapa_4_form = RetoEtapasForm(data=request.POST, prefix='4-etapa-form')
@@ -252,6 +258,8 @@ def nuevo_reto(request):
                 siguiente_etapa = '5-etapa'
             else:
                 logger.error("Hay errores en la pestaña 4º ETAPA")
+                siguiente_paso = 'etapas'
+                siguiente_etapa = '4-etapa'
 
         if '5-etapa' in request.POST:
             etapa_5_form = RetoEtapasForm(data=request.POST, prefix='5-etapa-form')
@@ -261,6 +269,8 @@ def nuevo_reto(request):
                 siguiente_paso = 'animadores' if tipo == 'individuales' else 'participantes'
             else:
                 logger.error("Hay errores en la pestaña 5º ETAPA")
+                siguiente_paso = 'etapas'
+                siguiente_etapa = '5-etapa'
 
     return render(request, "YoPuedo/nuevo_reto.html",
                   {"tipo_reto": tipo, "general_form": general_form,
