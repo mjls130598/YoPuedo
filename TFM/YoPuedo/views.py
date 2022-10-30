@@ -188,16 +188,16 @@ def mis_retos(request):
 @login_required
 def nuevo_reto(request):
     tipo = request.GET.get("tipo")
+    siguiente_paso = ""
+    siguiente_etapa = ""
+    general_form = RetoGeneralForm()
+    etapa_1_form = RetoEtapasForm(prefix='1-etapa')
+    etapa_2_form = RetoEtapasForm(prefix='2-etapa')
+    etapa_3_form = RetoEtapasForm(prefix='3-etapa')
+    etapa_4_form = RetoEtapasForm(prefix='4-etapa')
+    etapa_5_form = RetoEtapasForm(prefix='5-etapa')
 
     if request.method == 'GET':
-        siguiente_paso = ""
-        siguiente_etapa = ""
-        general_form = RetoGeneralForm()
-        etapa_1_form = RetoEtapasForm(prefix='1-etapa')
-        etapa_2_form = RetoEtapasForm(prefix='2-etapa')
-        etapa_3_form = RetoEtapasForm(prefix='3-etapa')
-        etapa_4_form = RetoEtapasForm(prefix='4-etapa')
-        etapa_5_form = RetoEtapasForm(prefix='5-etapa')
         logger.info("Entramos en la parte GET de NUEVO RETO")
 
     else:
