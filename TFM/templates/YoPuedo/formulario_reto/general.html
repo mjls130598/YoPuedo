@@ -1,8 +1,6 @@
 <div class='form-group fw-bold {% if general_form.titulo.errors %} errorlist {% endif %}'>
-    <h5>
-        <i class="fa-solid fa-bullseye"></i>
-        {{ general_form.titulo.label }}
-    </h5>
+    <i class="fa-solid fa-bullseye"></i>
+    {{ general_form.titulo.label }}
     <div class="row align-items-center">
         <div class="col-9 col-md-11 {{ general_form.titulo.name }}">
             {{ general_form.titulo }}
@@ -21,10 +19,8 @@
 </div>
 
 <div class='form-group fw-bold {% if general_form.objetivo_texto.errors %} errorlist {% endif %} mt-4'>
-    <h5>
-        <i class="fa-solid fa-flag-checkered"></i>
-        Objetivo:
-    </h5>
+    <i class="fa-solid fa-flag-checkered"></i>
+    Objetivo:
     <div class="objetivo botones row m-1 justify-content-between">
         <div class="col-3 p-0">
             {{ general_form.objetivo_imagen }}
@@ -82,10 +78,8 @@
 
 <div class='form-group fw-bold {% if general_form.categoria.errors %} errorlist {% endif %} mt-4 row'>
     <div class="col-md-2">
-        <h5>
-            <i class="fa-solid fa-square-check"></i>
-            {{ general_form.categoria.label }}
-        </h5>
+        <i class="fa-solid fa-square-check"></i>
+        {{ general_form.categoria.label }}
     </div>
     {{ general_form.categoria }}
 
@@ -98,10 +92,8 @@
 </div>
 
 <div class='form-group fw-bold {% if general_form.recompensa_texto.errors %} errorlist {% endif %} mt-4'>
-    <h5>
-        <i class="fa-solid fa-trophy"></i>
-        Recompensa:
-    </h5>
+    <i class="fa-solid fa-trophy"></i>
+    Recompensa:
     <div class="recompensa botones row m-1 justify-content-between">
         <div class="col-3 p-0">
             {{ general_form.recompensa_imagen }}
