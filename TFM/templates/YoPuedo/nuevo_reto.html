@@ -162,7 +162,7 @@
       </div>
     </div>
 
-    {% if request.get_full_path == "/nuevo_reto/" %}
+    {% if tipo_reto == "" %}
       <script>
             window.onload = () => {
                 $('#modal').modal('show');
