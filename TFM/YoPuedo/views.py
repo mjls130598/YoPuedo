@@ -204,8 +204,14 @@ def nuevo_reto(request):
         logger.info("Entramos en la parte POST de NUEVO RETO")
         logger.info(f"Creamos un reto de tipo {tipo}")
 
+        general_form = RetoGeneralForm(request.POST)
+        etapa_1_form = RetoEtapasForm(data=request.POST, prefix='1-etapa-form')
+        etapa_2_form = RetoEtapasForm(data=request.POST, prefix='2-etapa-form')
+        etapa_3_form = RetoEtapasForm(data=request.POST, prefix='3-etapa-form')
+        etapa_4_form = RetoEtapasForm(data=request.POST, prefix='4-etapa-form')
+        etapa_5_form = RetoEtapasForm(data=request.POST, prefix='5-etapa-form')
+
         if 'general' in request.POST:
-            general_form = RetoGeneralForm(request.POST)
             logger.info("Comprobamos nuevo reto GENERAL")
             if general_form.is_valid():
                 logger.info("Válido formulario nuevo reto GENERAL")
@@ -214,7 +220,6 @@ def nuevo_reto(request):
                 logger.error("Hay errores en la pestaña GENERAL")
 
         if '1-etapa' in request.POST:
-            etapa_1_form = RetoEtapasForm(data=request.POST, prefix='1-etapa-form')
             logger.info("Comprobamos nuevo reto 1º ETAPA")
             if etapa_1_form.is_valid():
                 logger.info("Válido formulario nuevo reto 1º ETAPA")
@@ -226,7 +231,6 @@ def nuevo_reto(request):
                 siguiente_etapa = '1-etapa'
 
         if '2-etapa' in request.POST:
-            etapa_2_form = RetoEtapasForm(data=request.POST, prefix='2-etapa-form')
             logger.info("Comprobamos nuevo reto 2º ETAPA")
             if etapa_2_form.is_valid():
                 logger.info("Válido formulario nuevo reto 2º ETAPA")
@@ -238,7 +242,6 @@ def nuevo_reto(request):
                 siguiente_etapa = '2-etapa'
 
         if '3-etapa' in request.POST:
-            etapa_3_form = RetoEtapasForm(data=request.POST, prefix='3-etapa-form')
             logger.info("Comprobamos nuevo reto 3º ETAPA")
             if etapa_3_form.is_valid():
                 logger.info("Válido formulario nuevo reto 3º ETAPA")
@@ -250,7 +253,6 @@ def nuevo_reto(request):
                 siguiente_etapa = '3-etapa'
 
         if '4-etapa' in request.POST:
-            etapa_4_form = RetoEtapasForm(data=request.POST, prefix='4-etapa-form')
             logger.info("Comprobamos nuevo reto 4º ETAPA")
             if etapa_4_form.is_valid():
                 logger.info("Válido formulario nuevo reto 4º ETAPA")
@@ -262,7 +264,6 @@ def nuevo_reto(request):
                 siguiente_etapa = '4-etapa'
 
         if '5-etapa' in request.POST:
-            etapa_5_form = RetoEtapasForm(data=request.POST, prefix='5-etapa-form')
             logger.info("Comprobamos nuevo reto 5º ETAPA")
             if etapa_5_form.is_valid():
                 logger.info("Válido formulario nuevo reto 5º ETAPA")
