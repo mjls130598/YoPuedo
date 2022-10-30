@@ -33,7 +33,7 @@
     border-color: #00BCD4;
 }
 
-#boton-siguiente{
+#boton-siguiente, #boton-anterior{
     background: #795548;
     border-color: #795548;
 }

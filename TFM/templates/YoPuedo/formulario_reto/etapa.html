@@ -1,0 +1,77 @@
+<div class='form-group fw-bold {% if etapa_form.objetivo_texto.errors %} errorlist {% endif %} mt-4'>
+  <i class="fa-solid fa-flag-checkered"></i>
+  Objetivo:
+  <div class="objetivo botones row m-1 justify-content-between">
+    <div class="col-3 p-0">
+      {{ etapa_form.objetivo_imagen }}
+      <button class="imagen p-3 btn btn-primary fw-bold">
+      <label for="id_objetivo_imagen">
+        <i class="fa-solid fa-image"></i>
+        <span class="label d-none d-md-inline">
+            {{ etapa_form.objetivo_imagen.label }}
+        </span>
+      </label>
+      </button>
+    </div>
+
+    <div class="col-3 p-0">
+      {{ etapa_form.objetivo_audio }}
+      <button class="uploadaudio p-3 btn btn-primary fw-bold">
+      <label for="id_objetivo_audio">
+        <i class="fa-solid fa-headphones"></i>
+        <span class="label d-none d-md-inline">
+            {{ etapa_form.objetivo_audio.label }}
+        </span>
+      </label>
+      </button>
+    </div>
+
+    <div class="col-3 p-0">
+      {{ etapa_form.objetivo_video }}
+      <button class="video p-3 btn btn-primary fw-bold">
+      <label for="id_objetivo_video">
+        <i class="fa-solid fa-video"></i>
+        <span class="label d-none d-md-inline">
+            {{ etapa_form.objetivo_video.label }}
+        </span>
+      </label>
+      </button>
+    </div>
+  </div>
+
+  <div class="row align-items-center">
+    <div class="col-9 col-md-11 {{ etapa_form.objetivo_texto.name }}">
+      {{ etapa_form.objetivo_texto }}
+    </div>
+    <div class="col">
+      {% include 'YoPuedo/elementos/microfono.html' with elementRecognition=etapa_form.objetivo_texto.id_for_label %}
+    </div>
+  </div>
+
+  {% for error in etapa_form.objetivo_texto.errors%}
+  <div class="errorlist">
+    <i class="bi bi-x-circle-fill"></i>
+    {{ error }}
+  </div>
+  {% endfor %}
+
+  {% if etapa_form.prefix != '1-etapa' %}
+  <div class='form-group d-flex justify-content-start mt-5'>
+      <button type="submit" id="boton-anterior" class="btn btn-primary fw-bold"
+              onclick="getActualName()">
+          <i class="fa-solid fa-angle-left"></i>
+          Anterior
+      </button>
+  </div>
+  {% endif %}
+
+  {% if etapa_form.prefix != '5-etapa' %}
+  <div class='form-group d-flex justify-content-end mt-5'>
+      <button type="submit" id="boton-siguiente" class="btn btn-primary fw-bold"
+              name="getActualName()">
+          Siguiente
+          <i class="fa-solid fa-angle-right"></i>
+      </button>
+  </div>
+  {% endif %}
+</div>

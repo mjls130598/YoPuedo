@@ -1,0 +1,137 @@
+<!-- BOTONES NAVEGACIÓN TABS -->
+<ul class="nav nav-tabs" id="tab-etapas" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="1-etapa-tab"
+      data-bs-toggle="tab" data-bs-target="#1-etapa" type="button"
+      role="tab" aria-controls="1-etapa" aria-selected="true"
+      onclick="cambiarColorCuerpo('1-etapa')">
+      <div class="row">
+        <div class="col-2">
+          <i class="fa-solid fa-chart-simple"></i>
+        </div>
+        <div class="d-none d-md-block col-9">
+          <h5>1º Etapa</h5>
+        </div>
+      </div>
+    </button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link d-none" id="2-etapa-tab"
+      data-bs-toggle="tab" data-bs-target="#2-etapa" type="button"
+      role="tab" aria-controls="2-etapa" aria-selected="true"
+      onclick="cambiarColorCuerpo('2-etapa')">
+      <div class="row">
+        <div class="col-2">
+          <i class="fa-solid fa-chart-simple"></i>
+        </div>
+        <div class="d-none d-md-block col-9">
+          <h5>2º Etapa</h5>
+        </div>
+      </div>
+    </button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link d-none" id="3-etapa-tab"
+      data-bs-toggle="tab" data-bs-target="#3-etapa" type="button"
+      role="tab" aria-controls="3-etapa" aria-selected="true"
+      onclick="cambiarColorCuerpo('3-etapa')">
+      <div class="row">
+        <div class="col-2">
+          <i class="fa-solid fa-chart-simple"></i>
+        </div>
+        <div class="d-none d-md-block col-9">
+          <h5>3º Etapa</h5>
+        </div>
+      </div>
+    </button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link d-none" id="4-etapa-tab"
+      data-bs-toggle="tab" data-bs-target="#4-etapa" type="button"
+      role="tab" aria-controls="4-etapa" aria-selected="true"
+      onclick="cambiarColorCuerpo('4-etapa')">
+      <div class="row">
+        <div class="col-2">
+          <i class="fa-solid fa-chart-simple"></i>
+        </div>
+        <div class="d-none d-md-block col-9">
+          <h5>4º Etapa</h5>
+        </div>
+      </div>
+    </button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="5-etapa-tab" name=""
+      data-bs-toggle="tab" data-bs-target="#5-etapa" type="button"
+      role="tab" aria-controls="5-etapa" aria-selected="true"
+      onclick="cambiarColorCuerpo('5-etapa')">
+      <div class="row">
+        <div class="col-2">
+          <i class="fa-solid fa-chart-simple"></i>
+        </div>
+        <div class="d-none d-md-block col-9">
+          <h5>5º Etapa</h5>
+        </div>
+      </div>
+    </button>
+  </li>
+</ul>
+
+<!-- CUERPO DE LOS TABS -->
+<div class="tab-content p-3" id="form-etapa-content">
+  <div class="tab-pane fade show active" id="1-etapa" role="tabpanel"
+    aria-labelledby="1-etapa-tab">
+    {% include 'YoPuedo/formulario_reto/etapa.html  with etapa=etapa_1_form%}
+  </div>
+  <div class="tab-pane fade show active" id="2-etapa" role="tabpanel"
+    aria-labelledby="2-etapa-tab">
+    {% include 'YoPuedo/formulario_reto/etapa.html  with etapa=etapa_2_form%}
+  </div>
+  <div class="tab-pane fade show active" id="3-etapa" role="tabpanel"
+    aria-labelledby="3-etapa-tab">
+    {% include 'YoPuedo/formulario_reto/etapa.html  with etapa=etapa_3_form%}
+  </div>
+  <div class="tab-pane fade show active" id="4-etapa" role="tabpanel"
+    aria-labelledby="4-etapa-tab">
+    {% include 'YoPuedo/formulario_reto/etapa.html  with etapa=etapa_4_form%}
+  </div>
+  <div class="tab-pane fade show active" id="5-etapa" role="tabpanel"
+    aria-labelledby="5-etapa-tab">
+    {% include 'YoPuedo/formulario_reto/etapa.html  with etapa=etapa_5_form%}
+  </div>
+</div>
+
+<div class='form-group d-flex justify-content-start mt-5'>
+    <button type="submit" id="boton-anterior" class="btn btn-primary fw-bold"
+            onclick="getActualName()">
+        <i class="fa-solid fa-angle-left"></i>
+        Anterior
+    </button>
+</div>
+
+<div class='form-group d-flex justify-content-end mt-5'>
+    <button type="submit" id="boton-siguiente" class="btn btn-primary fw-bold"
+            name="getActualName()">
+        Siguiente
+        <i class="fa-solid fa-angle-right"></i>
+    </button>
+</div>
+
+<script>
+  function getActualName(){
+    return $(#tab-etapas > .nav-item > .active > button).attr("aria-controls");
+  }
+
+  function cambiarPestanaEtapa(id){
+      elemento = document.getElementById(id + "-tab");
+      $('#tab-etapas button[aria-controls="' + id + '"]').tab('show');
+      elemento.classList.remove("d-none");
+      cambiarColorCuerpo(id);
+  }
+
+  {% if siguiente_etapa != '' %}
+    window.onload = () => {
+        cambiarPestanaEtapa({{ siguiente }});
+    }
+  {% endif %}
+</script>

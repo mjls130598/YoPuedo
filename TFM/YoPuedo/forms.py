@@ -151,7 +151,7 @@ class ClaveForm(forms.Form):
 
 ##########################################################################################
 
-# Formulario de petición de claves
+# Formulario de reto GENERAL
 class RetoGeneralForm(forms.Form):
     titulo = forms.CharField(label='Título: ', max_length='500',
                              min_length='10', widget=forms.TextInput(
@@ -188,9 +188,9 @@ class RetoGeneralForm(forms.Form):
 
     categoria = forms.ChoiceField(label="Categoría: ", choices=Utils.CATEGORIAS_CHOOSE,
                                   widget=forms.Select(
-        attrs={
-            'class': 'col'
-        }))
+                                      attrs={
+                                          'class': 'col'
+                                      }))
 
     recompensa_imagen = forms.ImageField(label="Subir foto",
                                          widget=forms.ClearableFileInput(
@@ -262,5 +262,61 @@ class RetoGeneralForm(forms.Form):
         if categoria == "":
             logger.error("No ha seleccionado una categoría")
             self.add_error('categoria', 'Debes indicar qué tipo de categoría es el reto')
+
+        return self
+
+
+##########################################################################################
+
+# Formulario de reto ETAPAS
+class RetoEtapasForm(forms.Form):
+    objetivo_imagen = forms.ImageField(label="Subir foto",
+                                       widget=forms.ClearableFileInput(
+                                           attrs={
+                                               'class': 'form-control uploadfile'
+                                           }),
+                                       required=False)
+    objetivo_audio = forms.FileField(label="Subir audio",
+                                     widget=forms.ClearableFileInput(
+                                         attrs={
+                                             'class': 'form-control uploadfile',
+                                             'accept': "audio/*"
+                                         }),
+                                     required=False)
+    objetivo_video = forms.FileField(label="Subir vídeo",
+                                     widget=forms.ClearableFileInput(
+                                         attrs={
+                                             'class': 'form-control uploadfile',
+                                             'accept': "video/*"
+                                         }),
+                                     required=False)
+
+    objetivo_texto = forms.CharField(max_length='500', widget=forms.Textarea(
+        attrs={
+            'class': 'form-control mt-2 mb-2',
+            'placeholder': 'O escribe el objetivo ...',
+            'rows': '2'
+        }), required=False)
+
+    def clean(self):
+        logger.info("Checkeando nuevo reto - General")
+
+        cleaned_data = super().clean()
+
+        objetivo_texto = cleaned_data.get('objetivo_texto')
+        objetivo_imagen = cleaned_data.get('objetivo_imagen')
+        objetivo_audio = cleaned_data.get('objetivo_audio')
+        objetivo_video = cleaned_data.get('objetivo_video')
+
+        if not objetivo_texto and not objetivo_imagen and not objetivo_video and not \
+                objetivo_audio:
+            logger.error("No se ha indicado el objetivo")
+            self.add_error('objetivo_texto', 'Debes indicar el objetivo de la etapa')
+
+        if Utils.numero_elementos_importados([objetivo_texto, objetivo_audio,
+                                              objetivo_video, objetivo_imagen]) > 1:
+            logger.error("Se ha introducido varias maneras en objetivo")
+            self.add_error('objetivo_texto', 'Elige una forma de indicar el objetivo '
+                                             'de la erapa')
 
         return self
