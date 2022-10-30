@@ -58,3 +58,28 @@ label > i {
     background: #607D8B;
     border-color: #607D8B;
 }
+
+#1-etapa-tab, #form-etapa-content{
+    background: #BCA5E5;
+    border-color: #BCA5E5;
+}
+
+#2-etapa-tab{
+    background: #9BABFF;
+    border-color: #9BABFF;
+}
+
+#3-etapa-tab{
+ background: #666699;
+ border-color: #666699;
+}
+
+#4-etapa-tab{
+    background: #996699;
+    border-color: #996699;
+}
+
+#5-etapa-tab{
+    background: #721372;
+    border-color: #721372;
+}
