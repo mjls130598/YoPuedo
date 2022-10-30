@@ -299,7 +299,7 @@ class RetoEtapasForm(forms.Form):
         }), required=False)
 
     def clean(self):
-        logger.info("Checkeando nuevo reto - General")
+        logger.info("Checkeando nuevo reto - Etapa")
 
         cleaned_data = super().clean()
 

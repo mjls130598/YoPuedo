@@ -131,7 +131,7 @@
 
   {% if siguiente_etapa != '' %}
     window.onload = () => {
-        cambiarPestanaEtapa({{ siguiente }});
+        cambiarPestanaEtapa('{{ siguiente_etapa }}');
     }
   {% endif %}
 </script>
