@@ -1,6 +1,8 @@
 <div class='form-group fw-bold {% if etapa_form.objetivo_texto.errors %} errorlist {% endif %} mt-4'>
-  <i class="fa-solid fa-flag-checkered"></i>
-  Objetivo:
+  <h5>
+    <i class="fa-solid fa-flag-checkered"></i>
+    Objetivo:
+  </h5>
   <div class="objetivo botones row m-1 justify-content-between">
     <div class="col-3 p-0">
       {{ etapa_form.objetivo_imagen }}
@@ -56,7 +58,7 @@
   {% endfor %}
 
   <div class="row">
-    {% if etapa_form.prefix != '1-etapa' %}
+    {% if etapa_form.prefix != '1-etapa-form' %}
     <div class='form-group d-flex justify-content-start mt-5 col'>
         <button type="submit" id="boton-anterior" class="btn btn-primary fw-bold"
                 onclick="getActualName()">
@@ -66,7 +68,7 @@
     </div>
     {% endif %}
 
-    {% if etapa_form.prefix != '5-etapa' %}
+    {% if etapa_form.prefix != '5-etapa-form' %}
     <div class='form-group d-flex justify-content-end mt-5 col'>
         <button type="submit" id="boton-nueva-etapa" class="btn btn-primary fw-bold"
                 name="getActualName()">

@@ -295,7 +295,7 @@ class RetoEtapasForm(forms.Form):
         attrs={
             'class': 'form-control mt-2 mb-2',
             'placeholder': 'O escribe el objetivo ...',
-            'rows': '2'
+            'rows': '5'
         }), required=False)
 
     def clean(self):
