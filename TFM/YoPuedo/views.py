@@ -187,75 +187,80 @@ def mis_retos(request):
 
 @login_required
 def nuevo_reto(request):
-    logger.info("Entramos en la parte GET de MIS RETOS")
     tipo = request.GET.get("tipo")
-    logger.info(f"Creamos un reto de tipo {tipo}")
-    siguiente_paso = ""
-    siguiente_etapa = ""
-    general_form = RetoGeneralForm()
-    etapa_1_form = RetoEtapasForm(prefix='1-etapa-form')
-    etapa_2_form = RetoEtapasForm(prefix='2-etapa-form')
-    etapa_3_form = RetoEtapasForm(prefix='3-etapa-form')
-    etapa_4_form = RetoEtapasForm(prefix='4-etapa-form')
-    etapa_5_form = RetoEtapasForm(prefix='5-etapa-form')
 
-    if 'general' in request.POST:
-        general_form = RetoGeneralForm(request.POST)
-        logger.info("Comprobamos nuevo reto GENERAL")
-        if general_form.is_valid():
-            logger.info("Válido formulario nuevo reto GENERAL")
-            siguiente_paso = 'etapas'
-        else:
-            logger.error("Hay errores en la pestaña GENERAL")
+    if request.method == 'GET':
+        siguiente_paso = ""
+        siguiente_etapa = ""
+        general_form = RetoGeneralForm()
+        etapa_1_form = RetoEtapasForm(prefix='1-etapa')
+        etapa_2_form = RetoEtapasForm(prefix='2-etapa')
+        etapa_3_form = RetoEtapasForm(prefix='3-etapa')
+        etapa_4_form = RetoEtapasForm(prefix='4-etapa')
+        etapa_5_form = RetoEtapasForm(prefix='5-etapa')
+        logger.info("Entramos en la parte GET de NUEVO RETO")
 
-    if '1-etapa' in request.POST:
-        etapa_1_form = RetoEtapasForm(data=request.POST, prefix='1-etapa-form')
-        logger.info("Comprobamos nuevo reto 1º ETAPA")
-        if etapa_1_form.is_valid():
-            logger.info("Válido formulario nuevo reto 1º ETAPA")
-            siguiente_paso = 'animadores' if tipo == 'individuales' else 'participantes'
-            siguiente_etapa = '2-etapa'
-        else:
-            logger.error("Hay errores en la pestaña 1º ETAPA")
+    else:
+        logger.info("Entramos en la parte POST de NUEVO RETO")
+        logger.info(f"Creamos un reto de tipo {tipo}")
 
-    if '2-etapa' in request.POST:
-        etapa_2_form = RetoEtapasForm(data=request.POST, prefix='2-etapa-form')
-        logger.info("Comprobamos nuevo reto 2º ETAPA")
-        if etapa_2_form.is_valid():
-            logger.info("Válido formulario nuevo reto 2º ETAPA")
-            siguiente_paso = 'animadores' if tipo == 'individuales' else 'participantes'
-            siguiente_etapa = '3-etapa'
-        else:
-            logger.error("Hay errores en la pestaña 2º ETAPA")
+        if 'general' in request.POST:
+            general_form = RetoGeneralForm(request.POST)
+            logger.info("Comprobamos nuevo reto GENERAL")
+            if general_form.is_valid():
+                logger.info("Válido formulario nuevo reto GENERAL")
+                siguiente_paso = 'etapas'
+            else:
+                logger.error("Hay errores en la pestaña GENERAL")
 
-    if '3-etapa' in request.POST:
-        etapa_3_form = RetoEtapasForm(data=request.POST, prefix='3-etapa-form')
-        logger.info("Comprobamos nuevo reto 3º ETAPA")
-        if etapa_3_form.is_valid():
-            logger.info("Válido formulario nuevo reto 3º ETAPA")
-            siguiente_paso = 'animadores' if tipo == 'individuales' else 'participantes'
-            siguiente_etapa = '4-etapa'
-        else:
-            logger.error("Hay errores en la pestaña 3º ETAPA")
+        if '1-etapa' in request.POST:
+            etapa_1_form = RetoEtapasForm(data=request.POST, prefix='1-etapa-form')
+            logger.info("Comprobamos nuevo reto 1º ETAPA")
+            if etapa_1_form.is_valid():
+                logger.info("Válido formulario nuevo reto 1º ETAPA")
+                siguiente_paso = 'animadores' if tipo == 'individuales' else 'participantes'
+                siguiente_etapa = '2-etapa'
+            else:
+                logger.error("Hay errores en la pestaña 1º ETAPA")
 
-    if '4-etapa' in request.POST:
-        etapa_4_form = RetoEtapasForm(data=request.POST, prefix='4-etapa-form')
-        logger.info("Comprobamos nuevo reto 4º ETAPA")
-        if etapa_4_form.is_valid():
-            logger.info("Válido formulario nuevo reto 4º ETAPA")
-            siguiente_paso = 'animadores' if tipo == 'individuales' else 'participantes'
-            siguiente_etapa = '5-etapa'
-        else:
-            logger.error("Hay errores en la pestaña 4º ETAPA")
+        if '2-etapa' in request.POST:
+            etapa_2_form = RetoEtapasForm(data=request.POST, prefix='2-etapa-form')
+            logger.info("Comprobamos nuevo reto 2º ETAPA")
+            if etapa_2_form.is_valid():
+                logger.info("Válido formulario nuevo reto 2º ETAPA")
+                siguiente_paso = 'animadores' if tipo == 'individuales' else 'participantes'
+                siguiente_etapa = '3-etapa'
+            else:
+                logger.error("Hay errores en la pestaña 2º ETAPA")
 
-    if '5-etapa' in request.POST:
-        etapa_5_form = RetoEtapasForm(data=request.POST, prefix='5-etapa-form')
-        logger.info("Comprobamos nuevo reto 5º ETAPA")
-        if etapa_5_form.is_valid():
-            logger.info("Válido formulario nuevo reto 5º ETAPA")
-            siguiente_paso = 'animadores' if tipo == 'individuales' else 'participantes'
-        else:
-            logger.error("Hay errores en la pestaña 5º ETAPA")
+        if '3-etapa' in request.POST:
+            etapa_3_form = RetoEtapasForm(data=request.POST, prefix='3-etapa-form')
+            logger.info("Comprobamos nuevo reto 3º ETAPA")
+            if etapa_3_form.is_valid():
+                logger.info("Válido formulario nuevo reto 3º ETAPA")
+                siguiente_paso = 'animadores' if tipo == 'individuales' else 'participantes'
+                siguiente_etapa = '4-etapa'
+            else:
+                logger.error("Hay errores en la pestaña 3º ETAPA")
+
+        if '4-etapa' in request.POST:
+            etapa_4_form = RetoEtapasForm(data=request.POST, prefix='4-etapa-form')
+            logger.info("Comprobamos nuevo reto 4º ETAPA")
+            if etapa_4_form.is_valid():
+                logger.info("Válido formulario nuevo reto 4º ETAPA")
+                siguiente_paso = 'animadores' if tipo == 'individuales' else 'participantes'
+                siguiente_etapa = '5-etapa'
+            else:
+                logger.error("Hay errores en la pestaña 4º ETAPA")
+
+        if '5-etapa' in request.POST:
+            etapa_5_form = RetoEtapasForm(data=request.POST, prefix='5-etapa-form')
+            logger.info("Comprobamos nuevo reto 5º ETAPA")
+            if etapa_5_form.is_valid():
+                logger.info("Válido formulario nuevo reto 5º ETAPA")
+                siguiente_paso = 'animadores' if tipo == 'individuales' else 'participantes'
+            else:
+                logger.error("Hay errores en la pestaña 5º ETAPA")
 
     return render(request, "YoPuedo/nuevo_reto.html",
                   {"tipo_reto": tipo, "general_form": general_form,

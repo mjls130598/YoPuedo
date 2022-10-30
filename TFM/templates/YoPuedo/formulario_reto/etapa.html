@@ -56,20 +56,20 @@
   {% endfor %}
 
   <div class="row">
-    {% if etapa_form.prefix != '1-etapa-form' %}
+    {% if etapa_form.prefix != '1-etapa' %}
     <div class='form-group d-flex justify-content-start mt-5 col'>
         <button type="submit" id="boton-anterior" class="btn btn-primary fw-bold"
-                onclick="getActualName()">
+                name="{{ etapa_form.prefix }}">
             <i class="fa-solid fa-angle-left"></i>
             Anterior etapa
         </button>
     </div>
     {% endif %}
 
-    {% if etapa_form.prefix != '5-etapa-form' %}
+    {% if etapa_form.prefix != '5-etapa' %}
     <div class='form-group d-flex justify-content-end mt-5 col'>
         <button type="submit" id="boton-nueva-etapa" class="btn btn-primary fw-bold"
-                name="getActualName()">
+                name="{{ etapa_form.prefix }}">
           <i class="fa-solid fa-plus"></i>
             Nueva etapa
         </button>
