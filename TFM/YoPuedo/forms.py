@@ -242,8 +242,8 @@ class RetoGeneralForm(forms.Form):
             logger.error("No se ha indicado el objetivo")
             self.add_error('objetivo_texto', 'Debes indicar el objetivo del reto')
 
-        if Utils.numeroElementosImportados([objetivo_texto, objetivo_audio,
-                                            objetivo_video, objetivo_imagen]) > 1:
+        if Utils.numero_elementos_importados([objetivo_texto, objetivo_audio,
+                                              objetivo_video, objetivo_imagen]) > 1:
             logger.error("Se ha introducido varias maneras en objetivo")
             self.add_error('objetivo_texto', 'Elige una forma de indicar el objetivo '
                                              'del reto')
@@ -253,8 +253,8 @@ class RetoGeneralForm(forms.Form):
             logger.error("No se ha indicado la recompensa")
             self.add_error('recompensa_texto', 'Debes indicar la recompensa del reto')
 
-        if Utils.numeroElementosImportados([recompensa_texto, recompensa_video,
-                                            recompensa_audio, recompensa_imagen]) > 1:
+        if Utils.numero_elementos_importados([recompensa_texto, recompensa_video,
+                                              recompensa_audio, recompensa_imagen]) > 1:
             logger.error("Se ha introducido varias maneras en recompensa")
             self.add_error('objetivo_texto', 'Elige una forma de indicar la recompensa '
                                              'del reto')

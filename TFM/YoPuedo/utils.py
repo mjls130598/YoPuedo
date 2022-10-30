@@ -79,14 +79,14 @@ class Utils:
         ("salud", "Deporte"),
         ("mente", "Miedos")
     )
+    @staticmethod
+    def numero_elementos_importados(importados):
 
-    def numeroElementosImportados(self, importados):
-
-        numElementos = 0
+        num_elementos = 0
 
         for elemento in importados:
             if elemento:
-                numElementos +=1
+                num_elementos += 1
 
-        return numElementos
+        return num_elementos
 
