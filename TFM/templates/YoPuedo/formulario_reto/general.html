@@ -1,4 +1,4 @@
-<div class='form-group fw-bold {% if field.errors %} errorlist {% endif %}'>
+<div class='form-group fw-bold {% if general_form.titulo.errors %} errorlist {% endif %}'>
     <i class="fa-solid fa-bullseye"></i>
     {{ general_form.titulo.label }}
     <div class="row align-items-center">
@@ -18,7 +18,7 @@
     {% endfor %}
 </div>
 
-<div class='form-group fw-bold {% if field.errors %} errorlist {% endif %} mt-4'>
+<div class='form-group fw-bold {% if general_form.objetivo_texto.errors %} errorlist {% endif %} mt-4'>
     <i class="fa-solid fa-flag-checkered"></i>
     Objetivo:
     <div class="objetivo botones row m-1 justify-content-between">
@@ -76,7 +76,7 @@
     {% endfor %}
 </div>
 
-<div class='form-group fw-bold {% if field.errors %} errorlist {% endif %} mt-4 row'>
+<div class='form-group fw-bold {% if general_form.categoria.errors %} errorlist {% endif %} mt-4 row'>
     <div class="col-md-2">
         <i class="fa-solid fa-square-check"></i>
         {{ general_form.categoria.label }}
@@ -91,7 +91,7 @@
     {% endfor %}
 </div>
 
-<div class='form-group fw-bold {% if field.errors %} errorlist {% endif %} mt-4'>
+<div class='form-group fw-bold {% if general_form.recompensa_texto .errors %} errorlist {% endif %} mt-4'>
     <i class="fa-solid fa-trophy"></i>
     Recompensa:
     <div class="recompensa botones row m-1 justify-content-between">
@@ -150,8 +150,7 @@
 </div>
 
 <div class='form-group d-flex justify-content-end mt-5'>
-    <button id="boton-siguiente" class="btn btn-primary fw-bold"
-            onclick='cambiarPestana("etapas")'>
+    <button type="submit" id="boton-siguiente" class="btn btn-primary fw-bold" name="general">
         Siguiente
         <i class="fa-solid fa-angle-right"></i>
     </button>
@@ -177,5 +176,11 @@
             });
         });
     }( document, window, 0 ));
+
+    {% if siguiente %}
+    window.onload = () => {
+        cambiarPestana('etapas');
+    }
+    {% endif %}
 </script>
 

@@ -255,7 +255,7 @@ class RetoGeneralForm(forms.Form):
 
         if Utils.numeroElementosImportados([recompensa_texto, recompensa_video,
                                             recompensa_audio, recompensa_imagen]) > 1:
-            logger.error("Se ha introducido varias maneras en objetivo")
+            logger.error("Se ha introducido varias maneras en recompensa")
             self.add_error('objetivo_texto', 'Elige una forma de indicar la recompensa '
                                              'del reto')
 

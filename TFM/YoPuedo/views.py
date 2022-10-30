@@ -190,8 +190,18 @@ def nuevo_reto(request):
     logger.info("Entramos en la parte GET de MIS RETOS")
     tipo = request.GET.get("tipo")
     logger.info(f"Creamos un reto de tipo {tipo}")
+    siguiente_paso = False
+    general_form = RetoGeneralForm()
 
-    form = RetoGeneralForm()
+    if 'general' in request.POST:
+        general_form = RetoGeneralForm(request.POST)
+        logger.info("Comprobamos nuevo reto GENERAL")
+        if general_form.is_valid():
+            logger.info("Válido formulario nuevo reto GENERAL")
+            siguiente_paso = True
+        else:
+            logger.error("Hay errores en la pestaña GENERAL")
 
     return render(request, "YoPuedo/nuevo_reto.html",
-                  {"tipo_reto": tipo, "general_form": form})
+                  {"tipo_reto": tipo, "general_form": general_form,
+                   "siguiente": siguiente_paso})
