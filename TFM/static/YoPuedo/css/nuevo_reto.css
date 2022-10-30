@@ -53,3 +53,8 @@
 label > i {
     font-size: x-large;
 }
+
+#boton-nueva-etapa{
+    background: #607D8B;
+    border-color: #607D8B;
+}
