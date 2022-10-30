@@ -205,11 +205,11 @@ def nuevo_reto(request):
         logger.info(f"Creamos un reto de tipo {tipo}")
 
         general_form = RetoGeneralForm(request.POST)
-        etapa_1_form = RetoEtapasForm(data=request.POST, prefix='1-etapa-form')
-        etapa_2_form = RetoEtapasForm(data=request.POST, prefix='2-etapa-form')
-        etapa_3_form = RetoEtapasForm(data=request.POST, prefix='3-etapa-form')
-        etapa_4_form = RetoEtapasForm(data=request.POST, prefix='4-etapa-form')
-        etapa_5_form = RetoEtapasForm(data=request.POST, prefix='5-etapa-form')
+        etapa_1_form = RetoEtapasForm(data=request.POST, prefix='1-etapa')
+        etapa_2_form = RetoEtapasForm(data=request.POST, prefix='2-etapa')
+        etapa_3_form = RetoEtapasForm(data=request.POST, prefix='3-etapa')
+        etapa_4_form = RetoEtapasForm(data=request.POST, prefix='4-etapa')
+        etapa_5_form = RetoEtapasForm(data=request.POST, prefix='5-etapa')
 
         if 'general' in request.POST:
             logger.info("Comprobamos nuevo reto GENERAL")
