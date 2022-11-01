@@ -457,4 +457,4 @@ def nuevo_reto(request):
 
     else:
         logger.error("Tipo incorrecto")
-        HttpResponseRedirect('/nuevo_reto/')
+        return HttpResponseRedirect('/nuevo_reto/')
