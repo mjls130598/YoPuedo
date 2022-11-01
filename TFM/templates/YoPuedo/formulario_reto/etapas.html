@@ -24,7 +24,7 @@
   {% for i in loop_etapas %}
   <div class="tab-pane fade {% if i == 1 %} show active {% endif %}" id="{{i}}-etapa"
        role="tabpanel" aria-labelledby="{{i}}-etapa-tab">
-    {% include 'YoPuedo/formulario_reto/etapa.html' with i = i %}
+    {% include 'YoPuedo/formulario_reto/etapa.html' with etapa_form = etapas_form.i etapa_anterior=i-1 etapa_posterior=i+1 %}
   </div>
   {% endfor %}
 </div>
