@@ -100,16 +100,21 @@
     {% include 'YoPuedo/formulario_reto/etapa.html' with etapa_form=etapa_5_form %}
   </div>
 </div>
+
+<input id="num_etapas" name="num_etapas" type="hidden" value="{{ num_etapas }}">
+
 <div class="row">
   <div class='form-group d-flex justify-content-start mt-5 col'>
-      <button type="submit" id="boton-anterior" class="btn btn-primary fw-bold">
+      <button type="submit" id="boton-anterior" class="btn btn-primary fw-bold"
+              value="anterior_paso">
           <i class="fa-solid fa-angle-left"></i>
           Anterior
       </button>
   </div>
 
   <div class='form-group d-flex justify-content-end mt-5 col'>
-      <button type="submit" id="boton-siguiente" class="btn btn-primary fw-bold">
+      <button type="submit" id="boton-siguiente" class="btn btn-primary fw-bold"
+              value="siguiente_paso">
           Siguiente
           <i class="fa-solid fa-angle-right"></i>
       </button>
@@ -130,6 +135,7 @@
 
   window.onload = () => {
     {% if siguiente_etapa != '' %}
+      activarPestanas('{{ num_etapas }}-etapa');
       cambiarPestanaEtapa('{{ siguiente_etapa }}');
     {% endif %}
     {% if siguiente == "etapas" %}

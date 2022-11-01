@@ -33,7 +33,7 @@
     border-color: #00BCD4;
 }
 
-#boton-siguiente, #boton-anterior{
+#boton-siguiente, #boton-anterior, #boton-anterior-etapa{
     background: #795548;
     border-color: #795548;
 }

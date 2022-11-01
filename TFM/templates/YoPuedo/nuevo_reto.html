@@ -176,8 +176,50 @@
       cambiarColorCuerpo(id);
     }
 
+    function activarPestanas(id){
+      switch(id){
+        case 'general':
+        break;
+        case 'etapas':
+          document.getElementById("general-tab").classList.remove("d-none");
+        break;
+        case 'participantes':
+          document.getElementById("general-tab").classList.remove("d-none");
+          document.getElementById("etapas-tab").classList.remove("d-none");
+        break;
+        case 'animadores':
+          document.getElementById("general-tab").classList.remove("d-none");
+          document.getElementById("etapas-tab").classList.remove("d-none");
+          {% if tipo_reto == 'colectivos' %}
+          document.getElementById("participantes-tab").classList.remove("d-none");
+          {% endif %}
+        break;
+        case '1-etapa':
+        break;
+        case '2-etapa':
+          document.getElementById("1-etapa-tab").classList.remove("d-none");
+        break;
+        case '3-etapa':
+          document.getElementById("1-etapa-tab").classList.remove("d-none");
+          document.getElementById("2-etapa-tab").classList.remove("d-none");
+        break;
+        case '4-etapa':
+          document.getElementById("1-etapa-tab").classList.remove("d-none");
+          document.getElementById("2-etapa-tab").classList.remove("d-none");
+          document.getElementById("3-etapa-tab").classList.remove("d-none");
+        break;
+        case '5-etapa':
+          document.getElementById("1-etapa-tab").classList.remove("d-none");
+          document.getElementById("2-etapa-tab").classList.remove("d-none");
+          document.getElementById("3-etapa-tab").classList.remove("d-none");
+          document.getElementById("4-etapa-tab").classList.remove("d-none");
+        break;
+      }
+    }
+
     {% if siguiente != '' %}
     window.onload = () => {
+        activarPestanas('{{ siguiente }}');
         cambiarPestana('{{ siguiente }}');
     }
     {% endif %}
