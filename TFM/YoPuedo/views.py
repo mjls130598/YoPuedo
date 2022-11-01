@@ -173,7 +173,7 @@ def mis_retos(request):
     if tipo == 'individuales' or tipo == 'colectivos':
         logger.info(f"Mostramos los retos {tipo}")
 
-    else:
+    elif tipo != '':
         logger.error("Tipo incorrecto")
         HttpResponseRedirect('/mis_retos/')
 
@@ -192,19 +192,17 @@ def mis_retos(request):
 @login_required
 def nuevo_reto(request):
     tipo = request.GET.get("tipo")
+    siguiente_paso = ""
+    siguiente_etapa = ""
+    num_etapas = 1
+    general_form = RetoGeneralForm()
+    etapa_1_form = RetoEtapasForm(prefix='1-etapa')
+    etapa_2_form = RetoEtapasForm(prefix='2-etapa')
+    etapa_3_form = RetoEtapasForm(prefix='3-etapa')
+    etapa_4_form = RetoEtapasForm(prefix='4-etapa')
+    etapa_5_form = RetoEtapasForm(prefix='5-etapa')
 
-    # 1º Comprobamos que se ha indicado el tipo correcto antes de enviar o recibir el reto
     if tipo == 'individuales' or tipo == 'colectivos':
-        siguiente_paso = ""
-        siguiente_etapa = ""
-        num_etapas = 1
-        general_form = RetoGeneralForm()
-        etapa_1_form = RetoEtapasForm(prefix='1-etapa')
-        etapa_2_form = RetoEtapasForm(prefix='2-etapa')
-        etapa_3_form = RetoEtapasForm(prefix='3-etapa')
-        etapa_4_form = RetoEtapasForm(prefix='4-etapa')
-        etapa_5_form = RetoEtapasForm(prefix='5-etapa')
-
         if request.method == 'GET':
             logger.info("Entramos en la parte GET de NUEVO RETO")
 
@@ -448,13 +446,12 @@ def nuevo_reto(request):
                     siguiente_paso = 'etapas'
                     siguiente_etapa = '5-etapa'
 
-        return render(request, "YoPuedo/nuevo_reto.html",
-                      {"tipo_reto": tipo, "general_form": general_form,
-                       "etapa_1_form": etapa_1_form, "etapa_2_form": etapa_2_form,
-                       "etapa_3_form": etapa_3_form, "etapa_4_form": etapa_4_form,
-                       "etapa_5_form": etapa_5_form, "siguiente": siguiente_paso,
-                       "siguiente_etapa": siguiente_etapa, "num_etapas": num_etapas})
-
-    else:
-        logger.error("Tipo incorrecto")
+    elif tipo != '':
         return HttpResponseRedirect('/nuevo_reto/')
+
+    return render(request, "YoPuedo/nuevo_reto.html",
+                  {"tipo_reto": tipo, "general_form": general_form,
+                   "etapa_1_form": etapa_1_form, "etapa_2_form": etapa_2_form,
+                   "etapa_3_form": etapa_3_form, "etapa_4_form": etapa_4_form,
+                   "etapa_5_form": etapa_5_form, "siguiente": siguiente_paso,
+                   "siguiente_etapa": siguiente_etapa, "num_etapas": num_etapas})
