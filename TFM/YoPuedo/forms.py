@@ -311,13 +311,12 @@ class RetoEtapasForm(forms.Form):
         if not objetivo_texto and not objetivo_imagen and not objetivo_video and not \
                 objetivo_audio:
             logger.error("No se ha indicado el objetivo")
-            self.add_error(f'{self.prefix}-objetivo_texto', 'Debes indicar el objetivo '
-                                                            'de la etapa')
+            self.add_error('objetivo_texto', 'Debes indicar el objetivo de la etapa')
 
         if Utils.numero_elementos_importados([objetivo_texto, objetivo_audio,
                                               objetivo_video, objetivo_imagen]) > 1:
             logger.error("Se ha introducido varias maneras en objetivo")
-            self.add_error(f'{self.prefix}-objetivo_texto', 'Elige una forma de indicar '
-                                                            'el objetivo de la erapa')
+            self.add_error('objetivo_texto', 'Elige una forma de indicar el objetivo de '
+                                             'la etapa')
 
         return self
