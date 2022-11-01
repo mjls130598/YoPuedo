@@ -223,7 +223,7 @@ def nuevo_reto(request):
                 if general_form.is_valid():
                     logger.info("Válido formulario nuevo reto GENERAL")
                     siguiente_paso = 'etapas'
-                    siguiente_etapa = num_etapas + '-etapa'
+                    siguiente_etapa = str(num_etapas) + '-etapa'
                 else:
                     logger.error("Hay errores en la pestaña GENERAL")
 
