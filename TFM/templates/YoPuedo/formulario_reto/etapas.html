@@ -30,83 +30,20 @@
       </div>
     </button>
   </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link d-none" id="3-etapa-tab"
-      data-bs-toggle="tab" data-bs-target="#3-etapa" type="button"
-      role="tab" aria-controls="3-etapa" aria-selected="true"
-      onclick="">
-      <div class="row">
-        <div class="col-2">
-          <i class="fa-solid fa-chart-simple"></i>
-        </div>
-        <div class="d-none d-md-block col-9">
-          <h5>3º Etapa</h5>
-        </div>
-      </div>
-    </button>
-  </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link d-none" id="4-etapa-tab"
-      data-bs-toggle="tab" data-bs-target="#4-etapa" type="button"
-      role="tab" aria-controls="4-etapa" aria-selected="true"
-      onclick="">
-      <div class="row">
-        <div class="col-2">
-          <i class="fa-solid fa-chart-simple"></i>
-        </div>
-        <div class="d-none d-md-block col-9">
-          <h5>4º Etapa</h5>
-        </div>
-      </div>
-    </button>
-  </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link d-none" id="5-etapa-tab" name=""
-      data-bs-toggle="tab" data-bs-target="#5-etapa" type="button"
-      role="tab" aria-controls="5-etapa" aria-selected="true"
-      onclick="">
-      <div class="row">
-        <div class="col-2">
-          <i class="fa-solid fa-chart-simple"></i>
-        </div>
-        <div class="d-none d-md-block col-9">
-          <h5>5º Etapa</h5>
-        </div>
-      </div>
-    </button>
-  </li>
 </ul>
 
 <!-- CUERPO DE LOS TABS -->
 <div class="tab-content p-3" id="form-etapa-content">
   <div class="tab-pane fade show active" id="1-etapa" role="tabpanel"
     aria-labelledby="1-etapa-tab">
-    {% include 'YoPuedo/formulario_reto/etapa.html' with etapa_form=etapa_1_form %}
-  </div>
-  <div class="tab-pane fade" id="2-etapa" role="tabpanel"
-    aria-labelledby="2-etapa-tab">
-    {% include 'YoPuedo/formulario_reto/etapa.html' with etapa_form=etapa_2_form %}
-  </div>
-  <div class="tab-pane fade" id="3-etapa" role="tabpanel"
-    aria-labelledby="3-etapa-tab">
-    {% include 'YoPuedo/formulario_reto/etapa.html' with etapa_form=etapa_3_form %}
-  </div>
-  <div class="tab-pane fade" id="4-etapa" role="tabpanel"
-    aria-labelledby="4-etapa-tab">
-    {% include 'YoPuedo/formulario_reto/etapa.html' with etapa_form=etapa_4_form %}
-  </div>
-  <div class="tab-pane fade" id="5-etapa" role="tabpanel"
-    aria-labelledby="5-etapa-tab">
-    {% include 'YoPuedo/formulario_reto/etapa.html' with etapa_form=etapa_5_form %}
+    {% include 'YoPuedo/formulario_reto/etapa.html' with etapa_form = etapas_form.0 %}
   </div>
 </div>
-
-<input id="num_etapas" name="num_etapas" type="hidden" value="{{ num_etapas }}">
 
 <div class="row">
   <div class='form-group d-flex justify-content-start mt-5 col'>
       <button type="submit" id="boton-anterior" class="btn btn-primary fw-bold"
-              value="anterior_paso">
+              value="anterior_paso" onclick="cambiarPestana('general')">
           <i class="fa-solid fa-angle-left"></i>
           Anterior
       </button>
@@ -114,12 +51,15 @@
 
   <div class='form-group d-flex justify-content-end mt-5 col'>
       <button type="submit" id="boton-siguiente" class="btn btn-primary fw-bold"
-              value="siguiente_paso">
+              value="siguiente_paso"
+              onclick="{% if tipo_reto == 'colectivo'%} cambiarPestana('participantes') {% else %} cambiarPestana('animadores') {% endif %}">
           Siguiente
           <i class="fa-solid fa-angle-right"></i>
       </button>
   </div>
 </div>
+
+<input value="{{ num_etapas }}" id="num_etapas" name="num_etapas" type="hidden"/>
 
 <script>
   function getActualName(){
@@ -131,16 +71,5 @@
     $('#tab-etapas button[aria-controls="' + id + '"]').tab('show');
     elemento.classList.remove("d-none");
     cambiarColorCuerpo(id);
-  }
-
-  window.onload = () => {
-    {% if siguiente_etapa != '' %}
-      activarPestanas('{{ num_etapas }}-etapa');
-      cambiarPestanaEtapa('{{ siguiente_etapa }}');
-    {% endif %}
-    {% if siguiente == "etapas" %}
-      $("#boton-siguiente").attr("name") = getActualName();
-      $("#boton-anterior").attr("name") = getActualName();
-    {% endif %}
   }
 </script>

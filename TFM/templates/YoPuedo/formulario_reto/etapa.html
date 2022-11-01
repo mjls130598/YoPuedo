@@ -56,32 +56,20 @@
   {% endfor %}
 
   <div class="row">
-    {% if etapa_form.prefix != '1-etapa' %}
     <div class='form-group d-flex justify-content-start mt-5 col'>
-        <button type="submit" id="boton-anterior-etapa" class="btn btn-primary fw-bold"
-                name="{{ etapa_form.prefix }}" value="anterior_etapa">
+        <button id="boton-anterior-etapa" class="btn btn-primary fw-bold"
+                value="anterior_etapa">
             <i class="fa-solid fa-angle-left"></i>
             Anterior etapa
         </button>
     </div>
-    {% endif %}
 
-    <div class='form-group d-flex justify-content-start mt-5 col'>
-        <button type="submit" id="boton-borrar-etapa" class="btn btn-primary fw-bold"
-                name="{{ etapa_form.prefix }}" value="borrar_etapa">
-            <i class="fa-solid fa-angle-left"></i>
-            Eliminar etapa
-        </button>
-    </div>
-
-    {% if etapa_form.prefix != '5-etapa' %}
     <div class='form-group d-flex justify-content-end mt-5 col'>
-        <button type="submit" id="boton-nueva-etapa" class="btn btn-primary fw-bold"
-                name="{{ etapa_form.prefix }}" value="siguiente_etapa">
+        <button id="boton-nueva-etapa" class="btn btn-primary fw-bold"
+                value="siguiente_etapa">
             Siguiente etapa
             <i class="fa-solid fa-angle-right"></i>
         </button>
     </div>
-    {% endif %}
   </div>
 </div>

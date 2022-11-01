@@ -14,7 +14,7 @@
   <!-- CABECERA -->
   <section>
       <h4 id="titulo">
-        {% if tipo_reto == "individuales" %}
+        {% if tipo_reto == "individual" %}
           <i class="bi bi-person-fill"></i>
         {% else %}
           <i class="bi bi-people-fill"></i>
@@ -58,7 +58,7 @@
         </button>
       </li>
 
-      {% if tipo_reto == "colectivos" %}
+      {% if tipo_reto == "colectivo" %}
       <li class="nav-item" role="presentation">
         <button class="nav-link d-none" id="participantes-tab" data-bs-toggle="tab"
           data-bs-target="#participantes" type="button" role="tab"
@@ -176,51 +176,14 @@
       cambiarColorCuerpo(id);
     }
 
-    function activarPestanas(id){
-      switch(id){
-        case 'general':
-        break;
-        case 'etapas':
-          document.getElementById("general-tab").classList.remove("d-none");
-        break;
-        case 'participantes':
-          document.getElementById("general-tab").classList.remove("d-none");
-          document.getElementById("etapas-tab").classList.remove("d-none");
-        break;
-        case 'animadores':
-          document.getElementById("general-tab").classList.remove("d-none");
-          document.getElementById("etapas-tab").classList.remove("d-none");
-          {% if tipo_reto == 'colectivos' %}
-          document.getElementById("participantes-tab").classList.remove("d-none");
-          {% endif %}
-        break;
-        case '1-etapa':
-        break;
-        case '2-etapa':
-          document.getElementById("1-etapa-tab").classList.remove("d-none");
-        break;
-        case '3-etapa':
-          document.getElementById("1-etapa-tab").classList.remove("d-none");
-          document.getElementById("2-etapa-tab").classList.remove("d-none");
-        break;
-        case '4-etapa':
-          document.getElementById("1-etapa-tab").classList.remove("d-none");
-          document.getElementById("2-etapa-tab").classList.remove("d-none");
-          document.getElementById("3-etapa-tab").classList.remove("d-none");
-        break;
-        case '5-etapa':
-          document.getElementById("1-etapa-tab").classList.remove("d-none");
-          document.getElementById("2-etapa-tab").classList.remove("d-none");
-          document.getElementById("3-etapa-tab").classList.remove("d-none");
-          document.getElementById("4-etapa-tab").classList.remove("d-none");
-        break;
-      }
-    }
-
-    {% if siguiente != '' %}
+    {% if errores %}
     window.onload = () => {
-        activarPestanas('{{ siguiente }}');
-        cambiarPestana('{{ siguiente }}');
+        cambiarPestana('general');
+        document.getElementById("etapas-tab").classList.remove("d-none");
+        document.getElementById("animadores-tab").classList.remove("d-none");
+        {% if tipo_reto == "colectivos" %}
+        document.getElementById("participantes-tab").classList.remove("d-none");
+        {% endif %}
     }
     {% endif %}
 

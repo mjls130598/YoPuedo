@@ -11,6 +11,8 @@ from .utils import Utils
 from .forms import RegistroForm, InicioForm, ClaveForm, RetoGeneralForm, RetoEtapasForm
 from .models import Usuario
 
+from django.forms import formset_factory
+
 logger = logging.getLogger(__name__)
 utils = Utils()
 
@@ -193,7 +195,8 @@ def mis_retos(request):
 def nuevo_reto(request):
     tipo = request.GET.get("tipo")
     general_form = RetoGeneralForm()
-    etapas_form = [RetoEtapasForm()]
+    etapas_form_model= formset_factory(RetoEtapasForm, absolute_max=10)
+    etapas_form = etapas_form_model()
     errores = False
 
     if tipo == 'individual' or tipo == 'colectivo':
@@ -205,6 +208,7 @@ def nuevo_reto(request):
             logger.info(f"Creamos un reto de tipo {tipo}")
 
             general_form = RetoGeneralForm(request.POST)
+            etapas_form = etapas_form_model(request.POST)
 
     elif tipo != '':
         logger.error("Tipo incorrecto")
@@ -212,4 +216,5 @@ def nuevo_reto(request):
 
     return render(request, "YoPuedo/nuevo_reto.html",
                   {"tipo_reto": tipo, "general_form": general_form,
-                   "etapas_form": etapas_form, "errores": errores})
+                   "etapas_form": etapas_form, "errores": errores,
+                   "num_etapas": num_etapas})
