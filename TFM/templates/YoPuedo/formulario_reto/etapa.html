@@ -1,38 +1,38 @@
-<div class='form-group fw-bold {% if etapa_form.objetivo_texto.errors %} errorlist {% endif %} mt-4'>
+<div class='form-group fw-bold {% if etapas_form.i.objetivo_texto.errors %} errorlist {% endif %} mt-4'>
   <i class="fa-solid fa-flag-checkered"></i>
   Objetivo:
   <div class="objetivo botones row m-1 justify-content-between">
     <div class="col-3 p-0">
-      {{ etapa_form.objetivo_imagen }}
+      {{ etapas_form.i.objetivo_imagen }}
       <button class="imagen p-3 btn btn-primary fw-bold">
       <label for="id_objetivo_imagen">
         <i class="fa-solid fa-image"></i>
         <span class="label d-none d-md-inline">
-            {{ etapa_form.objetivo_imagen.label }}
+            {{ etapas_form.i.objetivo_imagen.label }}
         </span>
       </label>
       </button>
     </div>
 
     <div class="col-3 p-0">
-      {{ etapa_form.objetivo_audio }}
+      {{ etapas_form.i.objetivo_audio }}
       <button class="uploadaudio p-3 btn btn-primary fw-bold">
       <label for="id_objetivo_audio">
         <i class="fa-solid fa-headphones"></i>
         <span class="label d-none d-md-inline">
-            {{ etapa_form.objetivo_audio.label }}
+            {{ etapas_form.i.objetivo_audio.label }}
         </span>
       </label>
       </button>
     </div>
 
     <div class="col-3 p-0">
-      {{ etapa_form.objetivo_video }}
+      {{ etapas_form.i.objetivo_video }}
       <button class="video p-3 btn btn-primary fw-bold">
       <label for="id_objetivo_video">
         <i class="fa-solid fa-video"></i>
         <span class="label d-none d-md-inline">
-            {{ etapa_form.objetivo_video.label }}
+            {{ etapas_form.i.objetivo_video.label }}
         </span>
       </label>
       </button>
@@ -40,8 +40,8 @@
   </div>
 
   <div class="row align-items-center">
-    <div class="col-9 col-md-11 {{ etapa_form.objetivo_texto.name }}">
-      {{ etapa_form.objetivo_texto }}
+    <div class="col-9 col-md-11 {{ etapas_form.i.objetivo_texto.name }}">
+      {{ etapas_form.i.objetivo_texto }}
     </div>
     <div class="col">
       {% include 'YoPuedo/elementos/microfono.html' with elementRecognition=etapa_form.objetivo_texto.id_for_label %}
@@ -56,19 +56,21 @@
   {% endfor %}
 
   <div class="row">
+    {% if i > 1 %}
     <div class='form-group d-flex justify-content-start mt-5 col'>
         <button id="boton-anterior-etapa" class="btn btn-primary fw-bold"
                 value="anterior_etapa"
-                onclick="cambiarPestanaEtapa('1-etapa-tab')">
+                onclick="cambiarPestanaEtapa('{{i - 1}}-etapa-tab')">
             <i class="fa-solid fa-angle-left"></i>
             Anterior etapa
         </button>
     </div>
+    {% endif %}
 
     <div class='form-group d-flex justify-content-end mt-5 col'>
         <button id="boton-nueva-etapa" class="btn btn-primary fw-bold"
                 value="siguiente_etapa"
-                onclick="cambiarPestanaEtapa('2-etapa-tab')">
+                onclick="cambiarPestanaEtapa('{{i + 1}}-etapa-tab')">
             Siguiente etapa
             <i class="fa-solid fa-angle-right"></i>
         </button>
