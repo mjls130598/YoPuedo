@@ -44,11 +44,11 @@
       {{ etapas_form.i.objetivo_texto }}
     </div>
     <div class="col">
-      {% include 'YoPuedo/elementos/microfono.html' with elementRecognition=etapa_form.objetivo_texto.id_for_label %}
+      {% include 'YoPuedo/elementos/microfono.html' with elementRecognition=etapas_form.i.objetivo_texto.id_for_label %}
     </div>
   </div>
 
-  {% for error in etapa_form.objetivo_texto.errors%}
+  {% for error in etapas_form.i.objetivo_texto.errors%}
   <div class="errorlist">
     <i class="bi bi-x-circle-fill"></i>
     {{ error }}
