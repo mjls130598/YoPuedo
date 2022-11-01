@@ -175,7 +175,7 @@ def mis_retos(request):
 
     elif tipo != '':
         logger.error("Tipo incorrecto")
-        HttpResponseRedirect('/mis_retos/')
+        tipo = ""
 
     categoria = request.GET.get("categoria")
 
@@ -447,7 +447,8 @@ def nuevo_reto(request):
                     siguiente_etapa = '5-etapa'
 
     elif tipo != '':
-        return HttpResponseRedirect('/nuevo_reto/')
+        logger.error("Tipo incorrecto")
+        tipo = ""
 
     return render(request, "YoPuedo/nuevo_reto.html",
                   {"tipo_reto": tipo, "general_form": general_form,
