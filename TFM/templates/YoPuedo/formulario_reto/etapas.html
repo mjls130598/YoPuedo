@@ -26,7 +26,7 @@
   <div class="tab-pane fade {% if forloop.counter == 1 %} show active {% endif %}"
        id="{{ forloop.counter }}-etapa" role="tabpanel"
        aria-labelledby="{{ forloop.counter}}-etapa-tab">
-    {% include 'YoPuedo/formulario_reto/etapa.html' with etapa_form=etapa_form etapa_anterior=forloop.counter-1 etapa_siguiente=forloop.counter+1%}
+    {% include 'YoPuedo/formulario_reto/etapa.html' with etapa_form=etapa_form num_etapa=forloop.counter %}
   </div>
   {% endfor %}
 </div>
@@ -57,5 +57,9 @@
   function cambiarPestanaEtapa(id){
     $('#tab-etapas button[aria-controls="' + id + '"]').tab('show');
     cambiarColorCuerpo(id);
+  }
+
+  getNumEtapa(etapa, cantidad){
+    return etapa + cantidad;
   }
 </script>

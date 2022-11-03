@@ -56,11 +56,11 @@
   {% endfor %}
 
   <div class="row">
-    {% if etapa_anterior != 0 %}
+    {% if num_etapa != 1 %}
     <div class='form-group d-flex justify-content-start mt-5 col'>
         <button id="boton-anterior-etapa" class="btn btn-primary fw-bold"
                 value="anterior_etapa"
-                onclick="cambiarPestanaEtapa('{{etapa_anterior}}-etapa-tab')">
+                onclick="cambiarPestanaEtapa(getNumEtapa({{num_etapa}}, -1) + '-etapa-tab')">
             <i class="fa-solid fa-angle-left"></i>
             Anterior etapa
         </button>
@@ -70,7 +70,7 @@
     <div class='form-group d-flex justify-content-end mt-5 col'>
         <button id="boton-nueva-etapa" class="btn btn-primary fw-bold"
                 value="siguiente_etapa"
-                onclick="cambiarPestanaEtapa('{{etapa_posterior}}-etapa-tab')">
+                onclick="cambiarPestanaEtapa(getNumEtapa({{num_etapa}}, 1) + '-etapa-tab')">
             Siguiente etapa
             <i class="fa-solid fa-angle-right"></i>
         </button>
