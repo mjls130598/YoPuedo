@@ -1,17 +1,18 @@
 <!-- BOTONES NAVEGACIÓN TABS -->
 <ul class="nav nav-tabs" id="tab-etapas" role="tablist">
-  {% for i in loop_etapas %}
+  {% for etapa_form in etapas_form %}
   <li class="nav-item" role="presentation">
-    <button class="nav-link {% if i == 1 %} active {% endif %}" id="{{i}}-etapa-tab"
-      data-bs-toggle="tab" data-bs-target="#{{i}}-etapa" type="button"
-      role="tab" aria-controls="{{i}}-etapa" aria-selected="true"
-      onclick="cambiarPestanaEtapa('{{i}}-etapa')">
+    <button class="nav-link {% if forloop.counter == 1 %} active {% endif %}"
+            id="{{ forloop.counter }}-etapa-tab" data-bs-toggle="tab"
+            data-bs-target="#{{ forloop.counter }}-etapa" type="button" role="tab"
+            aria-controls="{{ forloop.counter }}-etapa" aria-selected="true"
+            onclick="cambiarPestanaEtapa('{{ forloop.counter }}-etapa')">
       <div class="row">
         <div class="col-2">
           <i class="fa-solid fa-chart-simple"></i>
         </div>
         <div class="d-none d-md-block col-9">
-          <h5>{{i}}º Etapa</h5>
+          <h5>{{ forloop.counter }}º Etapa</h5>
         </div>
       </div>
     </button>
@@ -21,10 +22,11 @@
 
 <!-- CUERPO DE LOS TABS -->
 <div class="tab-content p-3" id="form-etapa-content">
-  {% for i in loop_etapas %}
-  <div class="tab-pane fade {% if i == 1 %} show active {% endif %}" id="{{i}}-etapa"
-       role="tabpanel" aria-labelledby="{{i}}-etapa-tab">
-    {% include 'YoPuedo/formulario_reto/etapa.html' with etapa_form=etapas_form.i etapa_anterior=i-1 etapa_posterior=i+1 %}
+  {% for etapa_form in etapas_form %}
+  <div class="tab-pane fade {% if forloop.counter == 1 %} show active {% endif %}"
+       id="{{ forloop.counter }}-etapa" role="tabpanel"
+       aria-labelledby="{{ forloop.counter}}-etapa-tab">
+    {% include 'YoPuedo/formulario_reto/etapa.html' with etapa_form=etapa_form etapa_anterior=forloop.counter-1 etapa_siguiente=forloop.counter+1%}
   </div>
   {% endfor %}
 </div>

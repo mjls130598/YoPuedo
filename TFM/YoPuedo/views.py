@@ -219,4 +219,4 @@ def nuevo_reto(request):
     return render(request, "YoPuedo/nuevo_reto.html",
                   {"tipo_reto": tipo, "general_form": general_form,
                    "etapas_form": etapas_form, "errores": errores,
-                   "num_etapas": num_etapas, "loop_etapas": range(1, num_etapas + 1)})
+                   "num_etapas": num_etapas})
