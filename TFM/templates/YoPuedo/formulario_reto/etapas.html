@@ -3,10 +3,10 @@
   {% for etapa_form in etapas_form %}
   <li class="nav-item" role="presentation">
     <button class="nav-link {% if forloop.counter == 1 %} active {% endif %}"
-            id="{{ forloop.counter }}-etapa-tab" data-bs-toggle="tab"
-            data-bs-target="#{{ forloop.counter }}-etapa" type="button" role="tab"
-            aria-controls="{{ forloop.counter }}-etapa" aria-selected="true"
-            onclick="cambiarPestanaEtapa('{{ forloop.counter }}-etapa')">
+            id="etapa-{{ forloop.counter }}-tab" data-bs-toggle="tab"
+            data-bs-target="#etapa-{{ forloop.counter }}" type="button" role="tab"
+            aria-controls="etapa-{{ forloop.counter }}" aria-selected="true"
+            onclick="cambiarPestanaEtapa('etapa-{{ forloop.counter }}')">
       <div class="row">
         <div class="col-2">
           <i class="fa-solid fa-chart-simple"></i>
@@ -24,8 +24,8 @@
 <div class="tab-content p-3" id="form-etapa-content">
   {% for etapa_form in etapas_form %}
   <div class="tab-pane fade {% if forloop.counter == 1 %} show active {% endif %}"
-       id="{{ forloop.counter }}-etapa" role="tabpanel"
-       aria-labelledby="{{ forloop.counter}}-etapa-tab">
+       id="etapa-{{ forloop.counter }}" role="tabpanel"
+       aria-labelledby="etapa-{{ forloop.counter }}-tab">
     {% include 'YoPuedo/formulario_reto/etapa.html' with etapa_form=etapa_form num_etapa=forloop.counter %}
   </div>
   {% endfor %}
