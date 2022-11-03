@@ -256,8 +256,8 @@ class RetoGeneralForm(forms.Form):
         if Utils.numero_elementos_importados([recompensa_texto, recompensa_video,
                                               recompensa_audio, recompensa_imagen]) > 1:
             logger.error("Se ha introducido varias maneras en recompensa")
-            self.add_error('objetivo_texto', 'Elige una forma de indicar la recompensa '
-                                             'del reto')
+            self.add_error('recompensa_texto', 'Elige una forma de indicar la recompensa '
+                                               'del reto')
 
         if categoria == "":
             logger.error("No ha seleccionado una categoría")
