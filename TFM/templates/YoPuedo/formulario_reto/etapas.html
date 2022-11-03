@@ -33,16 +33,15 @@
 
 <div class="row">
   <div class='form-group d-flex justify-content-start mt-5 col'>
-      <button type="submit" id="boton-anterior" class="btn btn-primary fw-bold"
-              value="anterior_paso" onclick="cambiarPestana('general')">
+      <button type="button" id="boton-anterior" class="btn btn-primary fw-bold"
+              onclick="cambiarPestana('general')">
           <i class="fa-solid fa-angle-left"></i>
           Anterior
       </button>
   </div>
 
   <div class='form-group d-flex justify-content-end mt-5 col'>
-      <button type="submit" id="boton-siguiente" class="btn btn-primary fw-bold"
-              value="siguiente_paso"
+      <button type="button" id="boton-siguiente" class="btn btn-primary fw-bold"
               onclick="{% if tipo_reto == 'colectivo'%} cambiarPestana('participantes') {% else %} cambiarPestana('animadores') {% endif %}">
           Siguiente
           <i class="fa-solid fa-angle-right"></i>
