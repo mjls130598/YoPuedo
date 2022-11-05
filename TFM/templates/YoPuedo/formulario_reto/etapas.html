@@ -70,7 +70,7 @@
 
     // Clonamos la última pestaña
     const pestana = document.getElementById("tab-etapas").lastChild;
-    const clone = node.cloneNode(true);
+    const clone = pestana.cloneNode(true);
 
     // Cambiamos los valores a la nueva etapa
     button = clone.getElementsByTagName("button")[0];
