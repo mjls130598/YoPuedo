@@ -60,7 +60,7 @@
   function getNumEtapa(etapa, cantidad){
     num_etapa = etapa + cantidad;
 
-    if (num_etapa > {{ etapas_form.management_form.form-TOTAL_FORMS }})
+    if (num_etapa > {{ etapas_form.total_form_count }})
         crearEtapa(num_etapa);
 
     return 'etapa-' + num_etapa;
