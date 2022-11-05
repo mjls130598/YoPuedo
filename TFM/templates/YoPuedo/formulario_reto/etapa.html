@@ -68,10 +68,17 @@
 
     {% if etapas_form.management_form.form-TOTAL_FORMS != etapas_form.management_form.form-MAX_NUM_FORMS %}
     <div class='form-group d-flex justify-content-end mt-5 col'>
-        <button id="boton-nueva-etapa" class="btn btn-primary fw-bold" type="button"
+        <button id="{% if etapas_form.management_form.form-TOTAL_FORMS == num_etapa %}boton-nueva-etapa{% else %}boton-siguiente{% endif %}"
+                class="btn btn-primary fw-bold"
+                type="button"
                 onclick="cambiarPestanaEtapa(getNumEtapa({{num_etapa}}, 1))">
+          {% if etapas_form.management_form.form-TOTAL_FORMS == num_etapa %}
+            <i class="fa-solid fa-plus"></i>
+            Nueva etapa
+          {% else %}
             Siguiente etapa
             <i class="fa-solid fa-angle-right"></i>
+          {% endif %}
         </button>
     </div>
     {% endif %}
