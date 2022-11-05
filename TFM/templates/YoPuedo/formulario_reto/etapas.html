@@ -73,7 +73,7 @@
     const clone = pestana.cloneNode(true);
 
     // Cambiamos los valores a la nueva etapa
-    button = clone.querySelector("[aria-controls=" + pestana.id + "]");
+    button = clone.firstChild;
     button.classList.remove("active");
     button.id = "etapa-" + num_etapa + "-tab";
     button.attr('data-bs-target', "#etapa-" + num_etapa);
