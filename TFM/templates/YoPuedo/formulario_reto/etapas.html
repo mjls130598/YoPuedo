@@ -73,7 +73,7 @@
     const clone = pestana.cloneNode(true);
 
     // Cambiamos los valores a la nueva etapa
-    button = clone.getElementsByTagName("button")[0];
+    button = clone.getElementsById(pestana.id);
     button.classList.remove("active");
     button.id = "etapa-" + num_etapa + "-tab";
     button.attr('data-bs-target', "#etapa-" + num_etapa);
