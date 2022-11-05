@@ -68,7 +68,7 @@
 
   function crearEtapa(num_etapa){
 
-    // Clonamos la última pestaña
+    // Clonamos la primera pestaña
     const pestana = document.getElementById("tab-etapas").children[0];
     const clone = pestana.cloneNode(true);
 
@@ -85,9 +85,41 @@
     // Insertamos la última pestaña
     pestana.parentNode.appendChild(clone);
 
+    // Clonamos el cuerpo de la primera pestaña
+    const cuerpo = document.getElementById("etapa-1");
+    const clone_cuerpo = cuerpo.cloneNode(true);
+
+    // Cambiamos los valores del div principal del nuevo cuerpo
+    clone_cuerpo.id = "etapa-" + num_etapa;
+    clone_cuerpo.removeClass("show").removeClass("active");
+    clone_cuerpo.setAttribute("aria-labelledby", "etapa-" + num_etapa + "-tab");
+
+    // Cambiamos ids de los inputs
+    btn_foto = clone_cuerpo.getElementsByTagName("input")[0];
+    btn_foto.name = "form-" + num_etapa + "-objetivo_imagen";
+    btn_foto.id = "id_form-" + num_etapa + "-objetivo_imagen";
+
+    btn_audio = clone_cuerpo.getElementsByTagName("input")[1];
+    btn_audio.name = "form-" + num_etapa + "-objetivo_audio";
+    btn_audio.id = "id_form-" + num_etapa + "-objetivo_audio";
+
+    btn_video = clone_cuerpo.getElementsByTagName("input")[2];
+    btn_video.name = "form-" + num_etapa + "-objetivo_video";
+    btn_video.id = "id_form-" + num_etapa + "-objetivo_video";
+
+    textarea = clone_cuerpo.getElementsByTagName("textarea")[0];
+    textarea.name = "form-" + num_etapa + "-objetivo_texto";
+    textarea.id = "id_form-" + num_etapa + "-objetivo_texto";
+
+    microfono = clone_cuerpo.getElementsByClassName("microfono")[0];
+    microfono.id = "microfono_id_form-" + num_etapa +"-objetivo_texto";
+    microfono.setAttribute("onclick", "reconocimientoVoz('id_form-" + num_etapa +
+    "-objetivo_texto')");
+
+    // Insertamos el último cuerpo
+    cuerpo.parentNode.appendChild(clone_cuerpo);
+
     // Añadimos la etapa en la variable TOTAL_FORMS
     $('#id_form-TOTAL_FORMS').val(num_etapa);
   }
-
-
 </script>
