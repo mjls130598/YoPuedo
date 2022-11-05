@@ -195,7 +195,7 @@ def mis_retos(request):
 def nuevo_reto(request):
     tipo = request.GET.get("tipo")
     general_form = RetoGeneralForm()
-    etapas_form_model = formset_factory(RetoEtapasForm, min_num=1, max_num=10)
+    etapas_form_model = formset_factory(RetoEtapasForm, max_num=10)
     etapas_form = etapas_form_model()
     errores = False
 
