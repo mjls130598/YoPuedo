@@ -59,7 +59,34 @@
 
   function getNumEtapa(etapa, cantidad){
     num_etapa = etapa + cantidad;
+
+    if (num_etapa > {{ etapas_form.management_form.form-TOTAL_FORMS }})
+        crearEtapa(num_etapa);
+
     return 'etapa-' + num_etapa;
+  }
+
+  function crearEtapa(num_etapa){
+
+    // Clonamos la última pestaña
+    const pestana = document.getElementById("tab-etapas").lastChild;
+    const clone = node.cloneNode(true);
+
+    // Cambiamos los valores a la nueva etapa
+    button = clone.getElementsByTagName("button")[0];
+    button.classList.remove("active");
+    button.id = "etapa-" + num_etapa + "-tab";
+    button.attr('data-bs-target', "#etapa-" + num_etapa;
+    button.attr('aria-controls', "etapa-" + num_etapa;
+    button.attr('onclick', "cambiarPestanaEtapa('etapa-" + num_etapa + "')");
+    titulo = button.getElementsByTagName("h5")[0];
+    titulo.innerText = num_etapa + "º Etapa";
+
+    // Insertamos la última pestaña
+    pestana.parentNode.appendChild(clone);
+
+    // Añadimos la etapa en la variable TOTAL_FORMS
+    $('#id_form-TOTAL_FORMS').val(num_etapa);
   }
 
 
