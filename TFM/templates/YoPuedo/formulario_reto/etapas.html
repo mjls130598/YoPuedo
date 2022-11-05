@@ -27,7 +27,7 @@
   <div class="tab-pane fade {% if forloop.counter == 1 %} show active {% endif %}"
        id="etapa-{{ forloop.counter }}" role="tabpanel"
        aria-labelledby="etapa-{{ forloop.counter }}-tab">
-    {% include 'YoPuedo/formulario_reto/etapa.html' with etapa_form=etapa_form num_etapa=forloop.counter %}
+    {% include 'YoPuedo/formulario_reto/etapa.html' with num_etapa=forloop.counter %}
   </div>
   {% endfor %}
 </div>
@@ -49,8 +49,6 @@
       </button>
   </div>
 </div>
-
-<input value="{{ num_etapas }}" id="num_etapas" name="num_etapas" type="hidden"/>
 
 <script>
 

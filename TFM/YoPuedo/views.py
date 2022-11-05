@@ -195,10 +195,9 @@ def mis_retos(request):
 def nuevo_reto(request):
     tipo = request.GET.get("tipo")
     general_form = RetoGeneralForm()
-    etapas_form_model = formset_factory(RetoEtapasForm, max_num=10)
+    etapas_form_model = formset_factory(RetoEtapasForm, min_num=1, max_num=10)
     etapas_form = etapas_form_model()
     errores = False
-    num_etapas = 1
 
     if tipo == 'individual' or tipo == 'colectivo':
         if request.method == 'GET':
@@ -210,7 +209,6 @@ def nuevo_reto(request):
 
             general_form = RetoGeneralForm(request.POST)
             etapas_form = etapas_form_model(request.POST)
-            num_etapas = int(request.POST.get("num_etapas"))
 
     elif tipo != '':
         logger.error("Tipo incorrecto")
@@ -218,5 +216,4 @@ def nuevo_reto(request):
 
     return render(request, "YoPuedo/nuevo_reto.html",
                   {"tipo_reto": tipo, "general_form": general_form,
-                   "etapas_form": etapas_form, "errores": errores,
-                   "num_etapas": num_etapas})
+                   "etapas_form": etapas_form, "errores": errores})
