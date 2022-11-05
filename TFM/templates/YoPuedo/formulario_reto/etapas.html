@@ -22,6 +22,7 @@
 
 <!-- CUERPO DE LOS TABS -->
 <div class="tab-content p-3" id="form-etapa-content">
+  {{ etapas_form.management_form }}
   {% for etapa_form in etapas_form %}
   <div class="tab-pane fade {% if forloop.counter == 1 %} show active {% endif %}"
        id="etapa-{{ forloop.counter }}" role="tabpanel"
@@ -62,4 +63,6 @@
     num_etapa = etapa + cantidad;
     return 'etapa-' + num_etapa;
   }
+
+
 </script>
