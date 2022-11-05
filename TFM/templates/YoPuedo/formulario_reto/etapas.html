@@ -69,18 +69,18 @@
   function crearEtapa(num_etapa){
 
     // Clonamos la última pestaña
-    const pestana = document.getElementById("tab-etapas").lastChild;
+    const pestana = document.getElementById("tab-etapas").children[0];
     const clone = pestana.cloneNode(true);
 
     // Cambiamos los valores a la nueva etapa
-    //button = clone.firstChild;
-    //button.classList.remove("active");
-    //button.id = "etapa-" + num_etapa + "-tab";
-    //button.attr('data-bs-target', "#etapa-" + num_etapa);
-    //button.attr('aria-controls', "etapa-" + num_etapa);
-    //button.attr('onclick', "cambiarPestanaEtapa('etapa-" + num_etapa + "')");
-    //titulo = button.getElementsByTagName("h5")[0];
-    //titulo.innerText = num_etapa + "º Etapa";
+    button = clone.firstChild;
+    button.classList.remove("active");
+    button.id = "etapa-" + num_etapa + "-tab";
+    button.attr('data-bs-target', "#etapa-" + num_etapa);
+    button.attr('aria-controls', "etapa-" + num_etapa);
+    button.attr('onclick', "cambiarPestanaEtapa('etapa-" + num_etapa + "')");
+    titulo = button.getElementsByTagName("h5")[0];
+    titulo.innerText = num_etapa + "º Etapa";
 
     // Insertamos la última pestaña
     pestana.parentNode.appendChild(clone);
