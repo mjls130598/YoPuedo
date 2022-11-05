@@ -76,9 +76,9 @@
     button = clone.children[0];
     button.classList.remove("active");
     button.id = "etapa-" + num_etapa + "-tab";
-    button.attr('data-bs-target', "#etapa-" + num_etapa);
-    button.attr('aria-controls', "etapa-" + num_etapa);
-    button.attr('onclick', "cambiarPestanaEtapa('etapa-" + num_etapa + "')");
+    button.setAttribute('data-bs-target', "#etapa-" + num_etapa);
+    button.setAttribute('aria-controls', "etapa-" + num_etapa);
+    button.setAttribute('onclick', "cambiarPestanaEtapa('etapa-" + num_etapa + "')");
     titulo = button.getElementsByTagName("h5")[0];
     titulo.innerText = num_etapa + "º Etapa";
 
