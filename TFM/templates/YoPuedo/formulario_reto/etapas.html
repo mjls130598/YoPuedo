@@ -59,8 +59,9 @@
 
   function getNumEtapa(etapa, cantidad){
     num_etapa = etapa + cantidad;
+    total_etapas = parseInt($('#id_form-TOTAL_FORMS').val());
 
-    if (num_etapa > {{ etapas_form.total_form_count }})
+    if (num_etapa > total_etapas)
         crearEtapa(num_etapa);
 
     return 'etapa-' + num_etapa;
@@ -126,7 +127,7 @@
         anterior_div.className = "form-group d-flex justify-content-start mt-5 col";
         const anterior_button = document.createElement("button");
         anterior_button.id = "boton-anterior-etapa";
-        anterior_button.className = "btn btn-primary fw-bold";
+        anterior_button.className = "btn btn-primary fw-bold anterior";
         anterior_button.setAttribute("type", "button");
         anterior_button.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
         num_etapa + ", -1))");
