@@ -11,8 +11,11 @@
         <div class="col-2">
           <i class="fa-solid fa-chart-simple"></i>
         </div>
-        <div class="d-none d-md-block col-9">
-          <h5>{{ forloop.counter }}º Etapa</h5>
+        <div class="col-2">
+            <h5>{{ forloop.counter }}º</h5>
+        </div>
+        <div class="d-none d-md-block col-3">
+          <h5>Etapa</h5>
         </div>
       </div>
     </button>
@@ -81,7 +84,7 @@
     button.setAttribute('aria-controls', "etapa-" + num_etapa);
     button.setAttribute('onclick', "cambiarPestanaEtapa('etapa-" + num_etapa + "')");
     titulo = button.getElementsByTagName("h5")[0];
-    titulo.innerText = num_etapa + "º Etapa";
+    titulo.innerText = num_etapa + "º";
 
     // Insertamos la última pestaña
     pestana.parentNode.appendChild(clone);

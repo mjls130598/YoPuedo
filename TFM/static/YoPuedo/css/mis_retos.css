@@ -46,7 +46,8 @@
 }
 
 .nav-link.active > .row > .d-none.d-md-block.col-10 > h5,
-.nav-link.active > .row > .d-none.d-md-block.col-9 > h5{
+.nav-link.active > .row > .d-none.d-md-block.col-3 > h5,
+.nav-link.active > .row > .col-2 > h5{
     font-weight: bold;
 }
 
