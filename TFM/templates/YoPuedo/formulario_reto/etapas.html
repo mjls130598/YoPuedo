@@ -91,7 +91,8 @@
 
     // Cambiamos los valores del div principal del nuevo cuerpo
     clone_cuerpo.id = "etapa-" + num_etapa;
-    clone_cuerpo.removeClass("show").removeClass("active");
+    clone_cuerpo.classList.remove("show");
+    clone_cuerpo.classList.remove("active");
     clone_cuerpo.setAttribute("aria-labelledby", "etapa-" + num_etapa + "-tab");
 
     // Cambiamos ids de los inputs
@@ -149,7 +150,8 @@
     // Cambiamos el botón nuevo de la anterior etapa por botón siguiente
     boton_siguiente = cuerpo.getElementsByClassName("nueva")[0];
     boton_siguiente.id = "boton-siguiente";
-    boton_siguiente.removeClass("nueva").addClass("siguiente");
+    boton_siguiente.classList.remove("nueva");
+    boton_siguiente.classList.add("siguiente");
     boton_siguiente.innerText = " Siguiente etapa ";
     boton_siguiente.removeChild(boton_siguiente.children[0]);
     const siguiente_i = document.createElement("i");
