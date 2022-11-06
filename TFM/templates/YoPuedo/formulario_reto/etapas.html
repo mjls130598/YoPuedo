@@ -148,8 +148,13 @@
     }
 
     boton_nuevo = clone_cuerpo.getElementsByClassName("nueva")[0];
-    boton_nuevo.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
-        num_etapa + ", 1))");
+
+    if(num_etapa < {{ etapas_form.max_num_forms }})
+        boton_nuevo.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
+            num_etapa + ", 1))");
+
+    else
+        boton_nuevo.remove();
 
     // Cambiamos el botón nuevo de la anterior etapa por botón siguiente
     boton_siguiente = document.getElementById("boton-nueva-etapa");
