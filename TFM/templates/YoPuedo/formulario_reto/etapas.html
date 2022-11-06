@@ -95,7 +95,7 @@
     clone_cuerpo.setAttribute("aria-labelledby", "etapa-" + num_etapa + "-tab");
 
     // Cambiamos ids de los inputs
-    btn_foto = clone_cuerpo.getElementsByTagName("input")[0];
+    btn_foto = clone_cuerpo.getElementsByTagName("input")[num_etapa - 1];
     btn_foto.name = "form-" + num_etapa + "-objetivo_imagen";
     btn_foto.id = "id_form-" + num_etapa + "-objetivo_imagen";
 
@@ -115,6 +115,46 @@
     microfono.id = "microfono_id_form-" + num_etapa +"-objetivo_texto";
     microfono.setAttribute("onclick", "reconocimientoVoz('id_form-" + num_etapa +
     "-objetivo_texto')");
+
+    // Cambiamos botones de anterior y siguiente
+    boton_anterior = clone_cuerpo.getElementsByClassName("anterior")[0];
+
+    if(!boton_anterior){
+        botones_etapas = clone_cuerpo.getElementsByClassName("botones-etapas")[0];
+        const anterior_div = document.createElement("div");
+        anterior_div.className = "form-group d-flex justify-content-start mt-5 col";
+        const anterior_button = document.createElement("button");
+        anterior_button.id = "boton-anterior-etapa";
+        anterior_button.className = "btn btn-primary fw-bold";
+        anterior_button.setAttribute("type", "button");
+        anterior_button.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
+        num_etapa + ", -1))");
+        const anterior_i = document.createElement("i");
+        anterior_i.className = "fa-solid fa-angle-left";
+        const anterior_texto = document.createTextNode(" Anterior etapa ");
+        anterior_button.appendChild(anterior_i);
+        anterior_button.appendChild(anterior_texto);
+        anterior_div.appendChild(anterior_button);
+        botones_etapas.insertBefore(anterior_div, botones_etapas.children[0]);
+    }
+    else{
+        boton_anterior.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
+        num_etapa + ", -1))");
+    }
+
+    boton_nuevo = clone_cuerpo.getElementsByClassName("nueva")[0];
+    boton_nuevo.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
+        num_etapa + ", 1))");
+
+    // Cambiamos el botón nuevo de la anterior etapa por botón siguiente
+    boton_siguiente = cuerpo.getElementsByClassName("nueva")[0];
+    boton_siguiente.id = "boton-siguiente";
+    boton_siguiente.removeClass("nueva").addClass("siguiente");
+    boton_siguiente.innerText = " Siguiente etapa ";
+    boton_siguiente.removeChild(boton_siguiente.children[0]);
+    const siguiente_i = document.createElement("i");
+    siguiente_i.className = "fa-solid fa-angle-right";
+    boton_siguiente.appendChild(siguiente_i);
 
     // Insertamos el último cuerpo
     cuerpo.parentNode.appendChild(clone_cuerpo);
