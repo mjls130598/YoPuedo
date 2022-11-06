@@ -86,7 +86,7 @@
     pestana.parentNode.appendChild(clone);
 
     // Clonamos el cuerpo de la primera pestaña
-    const cuerpo = document.getElementById("etapa-1");
+    const cuerpo = document.getElementById("etapa-" + (num_etapa - 1));
     const clone_cuerpo = cuerpo.cloneNode(true);
 
     // Cambiamos los valores del div principal del nuevo cuerpo
@@ -136,7 +136,7 @@
         anterior_button.appendChild(anterior_i);
         anterior_button.appendChild(anterior_texto);
         anterior_div.appendChild(anterior_button);
-        botones_etapas.insertBefore(anterior_div, botones_etapas.children[0]);
+        botones_etapas.prepend(anterior_div);
     }
     else{
         boton_anterior.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
