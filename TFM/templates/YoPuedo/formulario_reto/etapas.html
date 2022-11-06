@@ -8,13 +8,13 @@
             aria-controls="etapa-{{ forloop.counter }}" aria-selected="true"
             onclick="cambiarPestanaEtapa('etapa-{{ forloop.counter }}')">
       <div class="row">
-        <div class="col-2">
+        <div class="col-3">
           <i class="fa-solid fa-chart-simple"></i>
         </div>
-        <div class="col-2">
+        <div class="col-3">
             <h5>{{ forloop.counter }}º</h5>
         </div>
-        <div class="d-none d-md-block col-3">
+        <div class="d-none d-md-block col-6 p-0">
           <h5>Etapa</h5>
         </div>
       </div>
@@ -100,7 +100,7 @@
     clone_cuerpo.setAttribute("aria-labelledby", "etapa-" + num_etapa + "-tab");
 
     // Cambiamos ids de los inputs
-    btn_foto = clone_cuerpo.getElementsByTagName("input")[num_etapa - 1];
+    btn_foto = clone_cuerpo.getElementsByTagName("input")[0];
     btn_foto.name = "form-" + num_etapa + "-objetivo_imagen";
     btn_foto.id = "id_form-" + num_etapa + "-objetivo_imagen";
 
