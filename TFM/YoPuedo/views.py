@@ -199,6 +199,8 @@ def nuevo_reto(request):
     etapas_form = etapas_form_model()
     errores = False
 
+    logger.info(etapas_form.as_table())
+
     if tipo == 'individual' or tipo == 'colectivo':
         if request.method == 'GET':
             logger.info("Entramos en la parte GET de NUEVO RETO")
@@ -207,8 +209,8 @@ def nuevo_reto(request):
             logger.info("Entramos en la parte POST de NUEVO RETO")
             logger.info(f"Creamos un reto de tipo {tipo}")
 
-            general_form = RetoGeneralForm(request.POST)
-            etapas_form = etapas_form_model(request.POST)
+            general_form = RetoGeneralForm(request.POST, request.FILES)
+            etapas_form = etapas_form_model(request.POST, request.FILES)
 
     elif tipo != '':
         logger.error("Tipo incorrecto")
