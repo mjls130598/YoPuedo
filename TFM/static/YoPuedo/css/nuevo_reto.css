@@ -67,3 +67,23 @@ label > i {
     background: #BCA5E5;
     border-color: #BCA5E5;
 }
+
+#etapa-2-tab{
+    background: #9BABFF;
+    border-color: #9BABFF;
+}
+
+#etapa-3-tab{
+    background: #666699;
+    border-color: #666699;
+}
+
+#etapa-4-tab{
+    background: #996699;
+    border-color: #996699;
+}
+
+#etapa-5-tab{
+    background: #721372;
+    border-color: #721372;
+}
