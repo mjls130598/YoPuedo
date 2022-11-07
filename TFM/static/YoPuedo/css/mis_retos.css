@@ -101,7 +101,19 @@
 #tab-retos-content, #form-reto-content {
     overflow-x: hidden;
     overflow-y: auto;
-    max-height: 70%;
+}
+
+@media screen and (min-height: 992px){
+    #tab-retos-content, #form-reto-content {
+        max-height: 100%;
+    }
+}
+
+@media screen and (max-height: 992px) and (min-height: 768px)
+    and (min-width: 768px){
+    #tab-retos-content, #form-reto-content {
+        max-height: 75%;
+    }
 }
 
 audio {
