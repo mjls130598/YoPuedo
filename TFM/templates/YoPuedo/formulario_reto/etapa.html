@@ -56,7 +56,7 @@
   {% endfor %}
 
   <div class="row botones-etapa">
-    {% if etapas_form.total_form_count != 1 %}
+    {% if num_etapa != 1 %}
     <div class='form-group d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5 col'>
         <button id="boton-anterior-etapa" class="btn btn-primary fw-bold anterior"
                 type="button"
@@ -67,7 +67,7 @@
     </div>
     {% endif %}
 
-    {% if etapas_form.total_form_count != etapas_form.max_num_forms %}
+    {% if num_etapa != etapas_form.total_form_count %}
     <div class='form-group d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5 col'>
         <button id="{% if etapas_form.total_form_count == num_etapa %}boton-nueva-etapa{% else %}boton-siguiente{% endif %}"
                 class="btn btn-primary fw-bold {% if etapas_form.total_form_count == num_etapa %}nueva{% else %}siguiente{% endif %}"

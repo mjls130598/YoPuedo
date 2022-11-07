@@ -149,7 +149,8 @@
 
     boton_nuevo = clone_cuerpo.getElementsByClassName("nueva")[0];
 
-    if(num_etapa < {{ etapas_form.max_num_forms }})
+    max_etapas = parseInt($('#id_form-MAX_NUM_FORMS').val());
+    if(num_etapa < max_etapas)
         boton_nuevo.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
             num_etapa + ", 1))");
 
