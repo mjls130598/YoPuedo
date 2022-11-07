@@ -2,7 +2,7 @@
     <i class="fa-solid fa-bullseye"></i>
     {{ general_form.titulo.label }}
     <div class="row align-items-center">
-        <div class="col-9 col-md-11 {{ general_form.titulo.name }}">
+        <div class="col-9 col-sm-10 col-md-11 {{ general_form.titulo.name }}">
             {{ general_form.titulo }}
         </div>
         <div class="col">
@@ -24,7 +24,7 @@
     <div class="objetivo botones row m-1 justify-content-between">
         <div class="col-3 p-0">
             {{ general_form.objetivo_imagen }}
-            <button class="imagen p-3 btn btn-primary fw-bold">
+            <button class="imagen  p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_objetivo_imagen">
                     <i class="fa-solid fa-image"></i>
                     <span class="label d-none d-sm-inline">
@@ -36,7 +36,7 @@
 
         <div class="col-3 p-0">
             {{ general_form.objetivo_audio }}
-            <button class="uploadaudio p-3 btn btn-primary fw-bold">
+            <button class="uploadaudio  p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_objetivo_audio">
                     <i class="fa-solid fa-headphones"></i>
                     <span class="label d-none d-sm-inline">
@@ -48,7 +48,7 @@
 
         <div class="col-3 p-0">
             {{ general_form.objetivo_video }}
-            <button class="video p-3 btn btn-primary fw-bold">
+            <button class="video  p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_objetivo_video">
                     <i class="fa-solid fa-video"></i>
                     <span class="label d-none d-sm-inline">
@@ -60,7 +60,7 @@
     </div>
 
     <div class="row align-items-center">
-        <div class="col-9 col-md-11 {{ general_form.objetivo_texto.name }}">
+        <div class="col-9 col-sm-10 col-md-11 {{ general_form.objetivo_texto.name }}">
             {{ general_form.objetivo_texto }}
         </div>
         <div class="col">
@@ -77,7 +77,7 @@
 </div>
 
 <div class='form-group fw-bold {% if general_form.categoria.errors %} errorlist {% endif %} mt-4 row'>
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-4">
         <i class="fa-solid fa-square-check"></i>
         {{ general_form.categoria.label }}
     </div>
@@ -97,7 +97,7 @@
     <div class="recompensa botones row m-1 justify-content-between">
         <div class="col-3 p-0">
             {{ general_form.recompensa_imagen }}
-            <button class="imagen p-3 btn btn-primary fw-bold">
+            <button class="imagen p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_recompensa_imagen">
                     <i class="fa-solid fa-image"></i>
                     <span class="label d-none d-sm-inline">
@@ -109,7 +109,7 @@
 
         <div class="col-3 p-0">
             {{ general_form.recompensa_audio }}
-            <button class="uploadaudio p-3 btn btn-primary fw-bold">
+            <button class="uploadaudio p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_recompensa_audio">
                     <i class="fa-solid fa-headphones"></i>
                     <span class="label d-none d-sm-inline">
@@ -121,7 +121,7 @@
 
         <div class="col-3 p-0">
             {{ general_form.recompensa_video }}
-            <button class="video p-3 btn btn-primary fw-bold">
+            <button class="video p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_recompensa_video">
                     <i class="fa-solid fa-video"></i>
                     <span class="label d-none d-sm-inline">
@@ -133,7 +133,7 @@
     </div>
 
     <div class="row align-items-center">
-        <div class="col-9 col-md-11 {{ general_form.recompensa_texto.name }}">
+        <div class="col-9 col-sm-10 col-md-11 {{ general_form.recompensa_texto.name }}">
             {{ general_form.recompensa_texto }}
         </div>
         <div class="col">
