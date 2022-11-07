@@ -121,11 +121,33 @@
     microfono.setAttribute("onclick", "reconocimientoVoz('id_form-" + num_etapa +
     "-objetivo_texto')");
 
-    // Cambiamos botones de anterior y siguiente
+    // Cambiamos botones de anterior, borrar y siguiente
+    botones_etapas = clone_cuerpo.getElementsByClassName("botones-etapa")[0];
+    boton_borrar = clone_cuerpo.getElementsByClassName("borrar")[0];
+
+    if(!boton_borrar){
+        const borrar_div = document.createElement("div");
+        borrar_div.className = "form-group d-flex justify-content-start mt-5 col";
+        const borrar_button = document.createElement("button");
+        borrar_button.id = "boton-anterior-etapa";
+        borrar_button.className = "btn btn-primary fw-bold anterior";
+        borrar_button.setAttribute("type", "button");
+        borrar_button.setAttribute("onclick", "borrarEtapa(" + num_etapa + ")");
+        const borrar_i = document.createElement("i");
+        borrar_i.className = "fa-sharp fa-solid fa-trash";
+        const borrar_texto = document.createTextNode(" Borrar etapa ");
+        borrar_button.appendChild(borrar_i);
+        borrar_button.appendChild(borrar_texto);
+        borrar_div.appendChild(borrar_button);
+        botones_etapas.prepend(borrar_div);
+    }
+    else{
+        boton_borrar.setAttribute("onclick", "borrarEtapa(" + num_etapa + ")");
+    }
+
     boton_anterior = clone_cuerpo.getElementsByClassName("anterior")[0];
 
     if(!boton_anterior){
-        botones_etapas = clone_cuerpo.getElementsByClassName("botones-etapa")[0];
         const anterior_div = document.createElement("div");
         anterior_div.className = "form-group d-flex justify-content-start mt-5 col";
         const anterior_button = document.createElement("button");
