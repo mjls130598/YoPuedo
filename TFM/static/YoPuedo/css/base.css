@@ -75,20 +75,12 @@ h5.titulo {
     #cabecera_fila {
         margin: 1%;
     }
-
-    #titulo{
-        margin: 4%;
-    }
 }
 
 @media screen and (min-width: 800px){
 
     #cabecera_fila {
         margin: 0.5%;
-    }
-
-    #titulo{
-        margin: 2.5%;
     }
 }
 
