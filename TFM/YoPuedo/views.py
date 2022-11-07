@@ -194,13 +194,11 @@ def mis_retos(request):
 @login_required
 def nuevo_reto(request):
     tipo = request.GET.get("tipo")
+    max_etapas = 5
     general_form = RetoGeneralForm()
-    etapas_form_model = formset_factory(RetoEtapasForm, max_num=5)
+    etapas_form_model = formset_factory(RetoEtapasForm, max_num=max_etapas)
     etapas_form = etapas_form_model()
     errores = False
-
-    logger.info(etapas_form.as_table())
-
     if tipo == 'individual' or tipo == 'colectivo':
         if request.method == 'GET':
             logger.info("Entramos en la parte GET de NUEVO RETO")
@@ -218,4 +216,5 @@ def nuevo_reto(request):
 
     return render(request, "YoPuedo/nuevo_reto.html",
                   {"tipo_reto": tipo, "general_form": general_form,
-                   "etapas_form": etapas_form, "errores": errores})
+                   "etapas_form": etapas_form, "errores": errores,
+                   "max_etapas": max_etapas})
