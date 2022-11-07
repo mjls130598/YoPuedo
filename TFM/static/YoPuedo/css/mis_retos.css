@@ -101,7 +101,7 @@
 #tab-retos-content, #form-reto-content {
     overflow-x: hidden;
     overflow-y: auto;
-    max-height: 75.5vh;
+    max-height: 70%;
 }
 
 audio {
