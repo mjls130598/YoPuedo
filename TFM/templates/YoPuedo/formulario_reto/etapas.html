@@ -11,7 +11,7 @@
         <div class="col-3">
           <i class="fa-solid fa-chart-simple"></i>
         </div>
-        <div class="col-3">
+        <div class="col-3 num-etapa">
             <h5>{{ forloop.counter }}º</h5>
         </div>
         <div class="d-none d-md-block col-6 p-0">
@@ -91,7 +91,18 @@
 
     // Clonamos el cuerpo de la primera pestaña
     const cuerpo = document.getElementById("etapa-" + (num_etapa - 1));
-    const clone_cuerpo = cuerpo.cloneNode(true);
+    clone_cuerpo = cuerpo.cloneNode(true);
+
+    clone_cuerpo = cambiamosCuerpo(clone_cuerpo, num_etapa);
+
+    // Insertamos el último cuerpo
+    cuerpo.parentNode.appendChild(clone_cuerpo);
+
+    // Añadimos la etapa en la variable TOTAL_FORMS
+    $('#id_form-TOTAL_FORMS').val(num_etapa);
+  }
+
+  function cambiarCuerpo(clone_cuerpo, num_etapa){
 
     // Cambiamos los valores del div principal del nuevo cuerpo
     clone_cuerpo.id = "etapa-" + num_etapa;
@@ -171,28 +182,70 @@
 
     boton_nuevo = clone_cuerpo.getElementsByClassName("nueva")[0];
 
-    max_etapas = parseInt($('#id_form-MAX_NUM_FORMS').val());
-    if(num_etapa < max_etapas)
-        boton_nuevo.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
-            num_etapa + ", 1))");
+    if(boton_nuevo){
+        max_etapas = parseInt($('#id_form-MAX_NUM_FORMS').val());
+        if(num_etapa < max_etapas)
+            boton_nuevo.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
+                num_etapa + ", 1))");
 
-    else
-        boton_nuevo.remove();
+        else
+            boton_nuevo.remove();
+    }
 
-    // Cambiamos el botón nuevo de la anterior etapa por botón siguiente
-    boton_siguiente = document.getElementById("boton-nueva-etapa");
-    boton_siguiente.id = "boton-siguiente";
-    boton_siguiente.classList.remove("nueva");
-    boton_siguiente.classList.add("siguiente");
-    boton_siguiente.innerText = " Siguiente etapa ";
-    const siguiente_i = document.createElement("i");
-    siguiente_i.className = "fa-solid fa-angle-right";
-    boton_siguiente.appendChild(siguiente_i);
+    const total_etapas = parseInt($('#id_form-TOTAL_FORMS').val());
 
-    // Insertamos el último cuerpo
-    cuerpo.parentNode.appendChild(clone_cuerpo);
+    if(num_etapa > total_etapas){
 
-    // Añadimos la etapa en la variable TOTAL_FORMS
-    $('#id_form-TOTAL_FORMS').val(num_etapa);
+        // Cambiamos el botón nuevo de la anterior etapa por botón siguiente
+        boton_siguiente = document.getElementById("boton-nueva-etapa");
+        boton_siguiente.id = "boton-siguiente";
+        boton_siguiente.classList.remove("nueva");
+        boton_siguiente.classList.add("siguiente");
+        boton_siguiente.innerText = " Siguiente etapa ";
+        const siguiente_i = document.createElement("i");
+        siguiente_i.className = "fa-solid fa-angle-right";
+        boton_siguiente.appendChild(siguiente_i);
+    }
+
+    else{
+        // Cambiamos función del botón "Siguiente Etapa"
+        boton_siguiente = clone_cuerpo.getElementsByClassName('siguiente');
+        boton_siguiente.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
+                (num_etapa - 1) + ", 1))");
+
+    }
+
+    return(clone_cuerpo);
+  }
+
+  function borrarEtapa(num_etapa){
+
+    // Borramos la última pestaña
+    document.getElementById("tab-etapas").children[children.length - 1].remove();
+
+    // Borramos el cuerpo de la etapa a eliminar
+    document.getElementById("etapa-" + num_etapa).remove();
+
+    // Actualizamos la lista del resto de etapas
+    const total_etapas = parseInt($('#id_form-TOTAL_FORMS').val());
+
+    for(i = num_etapa; i < total_etapas; i++){
+
+        // Arreglamos las pestañas de las etapas
+        const pestana_etapa = document.getElementById("tab-etapas").children[i].children[0];
+        h5 = pestana_etapa.getElementsByClassName("num-etapa").children[0];
+        h5.innerText = i + "º";
+        pestana_etapa.id = "etapa-" + i + "-tab";
+        pestana_etapa.setAttribute("data-bs-target", "#etapa-" + i);
+        pestana_etapa.setAttribute("aria-controls", "etapa-" + i);
+        pestana_etapa.setAttribute("onclick", "cambiarPestanaEtapa('etapa-" + i + "')");
+
+        // Arreglamos los elementos del cuerpo
+        cambiarCuerpo(document.getElementById("etapa-" + (i + 1)), i);
+    }
+
+    // Restamos el contador de formularios total
+    $('#id_form-TOTAL_FORMS').val(total_etapas - 1);
+
   }
 </script>
