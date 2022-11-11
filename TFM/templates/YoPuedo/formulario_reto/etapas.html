@@ -218,14 +218,15 @@
 
   function borrarEtapa(num_etapa){
 
+    const total_etapas = parseInt($('#id_form-TOTAL_FORMS').val());
+
     // Borramos la última pestaña
-    document.getElementById("tab-etapas").children[children.length - 1].remove();
+    document.getElementById("tab-etapas").children[total_etapas - 1].remove();
 
     // Borramos el cuerpo de la etapa a eliminar
     document.getElementById("etapa-" + num_etapa).remove();
 
     // Actualizamos la lista del resto de etapas
-    const total_etapas = parseInt($('#id_form-TOTAL_FORMS').val());
 
     for(i = num_etapa; i < total_etapas; i++){
 
