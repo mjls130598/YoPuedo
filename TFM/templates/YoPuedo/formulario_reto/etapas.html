@@ -93,7 +93,7 @@
     const cuerpo = document.getElementById("etapa-" + (num_etapa - 1));
     clone_cuerpo = cuerpo.cloneNode(true);
 
-    clone_cuerpo = cambiamosCuerpo(clone_cuerpo, num_etapa);
+    cambiarCuerpo(clone_cuerpo, num_etapa);
 
     // Insertamos el último cuerpo
     cuerpo.parentNode.appendChild(clone_cuerpo);
@@ -214,8 +214,6 @@
                 (num_etapa - 1) + ", 1))");
 
     }
-
-    return(clone_cuerpo);
   }
 
   function borrarEtapa(num_etapa){
