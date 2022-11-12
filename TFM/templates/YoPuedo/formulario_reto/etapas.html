@@ -215,11 +215,28 @@
                     num_etapa + ", 1))");
         }
         else{
-            if(num_etapa != max_etapas){
+            if(num_etapa != (max_etapas - 1)){
                 // Cambiamos función del botón "Nueva Etapa"
                 boton_siguiente = clone_cuerpo.getElementsByClassName('nueva')[0];
                 boton_siguiente.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
                         num_etapa + ", 1))");
+            }
+            else{
+                const nuevo_div = document.createElement("div");
+                nuevo_div.className = "form-group d-flex justify-content-end mt-5 col";
+                const nuevo_button = document.createElement("button");
+                nuevo_button.id = "boton-nueva-etapa";
+                nuevo_button.className = "btn btn-primary fw-bold nueva";
+                nuevo_button.setAttribute("type", "button");
+                nuevo_button.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
+                num_etapa + ", -1))");
+                const nuevo_i = document.createElement("i");
+                nuevo_i.className = "fa-solid fa-plus";
+                const nuevo_texto = document.createTextNode(" Nueva etapa ");
+                nuevo_button.appendChild(nuevo_i);
+                nuevo_button.appendChild(nuevo_texto);
+                nuevo_div.appendChild(nuevo_button);
+                botones_etapas.prepend(nuevo_div);
             }
         }
     }
