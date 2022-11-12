@@ -209,7 +209,7 @@
 
     else{
         // Cambiamos función del botón "Siguiente Etapa"
-        boton_siguiente = clone_cuerpo.getElementsByClassName('siguiente');
+        boton_siguiente = clone_cuerpo.getElementsByClassName('siguiente')[0];
         boton_siguiente.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
                 (num_etapa - 1) + ", 1))");
 
