@@ -138,7 +138,7 @@
 
     if(!boton_borrar){
         const borrar_div = document.createElement("div");
-        borrar_div.className = "form-group d-flex justify-content-start mt-5 col";
+        borrar_div.className = "form-group d-flex justify-content-center mt-5 col";
         const borrar_button = document.createElement("button");
         borrar_button.id = "boton-borrar-etapa";
         borrar_button.className = "btn btn-primary fw-bold borrar";
@@ -162,7 +162,7 @@
         const anterior_div = document.createElement("div");
         anterior_div.className = "form-group d-flex justify-content-start mt-5 col";
         const anterior_button = document.createElement("button");
-        anterior_button.id = "boton-anterior-etapa";
+        anterior_button.id = "boton-anterior";
         anterior_button.className = "btn btn-primary fw-bold anterior";
         anterior_button.setAttribute("type", "button");
         anterior_button.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
