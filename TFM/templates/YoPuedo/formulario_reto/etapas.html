@@ -247,7 +247,7 @@
     if((num_etapa - 1) == (total_etapas - 1)){
         // Cambiamos el botón siguiente por botón nueva en la última etapa activa
         const cuerpo_anterior = document.getElementById("etapa-" + (num_etapa - 1));
-        boton_siguiente = cuerpo.getElementsByClassName("siguiente")[0];
+        boton_siguiente = cuerpo_anterior.getElementsByClassName("siguiente")[0];
         boton_siguiente.id = "boton-nueva-etapa";
         boton_siguiente.classList.add("nueva");
         boton_siguiente.classList.remove("siguiente");
