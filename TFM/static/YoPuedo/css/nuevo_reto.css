@@ -37,7 +37,7 @@
     border-color: #00BCD4;
 }
 
-#boton-siguiente, #boton-anterior, #boton-anterior-etapa{
+#boton-siguiente, #boton-anterior{
     background: #795548;
     border-color: #795548;
 }
@@ -61,6 +61,11 @@ label > i {
 #boton-nueva-etapa{
     background: #607D8B;
     border-color: #607D8B;
+}
+
+#boton-borrar-etapa{
+    background: #FC204B;
+    border-color: #FC204B;
 }
 
 #etapa-1-tab, #form-etapa-content{
