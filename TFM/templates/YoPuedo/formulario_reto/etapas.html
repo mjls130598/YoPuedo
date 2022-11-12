@@ -11,7 +11,7 @@
         <div class="col-3">
           <i class="fa-solid fa-chart-simple"></i>
         </div>
-        <div class="col-3 num-etapa">
+        <div class="col-3">
             <h5>{{ forloop.counter }}º</h5>
         </div>
         <div class="d-none d-md-block col-6 p-0">
@@ -220,8 +220,8 @@
 
     const total_etapas = parseInt($('#id_form-TOTAL_FORMS').val());
 
-    // Borramos la última pestaña
-    document.getElementById("tab-etapas").children[total_etapas - 1].remove();
+    // Borramos la pestaña de la etapa a eliminar
+    document.getElementById("tab-etapas").children[num_etapa - 1].remove();
 
     // Borramos el cuerpo de la etapa a eliminar
     document.getElementById("etapa-" + num_etapa).remove();
@@ -231,9 +231,9 @@
     for(i = num_etapa; i < total_etapas; i++){
 
         // Arreglamos las pestañas de las etapas
-        const pestana_etapa = document.getElementById("tab-etapas").children[i].children[0];
-        h5 = pestana_etapa.getElementsByClassName("num-etapa").children[0];
-        h5.innerText = i + "º";
+        const pestana_etapa = document.getElementById("tab-etapas").children[i - 1].children[0];
+        titulo = pestana_etapa.getElementsByTagName("h5")[0];
+        titulo.innerText = num_etapa + "º";
         pestana_etapa.id = "etapa-" + i + "-tab";
         pestana_etapa.setAttribute("data-bs-target", "#etapa-" + i);
         pestana_etapa.setAttribute("aria-controls", "etapa-" + i);
