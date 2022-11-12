@@ -243,9 +243,9 @@
         cambiarCuerpo(document.getElementById("etapa-" + (i + 1)), i);
     }
 
-    // Si la etapa anterior va a ser la total, cambiamos el botón siguiente por botón
-    // nuevo
+    // Si la etapa anterior va a ser la total, ...
     if((num_etapa - 1) == (total_etapas - 1)){
+        // Cambiamos el botón siguiente por botón nueva en la última etapa activa
         const cuerpo_anterior = document.getElementById("etapa-" + (num_etapa - 1));
         boton_siguiente = cuerpo.getElementsByClassName("siguiente")[0];
         boton_siguiente.id = "boton-nueva-etapa";
@@ -255,6 +255,9 @@
         const siguiente_i = document.createElement("i");
         siguiente_i.className = "fa-solid fa-plus";
         boton_siguiente.prepend(siguiente_i);
+
+        // Cambiamos la última pestaña a activa
+        cambiarPestanaEtapa("etapa-" + (num_etapa - 1));
     }
 
     // Restamos el contador de formularios total
