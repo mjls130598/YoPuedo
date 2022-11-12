@@ -242,7 +242,7 @@
         // Arreglamos las pestañas de las etapas
         const pestana_etapa = document.getElementById("tab-etapas").children[i - 1].children[0];
         titulo = pestana_etapa.getElementsByTagName("h5")[0];
-        titulo.innerText = num_etapa + "º";
+        titulo.innerText = i + "º";
         pestana_etapa.id = "etapa-" + i + "-tab";
         pestana_etapa.setAttribute("data-bs-target", "#etapa-" + i);
         pestana_etapa.setAttribute("aria-controls", "etapa-" + i);
