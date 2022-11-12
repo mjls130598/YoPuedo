@@ -208,11 +208,18 @@
     }
 
     else{
-        // Cambiamos función del botón "Siguiente Etapa"
-        boton_siguiente = clone_cuerpo.getElementsByClassName('siguiente')[0];
-        boton_siguiente.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
-                (num_etapa - 1) + ", 1))");
-
+        if(num_etapa < total_etapas){
+            // Cambiamos función del botón "Siguiente Etapa"
+            boton_siguiente = clone_cuerpo.getElementsByClassName('siguiente')[0];
+            boton_siguiente.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
+                    num_etapa + ", 1))");
+        }
+        else{
+            // Cambiamos función del botón "Nueva Etapa"
+            boton_siguiente = clone_cuerpo.getElementsByClassName('nueva')[0];
+            boton_siguiente.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
+                    num_etapa + ", 1))");
+        }
     }
   }
 
@@ -226,8 +233,10 @@
     // Borramos el cuerpo de la etapa a eliminar
     document.getElementById("etapa-" + num_etapa).remove();
 
-    // Actualizamos la lista del resto de etapas
+    // Restamos el contador de formularios total
+    $('#id_form-TOTAL_FORMS').val(total_etapas - 1);
 
+    // Actualizamos la lista del resto de etapas
     for(i = num_etapa; i < total_etapas; i++){
 
         // Arreglamos las pestañas de las etapas
@@ -259,9 +268,6 @@
         // Cambiamos la última pestaña a activa
         cambiarPestanaEtapa("etapa-" + (num_etapa - 1));
     }
-
-    // Restamos el contador de formularios total
-    $('#id_form-TOTAL_FORMS').val(total_etapas - 1);
 
   }
 </script>
