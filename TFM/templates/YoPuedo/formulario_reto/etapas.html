@@ -181,9 +181,9 @@
     }
 
     boton_nuevo = clone_cuerpo.getElementsByClassName("nueva")[0];
+    max_etapas = parseInt($('#id_form-MAX_NUM_FORMS').val());
 
     if(boton_nuevo){
-        max_etapas = parseInt($('#id_form-MAX_NUM_FORMS').val());
         if(num_etapa < max_etapas)
             boton_nuevo.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
                 num_etapa + ", 1))");
@@ -215,10 +215,12 @@
                     num_etapa + ", 1))");
         }
         else{
-            // Cambiamos función del botón "Nueva Etapa"
-            boton_siguiente = clone_cuerpo.getElementsByClassName('nueva')[0];
-            boton_siguiente.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
-                    num_etapa + ", 1))");
+            if(num_etapa != max_etapas){
+                // Cambiamos función del botón "Nueva Etapa"
+                boton_siguiente = clone_cuerpo.getElementsByClassName('nueva')[0];
+                boton_siguiente.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
+                        num_etapa + ", 1))");
+            }
         }
     }
   }
