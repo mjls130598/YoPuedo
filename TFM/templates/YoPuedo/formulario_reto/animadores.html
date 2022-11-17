@@ -1,0 +1,99 @@
+<div class="form-group d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5">
+    <button class="btn btn-primary fw-bold" id="btn-animador">
+        <div class="col-2">
+            <i class="fa-solid fa-user-plus"></i>
+        </div>
+        <div class="d-none d-md-block col-9">
+            Añadir animador
+        </div>
+    </button>
+</div>
+
+<div class='form-group mt-2 mt-sm-3 mt-lg-5 animadores'>
+    <input type="hidden" id="num_animadores" name="num_animadores"
+           value="{{num_animadores}}">
+{% for animador in animadores %}
+    <div class="animador row" id="animador-{{animador.email.email}}">
+        <input type="hidden" name="animador-{{forloop.counter}}"
+               value="{{animador.email.email}}">
+        <div class="foto-perfil col-2">
+            <img class="imagen-perfil img-fluid rounded col-md-6 mx-auto d-block
+              col-xl-5" src="{{animador.email.foto_perfil}}">
+        </div>
+        <div class="nombre col-4 fw-bold justify-content-start">
+            <h5>
+                {{animador.email.nombre}}
+            </h5>
+        </div>
+        <div class="botones col-5">
+            <button class="superanimador btn btn-primary fw-bold"
+                    onclick="cambiarSuperanimador('{{forloop.counter}}')">
+                <input type="hidden" name="superanimador-{{forloop.counter}}"
+                       value="{{animador.superanimador}}">
+                {% if animador.superanimador %}
+                <i class="fa-solid fa-eye"></i>
+                {% else %}
+                <i class="fa-solid fa-eye-slash"></i>
+                {% endif %}
+                Ánimos
+            </button>
+            <button class="borrar btn btn-primary fw-bold"
+                    onclick="borrarAnimador('{{animador.email.email}}')">
+                <i class="fa-sharp fa-solid fa-trash"></i>
+                Eliminar
+            </button>
+        </div>
+    </div>
+{% endfor %}
+</div>
+
+<div class="row">
+  <div class='form-group d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5 col'>
+      <button type="button" id="boton-anterior" class="btn btn-primary fw-bold"
+              onclick="cambiarPestana('general')">
+          <i class="fa-solid fa-angle-left"></i>
+          Anterior
+      </button>
+  </div>
+
+  <div class='form-group d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5 col'>
+      <button type="submit" id="boton-fin" class="btn btn-primary fw-bold">
+          Finalizar
+      </button>
+  </div>
+</div>
+
+<script>
+    // Función para borrar el registro del animador
+    function borrarAnimador(email){
+
+        const totalAnimadores = $('#num_animadores').val();
+
+        // Restamos el contador de animadores total
+        $('#num_animadores').val(totalAnimadores - 1);
+
+        // Eliminamos el div con la información del animador a borrar
+        divAnimador = document.getElementById("animador-" + email);
+        divAnimador.remove();
+    }
+
+    // Función para cambiar permisos de superanimador
+    function cambiarSuperanimador(numAnimador){
+        const superanimador = divAnimador.getElementsByName("superanimador-" + numAnimador)[0];
+        const superanimadorValue = superanimador.value();
+        esSuperanimador = (superanimador === 'true');
+
+        // Cambiamos valor del input de superanimador
+        superanimador.value(!esSuperanimador);
+
+        // Cambiamos el símbolo del botón
+        if(!esSuperanimador){
+            superanimador.nextSibling.classList.remove("fa-eye");
+            superanimador.nextSibling.classList.add("fa-eye-slash");
+        }
+        else{
+            superanimador.nextSibling.classList.remove("fa-eye-slash");
+            superanimador.nextSibling.classList.add("fa-eye");
+        }
+    }
+</script>

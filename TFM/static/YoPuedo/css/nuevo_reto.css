@@ -37,7 +37,7 @@
     border-color: #00BCD4;
 }
 
-#boton-siguiente, #boton-anterior{
+#boton-siguiente, #boton-anterior, #boton-fin{
     background: #795548;
     border-color: #795548;
 }
@@ -63,7 +63,7 @@ label > i {
     border-color: #607D8B;
 }
 
-#boton-borrar-etapa{
+.borrar{
     background: #FC204B;
     border-color: #FC204B;
 }
