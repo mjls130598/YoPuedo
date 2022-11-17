@@ -55,11 +55,17 @@
 
 <script>
 
+/****************************************************************************************/
+
+  // Función para cambiar la pestaña activa y el cuerpo
   function cambiarPestanaEtapa(id){
     $('#tab-etapas button[aria-controls="' + id + '"]').tab('show');
     cambiarColorCuerpo(id);
   }
 
+/****************************************************************************************/
+
+  // Función para obtener el número de etapa al que ir
   function getNumEtapa(etapa, cantidad){
     num_etapa = etapa + cantidad;
     total_etapas = parseInt($('#id_form-TOTAL_FORMS').val());
@@ -70,6 +76,8 @@
     return 'etapa-' + num_etapa;
   }
 
+/****************************************************************************************/
+  // Función para crear una etapa
   function crearEtapa(num_etapa){
 
     // Clonamos la primera pestaña
@@ -102,6 +110,8 @@
     $('#id_form-TOTAL_FORMS').val(num_etapa);
   }
 
+/****************************************************************************************/
+  // Función para cambiar el cuerpo de la etapa dada
   function cambiarCuerpo(clone_cuerpo, num_etapa){
 
     // Cambiamos los valores del div principal del nuevo cuerpo
@@ -241,6 +251,9 @@
     }
   }
 
+/****************************************************************************************/
+
+  // Función para eliminar la etapa
   function borrarEtapa(num_etapa){
 
     const total_etapas = parseInt($('#id_form-TOTAL_FORMS').val());
