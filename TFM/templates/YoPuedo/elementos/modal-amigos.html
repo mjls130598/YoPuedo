@@ -33,7 +33,7 @@
             </h5>
         </div>
         <div class="botones col-5">
-            <button class="anadir btn btn-primary principales"
+            <button class="anadir-amigo btn btn-primary principales"
                     onclick="anadirAmigo({{amigo}})">
                 <i class="fa-solid fa-user-plus"></i>
                 Añadir
@@ -60,9 +60,9 @@
         amigos.push(amigo);
 
         divAmigo = document.getElementById("amigo-" + amigo.email);
-        button = divAmigo.getElementsByClassName("anadir")[0];
-        button.classList.remove("anadir");
-        button.classList.add("borrar);
+        button = divAmigo.getElementsByClassName("anadir-amigo")[0];
+        button.classList.remove("anadir-amigo");
+        button.classList.add("borrar-amigo");
         button.setAttribute("onclick", "eliminarAmigo("+amigo+")");
         i.className = "fa-solid fa-user-minus";
         texto = document.createTextNode("Eliminar");
@@ -75,9 +75,9 @@
         amigos.pop(amigo);
 
         divAmigo = document.getElementById("amigo-" + amigo.email);
-        button = divAmigo.getElementsByClassName("borrar")[0];
-        button.classList.add("anadir");
-        button.classList.remove("borrar);
+        button = divAmigo.getElementsByClassName("borrar-amigo")[0];
+        button.classList.add("anadir-amigo");
+        button.classList.remove("borrar-amigo");
         button.setAttribute("onclick", "anadirAmigo("+amigo+")");
         i = document.createElement("i");
         i.className = "fa-solid fa-user-plus";
