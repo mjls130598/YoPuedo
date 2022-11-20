@@ -226,14 +226,23 @@ def get_amigos(request):
     relacion = request.GET.get("relacion")
     consulta = request.GET.get("consulta")
 
-    amigos = Amistad.objects.get(Q(amigo=request.user) | Q(otro_amigo=request.user))
+    if not consulta:
+        amigos = Amistad.objects.get(Q(amigo=request.user))\
+            .values('otro_amigo__email','otro_amigo__foto_perfil', 'otro_amigo__nombre')
 
-    if consulta:
-        amigos = Amistad.objects.get(Q(amigo=request.user) | Q(otro_amigo=request.user),
-                            Q(amigo__email__contains=consulta) |
-                            Q(otro_amigo__email__contains=consulta) |
-                            Q(amigo__nombre__contains=consulta) |
-                            Q(otro_amigo__nombre__contains=consulta))
+        amigos += Amistad.objects.get(Q(otro_amigo=request.user))\
+            .values('amigo__email', 'amigo__foto_perfil', 'amigo__nombre')
+
+    else:
+        amigos = Amistad.objects.get(Q(amigo=request.user),
+                                     Q(amigo__email__contains=consulta) |
+                                     Q(amigo__nombre__contains=consulta)) \
+            .values('otro_amigo__email', 'otro_amigo__foto_perfil', 'otro_amigo__nombre')
+
+        amigos += Amistad.objects.get(Q(otro_amigo=request.user),
+                                      Q(otro_amigo__email__contains=consulta) |
+                                      Q(otro_amigo__nombre__contains=consulta)) \
+            .values('amigo__email', 'amigo__foto_perfil', 'amigo__nombre')
 
     return render(request, "YoPuedo/modal-amigos.html",
                   {"relacion": relacion, "amigos": amigos})
