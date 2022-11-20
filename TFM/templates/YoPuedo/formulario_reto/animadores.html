@@ -1,12 +1,14 @@
-<div class="form-group d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5">
-    <button class="btn btn-primary fw-bold" id="btn-animador"
+<div class="form-group d-flex justify-content-start mt-2">
+    <button class="btn btn-primary fw-bold" id="btn-amigos"
             data-bs-toggle="modal-animador" hx-get="{% url 'amigos' %}?relacion=animador"
             hx-target="#dialog">
-        <div class="col-2">
-            <i class="fa-solid fa-user-plus"></i>
-        </div>
-        <div class="d-none d-md-block col-9">
-            Añadir animador
+        <div class="row">
+            <div class="col-2">
+                <i class="fa-solid fa-user-plus"></i>
+            </div>
+            <div class="d-none d-md-block col-10">
+                Añadir animador
+            </div>
         </div>
     </button>
 </div>
@@ -39,7 +41,7 @@
                 {% endif %}
                 Ánimos
             </button>
-            <button class="borrar btn btn-primary fw-bold"
+            <button class="borrar-amigo btn btn-primary fw-bold"
                     onclick="borrarAnimador('{{animador.email.email}}')">
                 <i class="fa-sharp fa-solid fa-trash"></i>
                 Eliminar
@@ -164,7 +166,7 @@
                 divBotones.appendChild(botonSuper);
 
                 botonBorrar = document.createElement("button");
-                botonBorrar.className = "borrar btn btn-primary fw-bold";
+                botonBorrar.className = "borrar-amigo btn btn-primary fw-bold";
                 botonBorrar.setAttribute("onclick", "borrarAnimador('+ animador.email
                 +')");
                 iconoBorrar = document.createElement("i");

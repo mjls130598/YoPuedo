@@ -92,3 +92,18 @@ label > i {
     background: #FD79A7;
     border-color: #FD79A7;
 }
+
+#btn-amigos{
+    background: #26968B;
+    border-color: #26968B;
+}
+
+.borrar-amigo{
+    background: #F44336;
+    border-color: #F44336;
+}
+
+.superanimador{
+    background: #2196F3;
+    border-color: #2196F3;
+}
