@@ -85,5 +85,14 @@
         button.append(i);
         button.append(texto);
     }
+
+    // Función para añadir amigos
+    function anadirAmigos(){
+        {% if relacion == 'animadores' %}
+        anadirAnimadores(amigos);
+        {% else %}
+        anadirParticipantes(amigos);
+        {% endif %}
+    }
 </script>
 

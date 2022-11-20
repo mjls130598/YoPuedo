@@ -98,4 +98,84 @@
             superanimador.nextSibling.classList.add("fa-eye");
         }
     }
+
+    // Función para añadir animador
+    function anadirAnimadores(amigos){
+
+        divAnimadores = document.getElementsByClassName("animadores")[0];
+
+        for(animador in amigos){
+
+            divAnimador = document.getElementById("animador-" + animador.email);
+            const totalAnimadores = $('#num_animadores').val();
+
+            if(!divAnimador){
+                // Aumentamos contador
+                totalAnimadores += 1
+                $('#num_animadores').val(totalAnimadores);
+
+                // Creamos div particular
+                divAnimador = document.createElement("div");
+                divAnimador.className = "animador row";
+                divAnimador.id = "animador-" + animador.email;
+
+                // Creamos input oculto
+                inputAnimador = document.createElement("input");
+                inputAnimador.name = "animador-" + totalAnimadores;
+                inputAnimador.setAttribute("type", "hidden");
+                inputAnimador.setAttribute("value", "animador-" + animador.email);
+                divAnimador.appendChild(inputAnimador);
+
+                // Creamos div de foto de perfil
+                divFoto = document.createElement("div");
+                divFoto.className = "foto-perfil col-2";
+                imagen = document.createElement("image");
+                imagen.className = "imagen-perfil img-fluid rounded col-md-6 mx-auto d-block col-xl-5";
+                imagen.setAttribute("src", animador.foto_perfil);
+                divFoto.appendChild(imagen);
+                divAnimador.appendChild(divFoto);
+
+                // Creamos el div de nombre
+                divNombre = document.createElement("div");
+                divNombre.className = "nombre col-4 fw-bold justify-content-start";
+                nombre = document.createElement("h5");
+                nombre.innerText = animador.nombre;
+                divNombre.appendChild(nombre);
+                divAnimador.appendChild(divNombre);
+
+                // Creamos el div de los botones
+                divBotones = document.createElement("div");
+                divBotones.className = "botones col-5";
+
+                botonSuper = document.createElement("button");
+                botonSuper.className = "superanimador btn btn-primary fw-bold";
+                botonSuper.setAttribute("onclick", "cambiarSuperanimador('"+
+                    totalAnimadores +"')");
+                inputSuperanimador = document.createElement("input");
+                inputSuperanimador.setAttribute("type", "hidden");
+                inputSuperanimador.setAttribute("value", "false");
+                inputSuperanimador.name = "superanimador-" + totalAnimadores;
+                botonSuper.appendChild(inputSuperanimador);
+                iconoSuperanimador = document.createElement("i");
+                iconoSuperanimador.className = "fa-solid fa-eye-slash";
+                botonSuper.appendChild(iconoSuperanimador);
+                textoSuperanimador = document.createTextNode("Ánimos");
+                botonSuper.appendChild(textoSuperanimador);
+                divBotones.appendChild(botonSuper);
+
+                botonBorrar = document.createElement("button");
+                botonBorrar.className = "borrar btn btn-primary fw-bold";
+                botonBorrar.setAttribute("onclick", "borrarAnimador('+ animador.email
+                +')");
+                iconoBorrar = document.createElement("i");
+                iconoBorrar.className = "fa-sharp fa-solid fa-trash";
+                botonBorrar.appendChild(iconoBorrar);
+                textoBorrar = document.createTextNode("Eliminar");
+                botonBorrar.appendChild(textoBorrar);
+                divBotones.appendChild(botonBorrar);
+                divAnimador.appendChild(divBotones);
+                divAnimadores.appendChild(divAnimador);
+            }
+        }
+    }
 </script>
