@@ -33,8 +33,8 @@
             </h5>
         </div>
         <div class="botones col-5">
-            <button class="borrar btn btn-primary fw-bold"
-                    onclick="anadir('{{amigo.email}}')">
+            <button class="anadir btn btn-primary principales"
+                    onclick="anadirAmigo({{amigo}})">
                 <i class="fa-solid fa-user-plus"></i>
                 Añadir
             </button>
@@ -44,10 +44,46 @@
   </div>
   <div class="modal-footer justify-content-end">
     <button type="button" class="btn btn-primary principales aceptar"
-            data-bs-dismiss="modal-animadores" aria-label="Close">
+            data-bs-dismiss="modal-animadores" aria-label="Close"
+            onclick="anadirAmigos()">
       <i class="bi bi-box-arrow-in-right"></i>
       Aceptar
     </button>
   </div>
 </div>
+
+<script>
+    amigos = [];
+
+    // Función para añadir amigos a la lista
+    function anadirAmigo(amigo){
+        amigos.push(amigo);
+
+        divAmigo = document.getElementById("amigo-" + amigo.email);
+        button = divAmigo.getElementsByClassName("anadir")[0];
+        button.classList.remove("anadir");
+        button.classList.add("borrar);
+        button.setAttribute("onclick", "eliminarAmigo("+amigo+")");
+        i.className = "fa-solid fa-user-minus";
+        texto = document.createTextNode("Eliminar");
+        button.append(i);
+        button.append(texto);
+    }
+
+    // Función para eliminar amigos de la lista
+    function eliminarAmigo(amigo){
+        amigos.pop(amigo);
+
+        divAmigo = document.getElementById("amigo-" + amigo.email);
+        button = divAmigo.getElementsByClassName("borrar")[0];
+        button.classList.add("anadir");
+        button.classList.remove("borrar);
+        button.setAttribute("onclick", "anadirAmigo("+amigo+")");
+        i = document.createElement("i");
+        i.className = "fa-solid fa-user-plus";
+        texto = document.createTextNode("Añadir");
+        button.append(i);
+        button.append(texto);
+    }
+</script>
 
