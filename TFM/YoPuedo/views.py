@@ -3,13 +3,14 @@ from http import HTTPStatus
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.template.loader import get_template
 
 from .utils import Utils
 from .forms import RegistroForm, InicioForm, ClaveForm, RetoGeneralForm, RetoEtapasForm
-from .models import Usuario
+from .models import Usuario, Amistad
 
 from django.forms import formset_factory
 
@@ -218,3 +219,21 @@ def nuevo_reto(request):
                   {"tipo_reto": tipo, "general_form": general_form,
                    "etapas_form": etapas_form, "errores": errores,
                    "max_etapas": max_etapas, "animadores": [], "num_animadores": 0})
+
+
+@login_required
+def get_amigos(request):
+    relacion = request.GET.get("relacion")
+    consulta = request.GET.get("consulta")
+
+    amigos = Amistad.objects.get(Q(amigo=request.user) | Q(otro_amigo=request.user))
+
+    if consulta:
+        amigos = Amistad.objects.get(Q(amigo=request.user) | Q(otro_amigo=request.user),
+                            Q(amigo__email__contains=consulta) |
+                            Q(otro_amigo__email__contains=consulta) |
+                            Q(amigo__nombre__contains=consulta) |
+                            Q(otro_amigo__nombre__contains=consulta))
+
+    return render(request, "YoPuedo/modal-amigos.html",
+                  {"relacion": relacion, "amigos": amigos})

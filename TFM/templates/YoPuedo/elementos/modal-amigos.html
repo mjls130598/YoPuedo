@@ -1,0 +1,53 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title titulo-modal">
+      <i class="fa-solid fa-user-plus"></i>
+      Añadir {{ relacion }}
+    </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal-{{ relacion }}"
+            aria-label="Close"></button>
+  </div>
+  <div class="modal-body container">
+    <form class="form" hx-get="{{ request.path }}">
+        <div class="row">
+            <input type="text" class="form-control col-7" name="consulta"
+                   placeholder="Buscar amigo ...">
+            <button type="submit"
+                    class="col-2 fw-bold btn btn-primary principales buscar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <div class="col-2">
+                {% include 'YoPuedo/elementos/microfono.html' with elementRecognition=field.id_for_label %}
+            </div>
+        </div>
+    </form>
+    {% for amigos in amigos %}
+    <div class="row" id="amigo-{{amigo.email}}">
+        <div class="foto-perfil col-2">
+            <img class="imagen-perfil img-fluid rounded col-md-6 mx-auto d-block
+              col-xl-5" src="{{amigo.foto_perfil}}">
+        </div>
+        <div class="nombre col-4 fw-bold justify-content-start">
+            <h5>
+                {{amigo.nombre}}
+            </h5>
+        </div>
+        <div class="botones col-5">
+            <button class="borrar btn btn-primary fw-bold"
+                    onclick="anadir('{{amigo.email}}')">
+                <i class="fa-solid fa-user-plus"></i>
+                Añadir
+            </button>
+        </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="modal-footer justify-content-end">
+    <button type="button" class="btn btn-primary principales aceptar"
+            data-bs-dismiss="modal-animadores" aria-label="Close">
+      <i class="bi bi-box-arrow-in-right"></i>
+      Aceptar
+    </button>
+  </div>
+</div>
+

@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="{% static 'YoPuedo/css/nuevo_reto.css'%}">
   <link rel="stylesheet" href="{% static 'YoPuedo/css/mis_retos.css'%}">
   <link rel="stylesheet" href="{% static 'YoPuedo/css/modal-retos.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/modal-amigos.css'%}">
   <script src="https://kit.fontawesome.com/05cfaef439.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 {% endblock %}
@@ -196,18 +197,49 @@
 {% endblock %}
 
 {% block modales %}
-    <!-- MODAL DEL TIPO DE RETOS-->
-    <div class="modal fade" id="modal">
-      <div class="modal-dialog row align-items-center" id="dialog">
-          {% include 'YoPuedo/elementos/modal-retos.html' %}
-      </div>
+  <!-- MODAL DEL TIPO DE RETOS-->
+  <div class="modal fade" id="modal">
+    <div class="modal-dialog row align-items-center" id="dialog">
+        {% include 'YoPuedo/elementos/modal-retos.html' %}
     </div>
+  </div>
 
-    {% if tipo_reto == "" %}
-      <script>
-            window.onload = () => {
-                $('#modal').modal('show');
-            }
-      </script>
-    {% endif %}
+  {% if tipo_reto == "" %}
+    <script>
+          window.onload = () => {
+              $('#modal').modal('show');
+          }
+    </script>
+  {% endif %}
+
+<!-- MODAL DE AÑADIR A AMIGOS-->
+  <div class="modal fade" id="modal-amigos">
+    <div class="modal-dialog row align-items-center" id="dialog-amigo">
+    </div>
+  </div>
+
+  <script>
+     // Funciones para controlar el modal
+    ;(function () {
+      const modal = new bootstrap.Modal(document.getElementById("modal-amigos"))
+      htmx.on("htmx:afterSwap", (e) => {
+        // Response targeting #dialog => show the modal
+        if (e.detail.target.id == "dialog-amigo") {
+          modal.show()
+        }
+      })
+
+      htmx.on("htmx:beforeSwap", (e) => {
+        // Empty response targeting #dialog => hide the modal
+        if (e.detail.target.id == "dialog-amigo" && !e.detail.xhr.response) {
+          modal.hide()
+          e.detail.shouldSwap = false
+        }
+      })
+      // Remove dialog content after hiding
+      htmx.on("hidden.bs.modal", () => {
+        document.getElementById("dialog-amigo").innerHTML = "";
+      })
+    })()
+  </script>
 {% endblock %}
