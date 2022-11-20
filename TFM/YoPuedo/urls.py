@@ -22,5 +22,6 @@ urlpatterns = [
         template_name='YoPuedo/recuperacion_contrasena/recuperacion_done.html',
     ), name="password_reset_complete"),
     path('mis_retos/', views.mis_retos, name="mis_retos"),
-    path('nuevo_reto/', views.nuevo_reto, name="nuevo_reto")
+    path('nuevo_reto/', views.nuevo_reto, name="nuevo_reto"),
+    path('amigos/', views.get_amigos, name="amigos")
 ]
