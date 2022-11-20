@@ -109,10 +109,9 @@
     }
 }
 
-@media screen and (max-height: 992px) and (min-height: 768px)
-    and (min-width: 768px){
+@media screen and (min-width: 1024px){
     #tab-retos-content, #form-reto-content {
-        max-height: 75%;
+        max-height: 75vh;
     }
 }
 
