@@ -11,13 +11,13 @@
     <form class="form" hx-get="{{ request.path }}">
         <div class="row">
             <input type="text" class="form-control col-7" name="consulta"
-                   placeholder="Buscar amigo ...">
+                   placeholder="Buscar amigo ..." id="buscador_amigos">
             <button type="submit"
                     class="col-2 fw-bold btn btn-primary principales buscar">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
             <div class="col-2">
-                {% include 'YoPuedo/elementos/microfono.html' with elementRecognition=field.id_for_label %}
+                {% include 'YoPuedo/elementos/microfono.html' with elementRecognition="buscador_amigos" %}
             </div>
         </div>
     </form>
