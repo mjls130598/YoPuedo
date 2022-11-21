@@ -7,7 +7,7 @@
     <button type="button" class="btn-close" data-bs-dismiss="modal-{{ relacion }}"
             aria-label="Close"></button>
   </div>
-  <div class="modal-body container">
+  <div class="modal-body">
     <form class="form" hx-get="{{ request.path }}">
         <div class="row">
             <input type="text" class="form-control col-7" name="consulta"
@@ -21,7 +21,7 @@
             </div>
         </div>
     </form>
-    {% for amigos in amigos %}
+    {% for amigo in amigos %}
     <div class="row" id="amigo-{{amigo.email}}">
         <div class="foto-perfil col-2">
             <img class="imagen-perfil img-fluid rounded col-md-6 mx-auto d-block
