@@ -10,37 +10,47 @@
   <div class="modal-body">
     <form class="form" hx-get="{{ request.path }}">
         <div class="row">
-            <input type="text" class="form-control col-7" name="consulta"
-                   placeholder="Buscar amigo ..." id="buscador_amigos">
+            <div class="col-8 col-md-9 col-lg-10">
+                <input type="text" class="form-control" name="consulta"
+                       placeholder="Buscar amigo ..." id="buscador_amigos">
+            </div>
             <button type="submit"
-                    class="col-2 fw-bold btn btn-primary principales buscar">
+                    class="col-2 col-md-1 fw-bold btn btn-primary principales buscar">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
-            <div class="col-2">
+            <div class="col-1">
                 {% include 'YoPuedo/elementos/microfono.html' with elementRecognition="buscador_amigos" %}
             </div>
         </div>
     </form>
-    {% for amigo in amigos %}
-    <div class="row" id="amigo-{{amigo.email}}">
-        <div class="foto-perfil col-2">
-            <img class="imagen-perfil img-fluid rounded col-md-6 mx-auto d-block
-              col-xl-5" src="{{amigo.foto_perfil}}">
+    <div class="amigos m-2">
+        {% for amigo in amigos %}
+        <div class="row pt-2" id="amigo-{{amigo.email}}">
+            <div class="foto-perfil col-4">
+                <img class="imagen-perfil img-fluid rounded col-md-6 mx-auto d-block
+                  col-xl-5" src="{{amigo.foto_perfil}}">
+            </div>
+            <div class="nombre col-5 fw-bold justify-content-start">
+                <h5>
+                    {{amigo.nombre}}
+                </h5>
+            </div>
+            <div class="botones col-3">
+                <button class="anadir-amigo btn btn-primary fw-bold"
+                        onclick="anadirAmigo({{amigo}})">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </div>
+                        <div class="d-none d-md-block col-8">
+                            Añadir
+                        </div>
+                    </div>
+                </button>
+            </div>
         </div>
-        <div class="nombre col-4 fw-bold justify-content-start">
-            <h5>
-                {{amigo.nombre}}
-            </h5>
-        </div>
-        <div class="botones col-5">
-            <button class="anadir-amigo btn btn-primary principales"
-                    onclick="anadirAmigo({{amigo}})">
-                <i class="fa-solid fa-user-plus"></i>
-                Añadir
-            </button>
-        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
   </div>
   <div class="modal-footer justify-content-end">
     <button type="button" class="btn btn-primary principales aceptar"
