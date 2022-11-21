@@ -12,3 +12,8 @@
     background-color: #8BC34A;
     border-color: #8BC34A;
 }
+
+@media (min-width: 576px)
+#dialog-amigos{
+    max-width: 75%;
+}
