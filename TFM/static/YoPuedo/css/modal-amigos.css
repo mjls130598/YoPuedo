@@ -21,3 +21,7 @@
 #dialog-amigos{
     height: 100%;
 }
+
+#dialog-amigos.titulo-modal{
+    color: #26968B;
+}
