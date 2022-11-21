@@ -1,5 +1,6 @@
 import logging
 from http import HTTPStatus
+from itertools import chain
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -226,35 +227,33 @@ def get_amigos(request):
     relacion = request.GET.get("relacion")
     consulta = request.GET.get("consulta")
 
-    if not consulta:
-        amigos = Amistad.objects.filter(Q(amigo=request.user)) \
+    amigos_amigo = Amistad.objects.filter(Q(amigo=request.user)) \
+        .annote(email=F('otro_amigo__email'),
+                foto_perfil=F('otro_amigo__foto_perfil'),
+                nombre=F('otro_amigo__nombre')) \
+        .values('email', 'foto_perfil', 'nombre') if not consulta else \
+        Amistad.objects.filter(Q(amigo=request.user),
+                               Q(amigo__email__contains=consulta) |
+                               Q(amigo__nombre__contains=consulta)) \
             .annote(email=F('otro_amigo__email'),
                     foto_perfil=F('otro_amigo__foto_perfil'),
                     nombre=F('otro_amigo__nombre')) \
             .values('email', 'foto_perfil', 'nombre')
 
-        amigos += Amistad.objects.filter(Q(otro_amigo=request.user)) \
+    amigos_otro = Amistad.objects.filter(Q(otro_amigo=request.user)) \
+        .annote(email=F('amigo__email'),
+                foto_perfil=F('amigo__foto_perfil'),
+                nombre=F('amigo__nombre')) \
+        .values('email', 'foto_perfil', 'nombre') if not consulta else \
+        Amistad.objects.filter(Q(otro_amigo=request.user),
+                               Q(otro_amigo__email__contains=consulta) |
+                               Q(otro_amigo__nombre__contains=consulta)) \
             .annote(email=F('amigo__email'),
                     foto_perfil=F('amigo__foto_perfil'),
                     nombre=F('amigo__nombre')) \
             .values('email', 'foto_perfil', 'nombre')
 
-    else:
-        amigos = Amistad.objects.filter(Q(amigo=request.user),
-                                        Q(amigo__email__contains=consulta) |
-                                        Q(amigo__nombre__contains=consulta)) \
-            .annote(email=F('otro_amigo__email'),
-                    foto_perfil=F('otro_amigo__foto_perfil'),
-                    nombre=F('otro_amigo__nombre')) \
-            .values('email', 'foto_perfil', 'nombre')
-
-        amigos += Amistad.objects.filter(Q(otro_amigo=request.user),
-                                         Q(otro_amigo__email__contains=consulta) |
-                                         Q(otro_amigo__nombre__contains=consulta)) \
-            .annote(email=F('amigo__email'),
-                    foto_perfil=F('amigo__foto_perfil'),
-                    nombre=F('amigo__nombre')) \
-            .values('email', 'foto_perfil', 'nombre')
+    amigos = list(chain(amigos_amigo, amigos_otro))
 
     return render(request, "YoPuedo/modal-amigos.html",
                   {"relacion": relacion, "amigos": amigos})
