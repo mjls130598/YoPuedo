@@ -255,5 +255,5 @@ def get_amigos(request):
 
     amigos = list(chain(amigos_amigo, amigos_otro))
 
-    return render(request, "YoPuedo/modal-amigos.html",
+    return render(request, "YoPuedo/elementos/modal-amigos.html",
                   {"relacion": relacion, "amigos": amigos})
