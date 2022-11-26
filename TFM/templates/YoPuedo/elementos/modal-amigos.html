@@ -9,10 +9,10 @@
   </div>
   <div class="modal-body">
     <form class="form" hx-get="{{ request.path }}">
+        {% csrf_token %}
         <div class="row">
             <div class="col-8 col-md-9">
-                <input type="text" class="form-control" name="consulta"
-                       placeholder="Buscar amigo ..." id="buscador_amigos">
+                {{ form_consulta }}
             </div>
             <button type="submit"
                     class="col-1 fw-bold btn btn-primary buscar">
