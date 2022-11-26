@@ -192,7 +192,9 @@ def mis_retos(request):
     return render(request, "YoPuedo/mis_retos.html",
                   {"tipo_reto": tipo, "categoria": categoria})
 
+##########################################################################################
 
+# Función de creación de retos
 @login_required
 def nuevo_reto(request):
     tipo = request.GET.get("tipo")
@@ -221,7 +223,9 @@ def nuevo_reto(request):
                    "etapas_form": etapas_form, "errores": errores,
                    "max_etapas": max_etapas, "animadores": [], "num_animadores": 0})
 
+##########################################################################################
 
+# Función de obtención de amigos
 @login_required
 def get_amigos(request):
     relacion = request.GET.get("relacion")
