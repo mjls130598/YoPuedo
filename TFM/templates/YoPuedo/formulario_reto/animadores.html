@@ -21,8 +21,7 @@
         <input type="hidden" name="animador-{{forloop.counter}}"
                value="{{animador.email.email}}">
         <div class="foto-perfil col-2">
-            <img class="imagen-perfil img-fluid rounded col-md-6 mx-auto d-block
-              col-xl-5" src="{{animador.email.foto_perfil}}">
+            <img class="imagen-perfil img-fluid rounded mx-auto d-block" src="{{animador.email.foto_perfil}}">
         </div>
         <div class="nombre col-4 fw-bold justify-content-start">
             <h5>
@@ -132,7 +131,7 @@
                 divFoto = document.createElement("div");
                 divFoto.className = "foto-perfil col-2";
                 imagen = document.createElement("image");
-                imagen.className = "imagen-perfil img-fluid rounded col-md-6 mx-auto d-block col-xl-5";
+                imagen.className = "imagen-perfil img-fluid rounded mx-auto d-block";
                 imagen.setAttribute("src", animador.foto_perfil);
                 divFoto.appendChild(imagen);
                 divAnimador.appendChild(divFoto);

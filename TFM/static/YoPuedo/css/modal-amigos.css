@@ -19,10 +19,20 @@
     }
 }
 
+@media screen and (max-width: 768px){
+    .nombre > h5{
+        font-size: 1.15rem;
+    }
+}
+
 #dialog-amigos{
     height: 100%;
 }
 
-#dialog-amigos.titulo-modal{
+.titulo-modal{
     color: #26968B;
+}
+
+.amigos > div {
+    border-bottom: 1px solid #dee2e6;
 }
