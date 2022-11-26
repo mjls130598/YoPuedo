@@ -331,7 +331,3 @@ class AmigosForm(forms.Form):
             'class': 'form-control',
             'placeholder': 'Buscar amigo ...'
         }))
-
-    def clean(self):
-        logger.info("Checkeando AMIGOS")
-        return self

@@ -234,7 +234,7 @@ def get_amigos(request):
 
     if request.method == "GET":
         formulario = AmigosForm(request.GET)
-        consulta = formulario.cleaned_data['consulta']
+        consulta = formulario.consulta
 
         amigos_amigo = Amistad.objects.filter(Q(amigo=request.user)) \
             .annotate(email=F('otro_amigo__email'),
