@@ -1,4 +1,4 @@
-<div class="modal-content">
+<form class="form modal-content" hx-get="{{ request.path }}">
   <div class="modal-header">
     <h5 class="modal-title titulo-modal fw-bold">
       <i class="fa-solid fa-user-plus"></i>
@@ -8,21 +8,22 @@
             aria-label="Close"></button>
   </div>
   <div class="modal-body">
-    <form class="form" hx-get="{{ request.path }}">
-        {% csrf_token %}
-        <div class="row">
-            <div class="col-8 col-md-9">
-                {{ form_consulta }}
-            </div>
-            <button type="submit"
-                    class="col-1 fw-bold btn btn-primary buscar">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-            <div class="col-1">
-                {% include 'YoPuedo/elementos/microfono.html' with elementRecognition="buscador_amigos" %}
-            </div>
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-8 col-md-9">
+            {% for field in form_consulta %}
+                {{ field }}
+            {% endfor %}
         </div>
-    </form>
+        <button type="submit"
+                class="col-1 fw-bold btn btn-primary buscar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <div class="col-1">
+            {% include 'YoPuedo/elementos/microfono.html' with elementRecognition="buscador_amigos" %}
+        </div>
+    </div>
+
     <div class="amigos m-2">
         {% for amigo in amigos %}
         <div class="row pt-2 pb-2" id="amigo-{{amigo.email}}">
@@ -59,7 +60,7 @@
       Aceptar
     </button>
   </div>
-</div>
+</form>
 
 <script>
     amigos = [];
