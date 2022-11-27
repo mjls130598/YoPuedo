@@ -326,7 +326,7 @@ class RetoEtapasForm(forms.Form):
 
 # Formulario de AMIGOS
 class AmigosForm(forms.Form):
-    consulta = forms.CharField(max_length='500', min_length='10', widget=forms.TextInput(
+    consulta = forms.CharField(widget=forms.TextInput(
         attrs={
             'class': 'form-control',
             'placeholder': 'Buscar amigo ...'
