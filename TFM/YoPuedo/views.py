@@ -5,7 +5,7 @@ from itertools import chain
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q, F
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.template.loader import get_template
 
@@ -193,6 +193,7 @@ def mis_retos(request):
     return render(request, "YoPuedo/mis_retos.html",
                   {"tipo_reto": tipo, "categoria": categoria})
 
+
 ##########################################################################################
 
 # Función de creación de retos
@@ -223,6 +224,7 @@ def nuevo_reto(request):
                   {"tipo_reto": tipo, "general_form": general_form,
                    "etapas_form": etapas_form, "errores": errores,
                    "max_etapas": max_etapas, "animadores": [], "num_animadores": 0})
+
 
 ##########################################################################################
 
@@ -263,6 +265,8 @@ def get_amigos(request):
                 .values('email', 'foto_perfil', 'nombre')
 
         amigos = list(chain(amigos_amigo, amigos_otro))
+        if consulta:
+            return JsonResponse(data=amigos)
 
     return render(request, "YoPuedo/elementos/modal-amigos.html",
                   {"relacion": relacion, "amigos": amigos, "form_consulta": formulario})
