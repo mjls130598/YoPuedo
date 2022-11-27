@@ -5,7 +5,7 @@ from itertools import chain
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q, F
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.template.loader import get_template
 
@@ -233,9 +233,9 @@ def nuevo_reto(request):
 def get_amigos(request):
     relacion = request.GET.get("relacion")
     formulario = AmigosForm()
+    amigos = list()
 
-    if request.method == "GET":
-        formulario = AmigosForm(request.GET)
+    if formulario.clean():
         consulta = request.GET.get('consulta')
 
         amigos_amigo = Amistad.objects.filter(Q(amigo=request.user)) \
@@ -265,8 +265,6 @@ def get_amigos(request):
                 .values('email', 'foto_perfil', 'nombre')
 
         amigos = list(chain(amigos_amigo, amigos_otro))
-        if consulta:
-            return JsonResponse(data=amigos)
 
     return render(request, "YoPuedo/elementos/modal-amigos.html",
                   {"relacion": relacion, "amigos": amigos, "form_consulta": formulario})
