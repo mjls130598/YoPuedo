@@ -332,9 +332,6 @@ class AmigosForm(forms.Form):
             'placeholder': 'Buscar amigo ...'
         }))
 
-    def clean(self):
-        return self
-
     def __init__(self, *args, **kwargs):
         super(self.__class__, self).__init__(*args, **kwargs)
         self.fields['consulta'].required = False
