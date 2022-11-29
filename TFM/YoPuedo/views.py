@@ -231,6 +231,7 @@ def nuevo_reto(request):
 # Función de obtención de amigos
 @login_required
 def get_amigos(request):
+    relacion = request.GET.get('relacion')
     formulario = AmigosForm(request.GET)
     consulta = formulario.data['consulta'] if 'consulta' in formulario.data else ""
 
@@ -263,4 +264,4 @@ def get_amigos(request):
     amigos = list(chain(amigos_amigo, amigos_otro))
 
     return render(request, "YoPuedo/elementos/modal-amigos.html",
-                  {"amigos": amigos, "form_consulta": formulario})
+                  {"relacion": relacion, "amigos": amigos, "form_consulta": formulario})
