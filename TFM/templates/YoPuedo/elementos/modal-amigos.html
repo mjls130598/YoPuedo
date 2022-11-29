@@ -5,7 +5,7 @@
       Añadir {{ relacion }}
     </h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal-amigos"
-            aria-label="Close" onclick="cerrarModal()"></button>
+            aria-label="Close" onclick="cerrarModalAmigos()"></button>
   </div>
   <div class="modal-body">
     <div class="row">
@@ -102,7 +102,7 @@
         {% else %}
         anadirParticipantes(amigos);
         {% endif %}
-        cerrarModal();
+        cerrarModalAmigos();
     }
 </script>
 
