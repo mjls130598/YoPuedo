@@ -331,6 +331,7 @@ class AmigosForm(forms.Form):
             'class': 'form-control',
             'placeholder': 'Buscar amigo ...'
         }))
+    relacion = forms.CharField(widget=forms.HiddenInput())
 
     def __init__(self, *args, **kwargs):
         super(self.__class__, self).__init__(*args, **kwargs)
