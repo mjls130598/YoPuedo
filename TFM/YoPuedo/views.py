@@ -232,7 +232,7 @@ def nuevo_reto(request):
 @login_required
 def get_amigos(request):
     formulario = AmigosForm(request.GET)
-    consulta = formulario.data['consulta']
+    consulta = formulario.data['consulta'] if 'consulta' in formulario.data else ""
 
     amigos_amigo = Amistad.objects.filter(Q(amigo=request.user)) \
         .annotate(email=F('otro_amigo__email'),
