@@ -333,7 +333,6 @@ class AmigosForm(forms.Form):
         }))
 
     def clean(self):
-        cleaned_data = super().clean()
         return self
 
     def __init__(self, *args, **kwargs):
