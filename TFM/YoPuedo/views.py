@@ -240,8 +240,8 @@ def get_amigos(request):
                   nombre=F('otro_amigo__nombre')) \
         .values('email', 'foto_perfil', 'nombre') if not consulta else \
         Amistad.objects.filter(Q(amigo=request.user),
-                               Q(amigo__email__contains=consulta) |
-                               Q(amigo__nombre__contains=consulta)) \
+                               Q(otro_amigo__email__contains=consulta) |
+                               Q(otro_amigo__nombre__contains=consulta)) \
             .annotate(email=F('otro_amigo__email'),
                       foto_perfil=F('otro_amigo__foto_perfil'),
                       nombre=F('otro_amigo__nombre')) \
@@ -253,8 +253,8 @@ def get_amigos(request):
                   nombre=F('amigo__nombre')) \
         .values('email', 'foto_perfil', 'nombre') if not consulta else \
         Amistad.objects.filter(Q(otro_amigo=request.user),
-                               Q(otro_amigo__email__contains=consulta) |
-                               Q(otro_amigo__nombre__contains=consulta)) \
+                               Q(amigo__email__contains=consulta) |
+                               Q(amigo__nombre__contains=consulta)) \
             .annotate(email=F('amigo__email'),
                       foto_perfil=F('amigo__foto_perfil'),
                       nombre=F('amigo__nombre')) \
