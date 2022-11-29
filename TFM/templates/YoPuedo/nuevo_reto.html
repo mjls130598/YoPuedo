@@ -228,13 +228,15 @@
           modal.show()
         }
       })
-      function cerrarModalAmigos(){
-          modal.hide()
-      }
       // Remove dialog content after hiding
       htmx.on("hidden.bs.modal", () => {
         document.getElementById("dialog").innerHTML = "";
       })
     })()
+
+    function cerrarModalAmigos(){
+      const modal = new bootstrap.Modal(document.getElementById("modal-amigos"))
+      modal.hide();
+    }
   </script>
 {% endblock %}
