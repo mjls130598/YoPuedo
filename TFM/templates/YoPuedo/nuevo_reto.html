@@ -235,8 +235,11 @@
     })()
 
     function cerrarModalAmigos(){
-      const modal = new bootstrap.Modal(document.getElementById("modal-amigos"))
-      modal.hide();
+        var backdrop = document.getElementsByClassName("modal-backdrop")[0];
+        var modal = document.getElementById("modal-amigos");
+
+        backdrop.classList.remove("show");
+        modal.classList.remove("show");
     }
   </script>
 {% endblock %}
