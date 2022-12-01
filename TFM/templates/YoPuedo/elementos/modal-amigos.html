@@ -70,12 +70,17 @@
         button = divAmigo.getElementsByClassName("anadir-amigo")[0];
         button.classList.remove("anadir-amigo");
         button.classList.add("borrar-amigo");
-        button.setAttribute("onclick", "eliminarAmigo("+amigo+")");
+        button.setAttribute("onclick", "eliminarAmigo({"+
+            "'email':'" + amigo.email + "'," +
+            "'foto_perfil':'" + amigo.foto_perfil + "'," +
+            "'nombre':'" + amigo.nombre + "'"
+        +"})");
+        divButton = button.children[0];
         i = document.createElement("i");
         i.className = "fa-solid fa-user-minus";
         texto = document.createTextNode("Eliminar");
-        button.append(i);
-        button.append(texto);
+        divButton.appendChild(i);
+        divButton.appendChild(texto);
     }
 
     // Función para eliminar amigos de la lista
@@ -86,12 +91,17 @@
         button = divAmigo.getElementsByClassName("borrar-amigo")[0];
         button.classList.add("anadir-amigo");
         button.classList.remove("borrar-amigo");
-        button.setAttribute("onclick", "anadirAmigo("+amigo+")");
+        button.setAttribute("onclick", "anadirAmigo({"+
+            "'email':'" + amigo.email + "'," +
+            "'foto_perfil':'" + amigo.foto_perfil + "'," +
+            "'nombre':'" + amigo.nombre + "'"
+        +"})");
+        divButton = button.children[0];
         i = document.createElement("i");
         i.className = "fa-solid fa-user-plus";
         texto = document.createTextNode("Añadir");
-        button.append(i);
-        button.append(texto);
+        divButton.appendChild(i);
+        divButton.appendChild(texto);
     }
 
     // Función para añadir amigos
