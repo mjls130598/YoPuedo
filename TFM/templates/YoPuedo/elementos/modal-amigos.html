@@ -1,4 +1,4 @@
-<form class="form modal-content" action="{{ request.path }}" method="get">
+<div class="modal-content">
   <div class="modal-header">
     <h5 class="modal-title titulo-modal fw-bold">
       <i class="fa-solid fa-user-plus"></i>
@@ -7,7 +7,7 @@
     <button type="button" class="btn-close" onclick="cerrarModalAmigos()"></button>
   </div>
   <div class="modal-body">
-    <div class="row">
+    <form class="form row" hx-get="{{ request.path }}">
         <div class="col-8 col-md-9">
             {% for field in form_consulta %}
                 {{ field }}
@@ -20,7 +20,7 @@
         <div class="col-1">
             {% include 'YoPuedo/elementos/microfono.html' with elementRecognition="buscador_amigos" %}
         </div>
-    </div>
+    </form>
 
     <div class="amigos m-2">
         {% for amigo in amigos %}
@@ -57,7 +57,7 @@
       Aceptar
     </button>
   </div>
-</form>
+</div>
 
 <script>
     amigos = [];
