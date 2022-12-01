@@ -53,7 +53,7 @@
 <div class="row">
   <div class='form-group d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5 col'>
       <button type="button" id="boton-anterior" class="btn btn-primary fw-bold"
-              onclick="cambiarPestana('general')">
+              onclick="cambiarPestana({% tipo == 'individual' %}'etapas'{% else %}'participantes'{%endif%})">
           <i class="fa-solid fa-angle-left"></i>
           Anterior
       </button>
