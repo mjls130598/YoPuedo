@@ -78,6 +78,9 @@
         // Eliminamos el div con la información del animador a borrar
         divAnimador = document.getElementById("animador-" + email);
         divAnimador.remove();
+
+        var posibles_amigos = amigos.filter(function(amigo){return item.email === email});
+        amigos.pop(posibles_amigos[0]);
     }
 
     // Función para cambiar permisos de superanimador
