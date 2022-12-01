@@ -107,9 +107,9 @@
     // Función para añadir amigos
     function anadirAmigos(){
         {% if relacion == 'animador' %}
-        anadirAnimadores(amigos);
+        anadirAnimadores();
         {% else %}
-        anadirParticipantes(amigos);
+        anadirParticipantes();
         {% endif %}
     }
 </script>
