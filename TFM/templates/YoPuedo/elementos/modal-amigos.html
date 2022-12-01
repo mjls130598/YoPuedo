@@ -62,6 +62,8 @@
 <script>
     amigos = [];
 
+/****************************************************************************************/
+
     // Función para añadir amigos a la lista
     function anadirAmigo(amigo){
         amigos.push(amigo);
@@ -82,6 +84,8 @@
         divButton.children[0].appendChild(i);
         divButton.children[1].appendChild(texto);
     }
+
+/****************************************************************************************/
 
     // Función para eliminar amigos de la lista
     function eliminarAmigo(amigo){
@@ -104,6 +108,8 @@
         divButton.children[1].appendChild(texto);
     }
 
+/****************************************************************************************/
+
     // Función para añadir amigos
     function anadirAmigos(){
         {% if relacion == 'animador' %}
@@ -112,5 +118,7 @@
         anadirParticipantes();
         {% endif %}
     }
+
+/****************************************************************************************/
 </script>
 

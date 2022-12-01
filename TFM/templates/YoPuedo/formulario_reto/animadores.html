@@ -67,6 +67,8 @@
 </div>
 
 <script>
+/****************************************************************************************/
+
     // Función para borrar el registro del animador
     function borrarAnimador(email){
 
@@ -82,6 +84,8 @@
         var posibles_amigos = amigos.filter(function(amigo){return amigo.email === email});
         amigos.pop(posibles_amigos[0]);
     }
+
+/****************************************************************************************/
 
     // Función para cambiar permisos de superanimador
     function cambiarSuperanimador(numAnimador){
@@ -102,6 +106,8 @@
             superanimador.nextSibling.classList.add("fa-eye");
         }
     }
+
+/****************************************************************************************/
 
     // Función para añadir animador
     function anadirAnimadores(){
@@ -182,4 +188,6 @@
             }
         }
     }
+
+/****************************************************************************************/
 </script>
