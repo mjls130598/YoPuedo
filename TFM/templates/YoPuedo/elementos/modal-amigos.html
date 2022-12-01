@@ -71,6 +71,7 @@
         button.classList.remove("anadir-amigo");
         button.classList.add("borrar-amigo");
         button.setAttribute("onclick", "eliminarAmigo("+amigo+")");
+        i = document.createElement("i");
         i.className = "fa-solid fa-user-minus";
         texto = document.createTextNode("Eliminar");
         button.append(i);
