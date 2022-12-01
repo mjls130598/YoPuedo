@@ -79,8 +79,8 @@
         i = document.createElement("i");
         i.className = "fa-solid fa-user-minus";
         texto = document.createTextNode("Eliminar");
-        divButton.appendChild(i);
-        divButton.appendChild(texto);
+        divButton.children[0].appendChild(i);
+        divButton.children[1].appendChild(texto);
     }
 
     // Función para eliminar amigos de la lista
@@ -100,8 +100,8 @@
         i = document.createElement("i");
         i.className = "fa-solid fa-user-plus";
         texto = document.createTextNode("Añadir");
-        divButton.appendChild(i);
-        divButton.appendChild(texto);
+        divButton.children[0].appendChild(i);
+        divButton.children[1].appendChild(texto);
     }
 
     // Función para añadir amigos
