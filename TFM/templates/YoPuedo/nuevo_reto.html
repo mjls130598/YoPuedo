@@ -233,15 +233,5 @@
         document.getElementById("dialog").innerHTML = "";
       })
     })()
-
-    function cerrarModalAmigos(){
-        var backdrop = document.getElementsByClassName("modal-backdrop")[0];
-        var modal = document.getElementById("modal-amigos");
-
-        backdrop.classList.remove("show");
-        modal.classList.remove("show");
-        modal.style = "display:'none';";
-        modal.children[0].innerHTML = "";
-    }
   </script>
 {% endblock %}

@@ -4,7 +4,8 @@
       <i class="fa-solid fa-user-plus"></i>
       Añadir {{ relacion }}
     </h5>
-    <button type="button" class="btn-close" onclick="cerrarModalAmigos()"></button>
+    <button type="button" class="btn-close close" data-dismiss="modal" aria-label="Close">
+    </button>
   </div>
   <div class="modal-body">
     <form class="form row" hx-get="{{ request.path }}">
@@ -51,7 +52,7 @@
     </div>
   </div>
   <div class="modal-footer justify-content-end">
-    <button type="button" class="btn btn-primary fw-bold aceptar"
+    <button type="button" class="btn btn-primary fw-bold aceptar close"
             onclick="anadirAmigos()">
       <i class="fa-solid fa-check"></i>
       Aceptar
