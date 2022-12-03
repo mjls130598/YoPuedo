@@ -116,7 +116,7 @@
 
         animadores.forEach( animador => {
             divAnimador = document.getElementById("animador-" + animador.email);
-            totalAnimadores = $('#num_animadores').val();
+            totalAnimadores = parseInt($('#num_animadores').val());
 
             if(!divAnimador){
                 // Aumentamos contador
