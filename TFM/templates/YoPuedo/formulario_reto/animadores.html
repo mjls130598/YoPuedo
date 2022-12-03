@@ -89,23 +89,24 @@
 /****************************************************************************************/
 
     // Función para cambiar permisos de superanimador
-    function cambiarSuperanimador(numAnimador){
-        const superanimador = divAnimador.getElementsByClassName("superanimador-" +
-        numAnimador)[0];
-        const superanimadorValue = superanimador.value();
-        esSuperanimador = (superanimador === 'true');
+    function cambiarSuperanimador(email){
+        divAnimador = document.getElementById("animador-" + email);
+        const superanimador = divAnimador.getElementsByClassName("superanimador")[0];
+        superanimadorInput = document.getElementsByName("superanimador-" +
+        email)[0];
+        esSuperanimador = (superanimadorInput.value === 'true');
 
         // Cambiamos valor del input de superanimador
-        superanimador.value(!esSuperanimador);
+        superanimadorInput.value = !esSuperanimador;
 
         // Cambiamos el símbolo del botón
         if(!esSuperanimador){
-            superanimador.nextSibling.classList.remove("fa-eye");
-            superanimador.nextSibling.classList.add("fa-eye-slash");
+            superanimador.children[1].classList.remove("fa-eye");
+            superanimador.children[1].classList.add("fa-eye-slash");
         }
         else{
-            superanimador.nextSibling.classList.remove("fa-eye-slash");
-            superanimador.nextSibling.classList.add("fa-eye");
+            superanimador.children[1].classList.remove("fa-eye-slash");
+            superanimador.children[1].classList.add("fa-eye");
         }
     }
 
@@ -132,9 +133,9 @@
 
                 // Creamos input oculto
                 inputAnimador = document.createElement("input");
-                inputAnimador.name = "animador-" + totalAnimadores;
+                inputAnimador.name = "animador";
                 inputAnimador.setAttribute("type", "hidden");
-                inputAnimador.setAttribute("value", "animador-" + animador.email);
+                inputAnimador.setAttribute("value", animador.email);
                 divAnimador.appendChild(inputAnimador);
 
                 // Creamos div de foto de perfil
@@ -162,11 +163,11 @@
                 botonSuper = document.createElement("button");
                 botonSuper.className = "superanimador btn btn-primary fw-bold mb-md-0 mb-2 p-1 p-lg-2";
                 botonSuper.setAttribute("onclick", "cambiarSuperanimador('"+
-                    totalAnimadores +"')");
+                    animador.email +"')");
                 inputSuperanimador = document.createElement("input");
                 inputSuperanimador.setAttribute("type", "hidden");
                 inputSuperanimador.setAttribute("value", "false");
-                inputSuperanimador.name = "superanimador-" + totalAnimadores;
+                inputSuperanimador.name = "superanimador-" + animador.email;
                 botonSuper.appendChild(inputSuperanimador);
                 iconoSuperanimador = document.createElement("i");
                 iconoSuperanimador.className = "fa-solid fa-eye-slash m-1";
