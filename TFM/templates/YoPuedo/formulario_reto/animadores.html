@@ -114,8 +114,7 @@
 
         divAnimadores = document.getElementsByClassName("animadores")[0];
 
-        for(animador in amigos){
-
+        amigos.forEach( amigo => {
             divAnimador = document.getElementById("animador-" + animador.email);
             totalAnimadores = $('#num_animadores').val();
 
