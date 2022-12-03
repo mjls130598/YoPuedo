@@ -20,29 +20,30 @@
     <div class="animador p-2 p-md-3 row" id="animador-{{animador.email.email}}">
         <input type="hidden" name="animador-{{forloop.counter}}"
                value="{{animador.email.email}}">
-        <div class="foto-perfil col-4 col-md-3 col-lg-2">
+        <div class="foto-perfil col-4 col-md-2 col-lg-1">
             <img class="imagen-perfil img-fluid rounded mx-auto d-block" src="{{animador.email.foto_perfil}}">
         </div>
-        <div class="nombre col-5 col-md-5 col-lg-8 justify-content-start">
+        <div class="nombre col-4 col-md-7 col-lg-8 align-self-center">
             <h5 class="fw-bold">
                 {{animador.email.nombre}}
             </h5>
         </div>
-        <div class="botones col-4 col-lg-2">
-            <button class="superanimador btn btn-primary fw-bold mb-md-0 mb-2"
+        <div class="botones col-4 col-md-3 align-self-center d-md-flex justify-content-end">
+            <button class="superanimador btn btn-primary fw-bold mb-md-0 mb-2 p-1"
                     onclick="cambiarSuperanimador('{{forloop.counter}}')">
                 <input type="hidden" name="superanimador-{{forloop.counter}}"
                        value="{{animador.superanimador}}">
                 {% if animador.superanimador %}
-                <i class="fa-solid fa-eye"></i>
+                <i class="fa-solid fa-eye m-1"></i>
                 {% else %}
-                <i class="fa-solid fa-eye-slash"></i>
+                <i class="fa-solid fa-eye-slash m-1"></i>
                 {% endif %}
                 Ánimos
             </button>
-            <button class="borrar-amigo btn btn-primary fw-bold borrar-amigo btn btn-primary fw-bold mx-md-4"
+            <button
+                    class="borrar-amigo btn btn-primary fw-bold borrar-amigo btn btn-primary fw-bold mx-md-1 p-1"
                     onclick="borrarAnimador('{{animador.email.email}}')">
-                <i class="fa-sharp fa-solid fa-trash"></i>
+                <i class="fa-sharp fa-solid fa-trash m-1"></i>
                 Eliminar
             </button>
         </div>
@@ -138,7 +139,7 @@
 
                 // Creamos div de foto de perfil
                 divFoto = document.createElement("div");
-                divFoto.className = "foto-perfil col-4 col-md-3 col-lg-2";
+                divFoto.className = "foto-perfil col-4 col-md-2 col-lg-2";
                 imagen = document.createElement("img");
                 imagen.className = "imagen-perfil img-fluid rounded mx-auto d-block";
                 imagen.setAttribute("src", animador.foto_perfil);
@@ -147,7 +148,7 @@
 
                 // Creamos el div de nombre
                 divNombre = document.createElement("div");
-                divNombre.className = "nombre col-5 col-md-5 col-lg-8 justify-content-start";
+                divNombre.className = "nombre col-4 col-md-7 fw-bold align-self-center";
                 nombre = document.createElement("h5");
                 nombre.innerText = animador.nombre;
                 nombre.className = "fw-bold";
@@ -156,10 +157,10 @@
 
                 // Creamos el div de los botones
                 divBotones = document.createElement("div");
-                divBotones.className = "botones col-4 col-lg-2";
+                divBotones.className = "botones col-4 col-md-3 align-self-center d-md-flex justify-content-end";
 
                 botonSuper = document.createElement("button");
-                botonSuper.className = "superanimador btn btn-primary fw-bold mb-md-0 mb-2";
+                botonSuper.className = "superanimador btn btn-primary fw-bold mb-md-0 mb-2 p-1 p-lg-2";
                 botonSuper.setAttribute("onclick", "cambiarSuperanimador('"+
                     totalAnimadores +"')");
                 inputSuperanimador = document.createElement("input");
@@ -168,18 +169,18 @@
                 inputSuperanimador.name = "superanimador-" + totalAnimadores;
                 botonSuper.appendChild(inputSuperanimador);
                 iconoSuperanimador = document.createElement("i");
-                iconoSuperanimador.className = "fa-solid fa-eye-slash";
+                iconoSuperanimador.className = "fa-solid fa-eye-slash m-1";
                 botonSuper.appendChild(iconoSuperanimador);
                 textoSuperanimador = document.createTextNode("Ánimos");
                 botonSuper.appendChild(textoSuperanimador);
                 divBotones.appendChild(botonSuper);
 
                 botonBorrar = document.createElement("button");
-                botonBorrar.className = "borrar-amigo btn btn-primary fw-bold borrar-amigo btn btn-primary fw-bold mx-md-4";
+                botonBorrar.className = "borrar-amigo btn btn-primary fw-bold p-1 mx-md-1 mx-lg-2 p-lg-2";
                 botonBorrar.setAttribute("onclick", "borrarAnimador('"+ animador.email
                 +"')");
                 iconoBorrar = document.createElement("i");
-                iconoBorrar.className = "fa-sharp fa-solid fa-trash";
+                iconoBorrar.className = "fa-sharp fa-solid fa-trash m-1";
                 botonBorrar.appendChild(iconoBorrar);
                 textoBorrar = document.createTextNode("Eliminar");
                 botonBorrar.appendChild(textoBorrar);
