@@ -13,22 +13,22 @@
     </button>
 </div>
 
-<div class='form-group mt-2 mt-sm-3 mt-lg-5 animadores'>
+<div class='form-group mt-2 mt-sm-3 mt-lg-3 animadores'>
     <input type="hidden" id="num_animadores" name="num_animadores"
            value="{{num_animadores}}">
 {% for animador in animadores %}
-    <div class="animador p-2 row" id="animador-{{animador.email.email}}">
+    <div class="animador p-2 p-md-3 row" id="animador-{{animador.email.email}}">
         <input type="hidden" name="animador-{{forloop.counter}}"
                value="{{animador.email.email}}">
-        <div class="foto-perfil col col-md-5">
+        <div class="foto-perfil col-4 col-md-3 col-lg-2">
             <img class="imagen-perfil img-fluid rounded mx-auto d-block" src="{{animador.email.foto_perfil}}">
         </div>
-        <div class="nombre col col-md-5 fw-bold justify-content-start">
+        <div class="nombre col-5 col-md-5 col-lg-8 fw-bold justify-content-start">
             <h5>
                 {{animador.email.nombre}}
             </h5>
         </div>
-        <div class="botones col col-md-2">
+        <div class="botones col-4 col-lg-2">
             <button class="superanimador btn btn-primary fw-bold"
                     onclick="cambiarSuperanimador('{{forloop.counter}}')">
                 <input type="hidden" name="superanimador-{{forloop.counter}}"
