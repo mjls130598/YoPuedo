@@ -29,7 +29,7 @@
             </h5>
         </div>
         <div class="botones col-4 col-md-3 align-self-center d-md-flex justify-content-end">
-            <button class="superanimador btn btn-primary fw-bold mb-md-0 mb-2 p-1"
+            <button type="button" class="superanimador btn btn-primary fw-bold mb-md-0 mb-2 p-1"
                     onclick="cambiarSuperanimador('{{forloop.counter}}')">
                 <input type="hidden" name="superanimador-{{forloop.counter}}"
                        value="{{animador.superanimador}}">
@@ -40,8 +40,7 @@
                 {% endif %}
                 Ánimos
             </button>
-            <button
-                    class="borrar-amigo btn btn-primary fw-bold borrar-amigo btn btn-primary fw-bold mx-md-1 p-1"
+            <button type="button" class="borrar-amigo btn btn-primary fw-bold borrar-amigo btn btn-primary fw-bold mx-md-1 p-1"
                     onclick="borrarAnimador('{{animador.email.email}}')">
                 <i class="fa-sharp fa-solid fa-trash m-1"></i>
                 Eliminar
@@ -164,6 +163,7 @@
                 botonSuper.className = "superanimador btn btn-primary fw-bold mb-md-0 mb-2 p-1 p-lg-2";
                 botonSuper.setAttribute("onclick", "cambiarSuperanimador('"+
                     animador.email +"')");
+                botonSuper.setAttribute("type", "button");
                 inputSuperanimador = document.createElement("input");
                 inputSuperanimador.setAttribute("type", "hidden");
                 inputSuperanimador.setAttribute("value", "false");
@@ -180,6 +180,7 @@
                 botonBorrar.className = "borrar-amigo btn btn-primary fw-bold p-1 mx-md-1 mx-lg-2 p-lg-2";
                 botonBorrar.setAttribute("onclick", "borrarAnimador('"+ animador.email
                 +"')");
+                botonBorrar.setAttribute("type", "button");
                 iconoBorrar = document.createElement("i");
                 iconoBorrar.className = "fa-sharp fa-solid fa-trash m-1";
                 botonBorrar.appendChild(iconoBorrar);
