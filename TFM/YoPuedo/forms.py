@@ -157,7 +157,7 @@ class RetoGeneralForm(forms.Form):
                              min_length='10', widget=forms.TextInput(
             attrs={
                 'class': 'form-control'
-            }))
+            }), required=False)
     objetivo_imagen = forms.ImageField(label="Subir foto",
                                        widget=forms.ClearableFileInput(
                                            attrs={
@@ -190,7 +190,7 @@ class RetoGeneralForm(forms.Form):
                                   widget=forms.Select(
                                       attrs={
                                           'class': 'col'
-                                      }))
+                                      }), required=False)
 
     recompensa_imagen = forms.ImageField(label="Subir foto",
                                          widget=forms.ClearableFileInput(
@@ -236,6 +236,11 @@ class RetoGeneralForm(forms.Form):
         recompensa_video = cleaned_data.get('recompensa_video')
 
         categoria = cleaned_data.get('categoria')
+        titulo = cleaned_data.get('titulo')
+
+        if not titulo:
+            logger.error("No se ha indicado el título del reto")
+            self.add_error('titulo', 'Debes indicar el título del reto')
 
         if not objetivo_texto and not objetivo_imagen and not objetivo_video and not \
                 objetivo_audio:
@@ -330,9 +335,5 @@ class AmigosForm(forms.Form):
         attrs={
             'class': 'form-control',
             'placeholder': 'Buscar amigo ...'
-        }))
+        }), required=False)
     relacion = forms.CharField(widget=forms.HiddenInput())
-
-    def __init__(self, *args, **kwargs):
-        super(self.__class__, self).__init__(*args, **kwargs)
-        self.fields['consulta'].required = False
