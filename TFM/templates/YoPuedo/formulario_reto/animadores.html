@@ -23,13 +23,13 @@
         <div class="foto-perfil col-4 col-md-3 col-lg-2">
             <img class="imagen-perfil img-fluid rounded mx-auto d-block" src="{{animador.email.foto_perfil}}">
         </div>
-        <div class="nombre col-5 col-md-5 col-lg-8 fw-bold justify-content-start">
-            <h5>
+        <div class="nombre col-5 col-md-5 col-lg-8 justify-content-start">
+            <h5 class="fw-bold">
                 {{animador.email.nombre}}
             </h5>
         </div>
         <div class="botones col-4 col-lg-2">
-            <button class="superanimador btn btn-primary fw-bold"
+            <button class="superanimador btn btn-primary fw-bold mb-md-0 mb-2"
                     onclick="cambiarSuperanimador('{{forloop.counter}}')">
                 <input type="hidden" name="superanimador-{{forloop.counter}}"
                        value="{{animador.superanimador}}">
@@ -40,7 +40,7 @@
                 {% endif %}
                 Ánimos
             </button>
-            <button class="borrar-amigo btn btn-primary fw-bold"
+            <button class="borrar-amigo btn btn-primary fw-bold borrar-amigo btn btn-primary fw-bold mx-md-4"
                     onclick="borrarAnimador('{{animador.email.email}}')">
                 <i class="fa-sharp fa-solid fa-trash"></i>
                 Eliminar
@@ -89,7 +89,8 @@
 
     // Función para cambiar permisos de superanimador
     function cambiarSuperanimador(numAnimador){
-        const superanimador = divAnimador.getElementsByName("superanimador-" + numAnimador)[0];
+        const superanimador = divAnimador.getElementsByClassName("superanimador-" +
+        numAnimador)[0];
         const superanimadorValue = superanimador.value();
         esSuperanimador = (superanimador === 'true');
 
@@ -125,7 +126,7 @@
 
                 // Creamos div particular
                 divAnimador = document.createElement("div");
-                divAnimador.className = "animador row";
+                divAnimador.className = "animador p-2 p-md-3 row";
                 divAnimador.id = "animador-" + animador.email;
 
                 // Creamos input oculto
@@ -137,7 +138,7 @@
 
                 // Creamos div de foto de perfil
                 divFoto = document.createElement("div");
-                divFoto.className = "foto-perfil col-2";
+                divFoto.className = "foto-perfil col-4 col-md-3 col-lg-2";
                 imagen = document.createElement("image");
                 imagen.className = "imagen-perfil img-fluid rounded mx-auto d-block";
                 imagen.setAttribute("src", animador.foto_perfil);
@@ -146,18 +147,19 @@
 
                 // Creamos el div de nombre
                 divNombre = document.createElement("div");
-                divNombre.className = "nombre col-4 fw-bold justify-content-start";
+                divNombre.className = "nombre col-5 col-md-5 col-lg-8 justify-content-start";
                 nombre = document.createElement("h5");
                 nombre.innerText = animador.nombre;
+                nombre.className = "fw-bold";
                 divNombre.appendChild(nombre);
                 divAnimador.appendChild(divNombre);
 
                 // Creamos el div de los botones
                 divBotones = document.createElement("div");
-                divBotones.className = "botones col-5";
+                divBotones.className = "botones col-4 col-lg-2";
 
                 botonSuper = document.createElement("button");
-                botonSuper.className = "superanimador btn btn-primary fw-bold";
+                botonSuper.className = "superanimador btn btn-primary fw-bold mb-md-0 mb-2";
                 botonSuper.setAttribute("onclick", "cambiarSuperanimador('"+
                     totalAnimadores +"')");
                 inputSuperanimador = document.createElement("input");
@@ -173,7 +175,7 @@
                 divBotones.appendChild(botonSuper);
 
                 botonBorrar = document.createElement("button");
-                botonBorrar.className = "borrar-amigo btn btn-primary fw-bold";
+                botonBorrar.className = "borrar-amigo btn btn-primary fw-bold borrar-amigo btn btn-primary fw-bold mx-md-4";
                 botonBorrar.setAttribute("onclick", "borrarAnimador('"+ animador.email
                 +"')");
                 iconoBorrar = document.createElement("i");
