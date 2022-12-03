@@ -69,6 +69,7 @@
         amigos.push(amigo);
 
         divAmigo = document.getElementById("amigo-" + amigo.email);
+        divAmigo.classList.add("seleccionado");
         button = divAmigo.getElementsByClassName("anadir-amigo")[0];
         button.classList.remove("anadir-amigo");
         button.classList.add("borrar-amigo");
@@ -90,6 +91,7 @@
         amigos.pop(amigo);
 
         divAmigo = document.getElementById("amigo-" + amigo.email);
+        divAmigo.classList.remove("seleccionado");
         button = divAmigo.getElementsByClassName("borrar-amigo")[0];
         button.classList.add("anadir-amigo");
         button.classList.remove("borrar-amigo");

@@ -36,3 +36,7 @@
 .amigos > div {
     border-bottom: 1px solid #dee2e6;
 }
+
+.seleccionado{
+    background: #dee2e6;
+}
