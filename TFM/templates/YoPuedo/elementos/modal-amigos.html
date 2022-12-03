@@ -77,12 +77,10 @@
             "'foto_perfil':'" + amigo.foto_perfil + "'," +
             "'nombre':'" + amigo.nombre + "'"
         +"})");
-        divButton = button.children[0];
-        i = document.createElement("i");
+        i = button.getElementsByTagName("i")[0];
         i.className = "fa-solid fa-user-minus";
-        texto = document.createTextNode("Eliminar");
-        divButton.children[0].appendChild(i);
-        divButton.children[1].appendChild(texto);
+        divTexto = button.getElementsByTagName("div")[2];
+        divTexto.innerText = "Eliminar";
     }
 
 /****************************************************************************************/
@@ -100,12 +98,10 @@
             "'foto_perfil':'" + amigo.foto_perfil + "'," +
             "'nombre':'" + amigo.nombre + "'"
         +"})");
-        divButton = button.children[0];
-        i = document.createElement("i");
+        i = button.getElementsByTagName("i")[0];
         i.className = "fa-solid fa-user-plus";
-        texto = document.createTextNode("Añadir");
-        divButton.children[0].appendChild(i);
-        divButton.children[1].appendChild(texto);
+        divTexto = button.getElementsByTagName("div")[2];
+        divTexto.innerText = "Añadir";
     }
 
 /****************************************************************************************/
