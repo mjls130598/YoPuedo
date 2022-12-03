@@ -110,11 +110,11 @@
 /****************************************************************************************/
 
     // Función para añadir animador
-    function anadirAnimadores(){
+    function anadirAnimadores(animadores){
 
         divAnimadores = document.getElementsByClassName("animadores")[0];
 
-        amigos.forEach( amigo => {
+        animadores.forEach( animador => {
             divAnimador = document.getElementById("animador-" + animador.email);
             totalAnimadores = $('#num_animadores').val();
 
