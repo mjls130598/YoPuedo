@@ -72,7 +72,7 @@
     // Función para borrar el registro del animador
     function borrarAnimador(email){
 
-        const totalAnimadores = $('#num_animadores').val();
+        const totalAnimadores = parseInt($('#num_animadores').val());
 
         // Restamos el contador de animadores total
         $('#num_animadores').val(totalAnimadores - 1);
@@ -80,9 +80,6 @@
         // Eliminamos el div con la información del animador a borrar
         divAnimador = document.getElementById("animador-" + email);
         divAnimador.remove();
-
-        var posibles_amigos = amigos.filter(function(amigo){return amigo.email === email});
-        amigos.pop(posibles_amigos[0]);
     }
 
 /****************************************************************************************/
