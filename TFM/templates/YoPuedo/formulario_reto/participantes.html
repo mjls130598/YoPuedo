@@ -1,10 +1,144 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div class="form-group d-flex justify-content-start mt-2">
+    <button class="btn btn-primary fw-bold" id="btn-amigos"
+            data-bs-toggle="modal-amigos"
+            hx-get="{% url 'amigos' %}?relacion=participante"
+            hx-target="#dialog-amigos">
+        <div class="row">
+            <div class="col-2">
+                <i class="fa-solid fa-user-plus"></i>
+            </div>
+            <div class="d-none d-md-block col-10">
+                Añadir participante
+            </div>
+        </div>
+    </button>
+</div>
 
-</body>
-</html>
+<div class='form-group mt-2 mt-sm-3 mt-lg-3 participantees'>
+    <input type="hidden" id="num_participantes" name="num_participantes"
+           value="{{num_participantes}}">
+{% for participante in participantes %}
+    <div class="participante p-2 p-md-3 row"
+         id="participante-{{participante.usuario.email}}">
+        <input type="hidden" name="participante" value="{{participante.usuario.email}}">
+        <div class="foto-perfil col-4 col-md-2 col-lg-1">
+            <img class="imagen-perfil img-fluid rounded mx-auto d-block"
+                 src="{{participante.usuario.foto_perfil}}">
+        </div>
+        <div class="nombre col-4 col-md-7 col-lg-8 align-self-center">
+            <h5 class="fw-bold">
+                {{participante.usuario.nombre}}
+            </h5>
+        </div>
+        <div class="botones col-4 col-md-3 align-self-center d-md-flex justify-content-end">
+            <button type="button" class="borrar-amigo btn btn-primary fw-bold borrar-amigo btn btn-primary fw-bold mx-md-1 p-1"
+                    onclick="borrarParticipante('{{participante.usuario.email}}')">
+                <i class="fa-sharp fa-solid fa-trash m-1"></i>
+                Eliminar
+            </button>
+        </div>
+    </div>
+{% endfor %}
+</div>
+
+<div class="row">
+  <div class='form-group d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5 col'>
+      <button type="button" id="boton-anterior" class="btn btn-primary fw-bold"
+              onclick="cambiarPestana('etapas')">
+          <i class="fa-solid fa-angle-left"></i>
+          Anterior
+      </button>
+  </div>
+
+  <div class='form-group d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5 col'>
+      <button type="submit" id="boton-fin" class="btn btn-primary fw-bold">
+          Finalizar
+      </button>
+  </div>
+</div>
+
+<script>
+/****************************************************************************************/
+
+    // Función para borrar el registro del participante
+    function borrarParticipante(email){
+
+        const totalParticipantes = parseInt($('#num_participantes').val());
+
+        // Restamos el contador de participantees total
+        $('#num_participantes').val(totalParticipantes - 1);
+
+        // Eliminamos el div con la información del participante a borrar
+        divParticipante = document.getElementById("participante-" + email);
+        divParticipante.remove();
+    }
+
+/****************************************************************************************/
+
+    // Función para añadir participante
+    function anadirParticipantes(participantes){
+
+        divParticipantes = document.getElementsByClassName("participantes")[0];
+
+        participantes.forEach( participante => {
+            divParticipante = document.getElementById("participante-" + participante
+            .email);
+            totalParticipantes = parseInt($('#num_participantes').val());
+
+            if(!divParticipante){
+                // Aumentamos contador
+                totalParticipantes += 1
+                $('#num_participantees').val(totalParticipantes);
+
+                // Creamos div particular
+                divParticipante = document.createElement("div");
+                divParticipante.className = "participante p-2 p-md-3 row";
+                divParticipante.id = "participante-" + participante.email;
+
+                // Creamos input oculto
+                inputParticipante = document.createElement("input");
+                inputParticipante.name = "participante";
+                inputParticipante.setAttribute("type", "hidden");
+                inputParticipante.setAttribute("value", participante.email);
+                divParticipante.appendChild(inputParticipante);
+
+                // Creamos div de foto de perfil
+                divFoto = document.createElement("div");
+                divFoto.className = "foto-perfil col-4 col-md-2 col-lg-1";
+                imagen = document.createElement("img");
+                imagen.className = "imagen-perfil img-fluid rounded mx-auto d-block";
+                imagen.setAttribute("src", participante.foto_perfil);
+                divFoto.appendChild(imagen);
+                divParticipante.appendChild(divFoto);
+
+                // Creamos el div de nombre
+                divNombre = document.createElement("div");
+                divNombre.className = "nombre col-4 col-md-7 col-lg-8 align-self-center";
+                nombre = document.createElement("h5");
+                nombre.innerText = participante.nombre;
+                nombre.className = "fw-bold";
+                divNombre.appendChild(nombre);
+                divParticipante.appendChild(divNombre);
+
+                // Creamos el div de los botones
+                divBotones = document.createElement("div");
+                divBotones.className = "botones col-4 col-md-3 align-self-center d-md-flex justify-content-end";
+
+                botonBorrar = document.createElement("button");
+                botonBorrar.className = "borrar-amigo btn btn-primary fw-bold p-1 mx-md-1 mx-lg-2 p-lg-2";
+                botonBorrar.setAttribute("onclick", "borrarParticipante('"+ participante.email +"')");
+                botonBorrar.setAttribute("type", "button");
+                iconoBorrar = document.createElement("i");
+                iconoBorrar.className = "fa-sharp fa-solid fa-trash m-1";
+                botonBorrar.appendChild(iconoBorrar);
+                textoBorrar = document.createTextNode("Eliminar");
+                botonBorrar.appendChild(textoBorrar);
+                divBotones.appendChild(botonBorrar);
+                divParticipante.appendChild(divBotones);
+                divParticipantes.appendChild(divParticipante);
+            }
+        })
+    }
+
+/****************************************************************************************/
+</script>
