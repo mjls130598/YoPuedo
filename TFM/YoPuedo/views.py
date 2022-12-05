@@ -220,7 +220,7 @@ def nuevo_reto(request):
 
             # Primero obtenemos los animadores
             logger.info("Obtenemos animadores")
-            animadores_email = request.POST.getlist('animadores')
+            animadores_email = request.POST.getlist('animador')
             num_animadores = len(animadores_email)
 
             # De cada animador, obtenemos su usuario y si es superanimador
@@ -231,16 +231,18 @@ def nuevo_reto(request):
                 superanimador = request.POST.get(f'superanimador-{animador_email}')
                 animadores.append({'usuario': usuario, 'superanimador': superanimador})
 
-            # Segundo obtenemos los participantes
-            logger.info("Obtenemos participantes")
-            participantes_email = request.POST.getlist('participantes')
-            num_participantes = len(participantes_email)
+            # Si es un reto colectivo
+            if tipo == 'colectivo':
+                # Segundo obtenemos los participantes
+                logger.info("Obtenemos participantes")
+                participantes_email = request.POST.getlist('participante')
+                num_participantes = len(participantes_email)
 
-            for participante_email in participantes_email:
-                logger.info(f"Participante {participante_email}")
-                usuario = Usuario.objects.get_by_natural_key(animador_email)\
-                    .values('email', 'foto_perfil', 'nombre')
-                participantes.append({'usuario': usuario})
+                for participante_email in participantes_email:
+                    logger.info(f"Participante {participante_email}")
+                    usuario = Usuario.objects.get_by_natural_key(participante_email)\
+                        .values('email', 'foto_perfil', 'nombre')
+                    participantes.append({'usuario': usuario})
 
             # Después obtenemos la parte general y las etapas del reto
             general_form = RetoGeneralForm(request.POST, request.FILES)
