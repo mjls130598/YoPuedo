@@ -14,8 +14,6 @@
 </div>
 
 <div class='form-group mt-2 mt-sm-3 mt-lg-3 animadores'>
-    <input type="hidden" id="num_animadores" name="num_animadores"
-           value="{{num_animadores}}">
 {% for animador in animadores %}
     <div class="animador p-2 p-md-3 row" id="animador-{{animador.usuario.email}}">
         <input type="hidden" name="animador" value="{{animador.usuario.email}}">
@@ -72,11 +70,6 @@
     // Función para borrar el registro del animador
     function borrarAnimador(email){
 
-        const totalAnimadores = parseInt($('#num_animadores').val());
-
-        // Restamos el contador de animadores total
-        $('#num_animadores').val(totalAnimadores - 1);
-
         // Eliminamos el div con la información del animador a borrar
         divAnimador = document.getElementById("animador-" + email);
         divAnimador.remove();
@@ -115,13 +108,8 @@
 
         animadores.forEach( animador => {
             divAnimador = document.getElementById("animador-" + animador.email);
-            totalAnimadores = parseInt($('#num_animadores').val());
 
             if(!divAnimador){
-                // Aumentamos contador
-                totalAnimadores += 1
-                $('#num_animadores').val(totalAnimadores);
-
                 // Creamos div particular
                 divAnimador = document.createElement("div");
                 divAnimador.className = "animador p-2 p-md-3 row";

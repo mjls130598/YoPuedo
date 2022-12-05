@@ -15,8 +15,6 @@
 </div>
 
 <div class='form-group mt-2 mt-sm-3 mt-lg-3 participantees'>
-    <input type="hidden" id="num_participantes" name="num_participantes"
-           value="{{num_participantes}}">
 {% for participante in participantes %}
     <div class="participante p-2 p-md-3 row"
          id="participante-{{participante.usuario.email}}">
@@ -63,11 +61,6 @@
     // Función para borrar el registro del participante
     function borrarParticipante(email){
 
-        const totalParticipantes = parseInt($('#num_participantes').val());
-
-        // Restamos el contador de participantees total
-        $('#num_participantes').val(totalParticipantes - 1);
-
         // Eliminamos el div con la información del participante a borrar
         divParticipante = document.getElementById("participante-" + email);
         divParticipante.remove();
@@ -83,13 +76,8 @@
         participantes.forEach( participante => {
             divParticipante = document.getElementById("participante-" + participante
             .email);
-            totalParticipantes = parseInt($('#num_participantes').val());
 
             if(!divParticipante){
-                // Aumentamos contador
-                totalParticipantes += 1
-                $('#num_participantees').val(totalParticipantes);
-
                 // Creamos div particular
                 divParticipante = document.createElement("div");
                 divParticipante.className = "participante p-2 p-md-3 row";

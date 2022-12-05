@@ -206,9 +206,7 @@ def nuevo_reto(request):
     etapas_form = etapas_form_model()
     errores = False
     animadores = []
-    num_animadores = 0
     participantes = []
-    num_participantes = 0
 
     if tipo == 'individual' or tipo == 'colectivo':
         if request.method == 'GET':
@@ -221,7 +219,6 @@ def nuevo_reto(request):
             # Primero obtenemos los animadores
             logger.info("Obtenemos animadores")
             animadores_email = request.POST.getlist('animador')
-            num_animadores = len(animadores_email)
 
             # De cada animador, obtenemos su usuario y si es superanimador
             for animador_email in animadores_email:
@@ -236,7 +233,6 @@ def nuevo_reto(request):
                 # Segundo obtenemos los participantes
                 logger.info("Obtenemos participantes")
                 participantes_email = request.POST.getlist('participante')
-                num_participantes = len(participantes_email)
 
                 for participante_email in participantes_email:
                     logger.info(f"Participante {participante_email}")
@@ -264,8 +260,7 @@ def nuevo_reto(request):
                   {"tipo_reto": tipo, "general_form": general_form,
                    "etapas_form": etapas_form, "errores": errores,
                    "max_etapas": max_etapas, "animadores": animadores,
-                   "num_animadores": num_animadores, "participantes": participantes,
-                   "num_participantes": num_participantes})
+                   "participantes": participantes})
 
 
 ##########################################################################################
