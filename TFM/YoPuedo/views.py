@@ -205,6 +205,11 @@ def nuevo_reto(request):
     etapas_form_model = formset_factory(RetoEtapasForm, max_num=max_etapas)
     etapas_form = etapas_form_model()
     errores = False
+    animadores = []
+    num_animadores = 0
+    participantes = []
+    num_participantes = 0
+
     if tipo == 'individual' or tipo == 'colectivo':
         if request.method == 'GET':
             logger.info("Entramos en la parte GET de NUEVO RETO")
@@ -213,8 +218,41 @@ def nuevo_reto(request):
             logger.info("Entramos en la parte POST de NUEVO RETO")
             logger.info(f"Creamos un reto de tipo {tipo}")
 
+            # Primero obtenemos los animadores
+            logger.info("Obtenemos animadores")
+            animadores_email = request.POST.getlist('animadores')
+            num_animadores = len(animadores_email)
+
+            # De cada animador, obtenemos su usuario y si es superanimador
+            for animador_email in animadores_email:
+                logger.info(f"Animador {animador_email}")
+                usuario = Usuario.objects.get_by_natural_key(animador_email)\
+                    .values('email', 'foto_perfil', 'nombre')
+                superanimador = request.POST.get(f'superanimador-{animador_email}')
+                animadores.append({'usuario': usuario, 'superanimador': superanimador})
+
+            # Segundo obtenemos los participantes
+            logger.info("Obtenemos participantes")
+            participantes_email = request.POST.getlist('participantes')
+            num_participantes = len(participantes_email)
+
+            for participante_email in participantes_email:
+                logger.info(f"Participante {participante_email}")
+                usuario = Usuario.objects.get_by_natural_key(animador_email)\
+                    .values('email', 'foto_perfil', 'nombre')
+                participantes.append({'usuario': usuario})
+
+            # Después obtenemos la parte general y las etapas del reto
             general_form = RetoGeneralForm(request.POST, request.FILES)
             etapas_form = etapas_form_model(request.POST, request.FILES)
+
+            # Comprobamos si la parte principal es correcto
+            if general_form.is_valid() and etapas_form.is_valid():
+                logger.info("Guardamos formulario NUEVO RETO")
+
+            else:
+                logger.error("Error al validar formulario NUEVO RETO")
+                errores = True
 
     elif tipo != '':
         logger.error("Tipo incorrecto")
@@ -223,7 +261,9 @@ def nuevo_reto(request):
     return render(request, "YoPuedo/nuevo_reto.html",
                   {"tipo_reto": tipo, "general_form": general_form,
                    "etapas_form": etapas_form, "errores": errores,
-                   "max_etapas": max_etapas, "animadores": [], "num_animadores": 0})
+                   "max_etapas": max_etapas, "animadores": animadores,
+                   "num_animadores": num_animadores, "participantes": participantes,
+                   "num_participantes": num_participantes})
 
 
 ##########################################################################################
