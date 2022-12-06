@@ -17,6 +17,9 @@ class UsuarioManager(BaseUserManager):
     def get_by_natural_key(self, username):
         return self.get(email=username)
 
+    def get_user(self, username):
+        return self.get(email=username).values('email', 'foto_perfil', 'nombre')
+
 
 # TABLA YoPuedo_usuario
 class Usuario(AbstractBaseUser):
@@ -44,7 +47,6 @@ class Usuario(AbstractBaseUser):
     def update_clave(self, clave):
         self.clave_aleatoria = clave
         self.save()
-
 
 # TABLA YoPuedo_amistad
 class Amistad(models.Model):
