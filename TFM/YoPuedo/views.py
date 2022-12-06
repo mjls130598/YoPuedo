@@ -235,7 +235,8 @@ def nuevo_reto(request):
 
                 for participante_email in participantes_email:
                     logger.info(f"Participante {participante_email}")
-                    usuario = Usuario.objects.get_user(participante_email)
+                    usuario = Usuario.objects.filter(email=participante_email)\
+                        .values('email', 'foto_perfil', 'nombre')
                     participantes.append({'usuario': usuario})
 
             # Después obtenemos la parte general y las etapas del reto
