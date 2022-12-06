@@ -227,7 +227,7 @@ def nuevo_reto(request):
                     .values('email', 'foto_perfil', 'nombre')
                 superanimador = request.POST.get(f'superanimador-{animador_email}')
                 animadores.append({'usuario': usuario, 'superanimador': superanimador})
-
+            logger.info(animadores)
             # Si es un reto colectivo
             if tipo == 'colectivo':
                 # Segundo obtenemos los participantes
