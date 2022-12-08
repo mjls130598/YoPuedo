@@ -225,6 +225,8 @@ def nuevo_reto(request):
                 logger.info(f"Animador {animador_email}")
                 usuario = Usuario.objects.filter(email=animador_email) \
                     .values('email', 'foto_perfil', 'nombre')
+                logger.info(f"Obtenemos datos usuario: {usuario.email}, " +
+                            f"{usuario.foto_perfil}, {usuario.nombre}")
                 superanimador = request.POST.get(f'superanimador-{animador_email}')
                 animadores.append({'usuario': usuario, 'superanimador': superanimador})
             logger.info(animadores)
@@ -238,6 +240,8 @@ def nuevo_reto(request):
                     logger.info(f"Participante {participante_email}")
                     usuario = Usuario.objects.filter(email=participante_email) \
                         .values('email', 'foto_perfil', 'nombre')
+                    logger.info(f"Obtenemos datos usuario: {usuario.email}, " +
+                                f"{usuario.foto_perfil}, {usuario.nombre}")
                     participantes.append({'usuario': usuario})
 
             # Después obtenemos la parte general y las etapas del reto
