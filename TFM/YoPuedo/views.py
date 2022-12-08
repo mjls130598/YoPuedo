@@ -224,9 +224,7 @@ def nuevo_reto(request):
             for animador_email in animadores_email:
                 logger.info(f"Animador {animador_email}")
                 usuario = Usuario.objects.filter(email=animador_email) \
-                    .values('email', 'foto_perfil', 'nombre')
-                logger.info(f"Obtenemos datos usuario: {usuario.email}, " +
-                            f"{usuario.foto_perfil}, {usuario.nombre}")
+                    .values('email', 'foto_perfil', 'nombre')[0]
                 superanimador = request.POST.get(f'superanimador-{animador_email}')
                 animadores.append({'usuario': usuario, 'superanimador': superanimador})
             logger.info(animadores)
@@ -239,8 +237,8 @@ def nuevo_reto(request):
                 for participante_email in participantes_email:
                     logger.info(f"Participante {participante_email}")
                     usuario = Usuario.objects.filter(email=participante_email) \
-                        .values('email', 'foto_perfil', 'nombre')
-                    logger.info(f"Obtenemos datos usuario: {usuario.email}, " +
+                        .values('email', 'foto_perfil', 'nombre')[0]
+                    logger.info(f"Obtenemos datos usuario: {usuario.email}, "
                                 f"{usuario.foto_perfil}, {usuario.nombre}")
                     participantes.append({'usuario': usuario})
 
