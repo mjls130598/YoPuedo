@@ -94,23 +94,29 @@ class Utils:
     @staticmethod
     def crear_id_reto():
         caracteres = string.ascii_lowercase + string.digits
+        id_reto = "RET"
         while True:
-            id_reto = 'RET'.join(random.choice(caracteres) for _ in range(47))
+            id_reto += ''.join(random.choice(caracteres) for _ in range(47))
             reto = Reto.objects.filter(id_reto=id_reto)
 
             if len(reto) == 0:
                 break
+            else:
+                id_reto = "RET"
 
         return id_reto
 
     @staticmethod
     def crear_id_etapa():
         caracteres = string.ascii_lowercase + string.digits
+        id_etapa = "ETP"
         while True:
-            id_etapa = 'ETP'.join(random.choice(caracteres) for _ in range(47))
-            reto = Etapa.objects.filter(id_etapa=id_etapa)
+            id_etapa += ''.join(random.choice(caracteres) for _ in range(47))
+            etapa = Etapa.objects.filter(id_etapa=id_etapa)
 
-            if len(reto) == 0:
+            if len(etapa) == 0:
                 break
+            else:
+                id_etapa = "ETP"
 
         return id_etapa
