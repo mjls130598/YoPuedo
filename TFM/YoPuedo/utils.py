@@ -113,7 +113,7 @@ class Utils:
         id_etapa = "ETP"
         while True:
             id_etapa += ''.join(random.choice(caracteres) for _ in range(47))
-            etapa = Etapa.objects.filter(id_etapa=id_etapa, reto=reto)
+            etapa = Etapa.objects.filter(id_etapa=id_etapa, id_reto=reto)
 
             if len(etapa) == 0:
                 break
