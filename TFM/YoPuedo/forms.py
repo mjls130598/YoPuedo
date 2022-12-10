@@ -242,6 +242,10 @@ class RetoGeneralForm(forms.Form):
             logger.error("No se ha indicado el título del reto")
             self.add_error('titulo', 'Debes indicar el título del reto')
 
+        if len(titulo) < 10 or len(titulo) > 500:
+            logger.error("El título demasiado largo o corto")
+            self.add_error('titulo', 'Debes escribir entre 10 y 500 caracteres')
+
         if not objetivo_texto and not objetivo_imagen and not objetivo_video and not \
                 objetivo_audio:
             logger.error("No se ha indicado el objetivo")
