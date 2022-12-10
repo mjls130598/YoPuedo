@@ -17,6 +17,8 @@ from .models import Usuario, Amistad, Reto, Etapa, Animador, Participante
 
 from django.forms import formset_factory
 
+from TFM.settings import BASE_DIR
+
 logger = logging.getLogger(__name__)
 utils = Utils()
 
@@ -242,11 +244,11 @@ def nuevo_reto(request):
                 logger.info(f'TÍTULO: {titulo}')
 
                 objetivo_texto = general_form.cleaned_data['objetivo_texto'].value()
-                objetivo_imagen = request.FILES["objetivo_imagen"]\
+                objetivo_imagen = request.FILES["objetivo_imagen"] \
                     if 'objetivo_imagen' in request.FILES else None
-                objetivo_audio = request.FILES["objetivo_audio"]\
+                objetivo_audio = request.FILES["objetivo_audio"] \
                     if 'objetivo_audio' in request.FILES else None
-                objetivo_video = request.FILES["objetivo_video"]\
+                objetivo_video = request.FILES["objetivo_video"] \
                     if 'objetivo_video' in request.FILES else None
 
                 objetivo_multimedia = objetivo_imagen if objetivo_imagen else (
@@ -254,9 +256,10 @@ def nuevo_reto(request):
 
                 if objetivo_multimedia:
                     fichero, extension = os.path.splitext(objetivo_multimedia.name)
-                    directorio = os.path.join("/media", "YoPuedo", id_reto)
+                    directorio = os.path.join(BASE_DIR, "media", "YoPuedo", id_reto)
                     localizacion = os.path.join(directorio, 'OBJETIVO' + extension)
-                    objetivo = localizacion
+                    objetivo = os.path.join("media", "YoPuedo", id_reto,
+                                            'OBJETIVO' + extension)
                     try:
                         Utils.handle_uploaded_file(objetivo_multimedia, localizacion,
                                                    directorio)
@@ -268,11 +271,11 @@ def nuevo_reto(request):
                 logger.info(f"OBJETIVO: {objetivo}")
 
                 recompensa_texto = general_form.cleaned_data['recompensa_texto'].value()
-                recompensa_imagen = request.FILES["recompensa_imagen"]\
+                recompensa_imagen = request.FILES["recompensa_imagen"] \
                     if 'recompensa_imagen' in request.FILES else None
-                recompensa_audio = request.FILES["recompensa_audio"]\
+                recompensa_audio = request.FILES["recompensa_audio"] \
                     if 'recompensa_audio' in request.FILES else None
-                recompensa_video = request.FILES["recompensa_video"]\
+                recompensa_video = request.FILES["recompensa_video"] \
                     if 'recompensa_video' in request.FILES else None
 
                 recompensa_multimedia = recompensa_imagen if recompensa_imagen else (
@@ -280,9 +283,10 @@ def nuevo_reto(request):
 
                 if recompensa_multimedia:
                     fichero, extension = os.path.splitext(recompensa_multimedia.name)
-                    directorio = os.path.join("/media", "YoPuedo", id_reto)
+                    directorio = os.path.join(BASE_DIR, "media", "YoPuedo", id_reto)
                     localizacion = os.path.join(directorio, 'RECOMPENSA' + extension)
-                    recompensa = localizacion
+                    recompensa = os.path.join("media", "YoPuedo", id_reto,
+                                              'RECOMPENSA' + extension)
                     try:
                         Utils.handle_uploaded_file(recompensa_multimedia, localizacion,
                                                    directorio)
@@ -309,21 +313,23 @@ def nuevo_reto(request):
                     id_etapa = Utils.crear_id_etapa()
                     logger.info(f"NUEVA ETAPA {id_etapa}")
                     objetivo_texto = etapa_form.cleaned_data['objetivo_texto'].value()
-                    objetivo_imagen = request.FILES[f"form-{index}-objetivo_imagen"]\
-                    if f"form-{index}-objetivo_imagen" in request.FILES else None
-                    objetivo_audio = request.FILES[f"form-{index}-objetivo_audio"]\
-                    if f"form-{index}-objetivo_audio" in request.FILES else None
-                    objetivo_video = request.FILES[f"form-{index}-objetivo_video"]\
-                    if f"form-{index}-objetivo_video" in request.FILES else None
+                    objetivo_imagen = request.FILES[f"form-{index}-objetivo_imagen"] \
+                        if f"form-{index}-objetivo_imagen" in request.FILES else None
+                    objetivo_audio = request.FILES[f"form-{index}-objetivo_audio"] \
+                        if f"form-{index}-objetivo_audio" in request.FILES else None
+                    objetivo_video = request.FILES[f"form-{index}-objetivo_video"] \
+                        if f"form-{index}-objetivo_video" in request.FILES else None
 
                     objetivo_multimedia = objetivo_imagen if objetivo_imagen else (
                         objetivo_audio if objetivo_audio else objetivo_video)
 
                     if objetivo_multimedia:
                         fichero, extension = os.path.splitext(objetivo_multimedia.name)
-                        directorio = os.path.join("/media", "YoPuedo", id_reto, id_etapa)
+                        directorio = os.path.join(BASE_DIR, "media", "YoPuedo", id_reto,
+                                                  id_etapa)
                         localizacion = os.path.join(directorio, 'OBJETIVO' + extension)
-                        objetivo = localizacion
+                        objetivo = os.path.join("media", "YoPuedo", id_reto, id_etapa,
+                                                'OBJETIVO' + extension)
                         try:
                             Utils.handle_uploaded_file(objetivo_multimedia, localizacion,
                                                        directorio)
