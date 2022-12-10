@@ -45,7 +45,7 @@ class Utils:
         except:
             logger.error("Error al subir la foto de perfil")
 
-        fichero = os.path.join("media", "YoPuedo", "foto_perfil", email + extension)
+        fichero = os.path.join("/media", "YoPuedo", "foto_perfil", email + extension)
         Usuario.objects.create_user(email=email, nombre=nombre, password=password,
                                     foto_perfil=fichero, clave_fija=clave_fija,
                                     clave_aleatoria=clave_aleatoria)

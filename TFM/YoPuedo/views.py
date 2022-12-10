@@ -258,7 +258,7 @@ def nuevo_reto(request):
                     fichero, extension = os.path.splitext(objetivo_multimedia.name)
                     directorio = os.path.join(BASE_DIR, "media", "YoPuedo", id_reto)
                     localizacion = os.path.join(directorio, 'OBJETIVO' + extension)
-                    objetivo = os.path.join("media", "YoPuedo", id_reto,
+                    objetivo = os.path.join("/media", "YoPuedo", id_reto,
                                             'OBJETIVO' + extension)
                     try:
                         Utils.handle_uploaded_file(objetivo_multimedia, localizacion,
@@ -285,7 +285,7 @@ def nuevo_reto(request):
                     fichero, extension = os.path.splitext(recompensa_multimedia.name)
                     directorio = os.path.join(BASE_DIR, "media", "YoPuedo", id_reto)
                     localizacion = os.path.join(directorio, 'RECOMPENSA' + extension)
-                    recompensa = os.path.join("media", "YoPuedo", id_reto,
+                    recompensa = os.path.join("/media", "YoPuedo", id_reto,
                                               'RECOMPENSA' + extension)
                     try:
                         Utils.handle_uploaded_file(recompensa_multimedia, localizacion,
@@ -328,7 +328,7 @@ def nuevo_reto(request):
                         directorio = os.path.join(BASE_DIR, "media", "YoPuedo", id_reto,
                                                   id_etapa)
                         localizacion = os.path.join(directorio, 'OBJETIVO' + extension)
-                        objetivo = os.path.join("media", "YoPuedo", id_reto, id_etapa,
+                        objetivo = os.path.join("/media", "YoPuedo", id_reto, id_etapa,
                                                 'OBJETIVO' + extension)
                         try:
                             Utils.handle_uploaded_file(objetivo_multimedia, localizacion,
