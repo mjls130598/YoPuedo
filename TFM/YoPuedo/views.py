@@ -348,18 +348,30 @@ def nuevo_reto(request):
                     logger.info(f"ANIMADOR: {animador_email}")
                     usuario = Usuario.objects.get(email=animador_email)
                     superanimador = request.POST.get(f'superanimador-{animador_email}') == "true"
-
-                    Animador(reto=reto, usuario=usuario,
-                             superanimador=superanimador).save()
+                    animador = Animador()
+                    animador.reto.add(reto)
+                    animador.usuario.add(usuario)
+                    animador.superanimador.add(superanimador)
+                    animador.save()
 
                 logger.info("Inserción de PARTICIPANTES")
-                # Guardamos a los animadores del reto
+                # Guardamos a los participantes del reto
                 for participante_email in participantes_email:
                     logger.info(f"PARTICIPANTE: {participante_email}")
                     usuario = Usuario.objects.get(email=participante_email)
+                    participante = Participante()
+                    participante.reto.add(reto)
+                    participante.usuario.add(usuario)
+                    participante.save()
 
-                    Participante(reto=reto, usuario=usuario).save()
+                # Añadimos al usuario como participante también
+                logger.info("Inserción del COORDINADOR como PARTICIPANTE")
+                participante = Participante()
+                participante.reto.add(reto)
+                participante.usuario.add(request.user)
+                participante.save()
 
+                # Redireccionamos a la visualización del reto
                 return redirect(f'/mis_retos/{id_reto}')
 
             else:
