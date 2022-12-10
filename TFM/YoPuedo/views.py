@@ -347,8 +347,7 @@ def nuevo_reto(request):
                 for animador_email in animadores_email:
                     logger.info(f"ANIMADOR: {animador_email}")
                     usuario = Usuario.objects.get(email=animador_email)
-                    superanimador = request.POST.get(
-                        f'superanimador-{animador_email}').value() == "true"
+                    superanimador = request.POST.get(f'superanimador-{animador_email}') == "true"
 
                     Animador(reto=reto, usuario=usuario,
                              superanimador=superanimador).save()
