@@ -35,7 +35,7 @@ class Utils:
     @staticmethod
     def guardar_usuario(self, email, nombre, password, foto):
         fichero, extension = os.path.splitext(foto.name)
-        directorio = os.path.join("/media", "YoPuedo", "foto_perfil")
+        directorio = os.path.join(BASE_DIR, "media", "YoPuedo", "foto_perfil")
         localizacion = os.path.join(directorio, email + extension)
         clave_fija = self.claves_aleatorias(16)
         clave_aleatoria = self.claves_aleatorias(10)
@@ -45,8 +45,9 @@ class Utils:
         except:
             logger.error("Error al subir la foto de perfil")
 
+        fichero = os.path.join("media", "YoPuedo", "foto_perfil", email + extension)
         Usuario.objects.create_user(email=email, nombre=nombre, password=password,
-                                    foto_perfil=localizacion, clave_fija=clave_fija,
+                                    foto_perfil=fichero, clave_fija=clave_fija,
                                     clave_aleatoria=clave_aleatoria)
         return clave_aleatoria, clave_fija
 
