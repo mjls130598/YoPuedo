@@ -6,7 +6,7 @@ import string
 from TFM.settings import BASE_DIR, EMAIL_HOST_USER
 from django.core.mail import EmailMultiAlternatives
 
-from .models import Usuario
+from .models import Usuario, Reto, Etapa
 
 logger = logging.getLogger(__name__)
 
@@ -79,6 +79,7 @@ class Utils:
         ("salud", "Deporte"),
         ("mente", "Miedos")
     )
+
     @staticmethod
     def numero_elementos_importados(importados):
 
@@ -90,3 +91,26 @@ class Utils:
 
         return num_elementos
 
+    @staticmethod
+    def crear_id_reto():
+        caracteres = string.ascii_lowercase + string.digits
+        while True:
+            id_reto = 'RET'.join(random.choice(caracteres) for _ in range(47))
+            reto = Reto.objects.filter(id_reto=id_reto)
+
+            if len(reto) == 0:
+                break
+
+        return id_reto
+
+    @staticmethod
+    def crear_id_etapa():
+        caracteres = string.ascii_lowercase + string.digits
+        while True:
+            id_etapa = 'ETP'.join(random.choice(caracteres) for _ in range(47))
+            reto = Etapa.objects.filter(id_etapa=id_etapa)
+
+            if len(reto) == 0:
+                break
+
+        return id_etapa

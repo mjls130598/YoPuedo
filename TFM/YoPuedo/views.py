@@ -1,4 +1,5 @@
 import logging
+import os
 from http import HTTPStatus
 from itertools import chain
 
@@ -12,7 +13,7 @@ from django.template.loader import get_template
 from .utils import Utils
 from .forms import RegistroForm, InicioForm, ClaveForm, RetoGeneralForm, RetoEtapasForm, \
     AmigosForm
-from .models import Usuario, Amistad
+from .models import Usuario, Amistad, Reto, Etapa, Animador, Participante
 
 from django.forms import formset_factory
 
@@ -202,7 +203,7 @@ def nuevo_reto(request):
     tipo = request.GET.get("tipo")
     max_etapas = 5
     general_form = RetoGeneralForm()
-    etapas_form_model = formset_factory(RetoEtapasForm, max_num=max_etapas)
+    etapas_form_model = formset_factory(RetoEtapasForm, max_num=max_etapas, )
     etapas_form = etapas_form_model()
     errores = False
     animadores = []
@@ -220,27 +221,9 @@ def nuevo_reto(request):
             logger.info("Obtenemos animadores")
             animadores_email = request.POST.getlist('animador')
 
-            # De cada animador, obtenemos su usuario y si es superanimador
-            for animador_email in animadores_email:
-                logger.info(f"Animador {animador_email}")
-                usuario = Usuario.objects.filter(email=animador_email) \
-                    .values('email', 'foto_perfil', 'nombre')[0]
-                superanimador = request.POST.get(f'superanimador-{animador_email}')
-                animadores.append({'usuario': usuario, 'superanimador': superanimador})
-            logger.info(animadores)
-            # Si es un reto colectivo
-            if tipo == 'colectivo':
-                # Segundo obtenemos los participantes
-                logger.info("Obtenemos participantes")
-                participantes_email = request.POST.getlist('participante')
-
-                for participante_email in participantes_email:
-                    logger.info(f"Participante {participante_email}")
-                    usuario = Usuario.objects.filter(email=participante_email) \
-                        .values('email', 'foto_perfil', 'nombre')[0]
-                    logger.info(f"Obtenemos datos usuario: {usuario.email}, "
-                                f"{usuario.foto_perfil}, {usuario.nombre}")
-                    participantes.append({'usuario': usuario})
+            # Segundo obtenemos los participantes
+            logger.info("Obtenemos participantes")
+            participantes_email = request.POST.getlist('participante')
 
             # Después obtenemos la parte general y las etapas del reto
             general_form = RetoGeneralForm(request.POST, request.FILES)
@@ -250,9 +233,142 @@ def nuevo_reto(request):
             if general_form.is_valid() and etapas_form.is_valid():
                 logger.info("Guardamos formulario NUEVO RETO")
 
+                # Guardamos ID del reto
+                id_reto = Utils.crear_id_reto()
+                logger.info(f"NUEVO RETO: {id_reto}")
+
+                # Obtenemos datos de la pestaña GENERAL
+                titulo = general_form.cleaned_data['titulo']
+                logger.info(f'TÍTULO: {titulo}')
+
+                objetivo_texto = general_form.cleaned_data['objetivo_texto']
+                objetivo_imagen = request.FILES["objetivo_imagen"]
+                objetivo_audio = request.FILES["objetivo_audio"]
+                objetivo_video = request.FILES["objetivo_video"]
+
+                objetivo_multimedia = objetivo_imagen if objetivo_imagen else (
+                    objetivo_audio if objetivo_audio else objetivo_video)
+
+                if objetivo_multimedia:
+                    fichero, extension = os.path.splitext(objetivo_multimedia.name)
+                    directorio = os.path.join("/media", "YoPuedo", id_reto)
+                    localizacion = os.path.join(directorio, 'OBJETIVO' + extension)
+                    objetivo = localizacion
+                    try:
+                        Utils.handle_uploaded_file(objetivo_multimedia, localizacion,
+                                                   directorio)
+                    except:
+                        logger.error("Error al subir el objetivo")
+                else:
+                    objetivo = objetivo_texto
+
+                logger.info(f"OBJETIVO: {objetivo}")
+
+                recompensa_texto = general_form.cleaned_data['recompensa_texto']
+                recompensa_imagen = request.FILES["recompensa_imagen"]
+                recompensa_audio = request.FILES["recompensa_audio"]
+                recompensa_video = request.FILES["recompensa_video"]
+
+                recompensa_multimedia = recompensa_imagen if recompensa_imagen else (
+                    recompensa_audio if recompensa_audio else recompensa_video)
+
+                if recompensa_multimedia:
+                    fichero, extension = os.path.splitext(recompensa_multimedia.name)
+                    directorio = os.path.join("/media", "YoPuedo", id_reto)
+                    localizacion = os.path.join(directorio, 'RECOMPENSA' + extension)
+                    recompensa = localizacion
+                    try:
+                        Utils.handle_uploaded_file(recompensa_multimedia, localizacion,
+                                                   directorio)
+                    except:
+                        logger.error("Error al subir el objetivo")
+                else:
+                    recompensa = recompensa_texto
+
+                logger.info(f"RECOMPENSA: {recompensa}")
+
+                categoria = general_form.cleaned_data['categoria']
+                logger.info(f"CATEGORIA: {categoria}")
+
+                # Creamos reto
+                reto = Reto(id_reto=id_reto, titulo=titulo,
+                            objetivo=objetivo, recompensa=recompensa,
+                            categoria=categoria, coordinador=request.user)
+
+                reto.save()
+
+                # Guardamos datos de las pestañas de ETAPAS
+                logger.info("Creación de ETAPAS")
+                for index, etapa_form in enumerate(etapas_form):
+                    id_etapa = Utils.crear_id_etapa()
+                    logger.info(f"NUEVA ETAPA {id_etapa}")
+                    objetivo_texto = etapa_form.cleaned_data['objetivo_texto']
+                    objetivo_imagen = request.FILES[f"form-{index}-objetivo_imagen"]
+                    objetivo_audio = request.FILES[f"form-{index}-objetivo_imagen"]
+                    objetivo_video = request.FILES[f"form-{index}-objetivo_imagen"]
+
+                    objetivo_multimedia = objetivo_imagen if objetivo_imagen else (
+                        objetivo_audio if objetivo_audio else objetivo_video)
+
+                    if objetivo_multimedia:
+                        fichero, extension = os.path.splitext(objetivo_multimedia.name)
+                        directorio = os.path.join("/media", "YoPuedo", id_reto, id_etapa)
+                        localizacion = os.path.join(directorio, 'OBJETIVO' + extension)
+                        objetivo = localizacion
+                        try:
+                            Utils.handle_uploaded_file(objetivo_multimedia, localizacion,
+                                                       directorio)
+                        except:
+                            logger.error("Error al subir el objetivo")
+                    else:
+                        objetivo = objetivo_texto
+
+                    logger.info(f"OBJETIVO: {objetivo}")
+
+                    Etapa(id_etapa=id_etapa, reto=reto, objetivo=objetivo).save()
+
+                logger.info("Inserción de ANIMADORES")
+                # Guardamos a los animadores del reto
+                for animador_email in animadores_email:
+                    logger.info(f"ANIMADOR: {animador_email}")
+                    usuario = Usuario.objects.get(email=animador_email)
+                    superanimador = request.POST.get(
+                        f'superanimador-{animador_email}') == "true"
+
+                    Animador(reto=reto, usuario=usuario,
+                             superanimador=superanimador).save()
+
+                logger.info("Inserción de PARTICIPANTES")
+                # Guardamos a los animadores del reto
+                for participante_email in participantes_email:
+                    logger.info(f"PARTICIPANTE: {participante_email}")
+                    usuario = Usuario.objects.get(email=participante_email)
+
+                    Participante(reto=reto, usuario=usuario).save()
+
+                return redirect(f'/mis_retos/{id_reto}')
+
             else:
                 logger.error("Error al validar formulario NUEVO RETO")
                 errores = True
+
+                # De cada animador, obtenemos su usuario y si es superanimador
+                for animador_email in animadores_email:
+                    logger.info(f"Animador {animador_email}")
+                    usuario = Usuario.objects.filter(email=animador_email) \
+                        .values('email', 'foto_perfil', 'nombre')[0]
+                    superanimador = request.POST.get(f'superanimador-{animador_email}')
+                    animadores.append(
+                        {'usuario': usuario, 'superanimador': superanimador})
+
+                # De cada participante, obtenemos su usuario
+                for participante_email in participantes_email:
+                    logger.info(f"Participante {participante_email}")
+                    usuario = Usuario.objects.filter(email=participante_email) \
+                        .values('email', 'foto_perfil', 'nombre')[0]
+                    logger.info(f"Obtenemos datos usuario: {usuario.email}, "
+                                f"{usuario.foto_perfil}, {usuario.nombre}")
+                    participantes.append({'usuario': usuario})
 
     elif tipo != '':
         logger.error("Tipo incorrecto")
