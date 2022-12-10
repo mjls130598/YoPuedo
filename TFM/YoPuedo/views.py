@@ -238,10 +238,10 @@ def nuevo_reto(request):
                 logger.info(f"NUEVO RETO: {id_reto}")
 
                 # Obtenemos datos de la pestaña GENERAL
-                titulo = general_form.cleaned_data['titulo']
+                titulo = general_form.cleaned_data['titulo'].value()
                 logger.info(f'TÍTULO: {titulo}')
 
-                objetivo_texto = general_form.cleaned_data['objetivo_texto']
+                objetivo_texto = general_form.cleaned_data['objetivo_texto'].value()
                 objetivo_imagen = request.FILES["objetivo_imagen"]\
                     if 'objetivo_imagen' in request.FILES else None
                 objetivo_audio = request.FILES["objetivo_audio"]\
@@ -267,7 +267,7 @@ def nuevo_reto(request):
 
                 logger.info(f"OBJETIVO: {objetivo}")
 
-                recompensa_texto = general_form.cleaned_data['recompensa_texto']
+                recompensa_texto = general_form.cleaned_data['recompensa_texto'].value()
                 recompensa_imagen = request.FILES["recompensa_imagen"]\
                     if 'recompensa_imagen' in request.FILES else None
                 recompensa_audio = request.FILES["recompensa_audio"]\
@@ -293,7 +293,7 @@ def nuevo_reto(request):
 
                 logger.info(f"RECOMPENSA: {recompensa}")
 
-                categoria = general_form.cleaned_data['categoria']
+                categoria = general_form.cleaned_data['categoria'].value()
                 logger.info(f"CATEGORIA: {categoria}")
 
                 # Creamos reto
@@ -308,7 +308,7 @@ def nuevo_reto(request):
                 for index, etapa_form in enumerate(etapas_form):
                     id_etapa = Utils.crear_id_etapa()
                     logger.info(f"NUEVA ETAPA {id_etapa}")
-                    objetivo_texto = etapa_form.cleaned_data['objetivo_texto']
+                    objetivo_texto = etapa_form.cleaned_data['objetivo_texto'].value()
                     objetivo_imagen = request.FILES[f"form-{index}-objetivo_imagen"]\
                     if f"form-{index}-objetivo_imagen" in request.FILES else None
                     objetivo_audio = request.FILES[f"form-{index}-objetivo_audio"]\
@@ -342,7 +342,7 @@ def nuevo_reto(request):
                     logger.info(f"ANIMADOR: {animador_email}")
                     usuario = Usuario.objects.get(email=animador_email)
                     superanimador = request.POST.get(
-                        f'superanimador-{animador_email}') == "true"
+                        f'superanimador-{animador_email}').value() == "true"
 
                     Animador(reto=reto, usuario=usuario,
                              superanimador=superanimador).save()
