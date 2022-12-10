@@ -352,7 +352,8 @@ def nuevo_reto(request):
                     animador.save()
                     animador.reto.add(reto)
                     animador.usuario.add(usuario)
-                    animador.superanimador.add(superanimador)
+                    animador.superanimador = superanimador
+                    animador.save()
 
                 logger.info("Inserción de PARTICIPANTES")
                 # Guardamos a los participantes del reto
@@ -363,6 +364,7 @@ def nuevo_reto(request):
                     participante.save()
                     participante.reto.add(reto)
                     participante.usuario.add(usuario)
+                    participante.save()
 
                 # Añadimos al usuario como participante también
                 logger.info("Inserción del COORDINADOR como PARTICIPANTE")
@@ -370,6 +372,7 @@ def nuevo_reto(request):
                 participante.save()
                 participante.reto.add(reto)
                 participante.usuario.add(request.user)
+                participante.save()
 
                 # Redireccionamos a la visualización del reto
                 return redirect(f'/mis_retos/{id_reto}')
