@@ -108,12 +108,12 @@ class Utils:
         return id_reto
 
     @staticmethod
-    def crear_id_etapa(reto):
+    def crear_id_etapa():
         caracteres = string.ascii_lowercase + string.digits
         id_etapa = "ETP"
         while True:
             id_etapa += ''.join(random.choice(caracteres) for _ in range(47))
-            etapa = Etapa.objects.filter(id_etapa=id_etapa, id_reto=reto)
+            etapa = Etapa.objects.filter(id_etapa=id_etapa)
 
             if len(etapa) == 0:
                 break
