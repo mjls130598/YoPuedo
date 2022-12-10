@@ -349,10 +349,10 @@ def nuevo_reto(request):
                     usuario = Usuario.objects.get(email=animador_email)
                     superanimador = request.POST.get(f'superanimador-{animador_email}') == "true"
                     animador = Animador()
+                    animador.save()
                     animador.reto.add(reto)
                     animador.usuario.add(usuario)
                     animador.superanimador.add(superanimador)
-                    animador.save()
 
                 logger.info("Inserción de PARTICIPANTES")
                 # Guardamos a los participantes del reto
@@ -360,16 +360,16 @@ def nuevo_reto(request):
                     logger.info(f"PARTICIPANTE: {participante_email}")
                     usuario = Usuario.objects.get(email=participante_email)
                     participante = Participante()
+                    participante.save()
                     participante.reto.add(reto)
                     participante.usuario.add(usuario)
-                    participante.save()
 
                 # Añadimos al usuario como participante también
                 logger.info("Inserción del COORDINADOR como PARTICIPANTE")
                 participante = Participante()
+                participante.save()
                 participante.reto.add(reto)
                 participante.usuario.add(request.user)
-                participante.save()
 
                 # Redireccionamos a la visualización del reto
                 return redirect(f'/mis_retos/{id_reto}')
