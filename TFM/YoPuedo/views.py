@@ -310,7 +310,7 @@ def nuevo_reto(request):
                 # Guardamos datos de las pestañas de ETAPAS
                 logger.info("Creación de ETAPAS")
                 for index, etapa_form in enumerate(etapas_form):
-                    id_etapa = Utils.crear_id_etapa()
+                    id_etapa = Utils.crear_id_etapa(reto)
                     logger.info(f"NUEVA ETAPA {id_etapa}")
                     objetivo_texto = etapa_form.cleaned_data['objetivo_texto'].value()
                     objetivo_imagen = request.FILES[f"form-{index}-objetivo_imagen"] \
