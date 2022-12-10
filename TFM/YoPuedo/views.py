@@ -242,9 +242,12 @@ def nuevo_reto(request):
                 logger.info(f'TÍTULO: {titulo}')
 
                 objetivo_texto = general_form.cleaned_data['objetivo_texto']
-                objetivo_imagen = request.FILES["objetivo_imagen"]
-                objetivo_audio = request.FILES["objetivo_audio"]
-                objetivo_video = request.FILES["objetivo_video"]
+                objetivo_imagen = request.FILES["objetivo_imagen"]\
+                    if 'objetivo_imagen' in request.FILES else None
+                objetivo_audio = request.FILES["objetivo_audio"]\
+                    if 'objetivo_audio' in request.FILES else None
+                objetivo_video = request.FILES["objetivo_video"]\
+                    if 'objetivo_video' in request.FILES else None
 
                 objetivo_multimedia = objetivo_imagen if objetivo_imagen else (
                     objetivo_audio if objetivo_audio else objetivo_video)
@@ -265,9 +268,12 @@ def nuevo_reto(request):
                 logger.info(f"OBJETIVO: {objetivo}")
 
                 recompensa_texto = general_form.cleaned_data['recompensa_texto']
-                recompensa_imagen = request.FILES["recompensa_imagen"]
-                recompensa_audio = request.FILES["recompensa_audio"]
-                recompensa_video = request.FILES["recompensa_video"]
+                recompensa_imagen = request.FILES["recompensa_imagen"]\
+                    if 'recompensa_imagen' in request.FILES else None
+                recompensa_audio = request.FILES["recompensa_audio"]\
+                    if 'recompensa_audio' in request.FILES else None
+                recompensa_video = request.FILES["recompensa_video"]\
+                    if 'recompensa_video' in request.FILES else None
 
                 recompensa_multimedia = recompensa_imagen if recompensa_imagen else (
                     recompensa_audio if recompensa_audio else recompensa_video)
@@ -303,9 +309,12 @@ def nuevo_reto(request):
                     id_etapa = Utils.crear_id_etapa()
                     logger.info(f"NUEVA ETAPA {id_etapa}")
                     objetivo_texto = etapa_form.cleaned_data['objetivo_texto']
-                    objetivo_imagen = request.FILES[f"form-{index}-objetivo_imagen"]
-                    objetivo_audio = request.FILES[f"form-{index}-objetivo_imagen"]
-                    objetivo_video = request.FILES[f"form-{index}-objetivo_imagen"]
+                    objetivo_imagen = request.FILES[f"form-{index}-objetivo_imagen"]\
+                    if f"form-{index}-objetivo_imagen" in request.FILES else None
+                    objetivo_audio = request.FILES[f"form-{index}-objetivo_audio"]\
+                    if f"form-{index}-objetivo_audio" in request.FILES else None
+                    objetivo_video = request.FILES[f"form-{index}-objetivo_video"]\
+                    if f"form-{index}-objetivo_video" in request.FILES else None
 
                     objetivo_multimedia = objetivo_imagen if objetivo_imagen else (
                         objetivo_audio if objetivo_audio else objetivo_video)
