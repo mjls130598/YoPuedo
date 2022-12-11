@@ -1,6 +1,6 @@
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
-from ..forms import RegistroForm, ClaveForm, InicioForm
+from ..forms import RegistroForm, ClaveForm, InicioForm, RetoGeneralForm
 from TFM.settings import BASE_DIR
 from ..models import Usuario
 
@@ -12,9 +12,10 @@ class RegistroFormTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         Usuario.objects.create_user(email="mj@gmail.com", nombre="María Jesús",
-                                    password="Password1.", clave_aleatoria="clave_aleatoria",
+                                    password="Password1.",
+                                    clave_aleatoria="clave_aleatoria",
                                     clave_fija="clave_fija",
-                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                                    foto_perfil="/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def test_correcto(self):
         form_data = {
@@ -230,7 +231,7 @@ class ClaveFormTest(TestCase):
                                     password="Password1.",
                                     clave_aleatoria="clavealeat",
                                     clave_fija="clavefijausuario",
-                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                                    foto_perfil="/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def test_clave_aleatoria_valida(self):
         data = {
@@ -275,7 +276,7 @@ class InicioFormTest(TestCase):
                                     password="Password1.",
                                     clave_aleatoria="clave1",
                                     clave_fija="clave2",
-                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                                    foto_perfil="/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def test_inicio_valido(self):
         data = {
@@ -305,3 +306,57 @@ class InicioFormTest(TestCase):
         form = InicioForm(data)
         self.assertEqual(form.errors['password_sesion'], ["Usuario y/o contraseña "
                                                           "incorrect@"])
+
+
+##########################################################################################
+
+# Comprobamos la validación del formulario de nuevo reto - GENERAL
+class RetoGeneralFormTest(TestCase):
+    def test_campos_vacios(self):
+        data = {}
+        form = RetoGeneralForm(data)
+
+        self.assertEqual(form.errors['titulo'], 'Debes indicar el título del reto')
+        self.assertEqual(form.errors['titulo'],
+                         'Debes escribir entre 10 y 500 caracteres')
+        self.assertEqual(form.errors['objetivo_texto'],
+                         'Debes indicar el objetivo del reto')
+        self.assertEqual(form.errors['recompensa_texto'],
+                         'Debes indicar la recompensa del reto')
+        self.assertEqual(form.errors['categoria'],
+                         'Debes indicar qué tipo de categoría es el reto')
+
+    def test_multiples_objetivo(self):
+        data = {
+            'titulo': 'Prueba Reto GENERAL',
+            'objetivo_texto': 'Objetivo prueba'
+        }
+
+        objetivo_imagen = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        objetivo_imagen = open(objetivo_imagen, 'rb')
+
+        form = RegistroForm(data=data, files={'objetivo_imagen': SimpleUploadedFile(
+            objetivo_imagen.name, objetivo_imagen.read())})
+
+        self.assertEqual(form.errors['objetivo_texto'],
+                         'Elige una forma de indicar el objetivo del reto')
+
+    def test_multiples_objetivo(self):
+        data = {
+            'titulo': 'Prueba Reto GENERAL'
+        }
+
+        recompensa_imagen = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        recompensa_imagen = open(recompensa_imagen, 'rb')
+
+        recompensa_audio = f"{BASE_DIR}/media/YoPuedo/audio-ejemplo.mp3"
+        recompensa_audio = open(recompensa_audio, 'rb')
+
+        form = RegistroForm(data=data, files={
+            'recompensa_imagen': SimpleUploadedFile(recompensa_imagen.name,
+                                                    recompensa_imagen.read()),
+            'recompensa_audio': SimpleUploadedFile(recompensa_audio.name,
+                                                   recompensa_audio.read())})
+
+        self.assertEqual(form.errors['recompensa_texto'],
+                         'Elige una forma de indicar la recompensa del reto')
