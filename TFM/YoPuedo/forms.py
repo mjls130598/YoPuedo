@@ -1,6 +1,8 @@
 import logging
 import re
 from django import forms
+from django.forms import BaseFormSet
+
 from .models import Usuario
 
 from .utils import Utils
@@ -327,6 +329,20 @@ class RetoEtapasForm(forms.Form):
             logger.error("Se ha introducido varias maneras en objetivo")
             self.add_error('objetivo_texto', 'Elige una forma de indicar el objetivo '
                                              'de la etapa')
+
+        return self
+
+
+##########################################################################################
+
+# Formulario de grupo de ETAPAS
+class EtapasFormSet(BaseFormSet):
+    def clean(self):
+        if any(self.errors):
+            return
+
+        for index, form in enumerate(self.forms):
+            self.forms[index] = form.clean
 
         return self
 
