@@ -337,19 +337,11 @@ class RetoEtapasForm(forms.Form):
 
 # Formulario de grupo de ETAPAS
 class EtapasFormSet(BaseFormSet):
-    def clean(self):
-        if any(self.errors):
-            return
-
-        for index, form in enumerate(self.forms):
-            self.forms[index] = form.clean()
-
-        return self
 
     def is_valid(self):
         valido = True
         for form in self.forms:
-            valido = form.is_valid()
+            valido = not form.clean().errors()
             if not valido:
                 break
 
