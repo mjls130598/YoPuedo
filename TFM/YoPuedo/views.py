@@ -206,7 +206,7 @@ def nuevo_reto(request):
     max_etapas = 5
     general_form = RetoGeneralForm()
     etapas_form_model = formset_factory(RetoEtapasForm, max_num=max_etapas, min_num=1,
-                                        validate_min=True)
+                                        validate_min=True, validate_max=True)
     etapas_form = etapas_form_model()
     errores = False
     animadores = []
