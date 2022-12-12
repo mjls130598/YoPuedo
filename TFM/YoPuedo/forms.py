@@ -339,9 +339,12 @@ class RetoEtapasForm(forms.Form):
 class EtapasFormSet(BaseFormSet):
 
     def is_valid(self):
+        logger.info("Validando ETAPAS")
         valido = True
         for form in self.forms:
+            logger.info("Validando la etapa")
             valido = not form.clean().errors()
+            logger.info(valido)
             if not valido:
                 break
 
