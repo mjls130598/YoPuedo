@@ -342,9 +342,18 @@ class EtapasFormSet(BaseFormSet):
             return
 
         for index, form in enumerate(self.forms):
-            self.forms[index] = form.clean
+            self.forms[index] = form.clean()
 
         return self
+
+    def is_valid(self):
+        valido = True
+        for form in self.forms:
+            valido = form.is_valid()
+            if not valido:
+                return valido and form.clean()
+
+        return valido and self.errors()
 
 
 ##########################################################################################
