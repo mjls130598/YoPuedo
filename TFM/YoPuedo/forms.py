@@ -351,9 +351,9 @@ class EtapasFormSet(BaseFormSet):
         for form in self.forms:
             valido = form.is_valid()
             if not valido:
-                return valido and form.clean()
+                break
 
-        return valido and self.errors()
+        return valido
 
 
 ##########################################################################################
