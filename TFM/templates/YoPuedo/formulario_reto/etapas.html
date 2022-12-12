@@ -71,7 +71,7 @@
     total_etapas = parseInt($('#id_form-TOTAL_FORMS').val());
 
     if (num_etapa > total_etapas)
-        crearEtapa(num_etapa);
+        crearEtapa(num_etapa - 1);
 
     return 'etapa-' + num_etapa;
   }
