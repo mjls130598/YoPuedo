@@ -351,8 +351,8 @@ class EtapasFormSet(BaseFormSet):
             objetivo_audio = form.cleaned_data.get(f'objetivo_audio')
             objetivo_video = form.cleaned_data.get(f'objetivo_video')
 
-            valido = (objetivo_texto and objetivo_imagen and objetivo_video
-                      and objetivo_audio) or \
+            valido = (objetivo_texto or objetivo_imagen or objetivo_video
+                      or objetivo_audio) and \
                      (Utils.numero_elementos_importados([objetivo_texto, objetivo_audio,
                                                          objetivo_video,
                                                          objetivo_imagen]) == 1)
