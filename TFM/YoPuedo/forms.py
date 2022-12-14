@@ -342,7 +342,7 @@ class EtapasFormSet(BaseFormSet):
             return
 
         for index in range(self.total_form_count()):
-            logger.info(f"Checkeando {index}º etapa")
+            logger.info(f"Checkeando {index + 1}º etapa")
             if not self.forms[index].cleaned_data:
                 self.forms[index].clean()
             if self.can_delete and self._should_delete_form(self.forms[index]):
