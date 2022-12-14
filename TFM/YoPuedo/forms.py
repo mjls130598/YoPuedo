@@ -343,7 +343,9 @@ class EtapasFormSet(BaseFormSet):
         super(EtapasFormSet, self).clean()
         for index, form in enumerate(self.forms):
             logger.info(f"Validando la etapa nº{index}")
-            self.forms[index].is_valid()
+            form.is_valid()
+
+            self.forms[index] = form.clean()
 
             objetivo_texto = form.cleaned_data.get(f'objetivo_texto')
             objetivo_imagen = form.cleaned_data.get(f'objetivo_imagen')
