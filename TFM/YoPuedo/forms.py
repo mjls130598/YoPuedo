@@ -344,7 +344,7 @@ class EtapasFormSet(BaseFormSet):
             logger.info(f"Validando la etapa nº{index}")
             form.is_valid()
 
-            valido = len(form.clean().errors) == 0
+            valido = len(form.errors) == 0
 
             logger.info(valido)
             if not valido:
