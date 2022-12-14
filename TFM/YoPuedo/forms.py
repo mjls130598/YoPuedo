@@ -341,8 +341,8 @@ class EtapasFormSet(BaseFormSet):
         logger.info("Validando ETAPAS")
         valido = True
         for index, form in enumerate(self.forms):
-            logger.info("Validando la etapa nº{index}")
-            form = form.clean()
+            logger.info(f"Validando la etapa nº{index}")
+            form = form.clean(self)
             valido = len(form.errors) == 0
             logger.info(valido)
             if not valido:
