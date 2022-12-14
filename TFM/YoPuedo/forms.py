@@ -340,11 +340,14 @@ class EtapasFormSet(BaseFormSet):
     def clean(self):
         if any(self.errors):
             return
-        logger.info(self.total_form_count())
-        for index in range(1, self.total_form_count()):
+
+        for index in range(self.total_form_count()):
             if self.can_delete and self._should_delete_form(self.forms[index]):
                 continue
-            self.forms[index].clean()
+
+        if self.total_form_count() > 1:
+            self.forms[self.total_form_count() - 1].clean()
+
         return self
 
 
