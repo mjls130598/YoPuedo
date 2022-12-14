@@ -234,7 +234,7 @@ def nuevo_reto(request):
             # Validamos las etapas
             logger.info("Validamos ETAPAS")
             etapas_validas = True
-            for index in range(etapas_form.total_form_counter):
+            for index in range(etapas_form.total_form_count()):
                 valida = etapas_form[index].is_valid
                 etapas_validas = valida if valida == False else True
 
