@@ -337,18 +337,13 @@ class RetoEtapaForm(forms.Form):
 
 # Formulario de grupo de ETAPAS
 class EtapasFormSet(BaseFormSet):
-    def is_valid(self):
-        logger.info("Validando ETAPAS")
-        valido = True
-        super(EtapasFormSet, self).clean()
-        for index, form in enumerate(self.forms):
-            logger.info(f"Validando la etapa nº{index}")
-            valido = self.forms[index].is_valid()
-            logger.info(valido)
-            if not valido:
-                break
+    def clean(self):
+        if any(self.errors):
+            return
 
-        return valido and not self.non_form_errors()
+        for form in self.forms:
+            if self.can_delete and self._should_delete_form(form):
+                continue
 
 
 ##########################################################################################
