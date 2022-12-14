@@ -343,19 +343,7 @@ class EtapasFormSet(BaseFormSet):
         super(EtapasFormSet, self).clean()
         for index, form in enumerate(self.forms):
             logger.info(f"Validando la etapa nº{index}")
-            self.forms[index].is_valid()
-
-            objetivo_texto = form.cleaned_data.get(f'objetivo_texto')
-            objetivo_imagen = form.cleaned_data.get(f'objetivo_imagen')
-            objetivo_audio = form.cleaned_data.get(f'objetivo_audio')
-            objetivo_video = form.cleaned_data.get(f'objetivo_video')
-
-            valido = (not objetivo_texto is None or not objetivo_imagen is None or
-                      not objetivo_video is None or not objetivo_audio is None) and \
-                     (Utils.numero_elementos_importados([objetivo_texto, objetivo_audio,
-                                                         objetivo_video,
-                                                         objetivo_imagen]) == 1)
-
+            valido = self.forms[index].is_valid()
             logger.info(valido)
             if not valido:
                 break
