@@ -344,12 +344,12 @@ class EtapasFormSet(BaseFormSet):
             logger.info(f"Validando la etapa nº{index}")
             form.is_valid()
 
-            if f'id_form-{index}-objetivo_texto' in form.cleaned_data:
+            if f'form-{index}-objetivo_texto' in form.cleaned_data:
                 logger.info("Existe form.cleaned_data")
-                objetivo_texto = form.cleaned_data.get(f'id_form-{index}-objetivo_imagen')
-                objetivo_imagen = form.cleaned_data.get(f'id_form-{index}-objetivo_imagen')
-                objetivo_audio = form.cleaned_data.get(f'id_form-{index}-objetivo_audio')
-                objetivo_video = form.cleaned_data.get(f'id_form-{index}-objetivo_video')
+                objetivo_texto = form.cleaned_data.get(f'form-{index}-objetivo_texto')
+                objetivo_imagen = form.cleaned_data.get(f'form-{index}-objetivo_imagen')
+                objetivo_audio = form.cleaned_data.get(f'form-{index}-objetivo_audio')
+                objetivo_video = form.cleaned_data.get(f'form-{index}-objetivo_video')
                 if (not objetivo_texto and not objetivo_imagen and not objetivo_video
                     and not objetivo_audio) or \
                         Utils.numero_elementos_importados([objetivo_texto, objetivo_audio,
