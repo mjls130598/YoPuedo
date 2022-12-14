@@ -11,7 +11,7 @@ from django.shortcuts import render, redirect
 from django.template.loader import get_template
 
 from .utils import Utils
-from .forms import RegistroForm, InicioForm, ClaveForm, RetoGeneralForm, RetoEtapasForm, \
+from .forms import RegistroForm, InicioForm, ClaveForm, RetoGeneralForm, RetoEtapaForm, \
     AmigosForm, EtapasFormSet
 from .models import Usuario, Amistad, Reto, Etapa, Animador, Participante
 
@@ -205,7 +205,7 @@ def nuevo_reto(request):
     tipo = request.GET.get("tipo")
     max_etapas = 5
     general_form = RetoGeneralForm()
-    etapas_form_model = formset_factory(RetoEtapasForm, formset=EtapasFormSet,
+    etapas_form_model = formset_factory(RetoEtapaForm, formset=EtapasFormSet,
                                         max_num=max_etapas, min_num=1,
                                         validate_min=True, validate_max=True)
     etapas_form = etapas_form_model()

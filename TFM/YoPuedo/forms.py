@@ -280,7 +280,7 @@ class RetoGeneralForm(forms.Form):
 ##########################################################################################
 
 # Formulario de reto ETAPAS
-class RetoEtapasForm(forms.Form):
+class RetoEtapaForm(forms.Form):
     objetivo_imagen = forms.ImageField(label="Subir foto",
                                        widget=forms.ClearableFileInput(
                                            attrs={
@@ -342,8 +342,22 @@ class EtapasFormSet(BaseFormSet):
         valido = True
         for index, form in enumerate(self.forms):
             logger.info(f"Validando la etapa nº{index}")
-            form = RetoEtapasForm.clean(form)
-            valido = len(form.errors) == 0
+            form.is_valid()
+
+            if 'objetivo_texto' in form.cleaned_data:
+                objetivo_texto = form.cleaned_data.get('objetivo_texto')
+                objetivo_imagen = form.cleaned_data.get('objetivo_imagen')
+                objetivo_audio = form.cleaned_data.get('objetivo_audio')
+                objetivo_video = form.cleaned_data.get('objetivo_video')
+                if (not objetivo_texto and not objetivo_imagen and not objetivo_video \
+                    and not objetivo_audio) or \
+                    Utils.numero_elementos_importados([objetivo_texto, objetivo_audio,
+                                              objetivo_video, objetivo_imagen]) > 1:
+                    valido = False
+
+            else:
+                valido = False
+
             logger.info(valido)
             if not valido:
                 break
