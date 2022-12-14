@@ -32,7 +32,7 @@
           data-bs-toggle="tab" data-bs-target="#general" type="button"
           role="tab" aria-controls="general" aria-selected="true"
           onclick="cambiarColorCuerpo('general')">
-          <div class="row">
+          <div class="row {% if general_form.errors %} errorlist {% endif %}">
             <div class="col-2">
               <i class="fa-solid fa-clipboard"></i>
             </div>
@@ -48,7 +48,7 @@
           data-bs-target="#etapas" type="button" role="tab"
           aria-controls="etapas" aria-selected="false"
           onclick="cambiarColorCuerpo('etapas')">
-          <div class="row">
+          <div class="row {% if etapas_form.errors %} errorlist {% endif %}">
             <div class="col-2">
               <i class="fa-solid fa-chart-simple"></i>
             </div>
