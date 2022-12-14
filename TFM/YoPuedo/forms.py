@@ -340,8 +340,7 @@ class EtapasFormSet(BaseFormSet):
     def is_valid(self):
         logger.info("Validando ETAPAS")
         valido = True
-        cleaned = super(EtapasFormSet, self).clean()
-        logger.info(cleaned)
+        super(EtapasFormSet, self).clean()
         for index, form in enumerate(self.forms):
             logger.info(f"Validando la etapa nº{index}")
             form.is_valid()
@@ -361,7 +360,7 @@ class EtapasFormSet(BaseFormSet):
             if not valido:
                 break
 
-        return valido, self
+        return valido and not self.non_form_errors()
 
 
 ##########################################################################################
