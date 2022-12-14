@@ -236,7 +236,9 @@ def nuevo_reto(request):
             etapas_validas = True
             for index in range(etapas_form.total_form_count()):
                 valida = etapas_form[index].is_valid()
-                etapas_validas = valida if valida == False else True
+                if not valida:
+                    etapas_validas = valida
+                    break
 
             # Comprobamos si la parte principal es correcto
             if general_form.is_valid() and etapas_validas:
