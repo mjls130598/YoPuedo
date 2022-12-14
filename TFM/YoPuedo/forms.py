@@ -340,9 +340,10 @@ class EtapasFormSet(BaseFormSet):
     def is_valid(self):
         logger.info("Validando ETAPAS")
         valido = True
-        for form in self.forms:
-            logger.info("Validando la etapa")
-            valido = form.is_valid()
+        for index, form in enumerate(self.forms):
+            logger.info("Validando la etapa nº{index}")
+            form = form.clean()
+            valido = len(form.errors) == 0
             logger.info(valido)
             if not valido:
                 break
