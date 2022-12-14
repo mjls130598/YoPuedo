@@ -335,24 +335,6 @@ class RetoEtapaForm(forms.Form):
 
 ##########################################################################################
 
-# Formulario de grupo de ETAPAS
-class EtapasFormSet(BaseFormSet):
-    def clean(self):
-        if any(self.errors):
-            return
-
-        for index in range(self.total_form_count()):
-            if self.can_delete and self._should_delete_form(self.forms[index]):
-                continue
-
-        if self.total_form_count() > 1:
-            self.forms[self.total_form_count() - 1].clean()
-
-        return self
-
-
-##########################################################################################
-
 # Formulario de AMIGOS
 class AmigosForm(forms.Form):
     consulta = forms.CharField(widget=forms.TextInput(
