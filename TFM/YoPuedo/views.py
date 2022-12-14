@@ -11,8 +11,8 @@ from django.shortcuts import render, redirect
 from django.template.loader import get_template
 
 from .utils import Utils
-from .forms import RegistroForm, InicioForm, ClaveForm, RetoGeneralForm, RetoEtapaForm, \
-    AmigosForm
+from .forms import RegistroForm, InicioForm, ClaveForm, RetoGeneralForm, RetoEtapasForm, \
+    AmigosForm, EtapasFormSet
 from .models import Usuario, Amistad, Reto, Etapa, Animador, Participante
 
 from django.forms import formset_factory
@@ -205,7 +205,8 @@ def nuevo_reto(request):
     tipo = request.GET.get("tipo")
     max_etapas = 5
     general_form = RetoGeneralForm()
-    etapas_form_model = formset_factory(RetoEtapaForm, max_num=max_etapas)
+    etapas_form_model = formset_factory(RetoEtapasForm, formset=EtapasFormSet,
+                                        max_num=max_etapas)
     etapas_form = etapas_form_model()
     errores = False
     animadores = []
@@ -231,17 +232,8 @@ def nuevo_reto(request):
             general_form = RetoGeneralForm(request.POST, request.FILES)
             etapas_form = etapas_form_model(request.POST, request.FILES)
 
-            # Validamos las etapas
-            logger.info("Validamos ETAPAS")
-            etapas_validas = True
-            for index in range(etapas_form.total_form_count()):
-                valida = etapas_form[index].is_valid()
-                if not valida:
-                    etapas_validas = valida
-                    break
-
             # Comprobamos si la parte principal es correcto
-            if general_form.is_valid() and etapas_validas:
+            if general_form.is_valid() and etapas_form.is_valid():
                 logger.info("Guardamos formulario NUEVO RETO")
 
                 # Guardamos ID del reto
