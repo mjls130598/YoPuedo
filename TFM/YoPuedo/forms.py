@@ -346,10 +346,10 @@ class EtapasFormSet(BaseFormSet):
             logger.info(f"Validando la etapa nº{index}")
             form.is_valid()
 
-            objetivo_texto = form.cleaned_data.get(f'form-{index}-objetivo_texto').value()
-            objetivo_imagen = form.cleaned_data.get(f'form-{index}-objetivo_texto').value()
-            objetivo_audio = form.cleaned_data.get(f'form-{index}-objetivo_texto').value()
-            objetivo_video = form.cleaned_data.get(f'form-{index}-objetivo_texto').value()
+            objetivo_texto = form.cleaned_data.get(f'form-{index}-objetivo_texto')
+            objetivo_imagen = form.cleaned_data.get(f'form-{index}-objetivo_texto')
+            objetivo_audio = form.cleaned_data.get(f'form-{index}-objetivo_texto')
+            objetivo_video = form.cleaned_data.get(f'form-{index}-objetivo_texto')
 
             logger.info(objetivo_video)
             logger.info(objetivo_audio)
