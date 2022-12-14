@@ -345,6 +345,8 @@ class EtapasFormSet(BaseFormSet):
             if self.can_delete and self._should_delete_form(self.forms[index]):
                 continue
 
+            logger.info(self.forms['index'])
+
             if not self.forms[index]:
                 self.forms[index].clean()
 
