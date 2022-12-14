@@ -344,9 +344,17 @@ class EtapasFormSet(BaseFormSet):
 
         for index, form in enumerate(self.forms):
             logger.info(f"Validando la etapa nº{index}")
-            logger.info(form.is_valid())
 
-            valido = len(form.errors) == 0
+            objetivo_texto = form.cleaned_data.get('objetivo_texto')
+            objetivo_imagen = form.cleaned_data.get('objetivo_imagen')
+            objetivo_audio = form.cleaned_data.get('objetivo_audio')
+            objetivo_video = form.cleaned_data.get('objetivo_video')
+
+            valido = (not objetivo_texto and not objetivo_imagen and not objetivo_video
+                      and not objetivo_audio) or \
+                     (Utils.numero_elementos_importados([objetivo_texto, objetivo_audio,
+                                                         objetivo_video,
+                                                         objetivo_imagen]) > 1)
 
             logger.info(valido)
             if not valido:
