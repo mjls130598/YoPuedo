@@ -341,7 +341,7 @@ class EtapasFormSet(BaseFormSet):
         if any(self.errors):
             return
 
-        for index, form in self.forms:
+        for index, form in enumerate(self.forms):
             if self.can_delete and self._should_delete_form(form):
                 continue
 
