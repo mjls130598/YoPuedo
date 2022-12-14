@@ -342,7 +342,7 @@ class EtapasFormSet(BaseFormSet):
         valido = True
         for index, form in enumerate(self.forms):
             logger.info(f"Validando la etapa nº{index}")
-            form = form.clean(self)
+            form = RetoEtapasForm.clean(form)
             valido = len(form.errors) == 0
             logger.info(valido)
             if not valido:
