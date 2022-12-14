@@ -343,7 +343,8 @@ class EtapasFormSet(BaseFormSet):
 
         for index in range(self.total_form_count()):
             logger.info(f"Checkeando {index}º etapa")
-            self.forms[index].is_valid()
+            if not self.forms[index].cleaned_data:
+                self.forms[index].clean()
             if self.can_delete and self._should_delete_form(self.forms[index]):
                 continue
 
