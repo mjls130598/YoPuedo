@@ -211,6 +211,7 @@ def nuevo_reto(request):
     errores = False
     animadores = []
     participantes = []
+    etapas_validas = True
 
     if tipo == 'individual' or tipo == 'colectivo':
         if request.method == 'GET':
@@ -232,8 +233,9 @@ def nuevo_reto(request):
             general_form = RetoGeneralForm(request.POST, request.FILES)
             etapas_form = etapas_form_model(request.POST, request.FILES)
 
+            etapas_validas = etapas_form.is_valid()
             # Comprobamos si la parte principal es correcto
-            if general_form.is_valid() and etapas_form.is_valid():
+            if general_form.is_valid() and etapas_validas:
                 logger.info("Guardamos formulario NUEVO RETO")
 
                 # Guardamos ID del reto
@@ -408,7 +410,7 @@ def nuevo_reto(request):
                   {"tipo_reto": tipo, "general_form": general_form,
                    "etapas_form": etapas_form, "errores": errores,
                    "max_etapas": max_etapas, "animadores": animadores,
-                   "participantes": participantes})
+                   "participantes": participantes, "error_etapas": not etapas_validas})
 
 
 ##########################################################################################
