@@ -1,5 +1,5 @@
 from django.test import TestCase
-from ..models import Usuario, Reto, Etapa, Animador
+from ..models import Usuario, Reto, Etapa, Animador, Participante
 from ..utils import Utils
 
 
@@ -32,13 +32,14 @@ class UsuarioModelTest(TestCase):
 
 # Comprobamos el funcionamiento de la tabla RETO, ETAPA, ANIMADOR, PARTICIPANTE
 class RetoModelTest(TestCase):
-    def setUpTestData(cls):
-        usuario = Usuario.objects.create_user(email="mariajesus@gmail.com",
+    def setUpTestData(self):
+        usuario = Usuario.objects.create_user(email="reto@gmail.com",
                                               nombre="María Jesús",
                                               password="Password1.",
                                               clave_fija='clave_fija',
                                               clave_aleatoria='clave_aleatoria',
                                               foto_perfil="/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
         usuario1 = Usuario.objects.create_user(email="maria@jesus.com",
                                                nombre="María López",
                                                password="Password",
@@ -46,7 +47,7 @@ class RetoModelTest(TestCase):
                                                clave_aleatoria='clave_aleatoria',
                                                foto_perfil="/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
         reto = Reto.objects.create(
-            id_reto=Utils.crear_id_reto(),
+            id_reto="RET123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL",
             titulo="Prueba RETO",
             objetivo="Objetivo RETO",
             recompensa="Recompensa RETO",
@@ -55,7 +56,7 @@ class RetoModelTest(TestCase):
         )
 
         Etapa.objects.create(
-            id_etapa=Utils.crear_id_etapa(),
+            id_etapa="ETP123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL",
             reto=reto,
             objetivo="Objetivo ETAPA"
         )
@@ -67,7 +68,49 @@ class RetoModelTest(TestCase):
         animador.superanimador = False
         animador.save()
 
-        animador = Animador()
-        animador.save()
-        animador.reto.add(reto)
-        animador.usuario.add(usuario1)
+        participante = Participante()
+        participante.save()
+        participante.reto.add(reto)
+        participante.usuario.add(usuario)
+
+    def test_reto(self):
+        reto = Reto.objects.get(
+            id_reto="RET123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
+        usuario = Usuario.objects.get(email="reto@gmail.com")
+
+        self.assertEqual(reto.titulo, "Prueba RETO")
+        self.assertEqual(reto.objetivo, "Objetivo RETO")
+        self.assertEqual(reto.categoria, "economia")
+        self.assertEqual(reto.recompensa, "Recompensa RETO")
+        self.assertEqual(reto.coordinador, usuario)
+
+    def test_etapa(self):
+        etapa = Etapa.objects.get(
+            id_etapa="ETP123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
+        reto = Reto.objects.get(
+            id_reto="RET123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
+
+        self.assertEqual(etapa.reto, reto)
+        self.assertEqual(etapa.objetivo, "Objetivo ETAPA")
+        self.assertEqual(etapa.estado, "Propuesto")
+
+    def test_animadores(self):
+        reto = Reto.objects.get(
+            id_reto="RET123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
+        animadores = Animador.objects.filter(reto=reto)
+        usuario = Usuario.objects.get(email="maria@jesus.com")
+
+        for animador in animadores:
+            self.assertEqual(animador.reto, reto)
+            self.assertEqual(animador.usuario, usuario)
+            self.assertFalse(animador.superanimador)
+
+    def test_participantes(self):
+        reto = Reto.objects.get(
+            id_reto="RET123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
+        participantes = Participante.objects.filter(reto=reto)
+        usuario = Usuario.objects.get(email="maria@jesus.com")
+
+        for participante in participantes:
+            self.assertEqual(participante.reto, reto)
+            self.assertEqual(participante.usuario, usuario)
