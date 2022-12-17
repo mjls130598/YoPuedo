@@ -144,15 +144,15 @@ class MisRetosViewTest(TestCase):
 
     def test_url_accesible(self):
         resp = self.client.get('/mis_retos/')
-        self.assertEqual(resp.status_code, HTTPStatus.MOVED_PERMANENTLY)
+        self.assertEqual(resp.status_code, HTTPStatus.TEMPORARY_REDIRECT)
 
     def test_url_tipo_accesible(self):
         resp = self.client.get('/mis_retos/?tipo=individuales')
-        self.assertEqual(resp.status_code, HTTPStatus.MOVED_PERMANENTLY)
+        self.assertEqual(resp.status_code, HTTPStatus.TEMPORARY_REDIRECT)
 
     def test_url_categoria_accesible(self):
         resp = self.client.get('/mis_retos/?tipo=individuales&categoria=economia')
-        self.assertEqual(resp.status_code, HTTPStatus.MOVED_PERMANENTLY)
+        self.assertEqual(resp.status_code, HTTPStatus.TEMPORARY_REDIRECT)
 
 
 ##########################################################################################
@@ -187,11 +187,11 @@ class NuevoRetoTest(TestCase):
 
     def test_url_accesible(self):
         resp = self.client.get('/nuevo_reto/')
-        self.assertEqual(resp.status_code, HTTPStatus.MOVED_PERMANENTLY)
+        self.assertEqual(resp.status_code, HTTPStatus.TEMPORARY_REDIRECT)
 
     def test_url_tipo_accesible(self):
         resp = self.client.get('/nuevo_reto/?tipo=individual')
-        self.assertEqual(resp.status_code, HTTPStatus.MOVED_PERMANENTLY)
+        self.assertEqual(resp.status_code, HTTPStatus.TEMPORARY_REDIRECT)
 
     def test_post_reto_individual(self):
 
@@ -222,7 +222,7 @@ class NuevoRetoTest(TestCase):
         usuario = Usuario.objects.get(email="nuevoreto_view@gmail.com")
 
         resp = self.client.post('/nuevo_reto/?tipo=individual', data, format='multipart')
-        self.assertEqual(resp.status_code, HTTPStatus.MOVED_PERMANENTLY)
+        self.assertEqual(resp.status_code, HTTPStatus.TEMPORARY_REDIRECT)
         self.assertTrue("/mis_retos/" in resp.url)
         id_reto = resp.url[-50:]
         self.assertTrue(Reto.objects.filter(id_reto=id_reto).exists())
@@ -263,7 +263,7 @@ class NuevoRetoTest(TestCase):
         usuario = Usuario.objects.get(email="nuevoreto_view@gmail.com")
 
         resp = self.client.post('/nuevo_reto/?tipo=individual', data, format='multipart')
-        self.assertEqual(resp.status_code, HTTPStatus.MOVED_PERMANENTLY)
+        self.assertEqual(resp.status_code, HTTPStatus.TEMPORARY_REDIRECT)
         self.assertTrue("/mis_retos/" in resp.url)
         id_reto = resp.url[-50:]
         self.assertTrue(Reto.objects.filter(id_reto=id_reto).exists())
@@ -308,7 +308,7 @@ class NuevoRetoTest(TestCase):
         usuario = Usuario.objects.get(email="nuevoreto_view@gmail.com")
 
         resp = self.client.post('/nuevo_reto/?tipo=colectivo', data, format='multipart')
-        self.assertEqual(resp.status_code, HTTPStatus.MOVED_PERMANENTLY)
+        self.assertEqual(resp.status_code, HTTPStatus.TEMPORARY_REDIRECT)
         self.assertTrue("/mis_retos/" in resp.url)
         id_reto = resp.url[-50:]
         self.assertTrue(Reto.objects.filter(id_reto=id_reto).exists())
