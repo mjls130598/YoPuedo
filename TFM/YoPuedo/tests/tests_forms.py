@@ -1,6 +1,8 @@
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.forms import formset_factory
 from django.test import TestCase
-from ..forms import RegistroForm, ClaveForm, InicioForm, RetoGeneralForm
+from ..forms import RegistroForm, ClaveForm, InicioForm, RetoGeneralForm, RetoEtapaForm, \
+    EtapasFormSet
 from TFM.settings import BASE_DIR
 from ..models import Usuario
 
@@ -335,13 +337,13 @@ class RetoGeneralFormTest(TestCase):
         objetivo_imagen = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
         objetivo_imagen = open(objetivo_imagen, 'rb')
 
-        form = RegistroForm(data=data, files={'objetivo_imagen': SimpleUploadedFile(
+        form = RetoGeneralForm(data=data, files={'objetivo_imagen': SimpleUploadedFile(
             objetivo_imagen.name, objetivo_imagen.read())})
 
         self.assertEqual(form.errors['objetivo_texto'],
                          'Elige una forma de indicar el objetivo del reto')
 
-    def test_multiples_objetivo(self):
+    def test_multiples_multimedia_recompensa(self):
         data = {
             'titulo': 'Prueba Reto GENERAL'
         }
@@ -352,7 +354,7 @@ class RetoGeneralFormTest(TestCase):
         recompensa_audio = f"{BASE_DIR}/media/YoPuedo/audio-ejemplo.mp3"
         recompensa_audio = open(recompensa_audio, 'rb')
 
-        form = RegistroForm(data=data, files={
+        form = RetoGeneralForm(data=data, files={
             'recompensa_imagen': SimpleUploadedFile(recompensa_imagen.name,
                                                     recompensa_imagen.read()),
             'recompensa_audio': SimpleUploadedFile(recompensa_audio.name,
@@ -360,3 +362,137 @@ class RetoGeneralFormTest(TestCase):
 
         self.assertEqual(form.errors['recompensa_texto'],
                          'Elige una forma de indicar la recompensa del reto')
+
+    def test_general_correcto(self):
+        data = {
+            'titulo': 'Prueba RETO VIEWS',
+            'objetivo_imagen': '',
+            'objetivo_audio': '',
+            'objetivo_video': '',
+            'objetivo_texto': 'Objetivo RETO VIEWS',
+            'recompensa_imagen': '',
+            'recompensa_audio': '',
+            'recompensa_video': '',
+            'categoria': 'economia',
+        }
+
+        form = RetoGeneralForm(data)
+        self.assertEqual(form.errors, 0)
+
+
+##########################################################################################
+
+# Comprobamos la validación del formulario de nuevo reto - ETAPAS
+class RetoEtapasTest(TestCase):
+
+    def test_campos_vacios(self):
+        data = {}
+        form = RetoEtapaForm(data)
+
+        self.assertEqual(form.errors['objetivo_texto'],
+                         'Debes indicar el objetivo del reto')
+
+    def test_multiples_objetivo(self):
+        data = {
+            'objetivo_texto': 'Objetivo prueba'
+        }
+
+        objetivo_imagen = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        objetivo_imagen = open(objetivo_imagen, 'rb')
+
+        form = RetoEtapaForm(data=data, files={'objetivo_imagen': SimpleUploadedFile(
+            objetivo_imagen.name, objetivo_imagen.read())})
+
+        self.assertEqual(form.errors['objetivo_texto'],
+                         'Elige una forma de indicar el objetivo del reto')
+
+    def test_etapa_correcta(self):
+        data = {
+            'objetivo_texto': 'Objetivo prueba',
+            'objetivo_imagen': '',
+            'objetivo_audio': '',
+            'objetivo_video': ''
+        }
+
+        form = RetoEtapaForm(data=data)
+
+        self.assertEqual(len(form.errors), 0)
+
+    def test_no_etapas(self):
+
+        etapas_form_model = formset_factory(RetoEtapaForm, formset=EtapasFormSet,
+                                            max_num=5)
+
+        data = {
+            # Etapas
+            'form-INITIAL_FORMS': '0',
+            'form-TOTAL_FORMS': '1',
+            'form-MAX_NUM_FORM': '5',
+
+            # 1º Etapa
+            'form-0-objetivo_imagen': '',
+            'form-0-objetivo_video': '',
+            'form-0-objetivo_audio': '',
+            'form-0-objetivo_texto': '',
+        }
+
+        etapas_form = etapas_form_model(data)
+
+        self.assertEqual(etapas_form.errors['form-0-objetivo_texto'],
+                         'Debes indicar el objetivo de la etapa')
+
+    def test_etapa_vacia(self):
+
+        etapas_form_model = formset_factory(RetoEtapaForm, formset=EtapasFormSet,
+                                            max_num=5)
+
+        data = {
+            # Etapas
+            'form-INITIAL_FORMS': '0',
+            'form-TOTAL_FORMS': '1',
+            'form-MAX_NUM_FORM': '5',
+
+            # 1º Etapa
+            'form-0-objetivo_imagen': '',
+            'form-0-objetivo_video': '',
+            'form-0-objetivo_audio': '',
+            'form-0-objetivo_texto': '',
+
+            # 2º Etapa
+            'form-1-objetivo_imagen': '',
+            'form-1-objetivo_video': '',
+            'form-1-objetivo_audio': '',
+            'form-1-objetivo_texto': 'Objetivo 2º ETAPA',
+        }
+
+        etapas_form = etapas_form_model(data)
+
+        self.assertEqual(etapas_form.errors['form-0-objetivo_texto'],
+                         'Debes indicar el objetivo de la etapa')
+
+    def test_etapas_correcta(self):
+        etapas_form_model = formset_factory(RetoEtapaForm, formset=EtapasFormSet,
+                                            max_num=5)
+
+        data = {
+            # Etapas
+            'form-INITIAL_FORMS': '0',
+            'form-TOTAL_FORMS': '1',
+            'form-MAX_NUM_FORM': '5',
+
+            # 1º Etapa
+            'form-0-objetivo_imagen': '',
+            'form-0-objetivo_video': '',
+            'form-0-objetivo_audio': '',
+            'form-0-objetivo_texto': 'Objetivo 1º ETAPA',
+        }
+
+        etapas_form = etapas_form_model(data)
+
+        self.assertEqual(len(etapas_form.errors), 0)
+
+
+
+
+
+
