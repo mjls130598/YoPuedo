@@ -350,7 +350,8 @@ def nuevo_reto(request):
                 for animador_email in animadores_email:
                     logger.info(f"ANIMADOR: {animador_email}")
                     usuario = Usuario.objects.get(email=animador_email)
-                    superanimador = request.POST.get(f'superanimador-{animador_email}') == "true"
+                    superanimador = request.POST.get(
+                        f'superanimador-{animador_email}') == "true"
                     animador = Animador()
                     animador.save()
                     animador.reto.add(reto)
@@ -378,7 +379,7 @@ def nuevo_reto(request):
                 participante.save()
 
                 # Redireccionamos a la visualización del reto
-                return redirect(f'/mis_retos/{id_reto}')
+                return redirect(f'/mis_retos/{id_reto}', status=HTTPStatus.CREATED)
 
             else:
                 logger.error("Error al validar formulario NUEVO RETO")

@@ -6,7 +6,7 @@ from http import HTTPStatus
 
 from requests import request
 
-from ..models import Usuario
+from ..models import Usuario, Reto, Etapa, Animador, Participante
 
 
 ##########################################################################################
@@ -36,7 +36,7 @@ class RegistroViewTest(TestCase):
 
 ##########################################################################################
 
-# Comprobamos el funcionamiento de la URL validar_clave clave
+# Comprobamos el funcionamiento de la URL validar clave
 class ClaveViewTest(TestCase):
 
     @classmethod
@@ -103,7 +103,7 @@ class ClaveViewTest(TestCase):
 
 ##########################################################################################
 
-# Comprobamos el funcionamiento de la URL registrarse
+# Comprobamos el funcionamiento de la URL iniciar sesión
 class InicioViewTest(TestCase):
 
     @classmethod
@@ -128,7 +128,7 @@ class InicioViewTest(TestCase):
 
 ##########################################################################################
 
-# Comprobamos el funcionamiento de la URL registrarse
+# Comprobamos el funcionamiento de la URL mis retos
 class MisRetosViewTest(TestCase):
 
     @classmethod
@@ -146,9 +146,172 @@ class MisRetosViewTest(TestCase):
         self.assertEqual(resp.status_code, HTTPStatus.OK)
 
     def test_url_tipo_accesible(self):
-        resp = self.client.get('/mis_retos/?tipo=individual')
+        resp = self.client.get('/mis_retos/?tipo=individuales')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
 
     def test_url_categoria_accesible(self):
-        resp = self.client.get('/mis_retos/?tipo=individual&categoria=economia')
+        resp = self.client.get('/mis_retos/?tipo=individuales&categoria=economia')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
+
+
+##########################################################################################
+
+# Comprobamos el funcionamiento de la URL nuevo reto
+class NuevoRetoTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        usuario = Usuario.objects.create_user(email="nuevoreto_view@gmail.com",
+                                              nombre="María Jesús", password="Password1.",
+                                              clave_aleatoria="clavealeat",
+                                              clave_fija="clavefijausuario",
+                                              foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        Usuario.objects.create_user(email="animador_view@gmail.com",
+                                    nombre="María Jesús",
+                                    password="Password1.",
+                                    clave_aleatoria="clavealeat",
+                                    clave_fija="clavefijausuario",
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        Usuario.objects.create_user(email="participante_view@gmail.com",
+                                    nombre="María Jesús",
+                                    password="Password1.",
+                                    clave_aleatoria="clavealeat",
+                                    clave_fija="clavefijausuario",
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        login(request, usuario, backend='django.contrib.auth.backends.ModelBackend')
+
+    def test_url_accesible(self):
+        resp = self.client.get('/nuevo_reto/')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+
+    def test_url_tipo_accesible(self):
+        resp = self.client.get('/nuevo_reto/?tipo=individual')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+
+    def test_post_reto_individual(self):
+
+        data = {
+            # General
+            'titulo': 'Prueba RETO VIEWS',
+            'objetivo_imagen': '',
+            'objetivo_audio': '',
+            'objetivo_video': '',
+            'objetivo_texto': 'Objetivo RETO VIEWS',
+            'recompensa_imagen': '',
+            'recompensa_audio': '',
+            'recompensa_video': '',
+            'categoria': 'economia',
+
+            # Etapas
+            'form-INITIAL_FORMS': '0',
+            'form-TOTAL_FORMS': '1',
+            'form-MAX_NUM_FORM': '5',
+
+            # 1º Etapa
+            'form-0-objetivo_imagen': '',
+            'form-0-objetivo_video': '',
+            'form-0-objetivo_audio': '',
+            'form-0-objetivo_texto': 'Objetivo ETAPA VIEWS',
+        }
+
+        usuario = Usuario.objects.get(email="nuevoreto_view@gmail.com")
+
+        resp = self.client.post('/nuevo_reto/?tipo=individual', data, format='multipart')
+        self.assertEqual(resp.status_code, HTTPStatus.CREATED)
+        self.assertTrue("/mis_retos/" in resp.url)
+        id_reto = resp.url[-50:]
+        self.assertTrue(Reto.objects.filter(id_reto=id_reto).exists())
+        self.assertTrue(Etapa.objects.filter(id_reto=id_reto).exists())
+        self.assertEqual(Participante.objects.filter(id_reto=id_reto).last().usuario,
+                         usuario)
+
+    def test_post_reto_individual_animadores(self):
+
+        data = {
+            # General
+            'titulo': 'Prueba RETO VIEWS',
+            'objetivo_imagen': '',
+            'objetivo_audio': '',
+            'objetivo_video': '',
+            'objetivo_texto': 'Objetivo RETO VIEWS',
+            'recompensa_imagen': '',
+            'recompensa_audio': '',
+            'recompensa_video': '',
+            'categoria': 'economia',
+
+            # Etapas
+            'form-INITIAL_FORMS': '0',
+            'form-TOTAL_FORMS': '1',
+            'form-MAX_NUM_FORM': '5',
+
+            # 1º Etapa
+            'form-0-objetivo_imagen': '',
+            'form-0-objetivo_video': '',
+            'form-0-objetivo_audio': '',
+            'form-0-objetivo_texto': 'Objetivo ETAPA VIEWS',
+
+            # Animadores
+            'animador': ["animador_view@gmail.com"],
+            'superanimador-animador_view@gmail.com': 'false'
+        }
+
+        usuario = Usuario.objects.get(email="nuevoreto_view@gmail.com")
+
+        resp = self.client.post('/nuevo_reto/?tipo=individual', data, format='multipart')
+        self.assertEqual(resp.status_code, HTTPStatus.CREATED)
+        self.assertTrue("/mis_retos/" in resp.url)
+        id_reto = resp.url[-50:]
+        self.assertTrue(Reto.objects.filter(id_reto=id_reto).exists())
+        self.assertTrue(Etapa.objects.filter(id_reto=id_reto).exists())
+        self.assertEqual(Participante.objects.filter(id_reto=id_reto).last().usuario,
+                         usuario)
+        self.assertTrue(Animador.objects.filter(id_reto=id_reto).exists())
+
+    def test_post_reto_colectivo(self):
+
+        data = {
+            # General
+            'titulo': 'Prueba RETO VIEWS',
+            'objetivo_imagen': '',
+            'objetivo_audio': '',
+            'objetivo_video': '',
+            'objetivo_texto': 'Objetivo RETO VIEWS',
+            'recompensa_imagen': '',
+            'recompensa_audio': '',
+            'recompensa_video': '',
+            'categoria': 'economia',
+
+            # Etapas
+            'form-INITIAL_FORMS': '0',
+            'form-TOTAL_FORMS': '1',
+            'form-MAX_NUM_FORM': '5',
+
+            # 1º Etapa
+            'form-0-objetivo_imagen': '',
+            'form-0-objetivo_video': '',
+            'form-0-objetivo_audio': '',
+            'form-0-objetivo_texto': 'Objetivo ETAPA VIEWS',
+
+            # Animadores
+            'animador': ["animador_view@gmail.com"],
+            'superanimador-animador_view@gmail.com': 'false',
+
+            # Participantes
+            'participante': ["participante_view@gmail.com"]
+        }
+
+        usuario = Usuario.objects.get(email="nuevoreto_view@gmail.com")
+
+        resp = self.client.post('/nuevo_reto/?tipo=colectivo', data, format='multipart')
+        self.assertEqual(resp.status_code, HTTPStatus.CREATED)
+        self.assertTrue("/mis_retos/" in resp.url)
+        id_reto = resp.url[-50:]
+        self.assertTrue(Reto.objects.filter(id_reto=id_reto).exists())
+        self.assertTrue(Etapa.objects.filter(id_reto=id_reto).exists())
+        self.assertEqual(Participante.objects.filter(id_reto=id_reto).last().usuario,
+                         usuario)
+        self.assertTrue(Animador.objects.filter(id_reto=id_reto).exists())
+        self.assertTrue(Participante.objects.filter(id_reto=id_reto).exists())
