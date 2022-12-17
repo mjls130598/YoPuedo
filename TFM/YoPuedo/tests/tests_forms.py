@@ -390,7 +390,7 @@ class RetoEtapasTest(TestCase):
         form = RetoEtapaForm(data)
 
         self.assertEqual(form.errors['objetivo_texto'],
-                         ['Debes indicar el objetivo del reto'])
+                         ['Debes indicar el objetivo de la etapa'])
 
     def test_multiples_objetivo(self):
         data = {

@@ -101,7 +101,7 @@ class RetoModelTest(TestCase):
         usuario = Usuario.objects.get(email="maria@jesus.com")
 
         for animador in animadores:
-            self.assertEqual(animador.reto, reto)
+            self.assertEqual(animador.reto.id_reto, reto.id_reto)
             self.assertEqual(animador.usuario, usuario)
             self.assertFalse(animador.superanimador)
 
@@ -112,5 +112,5 @@ class RetoModelTest(TestCase):
         usuario = Usuario.objects.get(email="maria@jesus.com")
 
         for participante in participantes:
-            self.assertEqual(participante.reto, reto)
+            self.assertEqual(participante.reto.id_reto, reto.id_reto)
             self.assertEqual(participante.usuario, usuario)
