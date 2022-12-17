@@ -1,6 +1,5 @@
 from django.test import TestCase
 from ..models import Usuario, Reto, Etapa, Animador, Participante
-from ..utils import Utils
 
 
 # Comprobamos el funcionamiento de la tabla USUARIO
