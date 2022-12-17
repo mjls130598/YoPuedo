@@ -139,7 +139,7 @@ class MisRetosViewTest(TestCase):
                                               clave_fija="clavefijausuario",
                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
-        login(request, usuario, backend='django.contrib.auth.backends.ModelBackend')
+        login(user=usuario, backend='django.contrib.auth.backends.ModelBackend')
 
     def test_url_accesible(self):
         resp = self.client.get('/mis_retos/')
@@ -181,7 +181,7 @@ class NuevoRetoTest(TestCase):
                                     clave_fija="clavefijausuario",
                                     foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
-        login(request, usuario, backend='django.contrib.auth.backends.ModelBackend')
+        login(user=usuario, backend='django.contrib.auth.backends.ModelBackend')
 
     def test_url_accesible(self):
         resp = self.client.get('/nuevo_reto/')

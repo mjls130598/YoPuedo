@@ -31,7 +31,7 @@ class UsuarioModelTest(TestCase):
 
 # Comprobamos el funcionamiento de la tabla RETO, ETAPA, ANIMADOR, PARTICIPANTE
 class RetoModelTest(TestCase):
-    def setUpTestData(self):
+    def setUpTestData(cls):
         usuario = Usuario.objects.create_user(email="reto@gmail.com",
                                               nombre="María Jesús",
                                               password="Password1.",

@@ -318,15 +318,14 @@ class RetoGeneralFormTest(TestCase):
         data = {}
         form = RetoGeneralForm(data)
 
-        self.assertEqual(form.errors['titulo'], 'Debes indicar el título del reto')
-        self.assertEqual(form.errors['titulo'],
-                         'Debes escribir entre 10 y 500 caracteres')
+        self.assertEqual(form.errors['titulo'], ['Debes indicar el título del reto',
+                         'Debes escribir entre 10 y 500 caracteres'])
         self.assertEqual(form.errors['objetivo_texto'],
-                         'Debes indicar el objetivo del reto')
+                         ['Debes indicar el objetivo del reto'])
         self.assertEqual(form.errors['recompensa_texto'],
-                         'Debes indicar la recompensa del reto')
+                         ['Debes indicar la recompensa del reto'])
         self.assertEqual(form.errors['categoria'],
-                         'Debes indicar qué tipo de categoría es el reto')
+                         ['Debes indicar qué tipo de categoría es el reto'])
 
     def test_multiples_objetivo(self):
         data = {
@@ -341,7 +340,7 @@ class RetoGeneralFormTest(TestCase):
             objetivo_imagen.name, objetivo_imagen.read())})
 
         self.assertEqual(form.errors['objetivo_texto'],
-                         'Elige una forma de indicar el objetivo del reto')
+                         ['Elige una forma de indicar el objetivo del reto'])
 
     def test_multiples_multimedia_recompensa(self):
         data = {
@@ -361,7 +360,7 @@ class RetoGeneralFormTest(TestCase):
                                                    recompensa_audio.read())})
 
         self.assertEqual(form.errors['recompensa_texto'],
-                         'Elige una forma de indicar la recompensa del reto')
+                         ['Elige una forma de indicar la recompensa del reto'])
 
     def test_general_correcto(self):
         data = {
@@ -369,10 +368,11 @@ class RetoGeneralFormTest(TestCase):
             'objetivo_imagen': '',
             'objetivo_audio': '',
             'objetivo_video': '',
-            'objetivo_texto': 'Objetivo RETO VIEWS',
+            'objetivo_texto': 'Objetivo RETO FORMS',
             'recompensa_imagen': '',
             'recompensa_audio': '',
             'recompensa_video': '',
+            'recompensa_texto': 'Recompensa RETO FORMS',
             'categoria': 'economia',
         }
 
@@ -404,7 +404,7 @@ class RetoEtapasTest(TestCase):
             objetivo_imagen.name, objetivo_imagen.read())})
 
         self.assertEqual(form.errors['objetivo_texto'],
-                         'Elige una forma de indicar el objetivo del reto')
+                         ['Elige una forma de indicar el objetivo del reto'])
 
     def test_etapa_correcta(self):
         data = {
@@ -438,8 +438,8 @@ class RetoEtapasTest(TestCase):
 
         etapas_form = etapas_form_model(data)
 
-        self.assertEqual(etapas_form.errors['form-0-objetivo_texto'],
-                         'Debes indicar el objetivo de la etapa')
+        self.assertEqual(etapas_form.errors[0]['form-0-objetivo_texto'],
+                         ['Debes indicar el objetivo de la etapa'])
 
     def test_etapa_vacia(self):
 
@@ -467,8 +467,8 @@ class RetoEtapasTest(TestCase):
 
         etapas_form = etapas_form_model(data)
 
-        self.assertEqual(etapas_form.errors['form-0-objetivo_texto'],
-                         'Debes indicar el objetivo de la etapa')
+        self.assertEqual(etapas_form.errors[0]['form-0-objetivo_texto'],
+                         ['Debes indicar el objetivo de la etapa'])
 
     def test_etapas_correcta(self):
         etapas_form_model = formset_factory(RetoEtapaForm, formset=EtapasFormSet,
@@ -489,7 +489,7 @@ class RetoEtapasTest(TestCase):
 
         etapas_form = etapas_form_model(data)
 
-        self.assertEqual(len(etapas_form.errors), 0)
+        self.assertEqual(len(etapas_form.errors[0]), 0)
 
 
 
