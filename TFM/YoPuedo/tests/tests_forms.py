@@ -377,7 +377,7 @@ class RetoGeneralFormTest(TestCase):
         }
 
         form = RetoGeneralForm(data)
-        self.assertEqual(form.errors, 0)
+        self.assertEqual(len(form.errors), 0)
 
 
 ##########################################################################################
@@ -390,7 +390,7 @@ class RetoEtapasTest(TestCase):
         form = RetoEtapaForm(data)
 
         self.assertEqual(form.errors['objetivo_texto'],
-                         'Debes indicar el objetivo del reto')
+                         ['Debes indicar el objetivo del reto'])
 
     def test_multiples_objetivo(self):
         data = {
@@ -404,7 +404,7 @@ class RetoEtapasTest(TestCase):
             objetivo_imagen.name, objetivo_imagen.read())})
 
         self.assertEqual(form.errors['objetivo_texto'],
-                         ['Elige una forma de indicar el objetivo del reto'])
+                         ['Elige una forma de indicar el objetivo de la etapa'])
 
     def test_etapa_correcta(self):
         data = {
@@ -438,7 +438,7 @@ class RetoEtapasTest(TestCase):
 
         etapas_form = etapas_form_model(data)
 
-        self.assertEqual(etapas_form.errors[0]['form-0-objetivo_texto'],
+        self.assertEqual(etapas_form.errors[0]['objetivo_texto'],
                          ['Debes indicar el objetivo de la etapa'])
 
     def test_etapa_vacia(self):
@@ -467,7 +467,7 @@ class RetoEtapasTest(TestCase):
 
         etapas_form = etapas_form_model(data)
 
-        self.assertEqual(etapas_form.errors[0]['form-0-objetivo_texto'],
+        self.assertEqual(etapas_form.errors[0]['objetivo_texto'],
                          ['Debes indicar el objetivo de la etapa'])
 
     def test_etapas_correcta(self):

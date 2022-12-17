@@ -3,8 +3,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from TFM.settings import BASE_DIR
 from http import HTTPStatus
-
-from requests import request
+from django.test.client import Client
 
 from ..models import Usuario, Reto, Etapa, Animador, Participante
 
@@ -139,7 +138,9 @@ class MisRetosViewTest(TestCase):
                                               clave_fija="clavefijausuario",
                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
-        login(user=usuario, backend='django.contrib.auth.backends.ModelBackend')
+
+        client = Client()
+        client.login(username='misretos_view@gmail.com', password="Password1.")
 
     def test_url_accesible(self):
         resp = self.client.get('/mis_retos/')
@@ -161,7 +162,7 @@ class NuevoRetoTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        usuario = Usuario.objects.create_user(email="nuevoreto_view@gmail.com",
+        Usuario.objects.create_user(email="nuevoreto_view@gmail.com",
                                               nombre="María Jesús", password="Password1.",
                                               clave_aleatoria="clavealeat",
                                               clave_fija="clavefijausuario",
@@ -181,7 +182,8 @@ class NuevoRetoTest(TestCase):
                                     clave_fija="clavefijausuario",
                                     foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
-        login(user=usuario, backend='django.contrib.auth.backends.ModelBackend')
+        client = Client()
+        client.login(username='nuevoreto_view@gmail.com', password="Password1.")
 
     def test_url_accesible(self):
         resp = self.client.get('/nuevo_reto/')
