@@ -162,7 +162,7 @@ class NuevoRetoTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        Usuario.objects.create_user(email="nuevoreto_view@gmail.com",
+        usuario = Usuario.objects.create_user(email="nuevoreto_view@gmail.com",
                                               nombre="María Jesús", password="Password1.",
                                               clave_aleatoria="clavealeat",
                                               clave_fija="clavefijausuario",
@@ -181,11 +181,12 @@ class NuevoRetoTest(TestCase):
                                     clave_aleatoria="clavealeat",
                                     clave_fija="clavefijausuario",
                                     foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
-
-        client = Client()
-        client.login(username='nuevoreto_view@gmail.com', password="Password1.")
+        cls.client = Client()
+        cls.user = usuario
 
     def test_url_accesible(self):
+        self.client.login(username='nuevoreto_view@gmail.com', password="Password1.")
+
         resp = self.client.get('/nuevo_reto/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
 

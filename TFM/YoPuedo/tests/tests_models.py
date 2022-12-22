@@ -110,4 +110,4 @@ class RetoModelTest(TestCase):
         participantes = Participante.objects.filter(reto=reto)
 
         for participante in participantes:
-            self.assertEqual(participante.usuario.all().first().email, "maria@jesus.com")
+            self.assertEqual(participante.usuario.all().first().email, "reto@gmail.com")
