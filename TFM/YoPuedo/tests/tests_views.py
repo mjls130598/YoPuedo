@@ -188,13 +188,13 @@ class NuevoRetoTest(TestCase):
         self.client.login(username='nuevoreto_view@gmail.com', password="Password1.")
 
         resp = self.client.get('/nuevo_reto/')
-        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
 
     def test_url_tipo_accesible(self):
         self.client.login(username='nuevoreto_view@gmail.com', password="Password1.")
 
         resp = self.client.get('/nuevo_reto/?tipo=individual')
-        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
 
     def test_post_reto_individual(self):
 
@@ -231,7 +231,7 @@ class NuevoRetoTest(TestCase):
         self.assertTrue("/mis_retos/" in resp.url)
         id_reto = resp.url[-50:]
         self.assertTrue(Reto.objects.filter(id_reto=id_reto).exists())
-        self.assertTrue(Etapa.objects.filter(id_reto=id_reto).exists())
+        self.assertTrue(Etapa.objects.filter(reto__id_reto=id_reto).exists())
         self.assertEqual(Participante.objects.filter(reto__id_reto=id_reto).
                          last().usuario.all().first().email, "nuevoreto_view@gmail.com")
 
