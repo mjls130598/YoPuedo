@@ -98,17 +98,15 @@ class RetoModelTest(TestCase):
         reto = Reto.objects.get(
             id_reto="RET123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
         animadores = Animador.objects.filter(reto=reto)
-        usuario = Usuario.objects.get(email="maria@jesus.com")
 
         for animador in animadores:
-            self.assertEqual(animador.usuario, usuario)
+            self.assertEqual(animador.usuario.email, "maria@jesus.com")
             self.assertFalse(animador.superanimador)
 
     def test_participantes(self):
         reto = Reto.objects.get(
             id_reto="RET123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
         participantes = Participante.objects.filter(reto=reto)
-        usuario = Usuario.objects.get(email="maria@jesus.com")
 
         for participante in participantes:
-            self.assertEqual(participante.usuario, usuario)
+            self.assertEqual(participante.usuario.email, "maria@jesus.com")
