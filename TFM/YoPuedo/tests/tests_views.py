@@ -191,10 +191,14 @@ class NuevoRetoTest(TestCase):
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
 
     def test_url_tipo_accesible(self):
+        self.client.login(username='nuevoreto_view@gmail.com', password="Password1.")
+
         resp = self.client.get('/nuevo_reto/?tipo=individual')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
 
     def test_post_reto_individual(self):
+
+        self.client.login(username='nuevoreto_view@gmail.com', password="Password1.")
 
         data = {
             # General
@@ -232,6 +236,8 @@ class NuevoRetoTest(TestCase):
                          last().usuario.all().first().email, "nuevoreto_view@gmail.com")
 
     def test_post_reto_individual_animadores(self):
+
+        self.client.login(username='nuevoreto_view@gmail.com', password="Password1.")
 
         data = {
             # General
@@ -273,6 +279,8 @@ class NuevoRetoTest(TestCase):
         self.assertTrue(Animador.objects.filter(reto__id_reto=id_reto).exists())
 
     def test_post_reto_colectivo(self):
+
+        self.client.login(username='nuevoreto_view@gmail.com', password="Password1.")
 
         data = {
             # General
