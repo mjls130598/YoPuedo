@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.test import TestCase
 from ..models import Usuario, Reto, Etapa, Animador, Participante
 
@@ -97,10 +98,10 @@ class RetoModelTest(TestCase):
     def test_animadores(self):
         reto = Reto.objects.get(
             id_reto="RET123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
-        animadores = Animador.objects.filter(reto=reto)
+        animadores = Animador.objects.filter(Q(reto=reto))
 
         for animador in animadores:
-            self.assertEqual(animador.usuario__email, "maria@jesus.com")
+            self.assertEqual(animador.usuario.all().first().email, "maria@jesus.com")
             self.assertFalse(animador.superanimador)
 
     def test_participantes(self):
@@ -109,4 +110,4 @@ class RetoModelTest(TestCase):
         participantes = Participante.objects.filter(reto=reto)
 
         for participante in participantes:
-            self.assertEqual(participante.usuario__email, "maria@jesus.com")
+            self.assertEqual(participante.usuario.all().first().email, "maria@jesus.com")
