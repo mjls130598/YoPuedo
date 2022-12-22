@@ -100,7 +100,7 @@ class RetoModelTest(TestCase):
         animadores = Animador.objects.filter(reto=reto)
 
         for animador in animadores:
-            self.assertEqual(animador.usuario.email, "maria@jesus.com")
+            self.assertEqual(animador.usuario__email, "maria@jesus.com")
             self.assertFalse(animador.superanimador)
 
     def test_participantes(self):
@@ -109,4 +109,4 @@ class RetoModelTest(TestCase):
         participantes = Participante.objects.filter(reto=reto)
 
         for participante in participantes:
-            self.assertEqual(participante.usuario.email, "maria@jesus.com")
+            self.assertEqual(participante.usuario__email, "maria@jesus.com")

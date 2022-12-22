@@ -222,12 +222,11 @@ class NuevoRetoTest(TestCase):
 
         resp = self.client.post('/nuevo_reto/?tipo=individual', data, format='multipart')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
-
         self.assertTrue("/mis_retos/" in resp.url)
         id_reto = resp.url[-50:]
         self.assertTrue(Reto.objects.filter(id_reto=id_reto).exists())
         self.assertTrue(Etapa.objects.filter(id_reto=id_reto).exists())
-        self.assertEqual(Participante.objects.filter(id_reto=id_reto).last().usuario.email,
+        self.assertEqual(Participante.objects.filter(id_reto=id_reto).last().usuario__email,
                          "nuevoreto_view@gmail.com")
 
     def test_post_reto_individual_animadores(self):
@@ -267,7 +266,7 @@ class NuevoRetoTest(TestCase):
         id_reto = resp.url[-50:]
         self.assertTrue(Reto.objects.filter(id_reto=id_reto).exists())
         self.assertTrue(Etapa.objects.filter(id_reto=id_reto).exists())
-        self.assertEqual(Participante.objects.filter(id_reto=id_reto).last().usuario.email,
+        self.assertEqual(Participante.objects.filter(id_reto=id_reto).last().usuario__email,
                          "nuevoreto_view@gmail.com")
         self.assertTrue(Animador.objects.filter(id_reto=id_reto).exists())
 
@@ -311,7 +310,7 @@ class NuevoRetoTest(TestCase):
         id_reto = resp.url[-50:]
         self.assertTrue(Reto.objects.filter(id_reto=id_reto).exists())
         self.assertTrue(Etapa.objects.filter(id_reto=id_reto).exists())
-        self.assertEqual(Participante.objects.filter(id_reto=id_reto).last().usuario.email,
+        self.assertEqual(Participante.objects.filter(id_reto=id_reto).last().usuario__email,
                          "nuevoreto_view@gmail.com")
         self.assertTrue(Animador.objects.filter(id_reto=id_reto).exists())
         self.assertTrue(Participante.objects.filter(id_reto=id_reto).exists())
