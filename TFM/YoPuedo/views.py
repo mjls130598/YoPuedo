@@ -5,7 +5,7 @@ from itertools import chain
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q, F
+from django.db.models import Q, F, Count
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.template.loader import get_template
@@ -178,14 +178,11 @@ def validar_clave(request, tipo, email):
 def mis_retos(request):
     logger.info("Entramos en la parte GET de MIS RETOS")
     tipo = request.GET.get("tipo")
-    if tipo == 'individuales' or tipo == 'colectivos':
-        logger.info(f"Mostramos los retos {tipo}")
-
-    elif tipo != '':
-        logger.error("Tipo incorrecto")
-        tipo = ""
-
     categoria = request.GET.get("categoria")
+    propuestos = []
+    proceso = []
+    finalizados = []
+    animando = []
 
     if categoria in Utils.CATEGORIAS_CHOOSE:
         logger.info(f"Mostramos los retos  de la categoría {categoria}")
@@ -193,8 +190,97 @@ def mis_retos(request):
         logger.error("Categoría no encontrada")
         categoria = ""
 
+    if tipo == 'individuales' or tipo == 'colectivos':
+        logger.info(f"Mostramos los retos {tipo}")
+
+        logger.info("Buscamos los retos según la categoría dada y el tipo de reto, "
+                    + "separada en según el estado")
+
+        if not categoria:
+            propuestos = \
+                Reto.objects.filter(estado='Propuesto',
+                                    participante__usuario=request.user). \
+                    annotate(cnt=Count('participante__usuario')).filter(cnt__lte=1) \
+                    if tipo == 'individuales' else \
+                    Reto.objects.filter(estado='Propuesto',
+                                        participante__usuario=request.user). \
+                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
+
+            proceso = \
+                Reto.objects.filter(estado='En proceso',
+                                    participante__usuario=request.user). \
+                    annotate(cnt=Count('participante__usuario')).filter(cnt__lte=1) \
+                    if tipo == 'individuales' else \
+                    Reto.objects.filter(estado='En proceso',
+                                        participante__usuario=request.user). \
+                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
+
+            finalizados = \
+                Reto.objects.filter(estado='Finalizado',
+                                    participante__usuario=request.user). \
+                    annotate(cnt=Count('participante__usuario')).filter(cnt__lte=1) \
+                    if tipo == 'individuales' else \
+                    Reto.objects.filter(estado='Finalizado',
+                                        participante__usuario=request.user). \
+                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
+
+            animando = \
+                Reto.objects.filter(animador__usuario=request.user). \
+                    annotate(cnt=Count('participante__usuario')).filter(cnt__lte=1) \
+                    if tipo == 'individuales' else \
+                    Reto.objects.filter(animador__usuario=request.user). \
+                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
+
+        else:
+            propuestos = \
+                Reto.objects.filter(estado='Propuesto',
+                                    participante__usuario=request.user,
+                                    categoria=categoria). \
+                    annotate(cnt=Count('participante__usuario')).filter(cnt__lte=1) \
+                    if tipo == 'individuales' else \
+                    Reto.objects.filter(estado='Propuesto',
+                                        participante__usuario=request.user,
+                                        categoria=categoria). \
+                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
+
+            proceso = \
+                Reto.objects.filter(estado='En proceso',
+                                    participante__usuario=request.user,
+                                    categoria=categoria). \
+                    annotate(cnt=Count('participante__usuario')).filter(cnt__lte=1) \
+                    if tipo == 'individuales' else \
+                    Reto.objects.filter(estado='En proceso',
+                                        participante__usuario=request.user,
+                                        categoria=categoria). \
+                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
+
+            finalizados = \
+                Reto.objects.filter(estado='Finalizado',
+                                    participante__usuario=request.user,
+                                    categoria=categoria). \
+                    annotate(cnt=Count('participante__usuario')).filter(cnt__lte=1) \
+                    if tipo == 'individuales' else \
+                    Reto.objects.filter(estado='Finalizado',
+                                        participante__usuario=request.user,
+                                        categoria=categoria). \
+                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
+
+            animando = \
+                Reto.objects.filter(animador__usuario=request.user,
+                                    categoria=categoria). \
+                    annotate(cnt=Count('participante__usuario')).filter(cnt__lte=1) \
+                    if tipo == 'individuales' else \
+                    Reto.objects.filter(animador__usuario=request.user,
+                                        categoria=categoria). \
+                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
+
+    elif tipo != '':
+        logger.error("Tipo incorrecto")
+        tipo = ""
+
     return render(request, "YoPuedo/mis_retos.html",
-                  {"tipo_reto": tipo, "categoria": categoria})
+                  {"tipo_reto": tipo, "categoria": categoria, "propuestos": propuestos,
+                   "proceso": proceso, "finalizados": finalizados, "animando": animando})
 
 
 ##########################################################################################
@@ -379,7 +465,7 @@ def nuevo_reto(request):
                 participante.save()
 
                 # Redireccionamos a la visualización del reto
-                return redirect(f'/mis_retos/{id_reto}', status=HTTPStatus.CREATED)
+                return redirect(f'/mis_retos/{id_reto}')
 
             else:
                 logger.error("Error al validar formulario NUEVO RETO")
