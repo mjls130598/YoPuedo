@@ -5,7 +5,7 @@ register = template.Library()
 
 @register.simple_tag
 def categoria_valor(value):
-    if value == "Todas categorias":
+    if value == "Todas categorías":
         return "todas"
     elif value == "Ahorro":
         return "economia"
@@ -15,3 +15,17 @@ def categoria_valor(value):
         return "salud"
     elif value == "Miedos":
         return "mente"
+
+
+@register.simple_tag
+def valor_categoria(value):
+    if value == "todas":
+        return "Todas categorías"
+    elif value == "economia":
+        return "Ahorro"
+    elif value == "inteligencia":
+        return "Conocimientos"
+    elif value == "salud":
+        return "Deporte"
+    elif value == "mente":
+        return "Miedos"

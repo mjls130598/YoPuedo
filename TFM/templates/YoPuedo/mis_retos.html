@@ -139,89 +139,231 @@
         <div class="tab-content p-3" id="tab-retos-content">
           <div class="tab-pane fade show active" id="propuestos" role="tabpanel"
                aria-labelledby="propuestos-tab">
-            <div class="row justify-content-between border-bottom border-dark pt-md-3 pb-md-3 pt-4 pb-4">
-                <div class="col text-center align-self-center categoria">
-                    <i class="fa-solid fa-piggy-bank"></i>
-                    <h5 class="fw-bolder">Ahorro</h5>
-                </div>
-                <div class="col-md-10 col-8 row justify-content-between objetivo">
-                    <div class="col-md-10 col-12 mb-4 m-md-0 informacion">
-                        <h4 class="titulo_reto fw-bolder"> Título </h4>
-                        <h5 class="texto_reto">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            In fringilla, erat ut molestie aliquet, elit dui porttitor
-                            tellus, eget ultrices tortor urna eget arcu. Suspendisse
-                            volutpat ligula eu lorem sagittis, id pretium nibh dictum.
-                        </h5>
-                    </div>
-                    <div class="col align-self-center text-center">
-                        {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='texto_reto' %}
-                    </div>
-                </div>
-                <div class="col text-center align-self-center ver-reto">
-                    <i class="fa-solid fa-angle-right"></i>
-                </div>
-            </div>
-
-            <div class="row justify-content-between border-bottom border-dark pt-md-3 pb-md-3 pt-4 pb-4">
-              <div class="col text-center align-self-center categoria">
-                  <i class="fa-solid fa-piggy-bank"></i>
-                  <h5 class="fw-bolder">Ahorro</h5>
-              </div>
-              <div class="col-md-10 col-8 row justify-content-between objetivo">
-                  <div class="col-md-10 col-12 mb-4 m-md-0 informacion">
-                      <h4 class="titulo_reto fw-bolder" id="titulo_imagen"> Título </h4>
-                      <img class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
-                      col-xl-5" src="/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg">
+              {% for reto in propuestos %}
+              <div class="row justify-content-between border-bottom border-dark pt-md-3 pb-md-3 pt-4 pb-4">
+                  <div class="col text-center align-self-center categoria">
+                      {% if reto.categoria == 'economia' %}
+                      <i class="fa-solid fa-piggy-bank"></i>
+                      {% elif reto.categoria == 'inteligencia' %}
+                      <i class="fa-solid fa-brain"></i>
+                      {% elif reto.categoria == 'salud' %}
+                      <i class="fa-solid fa-dumbbell"></i>
+                      {% elif reto.categoria == 'mente' %}
+                      <i class="fa-solid fa-face-frown"></i>
+                      {% endif %}
+                      <h5 class="fw-bolder">{% valor_categoria reto.categoria %}</h5>
                   </div>
-                  <div class="col align-self-center text-center">
-                      {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='titulo_imagen' %}
+                  <div class="col-md-10 col-8 row justify-content-between objetivo">
+                      <div class="col-md-4 col-12 mb-4 m-md-0 informacion">
+                          <h4 class="titulo_reto fw-bolder" id="titulo_{% reto.id_reto}">
+                              {% reto.titulo %}
+                          </h4>
+                          {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
+                          <audio controls id="audio"
+                                 onplay="obtenerAudio('{% reto.objetivo %}', 'texto_audio_{% reto.id_reto %}')">
+                            <source src="{% reto.objetivo %}" type="audio/mpeg">
+                          </audio>
+                          {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
+                            <img class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                            col-xl-5" src="{% reto.objetivo %}">
+                          {% elif "mp4" in reto.objetivo or "ogg" in reto.objetivo %}
+                          <video class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                            col-xl-5" controls>
+                              <source src="{% reto.objetivo %}" type="video/mp4">
+                          </video>
+                          {% else %}
+                          <h5 class="texto_reto">
+                              {% reto.objetivo %}
+                          </h5>
+                          {% endif %}
+                      </div>
+                      {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
+                      <div class="col align-self-center text-center overflow-auto audio">
+                          <h6 id="texto_audio_{% reto.id_reto %}"></h6>
+                      </div>
+                      {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
+                      <div class="col align-self-center text-center">
+                          {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='titulo_{% reto.id_reto %}' %}
+                      </div>
+                      {% endif %}
                   </div>
-              </div>
-              <div class="col text-center align-self-center ver-reto">
-                  <i class="fa-solid fa-angle-right"></i>
-              </div>
-            </div>
-
-            <div class="row justify-content-between border-bottom border-dark pt-md-3 pb-md-3 pt-4 pb-4">
-              <div class="col text-center align-self-center categoria">
-                  <i class="fa-solid fa-piggy-bank"></i>
-                  <h5 class="fw-bolder">Ahorro</h5>
-              </div>
-              <div class="col-md-10 col-8 row justify-content-between objetivo">
-                  <div class="col-md-4 col-12 mb-4 m-md-0 informacion">
-                      <h4 class="titulo_reto fw-bolder"> Título </h4>
-                      <audio controls id="audio"
-                             onplay="obtenerAudio('media/YoPuedo/audio-ejemplo.mp3', 'texto_audio')">
-                        <source src="/media/YoPuedo/audio-ejemplo.mp3" type="audio/mpeg">
-                      </audio>
-                  </div>
-                  <div class="col align-self-center text-center overflow-auto audio">
-                      <h6 id="texto_audio"></h6>
+                  <div class="col text-center align-self-center ver-reto"
+                       onclick="irReto('{% reto.id_reto %}')">
+                      <i class="fa-solid fa-angle-right"></i>
                   </div>
               </div>
-              <div class="col text-center align-self-center ver-reto">
-                  <i class="fa-solid fa-angle-right"></i>
-              </div>
-            </div>
+            {% endfor %}
           </div>
           <div class="tab-pane fade" id="proceso" role="tabpanel"
                aria-labelledby="proceso-tab">
-            Tab 2 content
-              {% if tipo_reto %} {{ tipo_reto }} {% endif %}
-              {% if categoria %} {{ categoria }} {% endif %}
+            {% for reto in proceso %}
+             <div class="row justify-content-between border-bottom border-dark pt-md-3 pb-md-3 pt-4 pb-4">
+                  <div class="col text-center align-self-center categoria">
+                      {% if reto.categoria == 'economia' %}
+                      <i class="fa-solid fa-piggy-bank"></i>
+                      {% elif reto.categoria == 'inteligencia' %}
+                      <i class="fa-solid fa-brain"></i>
+                      {% elif reto.categoria == 'salud' %}
+                      <i class="fa-solid fa-dumbbell"></i>
+                      {% elif reto.categoria == 'mente' %}
+                      <i class="fa-solid fa-face-frown"></i>
+                      {% endif %}
+                      <h5 class="fw-bolder">{% valor_categoria reto.categoria %}</h5>
+                  </div>
+                  <div class="col-md-10 col-8 row justify-content-between objetivo">
+                      <div class="col-md-4 col-12 mb-4 m-md-0 informacion">
+                          <h4 class="titulo_reto fw-bolder" id="titulo_{% reto.id_reto}">
+                              {% reto.titulo %}
+                          </h4>
+                          {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
+                          <audio controls id="audio"
+                                 onplay="obtenerAudio('{% reto.objetivo %}', 'texto_audio_{% reto.id_reto %}')">
+                            <source src="{% reto.objetivo %}" type="audio/mpeg">
+                          </audio>
+                          {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
+                            <img class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                            col-xl-5" src="{% reto.objetivo %}">
+                          {% elif "mp4" in reto.objetivo or "ogg" in reto.objetivo %}
+                          <video class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                            col-xl-5" controls>
+                              <source src="{% reto.objetivo %}" type="video/mp4">
+                          </video>
+                          {% else %}
+                          <h5 class="texto_reto">
+                              {% reto.objetivo %}
+                          </h5>
+                          {% endif %}
+                      </div>
+                      {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
+                      <div class="col align-self-center text-center overflow-auto audio">
+                          <h6 id="texto_audio_{% reto.id_reto %}"></h6>
+                      </div>
+                      {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
+                      <div class="col align-self-center text-center">
+                          {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='titulo_{% reto.id_reto %}' %}
+                      </div>
+                      {% endif %}
+                  </div>
+                  <div class="col text-center align-self-center ver-reto"
+                       onclick="irReto('{% reto.id_reto %}')">
+                      <i class="fa-solid fa-angle-right"></i>
+                  </div>
+              </div>
+            {% endfor %}
           </div>
           <div class="tab-pane fade" id="finalizados" role="tabpanel"
                aria-labelledby="finalizados-tab">
-            Tab 3 content
-              {% if tipo_reto %} {{ tipo_reto }} {% endif %}
-              {% if categoria %} {{ categoria }} {% endif %}
+            {% for reto in finalizados %}
+             <div class="row justify-content-between border-bottom border-dark pt-md-3 pb-md-3 pt-4 pb-4">
+                  <div class="col text-center align-self-center categoria">
+                      {% if reto.categoria == 'economia' %}
+                      <i class="fa-solid fa-piggy-bank"></i>
+                      {% elif reto.categoria == 'inteligencia' %}
+                      <i class="fa-solid fa-brain"></i>
+                      {% elif reto.categoria == 'salud' %}
+                      <i class="fa-solid fa-dumbbell"></i>
+                      {% elif reto.categoria == 'mente' %}
+                      <i class="fa-solid fa-face-frown"></i>
+                      {% endif %}
+                      <h5 class="fw-bolder">{% valor_categoria reto.categoria %}</h5>
+                  </div>
+                  <div class="col-md-10 col-8 row justify-content-between objetivo">
+                      <div class="col-md-4 col-12 mb-4 m-md-0 informacion">
+                          <h4 class="titulo_reto fw-bolder" id="titulo_{% reto.id_reto}">
+                              {% reto.titulo %}
+                          </h4>
+                          {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
+                          <audio controls id="audio"
+                                 onplay="obtenerAudio('{% reto.objetivo %}', 'texto_audio_{% reto.id_reto %}')">
+                            <source src="{% reto.objetivo %}" type="audio/mpeg">
+                          </audio>
+                          {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
+                            <img class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                            col-xl-5" src="{% reto.objetivo %}">
+                          {% elif "mp4" in reto.objetivo or "ogg" in reto.objetivo %}
+                          <video class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                            col-xl-5" controls>
+                              <source src="{% reto.objetivo %}" type="video/mp4">
+                          </video>
+                          {% else %}
+                          <h5 class="texto_reto">
+                              {% reto.objetivo %}
+                          </h5>
+                          {% endif %}
+                      </div>
+                      {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
+                      <div class="col align-self-center text-center overflow-auto audio">
+                          <h6 id="texto_audio_{% reto.id_reto %}"></h6>
+                      </div>
+                      {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
+                      <div class="col align-self-center text-center">
+                          {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='titulo_{% reto.id_reto %}' %}
+                      </div>
+                      {% endif %}
+                  </div>
+                  <div class="col text-center align-self-center ver-reto"
+                       onclick="irReto('{% reto.id_reto %}')">
+                      <i class="fa-solid fa-angle-right"></i>
+                  </div>
+              </div>
+            {% endfor %}
           </div>
           <div class="tab-pane fade" id="animando" role="tabpanel"
                aria-labelledby="animando-tab">
-            Tab 4 content
-              {% if tipo_reto %} {{ tipo_reto }} {% endif %}
-              {% if categoria %} {{ categoria }} {% endif %}
+            {% for reto in animando %}
+             <div class="row justify-content-between border-bottom border-dark pt-md-3 pb-md-3 pt-4 pb-4">
+                  <div class="col text-center align-self-center categoria">
+                      {% if reto.categoria == 'economia' %}
+                      <i class="fa-solid fa-piggy-bank"></i>
+                      {% elif reto.categoria == 'inteligencia' %}
+                      <i class="fa-solid fa-brain"></i>
+                      {% elif reto.categoria == 'salud' %}
+                      <i class="fa-solid fa-dumbbell"></i>
+                      {% elif reto.categoria == 'mente' %}
+                      <i class="fa-solid fa-face-frown"></i>
+                      {% endif %}
+                      <h5 class="fw-bolder">{% valor_categoria reto.categoria %}</h5>
+                  </div>
+                  <div class="col-md-10 col-8 row justify-content-between objetivo">
+                      <div class="col-md-4 col-12 mb-4 m-md-0 informacion">
+                          <h4 class="titulo_reto fw-bolder" id="titulo_{% reto.id_reto}">
+                              {% reto.titulo %}
+                          </h4>
+                          {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
+                          <audio controls id="audio"
+                                 onplay="obtenerAudio('{% reto.objetivo %}', 'texto_audio_{% reto.id_reto %}')">
+                            <source src="{% reto.objetivo %}" type="audio/mpeg">
+                          </audio>
+                          {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
+                            <img class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                            col-xl-5" src="{% reto.objetivo %}">
+                          {% elif "mp4" in reto.objetivo or "ogg" in reto.objetivo %}
+                          <video class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                            col-xl-5" controls>
+                              <source src="{% reto.objetivo %}" type="video/mp4">
+                          </video>
+                          {% else %}
+                          <h5 class="texto_reto">
+                              {% reto.objetivo %}
+                          </h5>
+                          {% endif %}
+                      </div>
+                      {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
+                      <div class="col align-self-center text-center overflow-auto audio">
+                          <h6 id="texto_audio_{% reto.id_reto %}"></h6>
+                      </div>
+                      {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
+                      <div class="col align-self-center text-center">
+                          {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='titulo_{% reto.id_reto %}' %}
+                      </div>
+                      {% endif %}
+                  </div>
+                  <div class="col text-center align-self-center ver-reto"
+                       onclick="irReto('{% reto.id_reto %}')">
+                      <i class="fa-solid fa-angle-right"></i>
+                  </div>
+              </div>
+            {% endfor %}
           </div>
 
           <div class="m-3" id="paginador">
@@ -272,6 +414,10 @@
 
     function nuevoReto(){
         window.location.href = "{% url 'nuevo_reto' %}";
+    }
+
+    function irReto(id){
+        window.location.href = "{% url 'mis_retos' id_reto=id%}";
     }
 
     window.onload = () => {
