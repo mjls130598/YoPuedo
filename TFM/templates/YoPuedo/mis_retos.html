@@ -161,7 +161,7 @@
                           </h4>
                           {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
                           <audio controls id="audio"
-                                 onplay="obtenerAudio('{{ reto.objetivo }}', 'texto_audio_{% reto.id_reto %}')">
+                                 onplay="obtenerAudio('{{ reto.objetivo }}', 'texto_audio_{{ reto.id_reto }}')">
                             <source src="{{ reto.objetivo }}" type="audio/mpeg">
                           </audio>
                           {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
@@ -219,7 +219,7 @@
                           </h4>
                           {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
                           <audio controls id="audio"
-                                 onplay="obtenerAudio('{{ reto.objetivo }}', 'texto_audio_{% reto.id_reto %}')">
+                                 onplay="obtenerAudio('{{ reto.objetivo }}', 'texto_audio_{{ reto.id_reto }}')">
                             <source src="{{ reto.objetivo }}" type="audio/mpeg">
                           </audio>
                           {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
@@ -277,7 +277,7 @@
                           </h4>
                           {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
                           <audio controls id="audio"
-                                 onplay="obtenerAudio('{{ reto.objetivo }}', 'texto_audio_{% reto.id_reto %}')">
+                                 onplay="obtenerAudio('{{ reto.objetivo }}', 'texto_audio_{{ reto.id_reto }}')">
                             <source src="{{ reto.objetivo }}" type="audio/mpeg">
                           </audio>
                           {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
@@ -335,7 +335,7 @@
                           </h4>
                           {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
                           <audio controls id="audio"
-                                 onplay="obtenerAudio('{{ reto.objetivo }}', 'texto_audio_{% reto.id_reto %}')">
+                                 onplay="obtenerAudio('{{ reto.objetivo }}', 'texto_audio_{{ reto.id_reto }}')">
                             <source src="{{ reto.objetivo }}" type="audio/mpeg">
                           </audio>
                           {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
