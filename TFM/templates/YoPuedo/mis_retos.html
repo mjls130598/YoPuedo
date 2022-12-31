@@ -182,7 +182,7 @@
                       <div class="col align-self-center text-center overflow-auto audio">
                           <h6 id="texto_audio_{{ reto.id_reto }}"></h6>
                       </div>
-                      {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
+                      {% else %}
                       <div class="col align-self-center text-center">
                           {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='titulo_{{ reto.id_reto }}' %}
                       </div>
@@ -240,7 +240,7 @@
                       <div class="col align-self-center text-center overflow-auto audio">
                           <h6 id="texto_audio_{{ reto.id_reto }}"></h6>
                       </div>
-                      {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
+                      {% else %}
                       <div class="col align-self-center text-center">
                           {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='titulo_{{ reto.id_reto }}' %}
                       </div>
@@ -356,7 +356,7 @@
                       <div class="col align-self-center text-center overflow-auto audio">
                           <h6 id="texto_audio_{{ reto.id_reto }}"></h6>
                       </div>
-                      {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
+                      {% else %}
                       <div class="col align-self-center text-center">
                           {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='titulo_{{ reto.id_reto }}' %}
                       </div>
