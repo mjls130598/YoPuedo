@@ -184,7 +184,7 @@
                       </div>
                       {% else %}
                       <div class="col align-self-center text-center">
-                          {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='titulo_'reto.id_reto %}
+                          {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='titulo_' + reto.id_reto %}
                       </div>
                       {% endif %}
                   </div>
@@ -242,7 +242,7 @@
                       </div>
                       {% else %}
                       <div class="col align-self-center text-end">
-                          {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='titulo_'reto.id_reto %}
+                          {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='titulo_' + reto.id_reto %}
                       </div>
                       {% endif %}
                   </div>
@@ -300,7 +300,7 @@
                       </div>
                       {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
                       <div class="col align-self-center text-end">
-                          {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='titulo_'reto.id_reto %}
+                          {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='titulo_' + reto.id_reto %}
                       </div>
                       {% endif %}
                   </div>
@@ -358,7 +358,7 @@
                       </div>
                       {% else %}
                       <div class="col align-self-center text-end">
-                          {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='titulo_'reto.id_reto %}
+                          {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='titulo_' + reto.id_reto %}
                       </div>
                       {% endif %}
                   </div>
