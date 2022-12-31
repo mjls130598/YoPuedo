@@ -81,6 +81,8 @@ class Utils:
         ("mente", "Miedos")
     )
 
+    categorias = ["economia", "inteligencia", "salud", "mente"]
+
     @staticmethod
     def numero_elementos_importados(importados):
 

@@ -184,7 +184,7 @@ def mis_retos(request):
     finalizados = []
     animando = []
 
-    if categoria in Utils.CATEGORIAS_CHOOSE:
+    if categoria in Utils.categorias:
         logger.info(f"Mostramos los retos  de la categoría {categoria}")
     else:
         logger.error("Categoría no encontrada")
