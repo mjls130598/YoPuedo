@@ -421,7 +421,8 @@
     }
 
     function irReto(id){
-        window.location.href = "{% url 'reto' id_reto=id %}";
+        url = "{% url 'reto' id_reto=id %}".replace("/12345/", id.toString());;
+        window.location.href = url;
     }
 
     window.onload = () => {
