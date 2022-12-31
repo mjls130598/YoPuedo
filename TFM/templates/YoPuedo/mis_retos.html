@@ -421,7 +421,7 @@
     }
 
     function irReto(id){
-        window.location.href = "{% url 'mis_retos' id_reto=" + id + "%}";
+        window.location.href = "{% url 'reto' id_reto=id %}";
     }
 
     window.onload = () => {
