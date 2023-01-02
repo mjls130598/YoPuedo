@@ -5,7 +5,7 @@ from itertools import chain
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q, F, Count
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -276,25 +276,45 @@ def mis_retos(request):
                                         categoria=categoria). \
                         annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
 
+        logger.info("Paginamos cada uno de los estados del reto")
+        paginator_propuestos = Paginator(propuestos, 3)
+        paginator_proceso = Paginator(proceso, 3)
+        paginator_finalizados = Paginator(finalizados, 3)
+        paginator_animando = Paginator(finalizados, 3)
+
+        logger.info("Obtenemos los retos de la página indicada para ese estado")
+
+        try:
+            propuestos = paginator_propuestos.get_page(pagina)
+        except PageNotAnInteger:
+            propuestos = paginator_propuestos.get_page(1)
+        except EmptyPage:
+            propuestos = paginator_propuestos.get_page(1)
+
+        try:
+            proceso = paginator_proceso.get_page(pagina)
+        except PageNotAnInteger:
+            proceso = paginator_proceso.get_page(1)
+        except EmptyPage:
+            proceso = paginator_proceso.get_page(1)
+
+        try:
+            finalizados = paginator_finalizados.get_page(pagina)
+        except PageNotAnInteger:
+            finalizados = paginator_finalizados.get_page(1)
+        except EmptyPage:
+            finalizados = paginator_finalizados.get_page(1)
+
+        try:
+            animando = paginator_animando.get_page(pagina)
+        except PageNotAnInteger:
+            animando = paginator_animando.get_page(1)
+        except EmptyPage:
+            animando = paginator_animando.get_page(1)
+
     elif tipo != '':
         logger.error("Tipo incorrecto")
         tipo = ""
-
-    logger.info("Paginamos cada uno de los estados del reto")
-    paginator_propuestos = Paginator(propuestos, 3)
-    paginator_proceso = Paginator(proceso, 3)
-    paginator_finalizados = Paginator(finalizados, 3)
-    paginator_animando = Paginator(finalizados, 3)
-
-    logger.info("Obtenemos los retos de la página indicada para ese estado")
-    propuestos = paginator_propuestos.get_page(pagina) if pagina \
-        else paginator_propuestos.get_page(1)
-    proceso = paginator_proceso.get_page(pagina) if pagina \
-        else paginator_proceso.get_page(1)
-    finalizados = paginator_finalizados.get_page(pagina) if \
-        pagina else paginator_finalizados.get_page(1)
-    animando = paginator_animando.get_page(pagina) if pagina \
-        else paginator_animando.get_page(1)
 
     return render(request, "YoPuedo/mis_retos.html",
                   {"tipo_reto": tipo, "categoria": categoria, "propuestos": propuestos,
