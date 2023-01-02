@@ -2,20 +2,27 @@
 
 {% for reto in retos %}
   <div class="row justify-content-between border-bottom border-dark pt-md-3 pb-md-3 pt-4 pb-4">
-      <div class="col text-center align-self-center categoria">
-          {% if reto.categoria == 'economia' %}
-          <i class="fa-solid fa-piggy-bank"></i>
-          {% elif reto.categoria == 'inteligencia' %}
-          <i class="fa-solid fa-brain"></i>
-          {% elif reto.categoria == 'salud' %}
-          <i class="fa-solid fa-dumbbell"></i>
-          {% elif reto.categoria == 'mente' %}
-          <i class="fa-solid fa-face-frown"></i>
-          {% endif %}
-          <h5 class="fw-bolder">{% valor_categoria reto.categoria %}</h5>
+      <div class="col-2 col-md-1 align-self-center categoria">
+          <div class="row text-center align-items-center">
+              {% if reto.categoria == 'economia' %}
+              <i class="fa-solid fa-piggy-bank col-md-4 col"></i>
+              {% elif reto.categoria == 'inteligencia' %}
+              <i class="fa-solid fa-brain col-4"></i>
+              {% elif reto.categoria == 'salud' %}
+              <i class="fa-solid fa-dumbbell col-4"></i>
+              {% elif reto.categoria == 'mente' %}
+              <i class="fa-solid fa-face-frown col-4"></i>
+              {% endif %}
+              <h5 class="fw-bolder col-8 d-none d-md-block">
+                  {% valor_categoria reto.categoria %}
+              </h5>
+          </div>
       </div>
       <div class="col-md-10 col-8 row justify-content-between objetivo">
+          {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
           <div class="col-md-4 col-12 mb-4 m-md-0 informacion">
+          {% else %}
+          <div class="col-md-9 col-12 mb-4 m-md-0 informacion">
               <h4 class="titulo_reto fw-bolder"
                   id="titulo_{{ reto.id_reto }}">
                   {{ reto.titulo }}
@@ -40,18 +47,18 @@
               {% endif %}
           </div>
           {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
-          <div class="col align-self-center text-center overflow-auto audio">
+          <div class="col-md-8 align-self-center text-center overflow-auto audio">
               <h6 id="texto_audio_{{ reto.id_reto }}"></h6>
           </div>
           {% else %}
-          <div class="col align-self-center text-end">
+          <div class="col-md-1 col align-self-center text-center">
               {% with "titulo_"|add:reto.id_reto as texto_reto %}
               {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech=texto_reto %}
               {% endwith %}
           </div>
           {% endif %}
       </div>
-      <div class="col text-center align-self-center ver-reto"
+      <div class="col-1 text-center align-self-center ver-reto"
            onclick="irReto('{{ reto.id_reto }}')">
           <i class="fa-solid fa-angle-right"></i>
       </div>
