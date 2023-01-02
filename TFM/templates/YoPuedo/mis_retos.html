@@ -183,15 +183,6 @@
             urlParams.get('tipo') + "&categoria=" + opcion.value;
     }
 
-    function urlPagina(pagina){
-        const urlParams = new URLSearchParams(window.location.search);
-        if(urlParams.has('categoria'))
-            return "?tipo=urlParams.get('tipo')&categoria=urlParams.get('categoria')&" +
-            pagina;
-        else
-            return "?tipo=urlParams.get('tipo')&" + pagina;
-    }
-
     function nuevoReto(){
         window.location.href = "{% url 'nuevo_reto' %}";
     }

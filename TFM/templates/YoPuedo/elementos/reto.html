@@ -70,7 +70,7 @@
       {% if retos.has_previous %}
         <li page-item>
             <a class="page-link"
-               href="urlPagina('page={{ animando.previous_page_number }}')">
+               href="javascript:urlPagina('page={{ retos.previous_page_number }}')">
                 &laquo;
             </a>
         </li>
@@ -89,7 +89,7 @@
           </li>
         {% else %}
           <li class="page-item">
-              <a class="page-link" href="urlPagina('page={{ i }}')">
+              <a class="page-link" href="javascript:urlPagina('page={{ i }}')">
                   {{ i }}
               </a>
           </li>
@@ -98,7 +98,7 @@
       {% if retos.has_next %}
         <li class="page-item">
             <a class="page-link"
-               href="urlPagina('page={{ retos.next_page_number }}')">
+               href="javascript:urlPagina('page={{ retos.next_page_number }}')">
                 &raquo;
             </a>
         </li>
@@ -110,3 +110,13 @@
     </ul>
   </nav>
 </div>
+<script>
+    function urlPagina(pagina){
+        const urlParams = new URLSearchParams(window.location.search);
+        if(urlParams.has('categoria'))
+            return "?tipo=urlParams.get('tipo')&categoria=urlParams.get('categoria')&" +
+            pagina;
+        else
+            return "?tipo=urlParams.get('tipo')&" + pagina;
+    }
+</script>
