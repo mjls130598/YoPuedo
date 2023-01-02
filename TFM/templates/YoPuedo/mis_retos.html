@@ -162,41 +162,17 @@
         <!-- CUERPO DE LOS TABS -->
         <div class="tab-content" id="tab-retos-content">
           <div class="tab-pane fade show active" id="propuestos" role="tabpanel"
-               aria-labelledby="propuestos-tab" hx-trigger="load"
-               {% if categoria %}
-               hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&categoria={{categoria}}&estado=propuestos"
-               {% else %}
-               hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&estado=propuestos"
-               {% endif %}
-               hx-target="this">
+               aria-labelledby="propuestos-tab">
               {% include 'YoPuedo/elementos/reto.html' with retos=propuestos %}
           </div>
           <div class="tab-pane fade" id="proceso" role="tabpanel"
-               aria-labelledby="proceso-tab" hx-trigger="load"
-               {% if categoria %}
-               hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&categoria={{categoria}}&estado=proceso"
-               {% else %}
-               hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&estado=proceso"
-               {% endif %}
-               hx-target="this">
+               aria-labelledby="proceso-tab">
           </div>
           <div class="tab-pane fade" id="finalizados" role="tabpanel"
-               aria-labelledby="finalizados-tab" hx-trigger="load"
-               {% if categoria %}
-               hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&categoria={{categoria}}&estado=finalizados"
-               {% else %}
-               hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&estado=finalizados"
-               {% endif %}
-               hx-target="this">
+               aria-labelledby="finalizados-tab">
           </div>
           <div class="tab-pane fade" id="animando" role="tabpanel"
-               aria-labelledby="animando-tab" hx-trigger="load"
-               {% if categoria %}
-               hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&categoria={{categoria}}&estado=animando"
-               {% else %}
-               hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&estado=animando"
-               {% endif %}
-               hx-target="this">
+               aria-labelledby="animando-tab">
           </div>
         </div>
     </section>
