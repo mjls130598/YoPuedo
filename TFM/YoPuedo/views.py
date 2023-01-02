@@ -227,7 +227,8 @@ def mis_retos(request):
         tipo = ""
 
     return render(request, "YoPuedo/mis_retos.html",
-                  {"tipo_reto": tipo, "categoria": categoria, "propuestos": propuestos})
+                  {"tipo_reto": tipo, "categoria": categoria, "propuestos": propuestos,
+                   "estado": "propuestos" })
 
 
 def get_retos(request):
@@ -343,7 +344,7 @@ def get_retos(request):
         retos = paginator.get_page(1)
 
     return render(request, "YoPuedo/elementos/reto.html",
-                  {"retos": retos})
+                  {"estado": estado, "retos": retos})
 
 
 ##########################################################################################

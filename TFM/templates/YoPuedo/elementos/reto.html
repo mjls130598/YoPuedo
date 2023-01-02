@@ -69,7 +69,8 @@
       {% if retos.has_previous %}
         <li page-item>
             <a class="page-link"
-               href="javascript:urlPagina('page={{ retos.previous_page_number }}')">
+               hx-get="javascript:urlPagina('page={{ retos.previous_page_number }}')"
+               hx-target="#{{ estado }}">
                 &laquo;
             </a>
         </li>
@@ -88,7 +89,9 @@
           </li>
         {% else %}
           <li class="page-item">
-              <a class="page-link" href="javascript:urlPagina('page={{ i }}')">
+              <a class="page-link"
+               hx-get="javascript:urlPagina('page={{ i }}')"
+               hx-target="#{{ estado }}">
                   {{ i }}
               </a>
           </li>
@@ -97,7 +100,9 @@
       {% if retos.has_next %}
         <li class="page-item">
             <a class="page-link"
-               href="javascript:urlPagina('page={{ retos.next_page_number }}')">
+               hx-get="javascript:urlPagina('page={{ retos.next_page_number }}')"
+               hx-target="#{{ estado }}"
+            >
                 &raquo;
             </a>
         </li>
@@ -113,11 +118,11 @@
     function urlPagina(pagina){
         const urlParams = new URLSearchParams(window.location.search);
         if(urlParams.has('categoria'))
-            window.location.href  = "{% url 'retos'%}?tipo=" + urlParams.get('tipo')
-            + "&categoria=" + urlParams.get('categoria') + "&" +
-            pagina;
+            return "{% url 'retos'%}?tipo=" + urlParams.get('tipo')
+            + "&categoria=" + urlParams.get('categoria') + "estado={{estado}}&" + pagina;
         else
-            window.location.href =  "{% url 'retos'%}?tipo=" + urlParams.get('tipo') + "&" + pagina;
+            return "{% url 'retos'%}?tipo=" + urlParams.get('tipo') +
+            "estado={{estado}}&" +  pagina;
     }
 
     function irReto(id){
