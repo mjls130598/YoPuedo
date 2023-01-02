@@ -113,11 +113,11 @@
     function urlPagina(pagina){
         const urlParams = new URLSearchParams(window.location.search);
         if(urlParams.has('categoria'))
-            window.location.href  = "?tipo=" + urlParams.get('tipo')
+            window.location.href  = "{% url 'retos'%}?tipo=" + urlParams.get('tipo')
             + "&categoria=" + urlParams.get('categoria') + "&" +
             pagina;
         else
-            window.location.href =  "?tipo=" + urlParams.get('tipo') + "&" + pagina;
+            window.location.href =  "{% url 'retos'%}?tipo=" + urlParams.get('tipo') + "&" + pagina;
     }
 
     function irReto(id){
