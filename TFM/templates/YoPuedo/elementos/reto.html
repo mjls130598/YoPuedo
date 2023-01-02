@@ -2,21 +2,19 @@
 
 {% for reto in retos %}
   <div class="row justify-content-between border-bottom border-dark pt-md-3 pb-md-3 pt-4 pb-4">
-      <div class="col-2 col-md-1 align-self-center categoria">
-          <div class="row text-center align-items-center">
-              {% if reto.categoria == 'economia' %}
-              <i class="fa-solid fa-piggy-bank col-md-4 col"></i>
-              {% elif reto.categoria == 'inteligencia' %}
-              <i class="fa-solid fa-brain col-4"></i>
-              {% elif reto.categoria == 'salud' %}
-              <i class="fa-solid fa-dumbbell col-4"></i>
-              {% elif reto.categoria == 'mente' %}
-              <i class="fa-solid fa-face-frown col-4"></i>
-              {% endif %}
-              <h5 class="fw-bolder col-8 d-none d-md-block">
-                  {% valor_categoria reto.categoria %}
-              </h5>
-          </div>
+      <div class="col-2 col-md-1 align-self-center text-center categoria">
+          {% if reto.categoria == 'economia' %}
+          <i class="fa-solid fa-piggy-bank"></i>
+          {% elif reto.categoria == 'inteligencia' %}
+          <i class="fa-solid fa-brain"></i>
+          {% elif reto.categoria == 'salud' %}
+          <i class="fa-solid fa-dumbbell"></i>
+          {% elif reto.categoria == 'mente' %}
+          <i class="fa-solid fa-face-frown"></i>
+          {% endif %}
+          <h5 class="fw-bolder d-none d-md-block">
+              {% valor_categoria reto.categoria %}
+          </h5>
       </div>
       <div class="col-md-10 col-8 row justify-content-between objetivo">
           {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
@@ -59,7 +57,7 @@
           </div>
           {% endif %}
       </div>
-      <div class="col-1 text-center align-self-center ver-reto"
+      <div class="col-md-1 col-2 text-center align-self-center ver-reto"
            onclick="irReto('{{ reto.id_reto }}')">
           <i class="fa-solid fa-angle-right"></i>
       </div>
@@ -115,9 +113,10 @@
     function urlPagina(pagina){
         const urlParams = new URLSearchParams(window.location.search);
         if(urlParams.has('categoria'))
-            return "?tipo=urlParams.get('tipo')&categoria=urlParams.get('categoria')&" +
+            window.location.href  = "?tipo=" + urlParams.get('tipo')
+            + "&categoria=" + urlParams.get('categoria') + "&" +
             pagina;
         else
-            return "?tipo=urlParams.get('tipo')&" + pagina;
+            window.location.href =  "?tipo=" + urlParams.get('tipo') + "&" + pagina;
     }
 </script>
