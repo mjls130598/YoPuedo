@@ -5,6 +5,7 @@ from itertools import chain
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.db.models import Q, F, Count
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -179,6 +180,10 @@ def mis_retos(request):
     logger.info("Entramos en la parte GET de MIS RETOS")
     tipo = request.GET.get("tipo")
     categoria = request.GET.get("categoria")
+    pagina_propuestos = request.GET.get("page_propuestos")
+    pagina_proceso = request.GET.get("page_proceso")
+    pagina_finalizados = request.GET.get("page_finalizados")
+    pagina_animando = request.GET.get("page_animando")
     propuestos = []
     proceso = []
     finalizados = []
@@ -277,6 +282,22 @@ def mis_retos(request):
     elif tipo != '':
         logger.error("Tipo incorrecto")
         tipo = ""
+
+    logger.info("Paginamos cada uno de los estados del reto")
+    paginator_propuestos = Paginator(propuestos, 5)
+    paginator_proceso = Paginator(proceso, 5)
+    paginator_finalizados = Paginator(finalizados, 5)
+    paginator_animando = Paginator(finalizados, 5)
+
+    logger.info("Obtenemos los retos de la página indicada para ese estado")
+    propuestos = paginator_propuestos.get_page(pagina_propuestos) if pagina_propuestos \
+        else paginator_propuestos.get_page(1)
+    proceso = paginator_proceso.get_page(pagina_proceso) if pagina_proceso \
+        else paginator_proceso.get_page(1)
+    finalizados = paginator_finalizados.get_page(pagina_finalizados) if \
+        pagina_finalizados else paginator_finalizados.get_page(1)
+    animando = paginator_animando.get_page(pagina_animando) if pagina_animando \
+        else paginator_animando.get_page(1)
 
     return render(request, "YoPuedo/mis_retos.html",
                   {"tipo_reto": tipo, "categoria": categoria, "propuestos": propuestos,
