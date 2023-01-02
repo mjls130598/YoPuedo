@@ -1,0 +1,103 @@
+{% for reto in retos %}
+  <div class="row justify-content-between border-bottom border-dark pt-md-3 pb-md-3 pt-4 pb-4">
+      <div class="col text-center align-self-center categoria">
+          {% if reto.categoria == 'economia' %}
+          <i class="fa-solid fa-piggy-bank"></i>
+          {% elif reto.categoria == 'inteligencia' %}
+          <i class="fa-solid fa-brain"></i>
+          {% elif reto.categoria == 'salud' %}
+          <i class="fa-solid fa-dumbbell"></i>
+          {% elif reto.categoria == 'mente' %}
+          <i class="fa-solid fa-face-frown"></i>
+          {% endif %}
+          <h5 class="fw-bolder">{% valor_categoria reto.categoria %}</h5>
+      </div>
+      <div class="col-md-10 col-8 row justify-content-between objetivo">
+          <div class="col-md-4 col-12 mb-4 m-md-0 informacion">
+              <h4 class="titulo_reto fw-bolder"
+                  id="titulo_{{ reto.id_reto }}">
+                  {{ reto.titulo }}
+              </h4>
+              {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
+              <audio controls id="audio"
+                     onplay="obtenerAudio('{{ reto.objetivo }}', 'texto_audio_{{ reto.id_reto }}')">
+                <source src="{{ reto.objetivo }}" type="audio/mpeg">
+              </audio>
+              {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
+                <img class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                col-xl-5" src="{{ reto.objetivo }}">
+              {% elif "mp4" in reto.objetivo or "ogg" in reto.objetivo %}
+              <video class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                col-xl-5" controls>
+                  <source src="{{ reto.objetivo }}" type="video/mp4">
+              </video>
+              {% else %}
+              <h5 class="texto_reto">
+                  {{ reto.objetivo }}
+              </h5>
+              {% endif %}
+          </div>
+          {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
+          <div class="col align-self-center text-center overflow-auto audio">
+              <h6 id="texto_audio_{{ reto.id_reto }}"></h6>
+          </div>
+          {% else %}
+          <div class="col align-self-center text-end">
+              {% with "titulo_"|add:reto.id_reto as texto_reto %}
+              {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech=texto_reto %}
+              {% endwith %}
+          </div>
+          {% endif %}
+      </div>
+      <div class="col text-center align-self-center ver-reto"
+           onclick="irReto('{{ reto.id_reto }}')">
+          <i class="fa-solid fa-angle-right"></i>
+      </div>
+  </div>
+{% endfor %}
+<div class="m-3" id="paginador">
+  <nav>
+    <ul class="pagination justify-content-center">
+      {% if retos.has_previous %}
+        <li page-item>
+            <a class="page-link"
+               href="urlPagina('page={{ animando.previous_page_number }}')">
+                &laquo;
+            </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">&laquo;</span>
+        </li>
+      {% endif %}
+      {% for i in retos.paginator.page_range %}
+        {% if retos.number == i %}
+          <li class="page-item active">
+              <span class="page-link">
+                  {{ i }}
+                  <span class="sr-only">(Actual)</span>
+              </span>
+          </li>
+        {% else %}
+          <li class="page-item">
+              <a class="page-link" href="urlPagina('page={{ i }}')">
+                  {{ i }}
+              </a>
+          </li>
+        {% endif %}
+      {% endfor %}
+      {% if retos.has_next %}
+        <li class="page-item">
+            <a class="page-link"
+               href="urlPagina('page={{ retos.next_page_number }}')">
+                &raquo;
+            </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">&raquo;</span>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+</div>

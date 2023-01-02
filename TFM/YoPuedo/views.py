@@ -180,10 +180,7 @@ def mis_retos(request):
     logger.info("Entramos en la parte GET de MIS RETOS")
     tipo = request.GET.get("tipo")
     categoria = request.GET.get("categoria")
-    pagina_propuestos = request.GET.get("page_propuestos")
-    pagina_proceso = request.GET.get("page_proceso")
-    pagina_finalizados = request.GET.get("page_finalizados")
-    pagina_animando = request.GET.get("page_animando")
+    pagina = request.GET.get("page")
     propuestos = []
     proceso = []
     finalizados = []
@@ -284,19 +281,19 @@ def mis_retos(request):
         tipo = ""
 
     logger.info("Paginamos cada uno de los estados del reto")
-    paginator_propuestos = Paginator(propuestos, 5)
-    paginator_proceso = Paginator(proceso, 5)
-    paginator_finalizados = Paginator(finalizados, 5)
-    paginator_animando = Paginator(finalizados, 5)
+    paginator_propuestos = Paginator(propuestos, 3)
+    paginator_proceso = Paginator(proceso, 3)
+    paginator_finalizados = Paginator(finalizados, 3)
+    paginator_animando = Paginator(finalizados, 3)
 
     logger.info("Obtenemos los retos de la página indicada para ese estado")
-    propuestos = paginator_propuestos.get_page(pagina_propuestos) if pagina_propuestos \
+    propuestos = paginator_propuestos.get_page(pagina) if pagina \
         else paginator_propuestos.get_page(1)
-    proceso = paginator_proceso.get_page(pagina_proceso) if pagina_proceso \
+    proceso = paginator_proceso.get_page(pagina) if pagina \
         else paginator_proceso.get_page(1)
-    finalizados = paginator_finalizados.get_page(pagina_finalizados) if \
-        pagina_finalizados else paginator_finalizados.get_page(1)
-    animando = paginator_animando.get_page(pagina_animando) if pagina_animando \
+    finalizados = paginator_finalizados.get_page(pagina) if \
+        pagina else paginator_finalizados.get_page(1)
+    animando = paginator_animando.get_page(pagina) if pagina \
         else paginator_animando.get_page(1)
 
     return render(request, "YoPuedo/mis_retos.html",
