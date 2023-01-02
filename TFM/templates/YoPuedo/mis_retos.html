@@ -77,7 +77,13 @@
             <button class="nav-link active" id="propuestos-tab"
                     data-bs-toggle="tab" data-bs-target="#propuestos" type="button"
                     role="tab" aria-controls="propuestos" aria-selected="true"
-                    onclick="cambiarColorCuerpo('propuestos')">
+                    onclick="cambiarColorCuerpo('propuestos')"
+                    {% if categoria %}
+                    hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&categoria={{categoria}}&estado=propuestos"
+                    {% else %}
+                    hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&estado=propuestos"
+                    {% endif %}
+                    hx-target="#propuestos">
                 <div class="row">
                     <div class="col-2">
                         <i class="bi bi-inboxes-fill"></i>
@@ -92,7 +98,13 @@
             <button class="nav-link" id="proceso-tab" data-bs-toggle="tab"
                     data-bs-target="#proceso" type="button" role="tab"
                     aria-controls="proceso" aria-selected="false"
-                    onclick="cambiarColorCuerpo('proceso')">
+                    onclick="cambiarColorCuerpo('proceso')"
+                    {% if categoria %}
+                    hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&categoria={{categoria}}&estado=proceso"
+                    {% else %}
+                    hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&estado=proceso"
+                    {% endif %}
+                    hx-target="#proceso">
                 <div class="row">
                     <div class="col-2">
                         <i class="bi bi-gear-wide-connected"></i>
@@ -107,7 +119,13 @@
             <button class="nav-link" id="finalizados-tab" data-bs-toggle="tab"
                     data-bs-target="#finalizados" type="button" role="tab"
                     aria-controls="finalizados" aria-selected="false"
-                    onclick="cambiarColorCuerpo('finalizados')">
+                    onclick="cambiarColorCuerpo('finalizados')"
+                    {% if categoria %}
+                    hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&categoria={{categoria}}&estado=finalizados"
+                    {% else %}
+                    hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&estado=finalizados"
+                    {% endif %}
+                    hx-target="#finalizados">
                 <div class="row">
                     <div class="col-2">
                         <i class="bi bi-check2-square"></i>
@@ -122,7 +140,13 @@
             <button class="nav-link" id="animando-tab" data-bs-toggle="tab"
                     data-bs-target="#animando" type="button" role="tab"
                     aria-controls="animando" aria-selected="false"
-                    onclick="cambiarColorCuerpo('animando')">
+                    onclick="cambiarColorCuerpo('animando')"
+                    {% if categoria %}
+                    hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&categoria={{categoria}}&estado=animando"
+                    {% else %}
+                    hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&estado=animando"
+                    {% endif %}
+                    hx-target="#animando">
                 <div class="row">
                     <div class="col-2">
                         <i class="bi bi-hearts"></i>
@@ -138,20 +162,41 @@
         <!-- CUERPO DE LOS TABS -->
         <div class="tab-content" id="tab-retos-content">
           <div class="tab-pane fade show active" id="propuestos" role="tabpanel"
-               aria-labelledby="propuestos-tab">
-            {% include 'YoPuedo/elementos/reto.html' with retos=propuestos %}
+               aria-labelledby="propuestos-tab" hx-trigger="load"
+               {% if categoria %}
+               hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&categoria={{categoria}}&estado=propuestos"
+               {% else %}
+               hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&estado=propuestos"
+               {% endif %}
+               hx-target="this">
+              {% include 'YoPuedo/elementos/reto.html' with retos=propuestos %}
           </div>
           <div class="tab-pane fade" id="proceso" role="tabpanel"
-               aria-labelledby="proceso-tab">
-            {% include 'YoPuedo/elementos/reto.html' with retos=proceso %}
+               aria-labelledby="proceso-tab" hx-trigger="load"
+               {% if categoria %}
+               hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&categoria={{categoria}}&estado=proceso"
+               {% else %}
+               hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&estado=proceso"
+               {% endif %}
+               hx-target="this">
           </div>
           <div class="tab-pane fade" id="finalizados" role="tabpanel"
-               aria-labelledby="finalizados-tab">
-            {% include 'YoPuedo/elementos/reto.html' with retos=finalizados %}
+               aria-labelledby="finalizados-tab" hx-trigger="load"
+               {% if categoria %}
+               hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&categoria={{categoria}}&estado=finalizados"
+               {% else %}
+               hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&estado=finalizados"
+               {% endif %}
+               hx-target="this">
           </div>
           <div class="tab-pane fade" id="animando" role="tabpanel"
-               aria-labelledby="animando-tab">
-            {% include 'YoPuedo/elementos/reto.html' with retos=animando %}
+               aria-labelledby="animando-tab" hx-trigger="load"
+               {% if categoria %}
+               hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&categoria={{categoria}}&estado=animando"
+               {% else %}
+               hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&estado=animando"
+               {% endif %}
+               hx-target="this">
           </div>
         </div>
     </section>
@@ -185,11 +230,6 @@
 
     function nuevoReto(){
         window.location.href = "{% url 'nuevo_reto' %}";
-    }
-
-    function irReto(id){
-        url = "{% url 'reto' id_reto='id' %}".replace("id", id.toString());
-        window.location.href = url;
     }
 
     window.onload = () => {

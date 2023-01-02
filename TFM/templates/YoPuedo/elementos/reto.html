@@ -119,4 +119,9 @@
         else
             window.location.href =  "?tipo=" + urlParams.get('tipo') + "&" + pagina;
     }
+
+    function irReto(id){
+        url = "{% url 'reto' id_reto='id' %}".replace("id", id.toString());
+        window.location.href = url;
+    }
 </script>

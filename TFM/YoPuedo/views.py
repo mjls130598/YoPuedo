@@ -180,11 +180,7 @@ def mis_retos(request):
     logger.info("Entramos en la parte GET de MIS RETOS")
     tipo = request.GET.get("tipo")
     categoria = request.GET.get("categoria")
-    pagina = request.GET.get("page")
     propuestos = []
-    proceso = []
-    finalizados = []
-    animando = []
 
     if categoria in Utils.categorias:
         logger.info(f"Mostramos los retos  de la categoría {categoria}")
@@ -193,7 +189,7 @@ def mis_retos(request):
         categoria = ""
 
     if tipo == 'individuales' or tipo == 'colectivos':
-        logger.info(f"Mostramos los retos {tipo}")
+        logger.info(f"Mostramos los retos propuestos de {tipo}")
 
         logger.info("Buscamos los retos según la categoría dada y el tipo de reto, "
                     + "separada en según el estado")
@@ -208,31 +204,6 @@ def mis_retos(request):
                                         participante__usuario=request.user). \
                         annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
 
-            proceso = \
-                Reto.objects.filter(estado='En proceso',
-                                    participante__usuario=request.user). \
-                    annotate(cnt=Count('participante__usuario')).filter(cnt__lte=1) \
-                    if tipo == 'individuales' else \
-                    Reto.objects.filter(estado='En proceso',
-                                        participante__usuario=request.user). \
-                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
-
-            finalizados = \
-                Reto.objects.filter(estado='Finalizado',
-                                    participante__usuario=request.user). \
-                    annotate(cnt=Count('participante__usuario')).filter(cnt__lte=1) \
-                    if tipo == 'individuales' else \
-                    Reto.objects.filter(estado='Finalizado',
-                                        participante__usuario=request.user). \
-                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
-
-            animando = \
-                Reto.objects.filter(animador__usuario=request.user). \
-                    annotate(cnt=Count('participante__usuario')).filter(cnt__lte=1) \
-                    if tipo == 'individuales' else \
-                    Reto.objects.filter(animador__usuario=request.user). \
-                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
-
         else:
             propuestos = \
                 Reto.objects.filter(estado='Propuesto',
@@ -245,7 +216,88 @@ def mis_retos(request):
                                         categoria=categoria). \
                         annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
 
-            proceso = \
+        logger.info("Paginamos los retos")
+        paginator_propuestos = Paginator(propuestos, 3)
+
+        logger.info("Obtenemos los retos de la página indicada para ese estado")
+        propuestos = paginator_propuestos.get_page(1)
+
+    elif tipo != '':
+        logger.error("Tipo incorrecto")
+        tipo = ""
+
+    return render(request, "YoPuedo/mis_retos.html",
+                  {"tipo_reto": tipo, "categoria": categoria, "propuestos": propuestos})
+
+
+def get_retos(request):
+    logger.info("Entramos en la parte GET de RETOS")
+    tipo = request.GET.get("tipo")
+    categoria = request.GET.get("categoria")
+    pagina = request.GET.get("page")
+    estado = request.GET.get("estado")
+
+    retos = []
+
+    logger.info(f"Mostramos los retos {tipo}")
+
+    logger.info("Buscamos los retos según la categoría dada y el tipo de reto, "
+                + "separada en según el estado")
+
+    if not categoria:
+        if estado == "propuestos":
+            retos = \
+                Reto.objects.filter(estado='Propuesto',
+                                    participante__usuario=request.user). \
+                    annotate(cnt=Count('participante__usuario')).filter(cnt__lte=1) \
+                    if tipo == 'individuales' else \
+                    Reto.objects.filter(estado='Propuesto',
+                                        participante__usuario=request.user). \
+                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
+
+        elif estado == "proceso":
+            retos = \
+                Reto.objects.filter(estado='En proceso',
+                                    participante__usuario=request.user). \
+                    annotate(cnt=Count('participante__usuario')).filter(cnt__lte=1) \
+                    if tipo == 'individuales' else \
+                    Reto.objects.filter(estado='En proceso',
+                                        participante__usuario=request.user). \
+                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
+
+        elif estado == "finalizados":
+            retos = \
+                Reto.objects.filter(estado='Finalizado',
+                                    participante__usuario=request.user). \
+                    annotate(cnt=Count('participante__usuario')).filter(cnt__lte=1) \
+                    if tipo == 'individuales' else \
+                    Reto.objects.filter(estado='Finalizado',
+                                        participante__usuario=request.user). \
+                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
+
+        elif estado == "animando":
+            retos = \
+                Reto.objects.filter(animador__usuario=request.user). \
+                    annotate(cnt=Count('participante__usuario')).filter(cnt__lte=1) \
+                    if tipo == 'individuales' else \
+                    Reto.objects.filter(animador__usuario=request.user). \
+                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
+
+    else:
+        if estado == "propuestos":
+            retos = \
+                Reto.objects.filter(estado='Propuesto',
+                                    participante__usuario=request.user,
+                                    categoria=categoria). \
+                    annotate(cnt=Count('participante__usuario')).filter(cnt__lte=1) \
+                    if tipo == 'individuales' else \
+                    Reto.objects.filter(estado='Propuesto',
+                                        participante__usuario=request.user,
+                                        categoria=categoria). \
+                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
+
+        elif estado == "proceso":
+            retos = \
                 Reto.objects.filter(estado='En proceso',
                                     participante__usuario=request.user,
                                     categoria=categoria). \
@@ -256,7 +308,8 @@ def mis_retos(request):
                                         categoria=categoria). \
                         annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
 
-            finalizados = \
+        elif estado == "finalizados":
+            retos = \
                 Reto.objects.filter(estado='Finalizado',
                                     participante__usuario=request.user,
                                     categoria=categoria). \
@@ -267,7 +320,8 @@ def mis_retos(request):
                                         categoria=categoria). \
                         annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
 
-            animando = \
+        elif estado == "animando":
+            retos = \
                 Reto.objects.filter(animador__usuario=request.user,
                                     categoria=categoria). \
                     annotate(cnt=Count('participante__usuario')).filter(cnt__lte=1) \
@@ -276,49 +330,20 @@ def mis_retos(request):
                                         categoria=categoria). \
                         annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
 
-        logger.info("Paginamos cada uno de los estados del reto")
-        paginator_propuestos = Paginator(propuestos, 3)
-        paginator_proceso = Paginator(proceso, 3)
-        paginator_finalizados = Paginator(finalizados, 3)
-        paginator_animando = Paginator(finalizados, 3)
+    logger.info("Paginamos cada uno de los estados del reto")
+    paginator = Paginator(retos, 3)
 
-        logger.info("Obtenemos los retos de la página indicada para ese estado")
+    logger.info("Obtenemos los retos de la página indicada para ese estado")
 
-        try:
-            propuestos = paginator_propuestos.get_page(pagina)
-        except PageNotAnInteger:
-            propuestos = paginator_propuestos.get_page(1)
-        except EmptyPage:
-            propuestos = paginator_propuestos.get_page(1)
+    try:
+        retos = paginator.get_page(pagina)
+    except PageNotAnInteger:
+        retos = paginator.get_page(1)
+    except EmptyPage:
+        retos = paginator.get_page(1)
 
-        try:
-            proceso = paginator_proceso.get_page(pagina)
-        except PageNotAnInteger:
-            proceso = paginator_proceso.get_page(1)
-        except EmptyPage:
-            proceso = paginator_proceso.get_page(1)
-
-        try:
-            finalizados = paginator_finalizados.get_page(pagina)
-        except PageNotAnInteger:
-            finalizados = paginator_finalizados.get_page(1)
-        except EmptyPage:
-            finalizados = paginator_finalizados.get_page(1)
-
-        try:
-            animando = paginator_animando.get_page(pagina)
-        except PageNotAnInteger:
-            animando = paginator_animando.get_page(1)
-        except EmptyPage:
-            animando = paginator_animando.get_page(1)
-
-    elif tipo != '':
-        logger.error("Tipo incorrecto")
-        tipo = ""
-
-    return render(request, "YoPuedo/mis_retos.html",
-                  {"tipo_reto": tipo, "categoria": categoria, "propuestos": propuestos,
-                   "proceso": proceso, "finalizados": finalizados, "animando": animando})
+    return render(request, "YoPuedo/elementos/reto.html",
+                  {"retos": retos})
 
 
 ##########################################################################################
