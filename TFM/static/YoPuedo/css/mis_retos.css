@@ -106,13 +106,13 @@
 
 @media screen and (min-height: 992px){
     #tab-retos-content, #form-reto-content {
-        max-height: 100%;
+        max-height: 73vh;
     }
 }
 
 @media screen and (min-width: 1024px){
     #tab-retos-content, #form-reto-content {
-        max-height: 75vh;
+        max-height: 65vh;
     }
 }
 
