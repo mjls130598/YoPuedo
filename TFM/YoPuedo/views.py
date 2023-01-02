@@ -318,8 +318,7 @@ def mis_retos(request):
 
     return render(request, "YoPuedo/mis_retos.html",
                   {"tipo_reto": tipo, "categoria": categoria, "propuestos": propuestos,
-                   "proceso": proceso, "finalizados": finalizados, "animando":
-                       propuestos})
+                   "proceso": proceso, "finalizados": finalizados, "animando": animando})
 
 
 ##########################################################################################
