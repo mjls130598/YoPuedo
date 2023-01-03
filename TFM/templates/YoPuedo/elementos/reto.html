@@ -69,8 +69,7 @@
       {% if retos.has_previous %}
         <li page-item>
             <a class="page-link"
-               hx-get="javascript:urlPagina('page={{ retos.previous_page_number }}')"
-               hx-target="#{{ estado }}">
+               onclick="urlPagina('page={{ retos.previous_page_number }}')">
                 &laquo;
             </a>
         </li>
@@ -90,8 +89,7 @@
         {% else %}
           <li class="page-item">
               <a class="page-link"
-               hx-get="javascript:urlPagina('page={{ i }}')"
-               hx-target="#{{ estado }}">
+               onclick="urlPagina('page={{ i }}')">
                   {{ i }}
               </a>
           </li>
