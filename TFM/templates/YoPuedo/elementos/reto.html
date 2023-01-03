@@ -117,10 +117,10 @@
 
         if(urlParams.has('categoria'))
             enlace = "{% url 'retos' %}?tipo=" + urlParams.get('tipo')
-            + "&categoria=" + urlParams.get('categoria') + "estado={{estado}}&" + pagina;
+            + "&categoria=" + urlParams.get('categoria') + "&estado={{estado}}&" + pagina;
         else
             enlace = "{% url 'retos' %}?tipo=" + urlParams.get('tipo') +
-            "estado={{estado}}&" +  pagina;
+            "&estado={{estado}}&" +  pagina;
 
         htmx.ajax('GET', enlace, {target:'#{{ estado }}', swap:'outerHTML'})
     }
