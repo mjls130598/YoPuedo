@@ -100,9 +100,7 @@
       {% if retos.has_next %}
         <li class="page-item">
             <a class="page-link"
-               hx-get="javascript:urlPagina('page={{ retos.next_page_number }}')"
-               hx-target="#{{ estado }}"
-            >
+               onclick="urlPagina('page={{ retos.next_page_number }}')">
                 &raquo;
             </a>
         </li>
@@ -117,12 +115,16 @@
 <script>
     function urlPagina(pagina){
         const urlParams = new URLSearchParams(window.location.search);
+        enlace = "";
+
         if(urlParams.has('categoria'))
-            return "{% url 'retos'%}?tipo=" + urlParams.get('tipo')
+            enlace = "{% url 'retos' %}?tipo=" + urlParams.get('tipo')
             + "&categoria=" + urlParams.get('categoria') + "estado={{estado}}&" + pagina;
         else
-            return "{% url 'retos'%}?tipo=" + urlParams.get('tipo') +
+            enlace = "{% url 'retos' %}?tipo=" + urlParams.get('tipo') +
             "estado={{estado}}&" +  pagina;
+
+        htmx.ajax('GET', enlace, {target:'#{{ estado }}', swap:'outerHTML'})
     }
 
     function irReto(id){
