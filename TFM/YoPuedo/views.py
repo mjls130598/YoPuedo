@@ -576,6 +576,7 @@ def get_amigos(request):
     relacion = request.GET.get('relacion')
     formulario = AmigosForm(request.GET)
     consulta = formulario.data['consulta'] if 'consulta' in formulario.data else ""
+    pagina = request.GET.get('page')
 
     amigos_amigo = Amistad.objects.filter(Q(amigo=request.user)) \
         .annotate(email=F('otro_amigo__email'),
@@ -604,6 +605,18 @@ def get_amigos(request):
             .values('email', 'foto_perfil', 'nombre')
 
     amigos = list(chain(amigos_amigo, amigos_otro))
+
+    logger.info("Paginamos cada uno de los estados del reto")
+    paginator = Paginator(amigos, 3)
+
+    logger.info("Obtenemos los retos de la página indicada para ese estado")
+
+    try:
+        amigos = paginator.get_page(pagina)
+    except PageNotAnInteger:
+        amigos = paginator.get_page(1)
+    except EmptyPage:
+        amigos = paginator.get_page(1)
 
     return render(request, "YoPuedo/elementos/modal-amigos.html",
                   {"relacion": relacion, "amigos": amigos, "form_consulta": formulario})

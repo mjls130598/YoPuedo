@@ -49,6 +49,53 @@
         </div>
         {% endfor %}
     </div>
+    <div class="m-3" id="paginador">
+      <nav>
+        <ul class="pagination justify-content-center">
+          {% if amigos.has_previous %}
+            <li page-item>
+                <a class="page-link"
+                   onclick="irPagina('{{ amigos.previous_page_number }}')">
+                    &laquo;
+                </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&laquo;</span>
+            </li>
+          {% endif %}
+          {% for i in amigos.paginator.page_range %}
+            {% if amigos.number == i %}
+              <li class="page-item active">
+                  <span class="page-link">
+                      {{ i }}
+                      <span class="sr-only">(Actual)</span>
+                  </span>
+              </li>
+            {% else %}
+              <li class="page-item">
+                  <a class="page-link"
+                   onclick="irPagina('{{ i }}')">
+                      {{ i }}
+                  </a>
+              </li>
+            {% endif %}
+          {% endfor %}
+          {% if amigos.has_next %}
+            <li class="page-item">
+                <a class="page-link"
+                   onclick="irPagina('{{ amigos.next_page_number }}')">
+                    &raquo;
+                </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&raquo;</span>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
   </div>
   <div class="modal-footer justify-content-end">
     <button type="button" class="btn btn-primary fw-bold aceptar" data-bs-dismiss="modal"
@@ -120,5 +167,13 @@
     }
 
 /****************************************************************************************/
+
+    // Función para la redirección de paginación
+    function irPagina(pagina){
+        const urlParams = new URLSearchParams(window.location.search);
+        enlace = enlace = "{{ request.get_full_path }}&page=" + pagina;
+
+        htmx.ajax('GET', enlace, {target:'#dialog-amigos', swap:'innerHTML'})
+    }
 </script>
 
