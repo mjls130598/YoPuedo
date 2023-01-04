@@ -228,7 +228,7 @@ def mis_retos(request):
 
     return render(request, "YoPuedo/mis_retos.html",
                   {"tipo_reto": tipo, "categoria": categoria, "propuestos": propuestos,
-                   "estado": "propuestos" })
+                   "estado": "propuestos"})
 
 
 def get_retos(request):
@@ -240,7 +240,7 @@ def get_retos(request):
 
     retos = []
 
-    logger.info(f"Mostramos los retos {tipo}")
+    logger.info(f"Mostramos los retos {tipo} de {categoria} y en estado {estado}")
 
     logger.info("Buscamos los retos según la categoría dada y el tipo de reto, "
                 + "separada en según el estado")

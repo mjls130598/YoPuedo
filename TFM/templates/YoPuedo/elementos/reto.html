@@ -122,7 +122,7 @@
             enlace = "{% url 'retos' %}?tipo=" + urlParams.get('tipo') +
             "&estado={{estado}}&" +  pagina;
 
-        htmx.ajax('GET', enlace, {target:'#{{ estado }}', swap:'outerHTML'})
+        htmx.ajax('GET', enlace, {target:'#{{ estado }}', swap:'innerHTML'})
     }
 
     function irReto(id){
