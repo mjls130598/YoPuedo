@@ -5,6 +5,7 @@ from itertools import chain
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q, F, Count
 from django.http import HttpResponse, HttpResponseRedirect
@@ -620,3 +621,9 @@ def get_amigos(request):
 
     return render(request, "YoPuedo/elementos/modal-amigos.html",
                   {"relacion": relacion, "amigos": amigos, "form_consulta": formulario})
+
+##########################################################################################
+
+# Función para mostrar el error 404
+def page_not_found(request, exception):
+    render(request, '404.html', status=404)
