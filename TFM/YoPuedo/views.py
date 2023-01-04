@@ -174,7 +174,7 @@ def validar_clave(request, tipo, email):
 
 ##########################################################################################
 
-# Función de obtención de retos
+# Función de obtención de retos (página con los estados y las categorías)
 @login_required
 def mis_retos(request):
     logger.info("Entramos en la parte GET de MIS RETOS")
@@ -231,6 +231,10 @@ def mis_retos(request):
                    "estado": "propuestos"})
 
 
+##########################################################################################
+
+# Función de obtención de retos según el tipo, la categoría y el estado, además de la
+# página de retos que se quiera visualizar
 def get_retos(request):
     logger.info("Entramos en la parte GET de RETOS")
     tipo = request.GET.get("tipo")
