@@ -42,15 +42,17 @@
 <div class="row">
   <div class='form-group d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5 col'>
       <button type="button" id="boton-anterior" class="btn btn-primary fw-bold"
-              onclick="cambiarPestana('etapas')">
+              onclick="cambiarPestana('etapas', 'form-reto-content')">
           <i class="fa-solid fa-angle-left"></i>
           Anterior
       </button>
   </div>
 
   <div class='form-group d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5 col'>
-      <button type="submit" id="boton-fin" class="btn btn-primary fw-bold">
-          Finalizar
+      <button type="button" id="boton-siguiente" class="btn btn-primary fw-bold"
+              onclick="cambiarPestana('animadores','form-reto-content')">
+          Siguiente
+          <i class="fa-solid fa-angle-right"></i>
       </button>
   </div>
 </div>

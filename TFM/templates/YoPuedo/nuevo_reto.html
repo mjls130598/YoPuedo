@@ -9,6 +9,10 @@
   <link rel="stylesheet" href="{% static 'YoPuedo/css/modal-amigos.css'%}">
   <script src="https://kit.fontawesome.com/05cfaef439.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+  <script type="text/javascript"
+      src="{% static 'YoPuedo/js/SpeechSynthesis.js' %}"></script>
+  <script type="text/javascript"
+      src="{% static 'YoPuedo/js/VisualizacionRetos.js' %}"></script>
 {% endblock %}
 
 {% block contenido %}
@@ -31,7 +35,7 @@
         <button class="nav-link active" id="general-tab"
           data-bs-toggle="tab" data-bs-target="#general" type="button"
           role="tab" aria-controls="general" aria-selected="true"
-          onclick="cambiarColorCuerpo('general')">
+          onclick="cambiarColorCuerpo('general', 'form-reto-content')">
           <div class="row {% if general_form.errors %} errorlist {% endif %}">
             <div class="col-2">
               <i class="fa-solid fa-clipboard"></i>
@@ -47,7 +51,7 @@
         <button class="nav-link d-none" id="etapas-tab" data-bs-toggle="tab"
           data-bs-target="#etapas" type="button" role="tab"
           aria-controls="etapas" aria-selected="false"
-          onclick="cambiarColorCuerpo('etapas')">
+          onclick="cambiarColorCuerpo('etapas', 'form-reto-content')">
           <div class="row {% if error_etapas %} errorlist {% endif %}">
             <div class="col-2">
               <i class="fa-solid fa-chart-simple"></i>
@@ -64,7 +68,7 @@
         <button class="nav-link d-none" id="participantes-tab" data-bs-toggle="tab"
           data-bs-target="#participantes" type="button" role="tab"
           aria-controls="participantes" aria-selected="false"
-          onclick="cambiarColorCuerpo('participantes')">
+          onclick="cambiarColorCuerpo('participantes', 'form-reto-content')">
           <div class="row">
             <div class="col-2">
               <i class="fa-solid fa-people-group"></i>
@@ -81,7 +85,7 @@
         <button class="nav-link d-none" id="animadores-tab" data-bs-toggle="tab"
           data-bs-target="#animadores" type="button" role="tab"
           aria-controls="animadores" aria-selected="false"
-          onclick="cambiarColorCuerpo('animadores')">
+          onclick="cambiarColorCuerpo('animadores', 'form-reto-content')">
           <div class="row">
             <div class="col-2">
               <i class="fa-sharp fa-solid fa-hand-holding-hand"></i>
@@ -124,60 +128,6 @@
   </section>
 
 <script>
-    function cambiarColorCuerpo(id){
-        switch(id){
-            case "general":
-                document.getElementById("form-reto-content").style.backgroundColor = "#F7C985";
-                document.getElementById("form-reto-content").style.borderColor = "#F7C985";
-            break;
-            case "etapas":
-                document.getElementById("form-reto-content").style.backgroundColor = "#CAE8A6";
-                document.getElementById("form-reto-content").style.borderColor = "#CAE8A6";
-            break;
-            case "participantes":
-                document.getElementById("form-reto-content").style.backgroundColor = "#BBF1F7";
-                document.getElementById("form-reto-content").style.borderColor = "#BBF1F7";
-            break;
-            case "animadores":
-                document.getElementById("form-reto-content").style.backgroundColor = "#F0CEF6";
-                document.getElementById("form-reto-content").style.borderColor = "#F0CEF6";
-            break;
-            case "etapa-1":
-                document.getElementById("form-etapa-content").style.backgroundColor =
-                "#BCA5E5";
-                document.getElementById("form-etapa-content").style.borderColor =
-                "#BCA5E5";
-            break;
-            case "etapa-2":
-                document.getElementById("form-etapa-content").style.backgroundColor =
-                "#9BABFF";
-                document.getElementById("form-etapa-content").style.borderColor =
-                "#9BABFF";
-            break;
-            case "etapa-3":
-                document.getElementById("form-etapa-content").style.backgroundColor = "#CAC9F3";
-                document.getElementById("form-etapa-content").style.borderColor = "#CAC9F3";
-            break;
-            case "etapa-4":
-                document.getElementById("form-etapa-content").style.backgroundColor = "#FCC2EF";
-                document.getElementById("form-etapa-content").style.borderColor =
-                "#FCC2EF";
-            break;
-            case "etapa-5":
-                document.getElementById("form-etapa-content").style.backgroundColor =
-                "#FD79A7";
-                document.getElementById("form-etapa-content").style.borderColor =
-                "#FD79A7";
-            break;
-        }
-    }
-
-    function cambiarPestana(id){
-      elemento = document.getElementById(id + "-tab");
-      $('#tab-pasos button[aria-controls="' + id + '"]').tab('show');
-      elemento.classList.remove("d-none");
-      cambiarColorCuerpo(id);
-    }
 
     {% if errores %}
     window.onload = () => {
@@ -211,10 +161,6 @@
     }( document, window, 0 ));
 
 </script>
-
-
-<script type="text/javascript"
-      src="{% static 'YoPuedo/js/SpeechSynthesis.js' %}"></script>
 {% endblock %}
 
 {% block modales %}

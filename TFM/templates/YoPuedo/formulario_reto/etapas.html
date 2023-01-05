@@ -6,7 +6,7 @@
             id="etapa-{{ forloop.counter }}-tab" data-bs-toggle="tab"
             data-bs-target="#etapa-{{ forloop.counter }}" type="button" role="tab"
             aria-controls="etapa-{{ forloop.counter }}" aria-selected="true"
-            onclick="cambiarPestanaEtapa('etapa-{{ forloop.counter }}')">
+            onclick="cambiarPestanaEtapa('etapa-{{ forloop.counter }}', 'form-etapa-content')">
       <div class="row {% if etapa_form.errors %} errorlist {% endif %}">
         <div class="col-3">
           <i class="fa-solid fa-chart-simple"></i>
@@ -38,7 +38,7 @@
 <div class="row">
   <div class='form-group d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5 col'>
       <button type="button" id="boton-anterior" class="btn btn-primary fw-bold"
-              onclick="cambiarPestana('general')">
+              onclick="cambiarPestana('general', 'form-reto-content')">
           <i class="fa-solid fa-angle-left"></i>
           Anterior
       </button>
@@ -46,7 +46,7 @@
 
   <div class='form-group d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5 col'>
       <button type="button" id="boton-siguiente" class="btn btn-primary fw-bold"
-              onclick="{% if tipo_reto == 'colectivo'%} cambiarPestana('participantes') {% else %} cambiarPestana('animadores') {% endif %}">
+              onclick="{% if tipo_reto == 'colectivo'%} cambiarPestana('participantes', 'form-reto-content') {% else %} cambiarPestana('animadores','form-reto-content') {% endif %}">
           Siguiente
           <i class="fa-solid fa-angle-right"></i>
       </button>
@@ -54,15 +54,6 @@
 </div>
 
 <script>
-
-/****************************************************************************************/
-
-  // Función para cambiar la pestaña activa y el cuerpo
-  function cambiarPestanaEtapa(id){
-    $('#tab-etapas button[aria-controls="' + id + '"]').tab('show');
-    cambiarColorCuerpo(id);
-  }
-
 /****************************************************************************************/
 
   // Función para obtener el número de etapa al que ir
@@ -90,7 +81,7 @@
     button.id = "etapa-" + num_etapa + "-tab";
     button.setAttribute('data-bs-target', "#etapa-" + num_etapa);
     button.setAttribute('aria-controls', "etapa-" + num_etapa);
-    button.setAttribute('onclick', "cambiarPestanaEtapa('etapa-" + num_etapa + "')");
+    button.setAttribute('onclick', "cambiarPestanaEtapa('etapa-" + num_etapa + "', 'form-etapa-content')");
     titulo = button.getElementsByTagName("h5")[0];
     titulo.innerText = num_etapa + "º";
 
@@ -187,7 +178,7 @@
     }
     else{
         boton_anterior.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
-        num_etapa + ", -1))");
+        num_etapa + ", -1), 'form-etapa-content')");
     }
 
     boton_nuevo = clone_cuerpo.getElementsByClassName("nueva")[0];
@@ -196,7 +187,7 @@
     if(boton_nuevo){
         if(num_etapa < max_etapas)
             boton_nuevo.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
-                num_etapa + ", 1))");
+                num_etapa + ", 1), 'form-etapa-content')");
 
         else
             boton_nuevo.remove();
@@ -222,14 +213,14 @@
             // Cambiamos función del botón "Siguiente Etapa"
             boton_siguiente = clone_cuerpo.getElementsByClassName('siguiente')[0];
             boton_siguiente.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
-                    num_etapa + ", 1))");
+                    num_etapa + ", 1), 'form-etapa-content')");
         }
         else{
             if(num_etapa != (max_etapas - 1)){
                 // Cambiamos función del botón "Nueva Etapa"
                 boton_siguiente = clone_cuerpo.getElementsByClassName('nueva')[0];
                 boton_siguiente.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
-                        num_etapa + ", 1))");
+                        num_etapa + ", 1), 'form-etapa-content')");
             }
             else{
                 const nuevo_button = document.createElement("button");
@@ -237,7 +228,7 @@
                 nuevo_button.className = "btn btn-primary fw-bold nueva";
                 nuevo_button.setAttribute("type", "button");
                 nuevo_button.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
-                num_etapa + ", -1))");
+                num_etapa + ", -1), 'form-etapa-content')");
                 const nuevo_i = document.createElement("i");
                 nuevo_i.className = "fa-solid fa-plus";
                 const nuevo_texto = document.createTextNode(" Nueva etapa ");
@@ -277,7 +268,7 @@
         pestana_etapa.id = "etapa-" + i + "-tab";
         pestana_etapa.setAttribute("data-bs-target", "#etapa-" + i);
         pestana_etapa.setAttribute("aria-controls", "etapa-" + i);
-        pestana_etapa.setAttribute("onclick", "cambiarPestanaEtapa('etapa-" + i + "')");
+        pestana_etapa.setAttribute("onclick", "cambiarPestanaEtapa('etapa-" + i + "', 'form-etapa-content')");
 
         // Arreglamos los elementos del cuerpo
         cambiarCuerpo(document.getElementById("etapa-" + (i + 1)), i);
@@ -297,12 +288,12 @@
         boton_siguiente.prepend(siguiente_i);
 
         // Cambiamos la última pestaña a activa
-        cambiarPestanaEtapa("etapa-" + (num_etapa - 1));
+        cambiarPestanaEtapa("etapa-" + (num_etapa - 1), 'form-etapa-content');
     }
 
     // Cambiamos la última pestaña a activa
     else
-        cambiarPestanaEtapa("etapa-" + num_etapa);
+        cambiarPestanaEtapa("etapa-" + num_etapa, 'form-etapa-content');
 
   }
 </script>

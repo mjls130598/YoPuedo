@@ -51,7 +51,7 @@
 <div class="row">
   <div class='form-group d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5 col'>
       <button type="button" id="boton-anterior" class="btn btn-primary fw-bold"
-              onclick="{% if tipo_reto == 'colectivo'%} cambiarPestana('participantes') {% else %} cambiarPestana('etapas') {% endif %}">
+              onclick="{% if tipo_reto == 'colectivo'%} cambiarPestana('participantes', 'form-reto-content') {% else %} cambiarPestana('etapas', 'form-reto-content') {% endif %}">
           <i class="fa-solid fa-angle-left"></i>
           Anterior
       </button>
