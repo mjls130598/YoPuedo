@@ -634,7 +634,8 @@ def get_reto(request, id_reto):
     etapas = Etapa.objects.filter(reto=reto)
 
     logger.info(f"Miramos los animadores del reto {id_reto}")
-    animadores = Animador.objects.filter(reto__id_reto=id_reto)
+    animadores = Animador.objects.filter(reto__id_reto=id_reto).\
+        exclude(usuario__email=request.user.email)
 
     logger.info(f"Devolvemos los participantes del reto {id_reto}")
     participantes = Participante.objects.filter(reto__id_reto=id_reto).\

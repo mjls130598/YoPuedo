@@ -2,7 +2,6 @@
 {% for participante in participantes %}
     <div class="participante p-2 p-md-3 row"
          id="participante-{{participante.usuario.email}}">
-        <input type="hidden" name="participante" value="{{participante.usuario.email}}">
         <div class="foto-perfil col-4 col-md-2 col-lg-1">
             <img class="imagen-perfil img-fluid rounded mx-auto d-block"
                  src="{{participante.usuario.foto_perfil}}">
