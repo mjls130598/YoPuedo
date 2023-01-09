@@ -5,11 +5,10 @@ from itertools import chain
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q, F, Count
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import get_template
 
 from .utils import Utils
@@ -621,6 +620,30 @@ def get_amigos(request):
 
     return render(request, "YoPuedo/elementos/modal-amigos.html",
                   {"relacion": relacion, "amigos": amigos, "form_consulta": formulario})
+
+
+##########################################################################################
+
+# Función de obtención de información de un reto
+@login_required
+def get_reto(request, id_reto):
+    logger.info(f"Obtenemos información de {id_reto}")
+    reto = get_object_or_404(Reto, id_reto=id_reto)
+
+    logger.info(f"Recogemos las etapas del reto {id_reto}")
+    etapas = Etapa.objects.filter(reto=reto)
+
+    logger.info(f"Miramos los animadores del reto {id_reto}")
+    animadores = Animador.objects.filter(reto__id_reto=id_reto)
+
+    logger.info(f"Devolvemos los participantes del reto {id_reto}")
+    participantes = Participante.objects.filter(reto__id_reto=id_reto).\
+        exclude(usuario__email=request.user.email)
+
+    return render(request, 'YoPuedo/reto.html',
+                  {'reto': reto, 'etapas': etapas, 'animadores': animadores,
+                   'participantes': participantes})
+
 
 ##########################################################################################
 

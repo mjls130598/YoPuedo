@@ -23,7 +23,7 @@ urlpatterns = [
     ), name="password_reset_complete"),
     path('mis_retos/', views.mis_retos, name="mis_retos"),
     path('retos', views.get_retos, name="retos"),
-    path('reto/<str:id_reto>', views.mis_retos, name="reto"),
+    path('reto/<str:id_reto>', views.get_reto, name="reto"),
     path('nuevo_reto/', views.nuevo_reto, name="nuevo_reto"),
     path('amigos/', views.get_amigos, name="amigos")
 ]

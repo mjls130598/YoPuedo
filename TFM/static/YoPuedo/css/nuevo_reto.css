@@ -1,8 +1,8 @@
-#formulario_reto{
+#formulario_reto, #informacion_reto{
     height: 100%;
 }
 
-#general-tab, #form-reto-content {
+#general-tab, #form-reto-content, #reto-content {
     background: #F7C985;
     border-color: #F7C985;
 }
