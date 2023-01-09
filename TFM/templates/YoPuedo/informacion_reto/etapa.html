@@ -37,7 +37,7 @@
     </div>
   <div class="row botones-etapa">
     {% if num_etapa != 1 %}
-    <div class='form-group d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5 col'>
+    <div class='d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5 col'>
         <button id="boton-anterior" class="btn btn-primary fw-bold anterior"
                 type="button"
                 onclick="cambiarPestanaEtapa(getNumEtapa({{num_etapa}}, -1), 'etapa-content')">
@@ -48,7 +48,7 @@
     {% endif %}
 
     {% if num_etapa != forloop.last %}
-    <div class='form-group d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5 col'>
+    <div class='d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5 col'>
         <button id="boton-siguiente"
                 class="btn btn-primary fw-bold siguiente"
                 type="button"
