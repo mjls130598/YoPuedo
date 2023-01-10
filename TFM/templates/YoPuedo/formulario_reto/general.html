@@ -149,11 +149,22 @@
     {% endfor %}
 </div>
 
-<div class='form-group d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5'>
-    <button id="boton-siguiente" class="btn btn-primary fw-bold" type="button"
-            onclick="cambiarPestana('etapas', 'form-reto-content')">
-        Siguiente
-        <i class="fa-solid fa-angle-right"></i>
-    </button>
+<div class="row">
+    {% if "/editar_reto/" in request.path %}
+    <div class="col d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5">
+        <button id="boton-iniciar" class="btn btn-primary fw-bold" type="button"
+                onclick="">
+            <i class="fa-solid fa-play"></i>
+            Iniciar reto
+        </button>
+    </div>
+    {% endif %}
+    <div class='col d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5'>
+        <button id="boton-siguiente" class="btn btn-primary fw-bold" type="button"
+                onclick="cambiarPestana('etapas', 'reto-content')">
+            Siguiente
+            <i class="fa-solid fa-angle-right"></i>
+        </button>
+    </div>
 </div>
 

@@ -113,7 +113,7 @@
         {% include 'YoPuedo/formulario_reto/etapas.html'%}
       </div>
 
-      {% if tipo_reto == "colectivos" %}
+      {% if tipo_reto == "colectivos" or "/editar_reto/" in request.path %}
       <div class="tab-pane fade" id="participantes" role="tabpanel"
         aria-labelledby="participantes-tab">
         {% include 'YoPuedo/formulario_reto/participantes.html'%}
@@ -159,6 +159,13 @@
             });
         });
     }( document, window, 0 ));
+
+    function iniciarReto(){
+      const urlParams = new URLSearchParams(window.location.search);
+      id = '{{ id_reto }}';
+      url = "{% url 'iniciar_reto' id_reto='id' %}".replace("id", id.toString());
+      window.location.href = url;
+    }
 
 </script>
 {% endblock %}

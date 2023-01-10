@@ -118,3 +118,9 @@ label > i {
     border: #CDDC39;
     font-weight: bold;
 }
+
+#boton-iniciar {
+    background: #4CAF50;
+    border: #4CAF50;
+    font-weight: bold;
+}
