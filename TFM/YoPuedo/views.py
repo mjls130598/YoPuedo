@@ -634,11 +634,11 @@ def get_reto(request, id_reto):
     etapas = Etapa.objects.filter(reto=reto)
 
     logger.info(f"Miramos los animadores del reto {id_reto}")
-    animadores = Animador.objects.filter(reto__id_reto=id_reto).\
+    animadores = Animador.objects.filter(reto__id_reto=id_reto). \
         exclude(usuario__email=request.user.email)
 
     logger.info(f"Devolvemos los participantes del reto {id_reto}")
-    participantes = Participante.objects.filter(reto__id_reto=id_reto).\
+    participantes = Participante.objects.filter(reto__id_reto=id_reto). \
         exclude(usuario__email=request.user.email)
 
     return render(request, 'YoPuedo/reto.html',
@@ -648,6 +648,20 @@ def get_reto(request, id_reto):
 
 ##########################################################################################
 
+# Función para iniciar el reto
+def iniciar_reto(request):
+    id_reto = request.get("id_reto")
+    logger.info(f"Iniciamos el reto {id_reto}")
+    reto = Reto.objects.get(id_reto=id_reto)
+    reto.estado = "En proceso"
+    reto.save()
+
+    logger.info(f"Redirigimos a la página del reto")
+    return redirect(f"/reto/{id_reto}")
+
+
+##########################################################################################
+
 # Función para mostrar el error 404
-def page_not_found(request, exception):
+def page_not_found(request):
     render(request, '404.html', status=404)
