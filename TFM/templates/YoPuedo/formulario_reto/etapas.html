@@ -163,7 +163,7 @@
         const anterior_div = document.createElement("div");
         anterior_div.className = "form-group d-flex justify-content-start mt-5 col";
         const anterior_button = document.createElement("button");
-        anterior_button.id = "boton-anterior";
+        anterior_button.id = "boton-anterior-etapa";
         anterior_button.className = "btn btn-primary fw-bold anterior";
         anterior_button.setAttribute("type", "button");
         anterior_button.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
@@ -199,7 +199,7 @@
 
         // Cambiamos el botón nuevo de la anterior etapa por botón siguiente
         boton_siguiente = document.getElementById("boton-nueva-etapa");
-        boton_siguiente.id = "boton-siguiente";
+        boton_siguiente.id = "boton-siguiente-etapa";
         boton_siguiente.classList.remove("nueva");
         boton_siguiente.classList.add("siguiente");
         boton_siguiente.innerText = " Siguiente etapa ";

@@ -112,3 +112,9 @@ label > i {
     background: white;
     border-color: white;
 }
+
+#boton-siguiente-etapa, #boton-anterior-etapa{
+    background: #CDDC39;
+    border: #CDDC39;
+    font-weight: bold;
+}
