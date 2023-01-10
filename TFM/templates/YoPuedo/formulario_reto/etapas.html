@@ -46,7 +46,7 @@
 
   <div class='form-group d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5 col'>
       <button type="button" id="boton-siguiente" class="btn btn-primary fw-bold"
-              onclick="{% if tipo_reto == 'colectivo'%} cambiarPestana('participantes', 'form-reto-content') {% else %} cambiarPestana('animadores','form-reto-content') {% endif %}">
+              onclick="{% if tipo_reto == 'colectivo' or '/editar_reto/' in request.path %} cambiarPestana('participantes', 'form-reto-content') {% else %} cambiarPestana('animadores','form-reto-content') {% endif %}">
           Siguiente
           <i class="fa-solid fa-angle-right"></i>
       </button>
