@@ -162,7 +162,7 @@
 
     function iniciarReto(){
       const urlParams = new URLSearchParams(window.location.search);
-      id = '{{ id_reto }}';
+      id = '{{ reto.id_reto }}';
       url = "{% url 'iniciar_reto' id_reto='id' %}".replace("id", id.toString());
       window.location.href = url;
     }

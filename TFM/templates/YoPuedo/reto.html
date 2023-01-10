@@ -32,7 +32,7 @@
           data-bs-toggle="tab" data-bs-target="#general" type="button"
           role="tab" aria-controls="general" aria-selected="true"
           onclick="cambiarColorCuerpo('general', 'reto-content')">
-          <div class="row {% if general_form.errors %} errorlist {% endif %}">
+          <div class="row">
             <div class="col-2">
               <i class="fa-solid fa-clipboard"></i>
             </div>
@@ -48,7 +48,7 @@
           data-bs-target="#etapas" type="button" role="tab"
           aria-controls="etapas" aria-selected="false"
           onclick="cambiarColorCuerpo('etapas', 'reto-content')">
-          <div class="row {% if error_etapas %} errorlist {% endif %}">
+          <div class="row">
             <div class="col-2">
               <i class="fa-solid fa-chart-simple"></i>
             </div>
@@ -59,7 +59,6 @@
         </button>
       </li>
 
-      {% if tipo_reto == "colectivo" %}
       <li class="nav-item" role="presentation">
         <button class="nav-link d-none" id="participantes-tab" data-bs-toggle="tab"
           data-bs-target="#participantes" type="button" role="tab"
@@ -75,7 +74,6 @@
           </div>
         </button>
       </li>
-      {% endif %}
 
       <li class="nav-item" role="presentation">
         <button class="nav-link d-none" id="animadores-tab" data-bs-toggle="tab"
@@ -106,12 +104,10 @@
         {% include 'YoPuedo/informacion_reto/etapas.html'%}
       </div>
 
-      {% if tipo_reto == "colectivos" %}
       <div class="tab-pane fade" id="participantes" role="tabpanel"
         aria-labelledby="participantes-tab">
         {% include 'YoPuedo/informacion_reto/participantes.html'%}
       </div>
-      {% endif %}
 
       <div class="tab-pane fade" id="animadores" role="tabpanel"
         aria-labelledby="animadores-tab">
@@ -119,4 +115,19 @@
       </div>
     </div>
   </section>
+
+<script>
+  function editarReto(){
+      const urlParams = new URLSearchParams(window.location.search);
+      id = '{{ reto.id_reto }}';
+      url = "{% url 'editar_reto' id_reto='id' %}".replace("id", id.toString());
+      window.location.href = url;
+  }
+  function eliminarReto(){
+      const urlParams = new URLSearchParams(window.location.search);
+      id = '{{ reto.id_reto }}';
+      url = "{% url 'eliminar_reto' id_reto='id' %}".replace("id", id.toString());
+      window.location.href = url;
+  }
+</script>
 {% endblock %}

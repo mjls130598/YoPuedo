@@ -14,7 +14,8 @@ from django.template.loader import get_template
 from .utils import Utils
 from .forms import RegistroForm, InicioForm, ClaveForm, RetoGeneralForm, RetoEtapaForm, \
     AmigosForm, EtapasFormSet
-from .models import Usuario, Amistad, Reto, Etapa, Animador, Participante
+from .models import Usuario, Amistad, Reto, Etapa, Animador, Participante, Animo, Prueba, \
+    Calificacion
 
 from django.forms import formset_factory
 
@@ -649,15 +650,79 @@ def get_reto(request, id_reto):
 ##########################################################################################
 
 # Función para iniciar el reto
-def iniciar_reto(request):
-    id_reto = request.get("id_reto")
+@login_required
+def iniciar_reto(request, id_reto):
     logger.info(f"Iniciamos el reto {id_reto}")
     reto = Reto.objects.get(id_reto=id_reto)
     reto.estado = "En proceso"
     reto.save()
 
+    logger.info("Iniciamos la primera etapa del reto")
+    etapa = Etapa.objects.filter(reto__id_reto=id_reto)[0]
+    etapa.estado = "En proceso"
+    etapa.save()
+
     logger.info(f"Redirigimos a la página del reto")
     return redirect(f"/reto/{id_reto}")
+
+
+##########################################################################################
+
+# Función para editar el reto
+@login_required
+def editar_reto(request, id_reto):
+    max_etapas = 5
+    general_form = RetoGeneralForm()
+    etapas_form_model = formset_factory(RetoEtapaForm, formset=EtapasFormSet,
+                                        max_num=max_etapas)
+    etapas_form = etapas_form_model()
+    errores = False
+    animadores = []
+    participantes = []
+    etapas_validas = True
+
+    if request.method == 'GET':
+        logger.info("Entramos en la parte GET de EDITAR RETO")
+
+    else:
+        logger.info("Entramos en la parte POST de EDITAR RETO")
+        logger.info(f"Modificamos el reto {id_reto}")
+
+    return render(request, "YoPuedo/nuevo_reto.html",
+                  {"general_form": general_form,
+                   "etapas_form": etapas_form, "errores": errores,
+                   "max_etapas": max_etapas, "animadores": animadores,
+                   "participantes": participantes, "error_etapas": not etapas_validas})
+
+
+##########################################################################################
+
+# Función para eliminar el reto
+@login_required
+def eliminar_reto(request, id_reto):
+    logger.info("Eliminamos los ánimos del reto")
+    Animo.objects.filter(etapa__reto__id_reto=id_reto).delete()
+
+    logger.info("Eliminamos las pruebas del reto")
+    Prueba.objects.filter(etapa__reto__id_reto=id_reto).delete()
+
+    logger.info("Eliminamos las calificaciones del reto")
+    Calificacion.objects.filter(etapa__reto__id_reto=id_reto).delete()
+
+    logger.info("Eliminamos las etapas del reto")
+    Etapa.objects.filter(reto__id_reto=id_reto).delete()
+
+    logger.info("Eliminamos los animadores del reto")
+    Animador.objects.filter(reto__id_reto=id_reto).delete()
+
+    logger.info("Eliminamos los participantes del reto")
+    Participante.objects.filter(reto__id_reto=id_reto).delete()
+
+    logger.info(f"Eliminamos el reto {id_reto}")
+    Reto.objects.get(id_reto=id_reto).delete()
+
+    logger.info(f"Redirigimos a la página de mis retos")
+    return redirect(f"/mis_retos/")
 
 
 ##########################################################################################
