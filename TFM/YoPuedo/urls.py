@@ -28,5 +28,7 @@ urlpatterns = [
     path('iniciar_reto/<str:id_reto>', views.iniciar_reto, name="iniciar_reto"),
     path('editar_reto/<str:id_reto>', views.editar_reto, name="editar_reto"),
     path('eliminar_reto/<str:id_reto>', views.eliminar_reto, name="eliminar_reto"),
+    path('coordinador_reto/<str:id_reto>', views.coordinador_reto,
+         name="coordinador_reto"),
     path('amigos/', views.get_amigos, name="amigos")
 ]

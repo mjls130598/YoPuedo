@@ -727,6 +727,23 @@ def eliminar_reto(request, id_reto):
 
 ##########################################################################################
 
+# Función para cambiar el coordinador del reto
+@login_required
+def coordinador_reto(request, id_reto):
+    coordinador = request.POST.get('coordinador')
+
+    logger.info(f"Cambiamos el coordinador por {coordinador}")
+    reto = Reto.objects.get(id_reto=id_reto)
+    reto.coordinador = Usuario.objects.get(email=coordinador)
+    reto.save()
+
+    logger.info(f"Redirigimos con un status {HTTPStatus.ACCEPTED}")
+
+    return HttpResponse(status=HTTPStatus.ACCEPTED)
+
+
+##########################################################################################
+
 # Función para mostrar el error 404
 def page_not_found(request):
     render(request, '404.html', status=404)
