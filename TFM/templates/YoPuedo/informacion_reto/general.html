@@ -1,12 +1,14 @@
 {% load tags_categorias %}
 
-<div class='fw-bold mt-4'>
-    <i class="fa-solid fa-flag-checkered"></i>
-    Objetivo:
+<div class='row'>
+    <h5 class="fw-bold col-md-2">
+        <i class="fa-solid fa-flag-checkered"></i>
+        Objetivo:
+    </h5>
     {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
-        <div class="col-md-4 col-12 mb-4 m-md-0 informacion">
+        <div class="col-md-4 mb-4 m-md-0 informacion">
     {% else %}
-        <div class="col-md-9 col-12 mb-4 m-md-0 informacion">
+        <div class="col-md-9 mb-4 m-md-0 informacion">
     {% endif %}
     {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
         <audio controls id="audio"
@@ -32,30 +34,30 @@
         <p id="texto_audio_objetivo"></p>
     </div>
     {% else %}
-    <div class="col-md-1 col align-self-center text-center">
-        {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech=texto_reto %}
+    <div class="col-md-1 text-center">
+        {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='texto_reto' %}
     </div>
     {% endif %}
     </div>
 </div>
 
-<div class='fw-bold mt-4 row'>
+<div class='fw-bold mt-4 row categoria'>
     <div class="col-md-2 col-sm-4">
         <i class="fa-solid fa-square-check"></i>
         Categoría
     </div>
     <div class="col">
-        {% if reto.categoria == 'economia' %}
-        <i class="fa-solid fa-piggy-bank"></i>
-        {% elif reto.categoria == 'inteligencia' %}
-        <i class="fa-solid fa-brain"></i>
-        {% elif reto.categoria == 'salud' %}
-        <i class="fa-solid fa-dumbbell"></i>
-        {% elif reto.categoria == 'mente' %}
-        <i class="fa-solid fa-face-frown"></i>
-        {% endif %}
         <h6 class="fw-bolder d-none d-md-block">
-          {% valor_categoria reto.categoria %}
+            {% if reto.categoria == 'economia' %}
+            <i class="fa-solid fa-piggy-bank"></i>
+            {% elif reto.categoria == 'inteligencia' %}
+            <i class="fa-solid fa-brain"></i>
+            {% elif reto.categoria == 'salud' %}
+            <i class="fa-solid fa-dumbbell"></i>
+            {% elif reto.categoria == 'mente' %}
+            <i class="fa-solid fa-face-frown"></i>
+            {% endif %}
+            {% valor_categoria reto.categoria %}
         </h6>
     </div>
 </div>
@@ -93,17 +95,42 @@
           </div>
           {% else %}
           <div class="col-md-1 col align-self-center text-center">
-              {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech=texto_recompensa %}
+              {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='texto_recompensa' %}
           </div>
           {% endif %}
       </div>
 </div>
 
-<div class='d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5'>
-    <button id="boton-siguiente" class="btn btn-primary fw-bold" type="button"
-            onclick="cambiarPestana('etapas', 'reto-content')">
-        Siguiente
-        <i class="fa-solid fa-angle-right"></i>
-    </button>
+<div class="row">
+    {% if reto.coordinador.email == user.get_username %}
+    <div class="col d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5">
+        <button id="boton-editar" class="btn btn-primary fw-bold" type="button"
+                onclick="editarReto()">
+            <i class="fa-solid fa-play"></i>
+            Editar
+        </button>
+    </div>
+    <div class="col d-flex justify-content-center mt-2 mt-sm-3 mt-lg-5">
+        <button id="boton-coordinador" class="btn btn-primary fw-bold" type="button"
+                hx-target="#dialog-participantes"
+                hx-get="{% url 'coordinador_reto' id_reto=reto.id_reto}">
+            <i class="fa-solid fa-play"></i>
+            Coordinador
+        </button>
+    </div>
+    <div class="col d-flex justify-content-center mt-2 mt-sm-3 mt-lg-5">
+        <button id="boton-eliminar" class="btn btn-primary fw-bold borrar" type="button"
+                onclick="eliminarReto()">
+            <i class="fa-sharp fa-solid fa-trash"></i>
+            Eliminar
+        </button>
+    </div>
+    {% endif %}
+    <div class='col d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5'>
+        <button id="boton-siguiente" class="btn btn-primary fw-bold" type="button"
+                onclick="cambiarPestana('etapas', 'reto-content')">
+            Siguiente
+            <i class="fa-solid fa-angle-right"></i>
+        </button>
+    </div>
 </div>
-

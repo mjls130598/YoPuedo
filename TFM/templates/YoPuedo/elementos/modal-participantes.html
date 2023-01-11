@@ -1,0 +1,176 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title titulo-modal fw-bold">
+      <i class="fa-solid fa-rotate"></i>
+      Cambiar coordinador
+    </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <form class="form row" hx-get="{{ request.path }}">
+        <div class="col-8 col-md-9 col-lg-10">
+            {% for field in form_consulta %}
+                {{ field }}
+            {% endfor %}
+        </div>
+        <button type="submit"
+                class="col-2 col-md-1 fw-bold btn btn-primary buscar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <div class="col-1">
+            {% include 'YoPuedo/elementos/microfono.html' with
+            elementRecognition="buscador_participantes" %}
+        </div>
+    </form>
+
+    <div class="participantes m-2">
+        {% for participante in participantes %}
+        <div class="row pt-2 pb-2" id="participante-{{ participante.usuario.email }}">
+            <div class="foto-perfil col-4 col-lg-3">
+                <img class="imagen-perfil img-fluid rounded mx-auto d-block"
+                     src="{{ participante.usuario.foto_perfil }}">
+            </div>
+            <div class="nombre col-5 col-lg-6 align-self-center">
+                <h5 class="fw-bold">
+                    {{ participante.usuario.nombre }}
+                </h5>
+            </div>
+            <div class="botones col-3 col-lg-3 align-self-center">
+                <button class="anadir-participante btn btn-primary fw-bold"
+                        onclick="anadirparticipante({{ participante }})">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </div>
+                        <div class="d-none d-lg-block col-8">
+                            Añadir
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="m-3" id="paginador">
+      <nav>
+        <ul class="pagination justify-content-center">
+          {% if participantes.has_previous %}
+            <li page-item>
+                <a class="page-link"
+                   onclick="irPagina('{{ participantes.previous_page_number }}')">
+                    &laquo;
+                </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&laquo;</span>
+            </li>
+          {% endif %}
+          {% for i in participantes.paginator.page_range %}
+            {% if participantes.number == i %}
+              <li class="page-item active">
+                  <span class="page-link">
+                      {{ i }}
+                      <span class="sr-only">(Actual)</span>
+                  </span>
+              </li>
+            {% else %}
+              <li class="page-item">
+                  <a class="page-link"
+                   onclick="irPagina('{{ i }}')">
+                      {{ i }}
+                  </a>
+              </li>
+            {% endif %}
+          {% endfor %}
+          {% if participantes.has_next %}
+            <li class="page-item">
+                <a class="page-link"
+                   onclick="irPagina('{{ participantes.next_page_number }}')">
+                    &raquo;
+                </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&raquo;</span>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <div class="modal-footer justify-content-end">
+    <button type="button" class="btn btn-primary fw-bold aceptar" data-bs-dismiss="modal"
+            onclick="cambiarCoordinador()">
+      <i class="fa-solid fa-check"></i>
+      Aceptar
+    </button>
+  </div>
+</div>
+
+<script>
+    participante = "";
+
+/****************************************************************************************/
+
+    // Función para añadir participantes a la lista
+    function anadirParticipante(participante){
+        participante = participante.usuario.email;
+
+        divParticipante = document.getElementById("participante-" + participante.email);
+        divParticipante.classList.add("seleccionado");
+        button = divParticipante.getElementsByClassName("anadir-participante")[0];
+        button.classList.remove("anadir-participante");
+        button.classList.add("borrar-participante");
+        button.setAttribute("onclick", "eliminarParticipante({'usuario':{"+
+            "'email':'" + participante.email + "'," +
+            "'foto_perfil':'" + participante.foto_perfil + "'," +
+            "'nombre':'" + participante.nombre + "'"
+        +"}})");
+        i = button.getElementsByTagName("i")[0];
+        i.className = "fa-solid fa-user-minus";
+        divTexto = button.getElementsByTagName("div")[2];
+        divTexto.innerText = "Eliminar";
+    }
+
+/****************************************************************************************/
+
+    // Función para eliminar participantes de la lista
+    function eliminarParticipante(participante){
+        participante = "";
+
+        divParticipante = document.getElementById("participante-" + participante.usuario.email);
+        divParticipante.classList.remove("seleccionado");
+        button = divParticipante.getElementsByClassName("borrar-participante")[0];
+        button.classList.add("anadir-participante");
+        button.classList.remove("borrar-participante");
+        button.setAttribute("onclick", "anadirParticipante({'usuario':{"+
+            "'email':'" + participante.usuario.email + "'," +
+            "'foto_perfil':'" + participante.usuario.foto_perfil + "'," +
+            "'nombre':'" + participante.usuario.nombre + "'"
+        +"}})");
+        i = button.getElementsByTagName("i")[0];
+        i.className = "fa-solid fa-user-plus";
+        divTexto = button.getElementsByTagName("div")[2];
+        divTexto.innerText = "Añadir";
+    }
+
+/****************************************************************************************/
+
+    // Función para añadir participantes
+    function cambiarCoordinador(){
+        if(participante != "")
+            htmx.ajax('POST', {{ request.get_path }}, {target:'#dialog-participantes',
+                swap:'innerHTML', values:{'coordinador': participante}});
+    }
+
+/****************************************************************************************/
+
+    // Función para la redirección de paginación
+    function irPagina(pagina){
+        const urlParams = new URLSearchParams(window.location.search);
+        enlace = enlace = "{{ request.get_full_path }}&page=" + pagina;
+
+        htmx.ajax('GET', enlace, {target:'#dialog-participantes', swap:'innerHTML'})
+    }
+</script>

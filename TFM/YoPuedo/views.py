@@ -607,10 +607,10 @@ def get_amigos(request):
 
     amigos = list(chain(amigos_amigo, amigos_otro))
 
-    logger.info("Paginamos cada uno de los estados del reto")
+    logger.info("Paginamos los amigos de esa persona")
     paginator = Paginator(amigos, 3)
 
-    logger.info("Obtenemos los retos de la página indicada para ese estado")
+    logger.info("Obtenemos los amigos de la página indicada para ese estado")
 
     try:
         amigos = paginator.get_page(pagina)
@@ -730,16 +730,47 @@ def eliminar_reto(request, id_reto):
 # Función para cambiar el coordinador del reto
 @login_required
 def coordinador_reto(request, id_reto):
-    coordinador = request.POST.get('coordinador')
+    if request.method == 'POST':
+        coordinador = request.POST.get('coordinador')
 
-    logger.info(f"Cambiamos el coordinador por {coordinador}")
-    reto = Reto.objects.get(id_reto=id_reto)
-    reto.coordinador = Usuario.objects.get(email=coordinador)
-    reto.save()
+        logger.info(f"Cambiamos el coordinador por {coordinador}")
+        reto = Reto.objects.get(id_reto=id_reto)
+        reto.coordinador = Usuario.objects.get(email=coordinador)
+        reto.save()
 
-    logger.info(f"Redirigimos con un status {HTTPStatus.ACCEPTED}")
+        logger.info(f"Redirigimos con un status {HTTPStatus.ACCEPTED}")
 
-    return HttpResponse(status=HTTPStatus.ACCEPTED)
+        return HttpResponse(status=HTTPStatus.ACCEPTED)
+
+    else:
+        formulario = AmigosForm(request.GET)
+        consulta = formulario.data['consulta'] if 'consulta' in formulario.data else ""
+        pagina = request.GET.get('page')
+
+        logger.info("Encontramos los participantes del reto y lo mandamos")
+        if consulta != "":
+            participantes = Participante.objects.filter(Q(reto__id_reto=id_reto),
+                                                        Q(usuario__email__contains=consulta) |
+                                                        Q(usuario__nombre__contains=consulta)). \
+                exclude(usuario__email=request.user.email).values('usuario')
+        else:
+            participantes = Participante.objects.filter(Q(reto__id_reto=id_reto)). \
+                exclude(usuario__email=request.user.email).values('usuario')
+
+        logger.info("Paginamos los participantes del reto")
+        paginator = Paginator(participantes, 3)
+
+        logger.info("Obtenemos los participantes de la página indicada")
+
+        try:
+            participantes = paginator.get_page(pagina)
+        except PageNotAnInteger:
+            participantes = paginator.get_page(1)
+        except EmptyPage:
+            participantes = paginator.get_page(1)
+
+        return render(request, "YoPuedo/elementos/modal-participantes.html",
+                      {'participantes': participantes})
 
 
 ##########################################################################################

@@ -131,3 +131,28 @@
   }
 </script>
 {% endblock %}
+
+{% block modales %}
+  <div class="modal fade" id="modal-participantes">
+    <div class="modal-dialog row align-items-center my-0" id="dialog-participantes"
+         hx-target="this">
+    </div>
+  </div>
+
+  <script>
+     // Funciones para controlar el modal
+    ;(function () {
+      const modal = new bootstrap.Modal(document.getElementById("modal-participantes"))
+      htmx.on("htmx:afterSwap", (e) => {
+        // Response targeting #dialog => show the modal
+        if (e.detail.target.id == "dialog-participantes") {
+          modal.show()
+        }
+      })
+      // Remove dialog content after hiding
+      htmx.on("hidden.bs.modal", () => {
+        document.getElementById("dialog-participantes").innerHTML = "";
+      })
+    })()
+  </script>
+{% endblock %}
