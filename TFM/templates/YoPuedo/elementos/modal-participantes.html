@@ -21,7 +21,6 @@
             {% include 'YoPuedo/elementos/microfono.html' with elementRecognition="buscador_participantes" %}
         </div>
     </form>
-
     <div class="participantes m-2">
         {% for participante in participantes %}
         <div class="row pt-2 pb-2" id="participante-{{ participante.usuario.email }}">
@@ -113,18 +112,22 @@
 /****************************************************************************************/
 
     // Función para añadir participantes a la lista
-    function anadirParticipante(participante){
-        participante = participante.usuario.email;
+    function anadirParticipante(nuevo_participante){
 
-        divParticipante = document.getElementById("participante-" + participante.email);
+        if(participante != nuevo_participante && participante != "")
+            eliminarParticipante(participante);
+
+        participante = nuevo_participante;
+
+        divParticipante = document.getElementById("participante-" + participante.usuario.email);
         divParticipante.classList.add("seleccionado");
         button = divParticipante.getElementsByClassName("anadir-participante")[0];
         button.classList.remove("anadir-participante");
         button.classList.add("borrar-participante");
         button.setAttribute("onclick", "eliminarParticipante({'usuario':{"+
-            "'email':'" + participante.email + "'," +
-            "'foto_perfil':'" + participante.foto_perfil + "'," +
-            "'nombre':'" + participante.nombre + "'"
+            "'email':'" + participante.usuario.email + "'," +
+            "'foto_perfil':'" + participante.usuario.foto_perfil + "'," +
+            "'nombre':'" + participante.usuario.nombre + "'"
         +"}})");
         i = button.getElementsByTagName("i")[0];
         i.className = "fa-solid fa-user-minus";
@@ -135,18 +138,18 @@
 /****************************************************************************************/
 
     // Función para eliminar participantes de la lista
-    function eliminarParticipante(participante){
+    function eliminarParticipante(viejo_participante){
         participante = "";
 
-        divParticipante = document.getElementById("participante-" + participante.usuario.email);
+        divParticipante = document.getElementById("participante-" + viejo_participante.usuario.email);
         divParticipante.classList.remove("seleccionado");
         button = divParticipante.getElementsByClassName("borrar-participante")[0];
         button.classList.add("anadir-participante");
         button.classList.remove("borrar-participante");
         button.setAttribute("onclick", "anadirParticipante({'usuario':{"+
-            "'email':'" + participante.usuario.email + "'," +
-            "'foto_perfil':'" + participante.usuario.foto_perfil + "'," +
-            "'nombre':'" + participante.usuario.nombre + "'"
+            "'email':'" + viejo_participante.usuario.email + "'," +
+            "'foto_perfil':'" + viejo_participante.usuario.foto_perfil + "'," +
+            "'nombre':'" + viejo_participante.usuario.nombre + "'"
         +"}})");
         i = button.getElementsByTagName("i")[0];
         i.className = "fa-solid fa-user-plus";
