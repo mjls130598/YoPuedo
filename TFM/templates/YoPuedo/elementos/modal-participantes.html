@@ -163,7 +163,7 @@
     function cambiarCoordinador(){
         if(participante != "")
             htmx.ajax('POST', {{ request.get_path }}, {target:'#dialog-participantes',
-                swap:'innerHTML', values:{'coordinador': participante}});
+                swap:'innerHTML', values:{'coordinador': participante.usuario.email}});
     }
 
 /****************************************************************************************/
