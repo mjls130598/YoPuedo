@@ -642,9 +642,16 @@ def get_reto(request, id_reto):
     participantes = Participante.objects.filter(reto__id_reto=id_reto). \
         exclude(usuario__email=request.user.email)
 
+    participa = Participante.objects.filter(reto__id_reto=id_reto,
+                                            usuario=request.user).exists()
+
+    anima = Animador.objects.filter(reto__id_reto=id_reto,
+                                    usuario=request.user).exists()
+
     return render(request, 'YoPuedo/reto.html',
                   {'reto': reto, 'etapas': etapas, 'animadores': animadores,
-                   'participantes': participantes})
+                   'participantes': participantes, 'participa': participa,
+                   'anima': anima})
 
 
 ##########################################################################################
@@ -771,6 +778,17 @@ def coordinador_reto(request, id_reto):
 
         return render(request, "YoPuedo/elementos/modal-participantes.html",
                       {'participantes': participantes})
+
+
+##########################################################################################
+
+# Función para eliminar el animador del reto
+@login_required
+def animador_reto(request, id_reto):
+    logger.info(f"Eliminamos al animador del reto {id_reto}")
+    Animador.objects.get(reto__id_reto=id_reto, usuario=request.user).delete()
+
+    return redirect('/mis_retos/')
 
 
 ##########################################################################################
