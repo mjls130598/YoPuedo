@@ -660,7 +660,7 @@ def get_reto(request, id_reto):
 @login_required
 def iniciar_reto(request, id_reto):
     logger.info(f"Iniciamos el reto {id_reto}")
-    reto = Reto.objects.get(id_reto=id_reto)
+    reto = get_object_or_404(Reto, id_reto=id_reto)
     reto.estado = "En proceso"
     reto.save()
 
@@ -678,6 +678,10 @@ def iniciar_reto(request, id_reto):
 # Función para editar el reto
 @login_required
 def editar_reto(request, id_reto):
+
+    logger.info("Comprobamos que existe el reto")
+    reto = get_object_or_404(Reto, id_reto=id_reto)
+
     max_etapas = 5
     general_form = RetoGeneralForm()
     etapas_form_model = formset_factory(RetoEtapaForm, formset=EtapasFormSet,
@@ -707,6 +711,9 @@ def editar_reto(request, id_reto):
 # Función para eliminar el reto
 @login_required
 def eliminar_reto(request, id_reto):
+    logger.info("Comprobamos que existe el reto")
+    get_object_or_404(Reto, id_reto=id_reto)
+
     logger.info("Eliminamos los ánimos del reto")
     Animo.objects.filter(etapa__reto__id_reto=id_reto).delete()
 
@@ -737,6 +744,10 @@ def eliminar_reto(request, id_reto):
 # Función para cambiar el coordinador del reto
 @login_required
 def coordinador_reto(request, id_reto):
+
+    logger.info("Comprobamos que existe el reto")
+    get_object_or_404(Reto, id_reto=id_reto)
+
     if request.method == 'POST':
         coordinador = request.POST.get('coordinador')
 
@@ -785,6 +796,10 @@ def coordinador_reto(request, id_reto):
 # Función para eliminar el animador del reto
 @login_required
 def animador_reto(request, id_reto):
+
+    logger.info("Comprobamos que existe el reto")
+    get_object_or_404(Reto, id_reto=id_reto)
+
     logger.info(f"Eliminamos al animador del reto {id_reto}")
     Animador.objects.get(reto__id_reto=id_reto, usuario=request.user).delete()
 
