@@ -112,21 +112,25 @@
     clone_cuerpo.setAttribute("aria-labelledby", "etapa-" + num_etapa + "-tab");
 
     // Cambiamos ids de los inputs
-    btn_foto = clone_cuerpo.getElementsByTagName("input")[0];
+    btn_foto = clone_cuerpo.getElementsByTagName("input")[1];
     btn_foto.name = "form-" + (num_etapa - 1) + "-objetivo_imagen";
     btn_foto.id = "id_form-" + (num_etapa - 1) + "-objetivo_imagen";
+    btn_foto.value = "";
 
-    btn_audio = clone_cuerpo.getElementsByTagName("input")[1];
+    btn_audio = clone_cuerpo.getElementsByTagName("input")[2];
     btn_audio.name = "form-" + (num_etapa - 1) + "-objetivo_audio";
     btn_audio.id = "id_form-" + (num_etapa - 1) + "-objetivo_audio";
+    btn_audio.value = "";
 
-    btn_video = clone_cuerpo.getElementsByTagName("input")[2];
+    btn_video = clone_cuerpo.getElementsByTagName("input")[3];
     btn_video.name = "form-" + (num_etapa - 1) + "-objetivo_video";
     btn_video.id = "id_form-" + (num_etapa - 1) + "-objetivo_video";
+    btn_video.value = ""
 
     textarea = clone_cuerpo.getElementsByTagName("textarea")[0];
     textarea.name = "form-" + (num_etapa - 1) + "-objetivo_texto";
     textarea.id = "id_form-" + (num_etapa - 1) + "-objetivo_texto";
+    textaera.value = "";
 
     microfono = clone_cuerpo.getElementsByClassName("microfono")[0];
     microfono.id = "microfono_id_form-" + (num_etapa - 1) +"-objetivo_texto";
