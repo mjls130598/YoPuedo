@@ -112,6 +112,11 @@
     clone_cuerpo.setAttribute("aria-labelledby", "etapa-" + num_etapa + "-tab");
 
     // Cambiamos ids de los inputs
+    id_etapa = clone_cuerpo.getElementsByTagName("input")[0];
+    id_etapa.name = "form-" + (num_etapa - 1) + "-id_etapa";
+    id_etapa.id = "id_form-" + (num_etapa - 1) + "-id_etapa";
+    id_etapa.value = "";
+
     btn_foto = clone_cuerpo.getElementsByTagName("input")[1];
     btn_foto.name = "form-" + (num_etapa - 1) + "-objetivo_imagen";
     btn_foto.id = "id_form-" + (num_etapa - 1) + "-objetivo_imagen";
