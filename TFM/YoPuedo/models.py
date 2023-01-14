@@ -48,8 +48,9 @@ class Usuario(AbstractBaseUser):
 
 # TABLA YoPuedo_amistad
 class Amistad(models.Model):
-    amigo = models.ManyToManyField(Usuario, related_name="amigo")
-    otro_amigo = models.ManyToManyField(Usuario, related_name="otro_Amigo")
+    amigo = models.ManyToManyField(Usuario, related_name="amigo", on_delete=models.CASCADE)
+    otro_amigo = models.ManyToManyField(Usuario, related_name="otro_amigo",
+                                        on_delete=models.CASCADE)
 
 
 # TABLA YoPuedo_reto
@@ -65,14 +66,14 @@ class Reto(models.Model):
 
 # TABLA YoPuedo_participante:
 class Participante(models.Model):
-    usuario = models.ManyToManyField(Usuario)
-    reto = models.ManyToManyField(Reto)
+    usuario = models.ManyToManyField(Usuario, on_delete=models.CASCADE)
+    reto = models.ManyToManyField(Reto, on_delete=models.CASCADE)
 
 
 # TABLA YoPuedo_animador:
 class Animador(models.Model):
-    usuario = models.ManyToManyField(Usuario)
-    reto = models.ManyToManyField(Reto)
+    usuario = models.ManyToManyField(Usuario, on_delete=models.CASCADE)
+    reto = models.ManyToManyField(Reto, on_delete=models.CASCADE)
     superanimador = models.BooleanField(default=False)
 
 
@@ -86,22 +87,22 @@ class Etapa(models.Model):
 
 # TABLA YoPuedo_animo
 class Animo(models.Model):
-    etapa = models.ManyToManyField(Etapa)
-    animador = models.ManyToManyField(Animador)
+    etapa = models.ManyToManyField(Etapa, on_delete=models.CASCADE)
+    animador = models.ManyToManyField(Animador, on_delete=models.CASCADE)
     mensaje = models.CharField(max_length=500)
 
 
 # TABLA YoPuedo_prueba
 class Prueba(models.Model):
-    etapa = models.ManyToManyField(Etapa)
-    animador = models.ManyToManyField(Animador)
+    etapa = models.ManyToManyField(Etapa, on_delete=models.CASCADE)
+    participante = models.ManyToManyField(Participante, on_delete=models.CASCADE)
     prueba = models.CharField(max_length=500)
 
 
 # TABLA YoPuedo_calificacion
 class Calificacion(models.Model):
-    etapa = models.ManyToManyField(Etapa)
-    usuario = models.ManyToManyField(Animador)
+    etapa = models.ManyToManyField(Etapa, on_delete=models.CASCADE)
+    participante = models.ManyToManyField(Participante, on_delete=models.CASCADE)
     calificacion = models.CharField(max_length=500)
 
 

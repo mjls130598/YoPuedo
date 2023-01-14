@@ -123,3 +123,8 @@ class Utils:
                 id_etapa = "ETP"
 
         return id_etapa
+
+    @staticmethod
+    def eliminarArchivo(archivo):
+        logger.info(f"Eliminamos el archivo {archivo}")
+        os.remove(archivo)

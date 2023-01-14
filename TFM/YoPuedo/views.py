@@ -535,7 +535,7 @@ def nuevo_reto(request):
                 participante.save()
 
                 # Redireccionamos a la visualización del reto
-                return redirect(f'/mis_retos/{id_reto}')
+                return redirect(f'/reto/{id_reto}')
 
             else:
                 logger.error("Error al validar formulario NUEVO RETO")
@@ -685,7 +685,6 @@ def editar_reto(request, id_reto):
     logger.info("Recogemos el resto de información de un reto")
     animadores = Animador.objects.filter(reto__id_reto=id_reto)
     participantes = Participante.objects.filter(reto__id_reto=id_reto)
-    etapas = Etapa.objects.filter(reto=reto)
 
     max_etapas = 5
     errores = False
@@ -696,6 +695,7 @@ def editar_reto(request, id_reto):
     if request.method == 'GET':
         logger.info("Entramos en la parte GET de EDITAR RETO")
 
+        etapas = Etapa.objects.filter(reto=reto)
         files = {}
         data = {'titulo': reto.titulo}
 
@@ -709,7 +709,7 @@ def editar_reto(request, id_reto):
                 files['objetivo_imagen'] = SimpleUploadedFile(objetivo_imagen.name,
                                                               objetivo_imagen.read())
             elif "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in \
-                        reto.objetivo or "wma" in reto.objetivo:
+                    reto.objetivo or "wma" in reto.objetivo:
                 objetivo_audio = reto.objetivo
                 objetivo_audio = open(objetivo_audio, 'rb')
                 files['objetivo_audio'] = SimpleUploadedFile(objetivo_audio.name,
@@ -732,7 +732,7 @@ def editar_reto(request, id_reto):
                 files['recompensa_imagen'] = SimpleUploadedFile(recompensa_imagen.name,
                                                                 recompensa_imagen.read())
             elif "mp3" in reto.recompensa or "acc" in reto.recompensa or "ogg" in \
-                        reto.recompensa or "wma" in reto.recompensa:
+                    reto.recompensa or "wma" in reto.recompensa:
                 recompensa_audio = reto.recompensa
                 recompensa_audio = open(recompensa_audio, 'rb')
                 files['recompensa_audio'] = SimpleUploadedFile(recompensa_audio.name,
@@ -760,6 +760,7 @@ def editar_reto(request, id_reto):
 
         for index, etapa in enumerate(etapas):
             logger.info("Recogemos el tipo de objetivo de la etapa guardado")
+            data[f'form-{index}-id_etapa'] = etapa.id_etapa
             if "/media/" in etapa.objetivo:
                 if "jpg" in etapa.objetivo or "jpeg" in etapa.objetivo or "png" in \
                         etapa.objetivo or "svg" in etapa.objetivo or "gif" in \
@@ -791,6 +792,246 @@ def editar_reto(request, id_reto):
         logger.info("Entramos en la parte POST de EDITAR RETO")
         logger.info(f"Modificamos el reto {id_reto}")
 
+        # Primero obtenemos los animadores
+        logger.info("Obtenemos animadores")
+        animadores_email = request.POST.getlist('animador')
+
+        # Segundo obtenemos los participantes
+        logger.info("Obtenemos participantes")
+        participantes_email = request.POST.getlist('participante')
+
+        # Después obtenemos la parte general y las etapas del reto
+        general_form = RetoGeneralForm(request.POST, request.FILES)
+        etapas_form = etapas_form_model(request.POST, request.FILES)
+
+        etapas_validas = etapas_form.is_valid()
+        # Comprobamos si la parte principal es correcto
+        if general_form.is_valid() and etapas_validas:
+            logger.info(f"Guardamos formulario EDITAR RETO de {id_reto}")
+            # Obtenemos datos de la pestaña GENERAL
+            titulo = general_form.cleaned_data['titulo'].value()
+            logger.info(f'TÍTULO: {titulo}')
+
+            objetivo_texto = general_form.cleaned_data['objetivo_texto'].value()
+            objetivo_imagen = request.FILES["objetivo_imagen"] \
+                if 'objetivo_imagen' in request.FILES else None
+            objetivo_audio = request.FILES["objetivo_audio"] \
+                if 'objetivo_audio' in request.FILES else None
+            objetivo_video = request.FILES["objetivo_video"] \
+                if 'objetivo_video' in request.FILES else None
+
+            objetivo_multimedia = objetivo_imagen if objetivo_imagen else (
+                objetivo_audio if objetivo_audio else objetivo_video)
+
+            if objetivo_multimedia:
+                fichero, extension = os.path.splitext(objetivo_multimedia.name)
+                directorio = os.path.join(BASE_DIR, "media", "YoPuedo", id_reto)
+                localizacion = os.path.join(directorio, 'OBJETIVO' + extension)
+                objetivo = os.path.join("/media", "YoPuedo", id_reto,
+                                        'OBJETIVO' + extension)
+                try:
+                    if "/media/" in reto.objetivo:
+                        Utils.eliminarArchivo(BASE_DIR + reto.objetivo)
+
+                    Utils.handle_uploaded_file(objetivo_multimedia, localizacion,
+                                               directorio)
+                except:
+                    logger.error("Error al subir el objetivo")
+            else:
+                objetivo = objetivo_texto
+
+            if objetivo != reto.objetivo and "/media/" in reto.objetivo:
+                logger.info("Borramos el antiguo objetivo del reto")
+                Utils.eliminarArchivo(BASE_DIR + reto.objetivo)
+
+            logger.info(f"OBJETIVO: {objetivo}")
+
+            recompensa_texto = general_form.cleaned_data['recompensa_texto'].value()
+            recompensa_imagen = request.FILES["recompensa_imagen"] \
+                if 'recompensa_imagen' in request.FILES else None
+            recompensa_audio = request.FILES["recompensa_audio"] \
+                if 'recompensa_audio' in request.FILES else None
+            recompensa_video = request.FILES["recompensa_video"] \
+                if 'recompensa_video' in request.FILES else None
+
+            recompensa_multimedia = recompensa_imagen if recompensa_imagen else (
+                recompensa_audio if recompensa_audio else recompensa_video)
+
+            if recompensa_multimedia:
+                if recompensa_multimedia.name != reto.recompensa:
+                    fichero, extension = os.path.splitext(recompensa_multimedia.name)
+                    directorio = os.path.join(BASE_DIR, "media", "YoPuedo", id_reto)
+                    localizacion = os.path.join(directorio, 'RECOMPENSA' + extension)
+                    recompensa = os.path.join("/media", "YoPuedo", id_reto,
+                                              'RECOMPENSA' + extension)
+                    try:
+                        Utils.handle_uploaded_file(recompensa_multimedia, localizacion,
+                                                   directorio)
+                    except:
+                        logger.error("Error al subir la recompensa")
+            else:
+                recompensa = recompensa_texto
+
+            if recompensa != reto.recompensa and "/media/" in reto.recompensa:
+                logger.info("Borramos la antigua recompensa del reto")
+                Utils.eliminarArchivo(BASE_DIR + reto.recompensa)
+
+            logger.info(f"RECOMPENSA: {recompensa}")
+
+            categoria = general_form.cleaned_data['categoria'].value()
+            logger.info(f"CATEGORIA: {categoria}")
+
+            # Guardamos reto
+            reto.titulo = titulo
+            reto.objetivo = objetivo
+            reto.recompensa = recompensa
+            reto.categoria = categoria
+            reto.save()
+
+            etapas = Etapa.objects.filter(reto=reto).values("id_etapa")
+            etapas_ids = []
+            logger.info("Recogemos las etapas ")
+            for etapa in etapas:
+                etapas_ids.append(etapa['id_etapa'])
+
+            # Guardamos datos de las pestañas de ETAPAS
+            logger.info("Modificación de ETAPAS")
+            for index, etapa_form in enumerate(etapas_form):
+                id_etapa = etapa_form.cleaned_data['id_etapa'].value()
+                objetivo_texto = etapa_form.cleaned_data['objetivo_texto'].value()
+                objetivo_imagen = request.FILES[f"form-{index}-objetivo_imagen"] \
+                    if f"form-{index}-objetivo_imagen" in request.FILES else None
+                objetivo_audio = request.FILES[f"form-{index}-objetivo_audio"] \
+                    if f"form-{index}-objetivo_audio" in request.FILES else None
+                objetivo_video = request.FILES[f"form-{index}-objetivo_video"] \
+                    if f"form-{index}-objetivo_video" in request.FILES else None
+
+                objetivo_multimedia = objetivo_imagen if objetivo_imagen else (
+                    objetivo_audio if objetivo_audio else objetivo_video)
+
+                if objetivo_multimedia:
+                    fichero, extension = os.path.splitext(objetivo_multimedia.name)
+                    directorio = os.path.join(BASE_DIR, "media", "YoPuedo", id_reto,
+                                              id_etapa)
+                    localizacion = os.path.join(directorio, 'OBJETIVO' + extension)
+                    objetivo = os.path.join("/media", "YoPuedo", id_reto, id_etapa,
+                                            'OBJETIVO' + extension)
+                    try:
+                        Utils.handle_uploaded_file(objetivo_multimedia, localizacion,
+                                                   directorio)
+                    except:
+                        logger.error("Error al subir el objetivo")
+                else:
+                    objetivo = objetivo_texto
+
+                logger.info(f"OBJETIVO: {objetivo}")
+
+                if id_etapa == "":
+                    id_etapa = Utils.crear_id_etapa()
+                    logger.info(f"NUEVA ETAPA {id_etapa}")
+
+                    Etapa(id_etapa=id_etapa, reto=reto, objetivo=objetivo).save()
+                else:
+                    etapas_ids.remove(id_etapa)
+                    etapa = Etapa.objects.get(id_etapa=id_etapa)
+                    if objetivo != etapa.objetivo and "/media/" in etapa.objetivo:
+                        logger.info(
+                            f"Borramos el antiguo objetivo de la etapa {id_etapa}")
+                        Utils.eliminarArchivo(BASE_DIR + reto.objetivo)
+                    etapa.objetivo = objetivo
+                    etapa.save()
+
+            logger.info("Borramos en la BD las etapas del reto eliminadas")
+            for etapa_id in etapas_ids:
+                logger.info(f"Eliminamos la etapa {etapa_id}")
+                Etapa.objects.get(id_etapa=etapa_id).delete()
+
+            logger.info("Obtenemos los animadores anteriores")
+            animadores = Animador.objects.filter(reto__id_reto=id_reto).values(
+                "usuario__email")
+            animadores_antiguos_emails = []
+            for animador in animadores:
+                animadores_antiguos_emails.append(animador['usuario__email'])
+
+            logger.info("Inserción de ANIMADORES")
+            # Guardamos a los animadores del reto
+            for animador_email in animadores_email:
+                logger.info(f"ANIMADOR: {animador_email}")
+                superanimador = request.POST.get(
+                    f'superanimador-{animador_email}') == "true"
+                if not animador_email in animadores_antiguos_emails:
+                    usuario = Usuario.objects.get(email=animador_email)
+                    animador = Animador()
+                    animador.save()
+                    animador.reto.add(reto)
+                    animador.usuario.add(usuario)
+                else:
+                    animadores_antiguos_emails.remove(animador_email)
+                    animador = Animador.objects.filter(Q(usuario__email=animador_email),
+                                                       Q(reto__ide_reto=id_reto))[0]
+                    animador.superanimador = superanimador
+                    animador.save()
+
+            logger.info("Borramos el resto de animadores")
+            for animador_email in animadores_antiguos_emails:
+                logger.info(f"Eliminamos el animador {animador_email}")
+                Animador.objects.filter(Q(usuario__email=animador_email),
+                                        Q(reto__id_reto=id_reto)).delete()
+
+            logger.info("Obtenemos los participantes anteriores")
+            participantes = Participante.objects.filter(reto__id_reto=id_reto).values(
+                "usuario__email")
+            participantes_antiguos_email = []
+            for participante in participantes:
+                participantes_antiguos_email.append(participante['usuario__email'])
+
+            logger.info("Inserción de PARTICIPANTES")
+            # Guardamos a los participantes del reto
+            for participante_email in participantes_email:
+                logger.info(f"PARTICIPANTE: {participante_email}")
+
+                if not participante_email in participantes_antiguos_email:
+                    usuario = Usuario.objects.get(email=participante_email)
+                    participante = Participante()
+                    participante.save()
+                    participante.reto.add(reto)
+                    participante.usuario.add(usuario)
+                    participante.save()
+
+                else:
+                    participantes_antiguos_email.remove(participante_email)
+
+            logger.info("Borramos el resto de participantes")
+            for participante_email in participantes_antiguos_email:
+                logger.info(f"Eliminamos el animador {participante_email}")
+                Participante.objects.filter(Q(usuario__email=participante_email),
+                                        Q(reto__id_reto=id_reto)).delete()
+
+            # Redireccionamos a la visualización del reto
+            return redirect(f'/reto/{id_reto}')
+
+        else:
+            logger.error(f"Error al validar formulario EDITAR RETO {id_reto}")
+            errores = True
+
+            # De cada animador, obtenemos su usuario y si es superanimador
+            for animador_email in animadores_email:
+                logger.info(f"Animador {animador_email}")
+                usuario = Usuario.objects.filter(email=animador_email) \
+                    .values('email', 'foto_perfil', 'nombre')[0]
+                superanimador = request.POST.get(f'superanimador-{animador_email}')
+                animadores.append(
+                    {'usuario': usuario, 'superanimador': superanimador})
+
+            # De cada participante, obtenemos su usuario
+            for participante_email in participantes_email:
+                logger.info(f"Participante {participante_email}")
+                usuario = Usuario.objects.filter(email=participante_email) \
+                    .values('email', 'foto_perfil', 'nombre')[0]
+                logger.info(f"Obtenemos datos usuario: {usuario.email}, "
+                            f"{usuario.foto_perfil}, {usuario.nombre}")
+                participantes.append({'usuario': usuario})
+
     return render(request, "YoPuedo/nuevo_reto.html",
                   {"general_form": general_form,
                    "etapas_form": etapas_form, "errores": errores,
@@ -805,24 +1046,6 @@ def editar_reto(request, id_reto):
 def eliminar_reto(request, id_reto):
     logger.info("Comprobamos que existe el reto")
     get_object_or_404(Reto, id_reto=id_reto)
-
-    logger.info("Eliminamos los ánimos del reto")
-    Animo.objects.filter(etapa__reto__id_reto=id_reto).delete()
-
-    logger.info("Eliminamos las pruebas del reto")
-    Prueba.objects.filter(etapa__reto__id_reto=id_reto).delete()
-
-    logger.info("Eliminamos las calificaciones del reto")
-    Calificacion.objects.filter(etapa__reto__id_reto=id_reto).delete()
-
-    logger.info("Eliminamos las etapas del reto")
-    Etapa.objects.filter(reto__id_reto=id_reto).delete()
-
-    logger.info("Eliminamos los animadores del reto")
-    Animador.objects.filter(reto__id_reto=id_reto).delete()
-
-    logger.info("Eliminamos los participantes del reto")
-    Participante.objects.filter(reto__id_reto=id_reto).delete()
 
     logger.info(f"Eliminamos el reto {id_reto}")
     Reto.objects.get(id_reto=id_reto).delete()
@@ -891,7 +1114,8 @@ def animador_reto(request, id_reto):
     get_object_or_404(Reto, id_reto=id_reto)
 
     logger.info(f"Eliminamos al animador del reto {id_reto}")
-    Animador.objects.get(reto__id_reto=id_reto, usuario=request.user).delete()
+    Animador.objects.get(reto__id_reto=id_reto,
+                         usuario__email=request.user.username).delete()
 
     return redirect('/mis_retos/')
 
