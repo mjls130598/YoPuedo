@@ -309,6 +309,8 @@ class RetoEtapaForm(forms.Form):
             'rows': '5'
         }), required=False)
 
+    id_etapa = forms.CharField(widget=forms.HiddenInput(), initial="")
+
     def clean(self):
         logger.info("Checkeando nuevo reto - Etapa")
 

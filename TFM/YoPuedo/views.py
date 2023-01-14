@@ -5,6 +5,7 @@ from itertools import chain
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q, F, Count
 from django.http import HttpResponse, HttpResponseRedirect
@@ -678,22 +679,113 @@ def iniciar_reto(request, id_reto):
 # Función para editar el reto
 @login_required
 def editar_reto(request, id_reto):
-
     logger.info("Comprobamos que existe el reto")
     reto = get_object_or_404(Reto, id_reto=id_reto)
 
+    logger.info("Recogemos el resto de información de un reto")
+    animadores = Animador.objects.filter(reto__id_reto=id_reto)
+    participantes = Participante.objects.filter(reto__id_reto=id_reto)
+    etapas = Etapa.objects.filter(reto=reto)
+
     max_etapas = 5
-    general_form = RetoGeneralForm()
+    errores = False
+    etapas_validas = True
     etapas_form_model = formset_factory(RetoEtapaForm, formset=EtapasFormSet,
                                         max_num=max_etapas)
-    etapas_form = etapas_form_model()
-    errores = False
-    animadores = []
-    participantes = []
-    etapas_validas = True
 
     if request.method == 'GET':
         logger.info("Entramos en la parte GET de EDITAR RETO")
+
+        files = {}
+        data = {'titulo': reto.titulo}
+
+        logger.info("Recogemos el tipo de objetivo del reto guardado")
+        if "/media/" in reto.objetivo:
+            if "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in \
+                    reto.objetivo or "svg" in reto.objetivo or "gif" in \
+                    reto.objetivo:
+                objetivo_imagen = reto.objetivo
+                objetivo_imagen = open(objetivo_imagen, 'rb')
+                files['objetivo_imagen'] = SimpleUploadedFile(objetivo_imagen.name,
+                                                              objetivo_imagen.read())
+            elif "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in \
+                        reto.objetivo or "wma" in reto.objetivo:
+                objetivo_audio = reto.objetivo
+                objetivo_audio = open(objetivo_audio, 'rb')
+                files['objetivo_audio'] = SimpleUploadedFile(objetivo_audio.name,
+                                                             objetivo_audio.read())
+            elif "mp4" in reto.objetivo or "ogg" in reto.objetivo:
+                objetivo_video = reto.objetivo
+                objetivo_video = open(objetivo_video, 'rb')
+                files['objetivo_video'] = SimpleUploadedFile(objetivo_video.name,
+                                                             objetivo_video.read())
+        else:
+            data['objetivo_texto'] = reto.objetivo
+
+        logger.info("Recogemos el tipo de recompensa del reto guardado")
+        if "/media/" in reto.recompensa:
+            if "jpg" in reto.recompensa or "jpeg" in reto.recompensa or "png" in \
+                    reto.recompensa or "svg" in reto.recompensa or "gif" in \
+                    reto.recompensa:
+                recompensa_imagen = reto.recompensa
+                recompensa_imagen = open(recompensa_imagen, 'rb')
+                files['recompensa_imagen'] = SimpleUploadedFile(recompensa_imagen.name,
+                                                                recompensa_imagen.read())
+            elif "mp3" in reto.recompensa or "acc" in reto.recompensa or "ogg" in \
+                        reto.recompensa or "wma" in reto.recompensa:
+                recompensa_audio = reto.recompensa
+                recompensa_audio = open(recompensa_audio, 'rb')
+                files['recompensa_audio'] = SimpleUploadedFile(recompensa_audio.name,
+                                                               recompensa_audio.read())
+            elif "mp4" in reto.recompensa or "ogg" in reto.recompensa:
+                recompensa_video = reto.recompensa
+                recompensa_video = open(recompensa_video, 'rb')
+                files['recompensa_video'] = SimpleUploadedFile(recompensa_video.name,
+                                                               recompensa_video.read())
+        else:
+            data['recompensa_texto'] = reto.recompensa
+
+        logger.info("Guardamos los datos del reto recogidos y lo mandamos a su " +
+                    "formulario")
+        general_form = RetoGeneralForm(data=data, files=files)
+
+        logger.info("Recogemos la información de cada una de las etapas")
+        data = {
+            # Etapas
+            'form-INITIAL_FORMS': '0',
+            'form-TOTAL_FORMS': len(etapas),
+            'form-MAX_NUM_FORM': '5',
+        }
+        files = {}
+
+        for index, etapa in enumerate(etapas):
+            logger.info("Recogemos el tipo de objetivo de la etapa guardado")
+            if "/media/" in etapa.objetivo:
+                if "jpg" in etapa.objetivo or "jpeg" in etapa.objetivo or "png" in \
+                        etapa.objetivo or "svg" in etapa.objetivo or "gif" in \
+                        etapa.objetivo:
+                    objetivo_imagen = etapa.objetivo
+                    objetivo_imagen = open(objetivo_imagen, 'rb')
+                    files[f'form-{index}-objetivo_imagen'] = SimpleUploadedFile(
+                        objetivo_imagen.name,
+                        objetivo_imagen.read())
+                elif "mp3" in etapa.objetivo or "acc" in etapa.objetivo or "ogg" in \
+                        etapa.objetivo or "wma" in etapa.objetivo:
+                    objetivo_audio = etapa.objetivo
+                    objetivo_audio = open(objetivo_audio, 'rb')
+                    files[f'form-{index}-objetivo_audio'] = SimpleUploadedFile(
+                        objetivo_audio.name,
+                        objetivo_audio.read())
+                elif "mp4" in etapa.objetivo or "ogg" in etapa.objetivo:
+                    objetivo_video = etapa.objetivo
+                    objetivo_video = open(objetivo_video, 'rb')
+                    files[f'form-{index}-objetivo_video'] = SimpleUploadedFile(
+                        objetivo_video.name,
+                        objetivo_video.read())
+            else:
+                data[f'form-{index}-objetivo_texto'] = etapa.objetivo
+
+        etapas_form = etapas_form_model(data, files)
 
     else:
         logger.info("Entramos en la parte POST de EDITAR RETO")
@@ -744,7 +836,6 @@ def eliminar_reto(request, id_reto):
 # Función para cambiar el coordinador del reto
 @login_required
 def coordinador_reto(request, id_reto):
-
     logger.info("Comprobamos que existe el reto")
     get_object_or_404(Reto, id_reto=id_reto)
 
@@ -796,7 +887,6 @@ def coordinador_reto(request, id_reto):
 # Función para eliminar el animador del reto
 @login_required
 def animador_reto(request, id_reto):
-
     logger.info("Comprobamos que existe el reto")
     get_object_or_404(Reto, id_reto=id_reto)
 
