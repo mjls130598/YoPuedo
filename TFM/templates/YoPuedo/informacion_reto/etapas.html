@@ -1,13 +1,13 @@
 <!-- BOTONES NAVEGACIÓN TABS -->
 <ul class="nav nav-tabs" id="tab-etapas" role="tablist">
-  {% for etapa_form in etapas_form %}
+  {% for etapa in etapas %}
   <li class="nav-item" role="presentation">
     <button class="nav-link {% if forloop.counter == 1 %} active {% endif %}"
             id="etapa-{{ forloop.counter }}-tab" data-bs-toggle="tab"
             data-bs-target="#etapa-{{ forloop.counter }}" type="button" role="tab"
             aria-controls="etapa-{{ forloop.counter }}" aria-selected="true"
-            onclick="cambiarPestanaEtapa('etapa-{{ forloop.counter }}', 'form-etapa-content')">
-      <div class="row {% if etapa_form.errors %} errorlist {% endif %}">
+            onclick="cambiarPestanaEtapa('etapa-{{ forloop.counter }}', 'etapa-content')">
+      <div class="row">
         <div class="col-3">
           <i class="fa-solid fa-chart-simple"></i>
         </div>
