@@ -13,7 +13,7 @@
         {% if reto.coordinador.email == user.get_username %}
         <div class="botones col-4 col-md-3 align-self-center d-md-flex justify-content-end">
             <button type="button" class="superanimador btn btn-primary fw-bold mb-md-0 mb-2 p-1">
-                {% if animador.superanimador == 'true' %}
+                {% if animador.superanimador %}
                 <i class="fa-solid fa-eye m-1"></i>
                 {% else %}
                 <i class="fa-solid fa-eye-slash m-1"></i>

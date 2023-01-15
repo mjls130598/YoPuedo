@@ -628,21 +628,34 @@ def get_reto(request, id_reto):
     etapas = Etapa.objects.filter(reto=reto)
 
     logger.info(f"Miramos los animadores del reto {id_reto}")
-    animadores = Animador.objects.filter(reto=reto).exclude(usuario=request.user)
+    animadores = Animador.objects.filter(reto=reto).exclude(
+        usuario=request.user).values('usuario', 'superanimador')
+
+    logger.info("Modificamos la información obtenida de los animadores para mandarla a " +
+                "frontend")
+    animadores_finales = []
+
+    for animador in animadores:
+        animadores_finales.append({
+            'usuario': Usuario.objects.get(email=animador['usuario']),
+            'superanimador': animador['superanimador']})
 
     logger.info(f"Devolvemos los participantes del reto {id_reto}")
     participantes = Participante.objects.filter(reto=reto).exclude(usuario=request.user)
 
-    participa = Participante.objects.filter(reto=reto,
-                                            usuario=request.user).exists()
+    logger.info("Modificamos la información obtenida de los participantes para mandarla " +
+                "a frontend")
+    participantes_finales = []
+
+    for participante in participantes:
+        participantes_finales.append(Usuario.objects.get(email=participante['usuario']))
 
     anima = Animador.objects.filter(reto=reto,
                                     usuario=request.user).exists()
 
     return render(request, 'YoPuedo/reto.html',
-                  {'reto': reto, 'etapas': etapas, 'animadores': animadores,
-                   'participantes': participantes, 'participa': participa,
-                   'anima': anima})
+                  {'reto': reto, 'etapas': etapas, 'animadores': participantes_finales,
+                   'participantes': participantes, 'anima': anima})
 
 
 ##########################################################################################
@@ -968,7 +981,8 @@ def editar_reto(request, id_reto):
                 Animador.objects.filter(usuario__email=animador_email, reto=reto).delete()
 
             logger.info("Obtenemos los participantes anteriores")
-            participantes = Participante.objects.filter(reto=reto).values("usuario__email")
+            participantes = Participante.objects.filter(reto=reto).values(
+                "usuario__email")
             participantes_antiguos_email = []
             for participante in participantes:
                 participantes_antiguos_email.append(participante['usuario__email'])

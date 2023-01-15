@@ -1,14 +1,14 @@
 <div class='mt-2 mt-sm-3 mt-lg-3 participantes'>
 {% for participante in participantes %}
     <div class="participante p-2 p-md-3 row"
-         id="participante-{{participante.usuario.email}}">
+         id="participante-{{participante.email}}">
         <div class="foto-perfil col-4 col-md-2 col-lg-1">
             <img class="imagen-perfil img-fluid rounded mx-auto d-block"
-                 src="{{participante.usuario.foto_perfil}}">
+                 src="{{participante.foto_perfil}}">
         </div>
         <div class="nombre col-8 col-md-10 col-lg-11 align-self-center">
             <h5 class="fw-bold">
-                {{participante.usuario.nombre}}
+                {{participante.nombre}}
             </h5>
         </div>
     </div>
