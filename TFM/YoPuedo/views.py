@@ -967,20 +967,18 @@ def editar_reto(request, id_reto):
                     animador.usuario.add(usuario)
                 else:
                     animadores_antiguos_emails.remove(animador_email)
-                    animador = Animador.objects.filter(Q(usuario__email=animador_email),
-                                                       Q(reto__ide_reto=id_reto))[0]
+                    animador = Animador.objects.filter(usuario__email=animador_email,
+                                                       reto=reto)[0]
                     animador.superanimador = superanimador
                     animador.save()
 
             logger.info("Borramos el resto de animadores")
             for animador_email in animadores_antiguos_emails:
                 logger.info(f"Eliminamos el animador {animador_email}")
-                Animador.objects.filter(Q(usuario__email=animador_email),
-                                        Q(reto__id_reto=id_reto)).delete()
+                Animador.objects.filter(usuario__email=animador_email, reto=reto).delete()
 
             logger.info("Obtenemos los participantes anteriores")
-            participantes = Participante.objects.filter(reto__id_reto=id_reto).values(
-                "usuario__email")
+            participantes = Participante.objects.filter(reto=reto).values("usuario__email")
             participantes_antiguos_email = []
             for participante in participantes:
                 participantes_antiguos_email.append(participante['usuario__email'])
@@ -1004,8 +1002,8 @@ def editar_reto(request, id_reto):
             logger.info("Borramos el resto de participantes")
             for participante_email in participantes_antiguos_email:
                 logger.info(f"Eliminamos el animador {participante_email}")
-                Participante.objects.filter(Q(usuario__email=participante_email),
-                                        Q(reto__id_reto=id_reto)).delete()
+                Participante.objects.filter(usuario__email=participante_email,
+                                            reto=reto).delete()
 
             # Redireccionamos a la visualización del reto
             return redirect(f'/reto/{id_reto}')
@@ -1045,10 +1043,10 @@ def editar_reto(request, id_reto):
 @login_required
 def eliminar_reto(request, id_reto):
     logger.info("Comprobamos que existe el reto")
-    get_object_or_404(Reto, id_reto=id_reto)
+    reto = get_object_or_404(Reto, id_reto=id_reto)
 
     logger.info(f"Eliminamos el reto {id_reto}")
-    Reto.objects.get(id_reto=id_reto).delete()
+    reto.delete()
 
     logger.info(f"Redirigimos a la página de mis retos")
     return redirect(f"/mis_retos/")
@@ -1060,13 +1058,12 @@ def eliminar_reto(request, id_reto):
 @login_required
 def coordinador_reto(request, id_reto):
     logger.info("Comprobamos que existe el reto")
-    get_object_or_404(Reto, id_reto=id_reto)
+    reto = get_object_or_404(Reto, id_reto=id_reto)
 
     if request.method == 'POST':
         coordinador = request.POST.get('coordinador')
 
         logger.info(f"Cambiamos el coordinador por {coordinador}")
-        reto = Reto.objects.get(id_reto=id_reto)
         reto.coordinador = Usuario.objects.get(email=coordinador)
         reto.save()
 
@@ -1111,11 +1108,10 @@ def coordinador_reto(request, id_reto):
 @login_required
 def animador_reto(request, id_reto):
     logger.info("Comprobamos que existe el reto")
-    get_object_or_404(Reto, id_reto=id_reto)
+    reto = get_object_or_404(Reto, id_reto=id_reto)
 
     logger.info(f"Eliminamos al animador del reto {id_reto}")
-    Animador.objects.get(reto__id_reto=id_reto,
-                         usuario__email=request.user.username).delete()
+    Animador.objects.filter(reto=reto, usuario=request.user).delete()
 
     return redirect('/mis_retos/')
 
