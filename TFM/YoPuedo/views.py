@@ -15,8 +15,7 @@ from django.template.loader import get_template
 from .utils import Utils
 from .forms import RegistroForm, InicioForm, ClaveForm, RetoGeneralForm, RetoEtapaForm, \
     AmigosForm, EtapasFormSet
-from .models import Usuario, Amistad, Reto, Etapa, Animador, Participante, Animo, Prueba, \
-    Calificacion
+from .models import Usuario, Amistad, Reto, Etapa, Animador, Participante
 
 from django.forms import formset_factory
 
@@ -199,24 +198,26 @@ def mis_retos(request):
         if not categoria:
             propuestos = \
                 Reto.objects.filter(estado='Propuesto',
-                                    participante__usuario=request.user). \
-                    annotate(cnt=Count('participante__usuario')).filter(cnt__lte=1) \
+                                    coordinador=request.user). \
+                    annotate(cnt=Count('participante__usuario')).filter(cnt=0) \
                     if tipo == 'individuales' else \
-                    Reto.objects.filter(estado='Propuesto',
-                                        participante__usuario=request.user). \
-                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
+                    Reto.objects.filter(Q(estado='Propuesto'),
+                                        Q(coordinador=request.user) |
+                                        Q(participante__usuario=request.user)). \
+                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=0)
 
         else:
             propuestos = \
                 Reto.objects.filter(estado='Propuesto',
-                                    participante__usuario=request.user,
+                                    coordinador=request.user,
                                     categoria=categoria). \
-                    annotate(cnt=Count('participante__usuario')).filter(cnt__lte=1) \
+                    annotate(cnt=Count('participante__usuario')).filter(cnt=0) \
                     if tipo == 'individuales' else \
-                    Reto.objects.filter(estado='Propuesto',
-                                        participante__usuario=request.user,
-                                        categoria=categoria). \
-                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
+                    Reto.objects.filter(Q(estado='Propuesto'),
+                                        Q(coordinador=request.user) |
+                                        Q(participante__usuario=request.user),
+                                        Q(categoria=categoria)). \
+                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=0)
 
         logger.info("Paginamos los retos")
         paginator_propuestos = Paginator(propuestos, 3)
@@ -255,31 +256,34 @@ def get_retos(request):
         if estado == "propuestos":
             retos = \
                 Reto.objects.filter(estado='Propuesto',
-                                    participante__usuario=request.user). \
+                                    coordinador=request.user). \
                     annotate(cnt=Count('participante__usuario')).filter(cnt=0) \
                     if tipo == 'individuales' else \
-                    Reto.objects.filter(estado='Propuesto',
-                                        participante__usuario=request.user). \
+                    Reto.objects.filter(Q(estado='Propuesto'),
+                                        Q(coordinador=request.user) |
+                                        Q(participante__usuario=request.user)). \
                         annotate(cnt=Count('participante__usuario')).filter(cnt__gt=0)
 
         elif estado == "proceso":
             retos = \
                 Reto.objects.filter(estado='En proceso',
-                                    participante__usuario=request.user). \
+                                    coordinador=request.user). \
                     annotate(cnt=Count('participante__usuario')).filter(cnt=0) \
                     if tipo == 'individuales' else \
-                    Reto.objects.filter(estado='En proceso',
-                                        participante__usuario=request.user). \
+                    Reto.objects.filter(Q(estado='En proceso'),
+                                        Q(coordinador=request.user) |
+                                        Q(participante__usuario=request.user)). \
                         annotate(cnt=Count('participante__usuario')).filter(cnt__gt=0)
 
         elif estado == "finalizados":
             retos = \
                 Reto.objects.filter(estado='Finalizado',
-                                    participante__usuario=request.user). \
+                                    coordinador=request.user). \
                     annotate(cnt=Count('participante__usuario')).filter(cnt=0) \
                     if tipo == 'individuales' else \
-                    Reto.objects.filter(estado='Finalizado',
-                                        participante__usuario=request.user). \
+                    Reto.objects.filter(Q(estado='Finalizado'),
+                                        Q(coordinador=request.user) |
+                                        Q(participante__usuario=request.user)). \
                         annotate(cnt=Count('participante__usuario')).filter(cnt__gt=0)
 
         elif estado == "animando":
@@ -294,37 +298,40 @@ def get_retos(request):
         if estado == "propuestos":
             retos = \
                 Reto.objects.filter(estado='Propuesto',
-                                    participante__usuario=request.user,
+                                    coordinador=request.user,
                                     categoria=categoria). \
                     annotate(cnt=Count('participante__usuario')).filter(cnt=0) \
                     if tipo == 'individuales' else \
-                    Reto.objects.filter(estado='Propuesto',
-                                        participante__usuario=request.user,
-                                        categoria=categoria). \
+                    Reto.objects.filter(Q(estado='Propuesto'),
+                                        Q(coordinador=request.user) |
+                                        Q(participante__usuario=request.user),
+                                        Q(categoria=categoria)). \
                         annotate(cnt=Count('participante__usuario')).filter(cnt__gt=0)
 
         elif estado == "proceso":
             retos = \
                 Reto.objects.filter(estado='En proceso',
-                                    participante__usuario=request.user,
+                                    coordinador=request.user,
                                     categoria=categoria). \
                     annotate(cnt=Count('participante__usuario')).filter(cnt=0) \
                     if tipo == 'individuales' else \
-                    Reto.objects.filter(estado='En proceso',
-                                        participante__usuario=request.user,
-                                        categoria=categoria). \
+                    Reto.objects.filter(Q(estado='En proceso'),
+                                        Q(coordinador=request.user) |
+                                        Q(participante__usuario=request.user),
+                                        Q(categoria=categoria)). \
                         annotate(cnt=Count('participante__usuario')).filter(cnt__gt=0)
 
         elif estado == "finalizados":
             retos = \
                 Reto.objects.filter(estado='Finalizado',
-                                    participante__usuario=request.user,
+                                    coordinador=request.user,
                                     categoria=categoria). \
                     annotate(cnt=Count('participante__usuario')).filter(cnt=0) \
                     if tipo == 'individuales' else \
-                    Reto.objects.filter(estado='Finalizado',
-                                        participante__usuario=request.user,
-                                        categoria=categoria). \
+                    Reto.objects.filter(Q(estado='Finalizado'),
+                                        Q(coordinador=request.user) |
+                                        Q(participante__usuario=request.user),
+                                        Q(categoria=categoria)). \
                         annotate(cnt=Count('participante__usuario')).filter(cnt__gt=0)
 
         elif estado == "animando":
