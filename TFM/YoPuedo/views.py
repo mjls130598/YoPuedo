@@ -625,11 +625,10 @@ def get_reto(request, id_reto):
     reto = get_object_or_404(Reto, id_reto=id_reto)
 
     logger.info(f"Recogemos las etapas del reto {id_reto}")
-    etapas = Etapa.objects.filter(reto=reto)
+    etapas = reto.etapa_set.all()
 
     logger.info(f"Miramos los animadores del reto {id_reto}")
-    animadores = Animador.objects.filter(reto=reto).exclude(
-        usuario=request.user).values('usuario', 'superanimador')
+    animadores = reto.animador_set.all().exclude(usuario=request.user)
 
     logger.info("Modificamos la información obtenida de los animadores para mandarla a " +
                 "frontend")
@@ -637,18 +636,18 @@ def get_reto(request, id_reto):
 
     for animador in animadores:
         animadores_finales.append({
-            'usuario': Usuario.objects.get(email=animador['usuario']),
-            'superanimador': animador['superanimador']})
+            'usuario': animador.usuario.first(),
+            'superanimador': animador.superanimador})
 
     logger.info(f"Devolvemos los participantes del reto {id_reto}")
-    participantes = Participante.objects.filter(reto=reto).exclude(usuario=request.user)
+    participantes = reto.participante_set.all().exclude(usuario=request.user)
 
     logger.info("Modificamos la información obtenida de los participantes para mandarla " +
                 "a frontend")
     participantes_finales = []
 
     for participante in participantes:
-        participantes_finales.append(Usuario.objects.get(email=participante['usuario']))
+        participantes_finales.append(participante.usuario.first())
 
     anima = Animador.objects.filter(reto=reto,
                                     usuario=request.user).exists()
@@ -669,7 +668,7 @@ def iniciar_reto(request, id_reto):
     reto.save()
 
     logger.info("Iniciamos la primera etapa del reto")
-    etapa = Etapa.objects.filter(reto=reto)[0]
+    etapa = reto.etapa_set.first()
     etapa.estado = "En proceso"
     etapa.save()
 
@@ -686,8 +685,18 @@ def editar_reto(request, id_reto):
     reto = get_object_or_404(Reto, id_reto=id_reto)
 
     logger.info("Recogemos el resto de información de un reto")
-    animadores = Animador.objects.filter(reto__id_reto=id_reto)
-    participantes = Participante.objects.filter(reto__id_reto=id_reto)
+    animadores_reto = reto.animador_set.all()
+    animadores = []
+
+    for animador in animadores_reto:
+        animadores.append({
+            'usuario': animador.usuario.first(),
+            'superanimador': animador.superanimador})
+
+    participantes_reto = reto.participante_set.all()
+    participantes = []
+    for participante in participantes_reto:
+        participantes.append(participante.usuario.first())
 
     max_etapas = 5
     errores = False
@@ -698,7 +707,7 @@ def editar_reto(request, id_reto):
     if request.method == 'GET':
         logger.info("Entramos en la parte GET de EDITAR RETO")
 
-        etapas = Etapa.objects.filter(reto=reto)
+        etapas = reto.etapa_set.all()
         files = {}
         data = {'titulo': reto.titulo}
 
@@ -947,11 +956,10 @@ def editar_reto(request, id_reto):
             logger.info("Borramos en la BD las etapas del reto eliminadas")
             for etapa_id in etapas_ids:
                 logger.info(f"Eliminamos la etapa {etapa_id}")
-                Etapa.objects.get(id_etapa=etapa_id).delete()
+                reto.etapa_set.get(id_etapa=etapa_id).delete()
 
             logger.info("Obtenemos los animadores anteriores")
-            animadores = Animador.objects.filter(reto__id_reto=id_reto).values(
-                "usuario__email")
+            animadores = reto.animador_set.all().values("usuario__email")
             animadores_antiguos_emails = []
             for animador in animadores:
                 animadores_antiguos_emails.append(animador['usuario__email'])
@@ -970,19 +978,17 @@ def editar_reto(request, id_reto):
                     animador.usuario.add(usuario)
                 else:
                     animadores_antiguos_emails.remove(animador_email)
-                    animador = Animador.objects.filter(usuario__email=animador_email,
-                                                       reto=reto)[0]
+                    animador = reto.animador_set.get(usuario__email=animador_email)
                     animador.superanimador = superanimador
                     animador.save()
 
             logger.info("Borramos el resto de animadores")
             for animador_email in animadores_antiguos_emails:
                 logger.info(f"Eliminamos el animador {animador_email}")
-                Animador.objects.filter(usuario__email=animador_email, reto=reto).delete()
+                reto.animador_set.get(usuario__email=animador_email).delete()
 
             logger.info("Obtenemos los participantes anteriores")
-            participantes = Participante.objects.filter(reto=reto).values(
-                "usuario__email")
+            participantes = reto.participante_set.all().values("usuario__email")
             participantes_antiguos_email = []
             for participante in participantes:
                 participantes_antiguos_email.append(participante['usuario__email'])
@@ -1006,8 +1012,7 @@ def editar_reto(request, id_reto):
             logger.info("Borramos el resto de participantes")
             for participante_email in participantes_antiguos_email:
                 logger.info(f"Eliminamos el animador {participante_email}")
-                Participante.objects.filter(usuario__email=participante_email,
-                                            reto=reto).delete()
+                reto.participante_set.get(usuario__email=participante_email).delete()
 
             # Redireccionamos a la visualización del reto
             return redirect(f'/reto/{id_reto}')

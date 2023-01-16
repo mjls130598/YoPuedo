@@ -17,20 +17,20 @@
 <div class='form-group mt-2 mt-sm-3 mt-lg-3 participantees'>
 {% for participante in participantes %}
     <div class="participante p-2 p-md-3 row"
-         id="participante-{{participante.usuario.email}}">
-        <input type="hidden" name="participante" value="{{participante.usuario.email}}">
+         id="participante-{{participante.email}}">
+        <input type="hidden" name="participante" value="{{participante.email}}">
         <div class="foto-perfil col-4 col-md-2 col-lg-1">
             <img class="imagen-perfil img-fluid rounded mx-auto d-block"
-                 src="{{participante.usuario.foto_perfil}}">
+                 src="{{participante.foto_perfil}}">
         </div>
         <div class="nombre col-4 col-md-7 col-lg-8 align-self-center">
             <h5 class="fw-bold">
-                {{participante.usuario.nombre}}
+                {{participante.nombre}}
             </h5>
         </div>
         <div class="botones col-4 col-md-3 align-self-center d-md-flex justify-content-end">
             <button type="button" class="borrar-amigo btn btn-primary fw-bold borrar-amigo btn btn-primary fw-bold mx-md-1 p-1"
-                    onclick="borrarParticipante('{{participante.usuario.email}}')">
+                    onclick="borrarParticipante('{{participante.email}}')">
                 <i class="fa-sharp fa-solid fa-trash m-1"></i>
                 Eliminar
             </button>
