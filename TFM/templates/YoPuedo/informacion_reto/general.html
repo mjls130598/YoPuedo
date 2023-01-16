@@ -1,7 +1,7 @@
 {% load tags_categorias %}
 
 <div class='row'>
-    <h5 class="fw-bold col-md-2 align-self-center text-center">
+    <h5 class="fw-bold col-md-2 align-self-center">
         <i class="fa-solid fa-flag-checkered"></i>
         Objetivo:
     </h5>
@@ -24,7 +24,7 @@
             <source src="{{ reto.objetivo }}" type="video/mp4">
         </video>
     {% else %}
-        <h6 class="texto_reto">
+        <h6 class="texto_reto fw-bold">
             {{ reto.objetivo }}
         </h6>
     {% endif %}
@@ -40,12 +40,12 @@
     {% endif %}
 </div>
 
-<div class='fw-bold mt-4 row categoria'>
-    <h5 class="col-md-2 col-sm-4 align-self-center text-center">
-        <i class="fa-solid fa-square-checkfw-bold"></i>
+<div class='mt-4 row categoria'>
+    <h5 class="col-md-2 col-sm-4 align-self-center fw-bold">
+        <i class="fa-solid fa-square-check"></i>
         Categoría:
     </h5>
-    <h6 class="col fw-bolder align-self-center text-center">
+    <h6 class="col fw-bolder align-self-center">
         {% if reto.categoria == 'economia' %}
         <i class="fa-solid fa-piggy-bank"></i>
         {% elif reto.categoria == 'inteligencia' %}
@@ -59,8 +59,8 @@
     </h6>
 </div>
 
-<div class='fw-bold mt-4'>
-    <h5 class="fw-bold col-md-2 align-self-center text-center">
+<div class='fw-bold mt-4 row'>
+    <h5 class="fw-bold col-md-2 align-self-center">
         <i class="fa-solid fa-trophy"></i>
         Recompensa:
     </h5>
@@ -83,17 +83,17 @@
           <source src="{{ reto.recompensa }}" type="video/mp4">
       </video>
       {% else %}
-      <h6 class="texto_recompensa">
+      <h6 class="texto_recompensa fw-bold">
           {{ reto.recompensa }}
       </h6>
       {% endif %}
     </div>
     {% if "mp3" in reto.recompensa or "acc" in reto.recompensa or "ogg" in reto.recompensa or "wma" in reto.recompensa %}
-    <div class="col-md-8 align-self-center text-center overflow-auto audio">
+    <div class="col-md-8 align-self-center overflow-auto audio">
       <p id="texto_audio_recompensa"></p>
     </div>
     {% else %}
-    <div class="col-md-1 col align-self-center text-center">
+    <div class="col-md-1 col align-self-center">
       {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='texto_recompensa' %}
     </div>
     {% endif %}
