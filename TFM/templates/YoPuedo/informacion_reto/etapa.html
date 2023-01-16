@@ -1,6 +1,8 @@
-<div class='fw-bold'>
-  <i class="fa-solid fa-flag-checkered"></i>
-  Objetivo:
+<div class='row'>
+    <h6 class="fw-bold col-md-2 align-self-center">
+        <i class="fa-solid fa-flag-checkered"></i>
+        Objetivo:
+    </h6>
     {% if "mp3" in etapa.objetivo or "acc" in etapa.objetivo or "ogg" in etapa.objetivo or "wma" in etapa.objetivo %}
     <div class="col-md-4 col-12 mb-4 m-md-0 informacion">
     {% else %}
@@ -30,7 +32,7 @@
         <p id="texto_audio_objetivo"></p>
     </div>
     {% else %}
-    <div class="col-md-1 col align-self-center text-center">
+    <div class="col-md-1 col align-self-center">
         {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech=texto_reto %}
     </div>
     {% endif %}
