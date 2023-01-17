@@ -1119,7 +1119,7 @@ def coordinador_reto(request, id_reto):
             participantes = paginator.get_page(1)
 
         return render(request, "YoPuedo/elementos/modal-participantes.html",
-                      {'participantes': participantes})
+                      {'participantes': participantes, 'form_consulta': formulario})
 
 
 ##########################################################################################
