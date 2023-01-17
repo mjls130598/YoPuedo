@@ -4,9 +4,9 @@
         Objetivo:
     </h6>
     {% if "mp3" in etapa.objetivo or "acc" in etapa.objetivo or "ogg" in etapa.objetivo or "wma" in etapa.objetivo %}
-    <div class="col-md-4 col-12 mb-4 m-md-0 informacion">
+    <div class="col-md-4 col-12 mb-4 m-md-0 informacion align-self-center">
     {% else %}
-    <div class="col-md-9 col-12 mb-4 m-md-0 informacion">
+    <div class="col-md-9 col-12 mb-4 m-md-0 informacion align-self-center">
     {% endif %}
     {% if "mp3" in etapa.objetivo or "acc" in etapa.objetivo or "ogg" in etapa.objetivo or "wma" in etapa.objetivo %}
         <audio controls id="audio"
