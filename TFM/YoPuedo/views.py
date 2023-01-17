@@ -660,8 +660,8 @@ def get_reto(request, id_reto):
                                     usuario=request.user).exists()
 
     return render(request, 'YoPuedo/reto.html',
-                  {'reto': reto, 'etapas': etapas, 'animadores': participantes_finales,
-                   'participantes': participantes, 'anima': anima})
+                  {'reto': reto, 'etapas': etapas, 'animadores': animadores_finales,
+                   'participantes': participantes_finales, 'anima': anima})
 
 
 ##########################################################################################
