@@ -1,3 +1,8 @@
 #dialog-participantes{
     heigh: 100%;
 }
+
+#boton-coordinador{
+    border: #E91E63;
+    background: #E91E63;
+}
