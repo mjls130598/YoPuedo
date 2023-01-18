@@ -109,6 +109,7 @@
             Editar
         </button>
     </div>
+    {% if participantes %}
     <div class="col d-flex justify-content-center mt-2 mt-sm-3 mt-lg-5">
         <button id="boton-coordinador" class="btn btn-primary fw-bold" type="button"
                 hx-target="#dialog-participantes"
@@ -117,6 +118,7 @@
             Coordinador
         </button>
     </div>
+    {% endif %}
     <div class="col d-flex justify-content-center mt-2 mt-sm-3 mt-lg-5">
         <button id="boton-eliminar" class="btn btn-primary fw-bold borrar" type="button"
                 onclick="eliminarReto()">
