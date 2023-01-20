@@ -531,3 +531,59 @@ class GetRetoTest(TestCase):
         reto = Reto.objects.filter(coordinador__email='getreto_view@gmail.com').first()
         resp = self.client.get(f'/reto/{reto.id_reto}')
         self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
+
+
+##########################################################################################
+
+# Comprobamos el funcionamiento de la URL nuevo reto
+class IniciarRetoTest(TestCase):
+    def setUpTestData(cls):
+        # Creamos usuarios
+        usuario = Usuario.objects.create_user(email="iniciarreto_view@gmail.com",
+                                              nombre="María Jesús", password="Password1.",
+                                              clave_aleatoria="clavealeat",
+                                              clave_fija="clavefijausuario",
+                                              foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        otro_usuario = Usuario.objects.create_user(
+            email="iniciarreto_otro_view@gmail.com",
+                                    nombre="María Jesús",
+                                    password="Password1.",
+                                    clave_aleatoria="clavealeat",
+                                    clave_fija="clavefijausuario",
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        # Creamos el primer reto
+        reto = Reto(id_reto=Utils.crear_id_reto(), titulo="PRUEBA RETO VIEWS",
+                    objetivo="OBJETIVO RETO VIEWS", categoria="inteligencia",
+                    recompensa="RECOMPENSA RETO VIEWS", coordinador=usuario)
+        reto.save()
+
+        # Creamos la primera etapa del reto
+        Etapa(id_etapa=Utils.crear_id_etapa(), objetivo="ETAPA 1 RETO VIEWS",
+              reto=reto).save()
+
+        # Creamos el animador del reto
+        animador = Animador()
+        animador.save()
+        animador.reto = reto
+        animador.usuario = otro_usuario
+        animador.superanimador = True
+        animador.save()
+
+    def permitida_obtencion(self):
+        self.client.login(username="iniciarreto_view@gmail.com", password='Password1.')
+        reto = Reto.objects.filter(coordinador__email='iniciarreto_view@gmail.com').first()
+        resp = self.client.get(f'/iniciar_reto/{reto.id_reto}')
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        reto = Reto.objects.filter(
+            coordinador__email='iniciarreto_view@gmail.com').first()
+
+        self.assertEqual(reto.estado, "En proceso")
+        self.assertEqual(reto.etapa_set.first().estado, "En proceso")
+
+    def no_permitida_obtencion(self):
+        self.client.login(username="iniciarreto_otro_view@gmail.com", password='Password1.')
+        reto = Reto.objects.filter(coordinador__email='iniciarreto_view@gmail.com').first()
+        resp = self.client.get(f'/iniciar_reto/{reto.id_reto}')
+        self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
