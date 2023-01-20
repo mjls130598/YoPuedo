@@ -5,7 +5,7 @@ from TFM.settings import BASE_DIR
 from http import HTTPStatus
 from django.test.client import Client
 
-from ..models import Usuario, Reto, Etapa, Animador, Participante
+from ..models import Usuario, Reto, Etapa, Animador, Participante, Amistad
 from ..utils import Utils
 
 
@@ -296,7 +296,6 @@ class GetRetosTest(TestCase):
 
 # Comprobamos el funcionamiento de la URL nuevo reto
 class NuevoRetoTest(TestCase):
-
     @classmethod
     def setUpTestData(cls):
         usuario = Usuario.objects.create_user(email="nuevoreto_view@gmail.com",
@@ -458,3 +457,33 @@ class NuevoRetoTest(TestCase):
                          last().usuario.all().first().email, "nuevoreto_view@gmail.com")
         self.assertTrue(Animador.objects.filter(reto__id_reto=id_reto).exists())
         self.assertEqual(len(Participante.objects.filter(reto__id_reto=id_reto).all()), 2)
+
+
+##########################################################################################
+
+# Comprobamos el funcionamiento de la URL nuevo reto
+class GetAmigosTest(TestCase):
+    def setUpTestData(cls):
+        usuario = Usuario.objects.create_user(email="amigo_view@gmail.com",
+                                              nombre="María Jesús", password="Password1.",
+                                              clave_aleatoria="clavealeat",
+                                              clave_fija="clavefijausuario",
+                                              foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        usuario2 = Usuario.objects.create_user(email="amigo2_view@gmail.com",
+                                              nombre="María Jesús", password="Password1.",
+                                              clave_aleatoria="clavealeat",
+                                              clave_fija="clavefijausuario",
+                                              foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+        
+        amistad = Amistad()
+        amistad.save()
+        amistad.amigo = usuario
+        amistad.otro_amigo = usuario2
+        amistad.save()
+
+    def get_amigo(self):
+        self.client.login(username='amigo_view@gmail.com', password='Password1.')
+        resp = self.client.get('/amigos/')
+        self.assertEqual(len(resp.context['amigos']), 1)
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
