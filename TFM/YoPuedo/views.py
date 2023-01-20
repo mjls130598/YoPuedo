@@ -641,8 +641,8 @@ def get_reto(request, id_reto):
         logger.info(f"Miramos los animadores del reto {id_reto}")
         animadores = reto.animador_set.all().exclude(usuario=request.user)
 
-        logger.info("Modificamos la información obtenida de los animadores para mandarla a " +
-                    "frontend")
+        logger.info("Modificamos la información obtenida de los animadores para" +
+                    " mandarla a frontend")
         animadores_finales = []
 
         for animador in animadores:
