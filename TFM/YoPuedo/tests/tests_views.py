@@ -6,6 +6,7 @@ from http import HTTPStatus
 from django.test.client import Client
 
 from ..models import Usuario, Reto, Etapa, Animador, Participante
+from ..utils import Utils
 
 
 ##########################################################################################
@@ -132,12 +133,11 @@ class MisRetosViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        usuario = Usuario.objects.create_user(email="misretos_view@gmail.com",
-                                              nombre="María Jesús", password="Password1.",
-                                              clave_aleatoria="clavealeat",
-                                              clave_fija="clavefijausuario",
-                                              foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
-
+        Usuario.objects.create_user(email="misretos_view@gmail.com",
+                                    nombre="María Jesús", password="Password1.",
+                                    clave_aleatoria="clavealeat",
+                                    clave_fija="clavefijausuario",
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
         client = Client()
         client.login(username='misretos_view@gmail.com', password="Password1.")
@@ -153,6 +153,143 @@ class MisRetosViewTest(TestCase):
     def test_url_categoria_accesible(self):
         resp = self.client.get('/mis_retos/?tipo=individuales&categoria=economia')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+
+
+##########################################################################################
+
+# Comprobamos el funcionamiento de la URL obtener retos de un estado
+class GetRetosTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        # Creamos usuarios
+        usuario = Usuario.objects.create_user(email="getretos_view@gmail.com",
+                                    nombre="María Jesús", password="Password1.",
+                                    clave_aleatoria="clavealeat",
+                                    clave_fija="clavefijausuario",
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        otro_usuario = Usuario.objects.create_user(email="getretos_otro_view@gmail.com",
+                                    nombre="María Jesús", password="Password1.",
+                                    clave_aleatoria="clavealeat",
+                                    clave_fija="clavefijausuario",
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        # Creamos el primer reto
+        reto = Reto(id_reto=Utils.crear_id_reto(), titulo="PRUEBA RETO VIEWS",
+                    objetivo="OBJETIVO RETO VIEWS", categoria="inteligencia",
+                    recompensa="RECOMPENSA RETO VIEWS", coordinador=usuario)
+        reto.save()
+
+        # Creamos la primera etapa del reto
+        Etapa(id_etapa=Utils.crear_id_etapa(), objetivo="ETAPA 1 RETO VIEWS",
+              reto=reto).save()
+
+        # Creamos el animador del reto
+        animador = Animador()
+        animador.save()
+        animador.reto = reto
+        animador.usuario = otro_usuario
+        animador.superanimador = True
+        animador.save()
+
+        # Creamos el segundo reto
+        reto2 = Reto(id_reto=Utils.crear_id_reto(), titulo="PRUEBA RETO 2 VIEWS",
+                    objetivo="OBJETIVO RETO VIEWS", categoria="economia",
+                    recompensa="RECOMPENSA RETO VIEWS", coordinador=usuario,
+                     estado="Finalizado")
+        reto2.save()
+
+        # Creamos la primera etapa del reto
+        Etapa(id_etapa=Utils.crear_id_etapa(), objetivo="ETAPA 1 RETO 2 VIEWS",
+              reto=reto2).save()
+
+        # Creamos participantes en el reto
+        participante = Participante()
+        participante.save()
+        participante.reto = reto2
+        participante.usuario = otro_usuario
+
+    def get_propuesto_individual(self):
+        # Logueamos el primer usuario
+        self.client.login(username='getretos_view@gmail.com', password="Password1.")
+
+        resp = self.client.get('/retos/?tipo=individuales&estado=propuesto')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(len(resp.context['retos']), 1)
+
+    def get_propuesto_colectivo(self):
+        # Logueamos el primer usuario
+        self.client.login(username='getretos_view@gmail.com', password="Password1.")
+
+        resp = self.client.get('/retos/?tipo=colectivos&estado=propuesto')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(len(resp.context['retos']), 0)
+
+    def get_animando_individual(self):
+        # Logueamos el segundo usuario
+        self.client.login(username='getretos_otro_view@gmail.com', password="Password1.")
+
+        resp = self.client.get('/retos/?tipo=individuales&estado=animando')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(len(resp.context['retos']), 1)
+
+    def get_animando_colectivo(self):
+        # Logueamos el segundo usuario
+        self.client.login(username='getretos_otro_view@gmail.com', password="Password1.")
+
+        resp = self.client.get('/retos/?tipo=colectivos&estado=animando')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(len(resp.context['retos']), 0)
+
+    def get_finalizado_individual(self):
+        # Logueamos el segundo usuario
+        self.client.login(username='getretos_otro_view@gmail.com', password="Password1.")
+
+        resp = self.client.get('/retos/?tipo=individuales&estado=finalizados')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(len(resp.context['retos']), 0)
+
+    def get_finalizado_colectivos(self):
+        # Logueamos el segundo usuario
+        self.client.login(username='getretos_otro_view@gmail.com', password="Password1.")
+
+        resp = self.client.get('/retos/?tipo=colectivos&estado=finalizados')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(len(resp.context['retos']), 1)
+
+    def get_proceso_individual(self):
+        # Logueamos el primer usuario
+        self.client.login(username='getretos_view@gmail.com', password="Password1.")
+
+        resp = self.client.get('/retos/?tipo=individuales&estado=proceso')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(len(resp.context['retos']), 0)
+
+    def get_proceso_colectivos(self):
+        # Logueamos el primer usuario
+        self.client.login(username='getretos_view@gmail.com', password="Password1.")
+
+        resp = self.client.get('/retos/?tipo=colectivos&estado=proceso')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(len(resp.context['retos']), 0)
+
+    def get_categoria_individual(self):
+        # Logueamos el primer usuario
+        self.client.login(username='getretos_view@gmail.com', password="Password1.")
+
+        resp = self.client.get('/retos/?tipo=individuales&categoria=inteligencia&estado'
+                               '=propuesto')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(len(resp.context['retos']), 1)
+
+    def get_no_categoria_colectivo(self):
+        # Logueamos el primer usuario
+        self.client.login(username='getretos_view@gmail.com', password="Password1.")
+
+        resp = self.client.get('/retos/?tipo=colectivos&categoria=inteligencia&estado'
+                               '=propuesto')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(len(resp.context['retos']), 0)
 
 
 ##########################################################################################
@@ -197,7 +334,6 @@ class NuevoRetoTest(TestCase):
         self.assertEqual(resp.status_code, HTTPStatus.OK)
 
     def test_post_reto_individual(self):
-
         self.client.login(username='nuevoreto_view@gmail.com', password="Password1.")
 
         data = {
@@ -236,7 +372,6 @@ class NuevoRetoTest(TestCase):
                          last().usuario.all().first().email, "nuevoreto_view@gmail.com")
 
     def test_post_reto_individual_animadores(self):
-
         self.client.login(username='nuevoreto_view@gmail.com', password="Password1.")
 
         data = {
@@ -279,7 +414,6 @@ class NuevoRetoTest(TestCase):
         self.assertTrue(Animador.objects.filter(reto__id_reto=id_reto).exists())
 
     def test_post_reto_colectivo(self):
-
         self.client.login(username='nuevoreto_view@gmail.com', password="Password1.")
 
         data = {
