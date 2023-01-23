@@ -633,8 +633,8 @@ def get_reto(request, id_reto):
 
     logger.info("Comprobamos que el reto sea de la persona que lo está viendo")
     if reto.coordinador == request.user or \
-       reto.animador_set.filter(usuario=request.user).exists() or \
-       reto.participante_set.filter(usuario=request.user).exists():
+            reto.animador_set.filter(usuario=request.user).exists() or \
+            reto.participante_set.filter(usuario=request.user).exists():
         logger.info(f"Recogemos las etapas del reto {id_reto}")
         etapas = reto.etapa_set.all()
 
@@ -653,8 +653,9 @@ def get_reto(request, id_reto):
         logger.info(f"Devolvemos los participantes del reto {id_reto}")
         participantes = reto.participante_set.all().exclude(usuario=request.user)
 
-        logger.info("Modificamos la información obtenida de los participantes para mandarla " +
-                    "a frontend")
+        logger.info(
+            "Modificamos la información obtenida de los participantes para mandarla " +
+            "a frontend")
         participantes_finales = []
 
         for participante in participantes:
@@ -765,8 +766,9 @@ def editar_reto(request, id_reto):
                         reto.recompensa:
                     recompensa_imagen = reto.recompensa
                     recompensa_imagen = open(recompensa_imagen, 'rb')
-                    files['recompensa_imagen'] = SimpleUploadedFile(recompensa_imagen.name,
-                                                                    recompensa_imagen.read())
+                    files['recompensa_imagen'] = SimpleUploadedFile(
+                        recompensa_imagen.name,
+                        recompensa_imagen.read())
                 elif "mp3" in reto.recompensa or "acc" in reto.recompensa or "ogg" in \
                         reto.recompensa or "wma" in reto.recompensa:
                     recompensa_audio = reto.recompensa
@@ -901,7 +903,8 @@ def editar_reto(request, id_reto):
                         recompensa = os.path.join("/media", "YoPuedo", id_reto,
                                                   'RECOMPENSA' + extension)
                         try:
-                            Utils.handle_uploaded_file(recompensa_multimedia, localizacion,
+                            Utils.handle_uploaded_file(recompensa_multimedia,
+                                                       localizacion,
                                                        directorio)
                         except:
                             logger.error("Error al subir la recompensa")
@@ -1067,7 +1070,8 @@ def editar_reto(request, id_reto):
                       {"general_form": general_form,
                        "etapas_form": etapas_form, "errores": errores,
                        "max_etapas": max_etapas, "animadores": animadores,
-                       "participantes": participantes, "error_etapas": not etapas_validas})
+                       "participantes": participantes,
+                       "error_etapas": not etapas_validas})
 
     else:
         logger.error("No forma parte del reto")
@@ -1108,7 +1112,8 @@ def coordinador_reto(request, id_reto):
         if request.method == 'POST':
             coordinador = request.POST.get('coordinador')
 
-            if coordinador != "":
+            if coordinador != "" and reto.participante_set.filter(
+                    usuario__email=coordinador).exists():
                 logger.info("Añadimos actual coordinador como participante del reto")
                 reto.participante_set.add(reto.coordinador)
 
@@ -1122,18 +1127,17 @@ def coordinador_reto(request, id_reto):
 
         else:
             formulario = AmigosForm(request.GET)
-            consulta = formulario.data['consulta'] if 'consulta' in formulario.data else ""
+            consulta = formulario.data[
+                'consulta'] if 'consulta' in formulario.data else ""
             pagina = request.GET.get('page')
 
             logger.info("Encontramos los participantes del reto y lo mandamos")
-            if consulta != "":
-                participantes = Participante.objects.filter(Q(reto__id_reto=id_reto),
-                                                            Q(usuario__email__contains=consulta) |
-                                                            Q(usuario__nombre__contains=consulta)). \
-                    exclude(usuario__email=request.user.email).values('usuario')
-            else:
-                participantes = Participante.objects.filter(Q(reto__id_reto=id_reto)). \
-                    exclude(usuario__email=request.user.email).values('usuario')
+            participantes = reto.participante_set. \
+                filter(Q(usuario__email__contains=consulta) |
+                       Q(usuario__nombre__contains=consulta)). \
+                exclude(usuario=request.user).values('usuario') if consulta != "" \
+                else reto.participante_set.exclude(usuario__email=request.user.email).\
+                values('usuario')
 
             logger.info("Paginamos los participantes del reto")
             paginator = Paginator(participantes, 3)

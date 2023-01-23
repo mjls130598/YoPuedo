@@ -648,3 +648,90 @@ class EliminarRetoTest(TestCase):
             coordinador__email='eliminarreto_view@gmail.com').first()
         resp = self.client.get(f'/eliminar_reto/{reto.id_reto}')
         self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
+
+
+##########################################################################################
+
+# Comprobamos el funcionamiento de la URL cambiar coordinador del reto
+class CoordinadorRetoTest(TestCase):
+    def setUpTestData(cls):
+        # Creamos usuarios
+        usuario = Usuario.objects.create_user(email="coordinadorreto_view@gmail.com",
+                                              nombre="María Jesús", password="Password1.",
+                                              clave_aleatoria="clavealeat",
+                                              clave_fija="clavefijausuario",
+                                              foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        otro_usuario = Usuario.objects.create_user(
+            email="coordinadorreto_otro_view@gmail.com",
+            nombre="María Jesús",
+            password="Password1.",
+            clave_aleatoria="clavealeat",
+            clave_fija="clavefijausuario",
+            foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        # Creamos el primer reto
+        reto = Reto(id_reto=Utils.crear_id_reto(), titulo="PRUEBA RETO VIEWS",
+                    objetivo="OBJETIVO RETO VIEWS", categoria="inteligencia",
+                    recompensa="RECOMPENSA RETO VIEWS", coordinador=usuario)
+        reto.save()
+
+        # Creamos la primera etapa del reto
+        Etapa(id_etapa=Utils.crear_id_etapa(), objetivo="ETAPA 1 RETO VIEWS",
+              reto=reto).save()
+
+        # Creamos el participante del reto
+        participante = Participante()
+        participante.save()
+        participante.reto = reto
+        participante.usuario = otro_usuario
+        participante.save()
+
+    def no_permitida_obtencion(self):
+        self.client.login(username="coordinadorreto_otro_view@gmail.com",
+                          password='Password1.')
+        reto = Reto.objects.filter(
+            coordinador__email='coordinadorreto_view@gmail.com').first()
+        resp = self.client.post(f'/coordinador_reto/{reto.id_reto}')
+        self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
+
+    def permitida_obtencion(self):
+        self.client.login(username="coordinadorreto_view@gmail.com",
+                          password='Password1.')
+        reto = Reto.objects.filter(
+            coordinador__email='coordinadorreto_view@gmail.com').first()
+
+        resp = self.client.get(f'/coordinador_reto/{reto.id_reto}')
+
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        self.assertEqual(len(resp.context['participantes']), 1)
+
+    def permitida_obtencion_consulta(self):
+        self.client.login(username="coordinadorreto_view@gmail.com",
+                          password='Password1.')
+        reto = Reto.objects.filter(
+            coordinador__email='coordinadorreto_view@gmail.com').first()
+
+        data = {
+            'consulta': 'María'
+        }
+
+        resp = self.client.get(f'/coordinador_reto/{reto.id_reto}', data)
+
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        self.assertEqual(len(resp.context['participantes']), 1)
+
+    def permitido_cambio(self):
+        self.client.login(username="coordinadorreto_view@gmail.com",
+                          password='Password1.')
+        reto = Reto.objects.filter(
+            coordinador__email='coordinadorreto_view@gmail.com').first()
+        data = {
+            'coordinador': 'coordinadorreto_otro_view@gmail.com'
+        }
+
+        resp = self.client.post(f'/coordinador_reto/{reto.id_reto}', data)
+
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        reto = Reto.objects.get(id_reto=reto.id_reto)
+        self.assertEqual(reto.coordinador.email, 'coordinadorreto_otro_view@gmail.com')
