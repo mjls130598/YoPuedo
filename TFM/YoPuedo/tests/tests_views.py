@@ -462,7 +462,7 @@ class NuevoRetoTest(TestCase):
 
 ##########################################################################################
 
-# Comprobamos el funcionamiento de la URL nuevo reto
+# Comprobamos el funcionamiento de la URL obtener amistades
 class GetAmigosTest(TestCase):
     def setUpTestData(cls):
         usuario = Usuario.objects.create_user(email="amigo_view@gmail.com",
@@ -493,7 +493,7 @@ class GetAmigosTest(TestCase):
 
 ##########################################################################################
 
-# Comprobamos el funcionamiento de la URL nuevo reto
+# Comprobamos el funcionamiento de la URL obtener reto
 class GetRetoTest(TestCase):
     def setUpTestData(cls):
         # Creamos usuarios
@@ -535,7 +535,7 @@ class GetRetoTest(TestCase):
 
 ##########################################################################################
 
-# Comprobamos el funcionamiento de la URL nuevo reto
+# Comprobamos el funcionamiento de la URL iniciar reto
 class IniciarRetoTest(TestCase):
     def setUpTestData(cls):
         # Creamos usuarios
@@ -547,11 +547,11 @@ class IniciarRetoTest(TestCase):
 
         otro_usuario = Usuario.objects.create_user(
             email="iniciarreto_otro_view@gmail.com",
-                                    nombre="María Jesús",
-                                    password="Password1.",
-                                    clave_aleatoria="clavealeat",
-                                    clave_fija="clavefijausuario",
-                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+            nombre="María Jesús",
+            password="Password1.",
+            clave_aleatoria="clavealeat",
+            clave_fija="clavefijausuario",
+            foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
         # Creamos el primer reto
         reto = Reto(id_reto=Utils.crear_id_reto(), titulo="PRUEBA RETO VIEWS",
@@ -573,7 +573,8 @@ class IniciarRetoTest(TestCase):
 
     def permitida_obtencion(self):
         self.client.login(username="iniciarreto_view@gmail.com", password='Password1.')
-        reto = Reto.objects.filter(coordinador__email='iniciarreto_view@gmail.com').first()
+        reto = Reto.objects.filter(
+            coordinador__email='iniciarreto_view@gmail.com').first()
         resp = self.client.get(f'/iniciar_reto/{reto.id_reto}')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         reto = Reto.objects.filter(
@@ -583,7 +584,67 @@ class IniciarRetoTest(TestCase):
         self.assertEqual(reto.etapa_set.first().estado, "En proceso")
 
     def no_permitida_obtencion(self):
-        self.client.login(username="iniciarreto_otro_view@gmail.com", password='Password1.')
-        reto = Reto.objects.filter(coordinador__email='iniciarreto_view@gmail.com').first()
+        self.client.login(username="iniciarreto_otro_view@gmail.com",
+                          password='Password1.')
+        reto = Reto.objects.filter(
+            coordinador__email='iniciarreto_view@gmail.com').first()
         resp = self.client.get(f'/iniciar_reto/{reto.id_reto}')
+        self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
+
+
+##########################################################################################
+
+# Comprobamos el funcionamiento de la URL eliminar reto
+class EliminarRetoTest(TestCase):
+    def setUpTestData(cls):
+        # Creamos usuarios
+        usuario = Usuario.objects.create_user(email="eliminarreto_view@gmail.com",
+                                              nombre="María Jesús", password="Password1.",
+                                              clave_aleatoria="clavealeat",
+                                              clave_fija="clavefijausuario",
+                                              foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        otro_usuario = Usuario.objects.create_user(
+            email="eliminarreto_otro_view@gmail.com",
+            nombre="María Jesús",
+            password="Password1.",
+            clave_aleatoria="clavealeat",
+            clave_fija="clavefijausuario",
+            foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        # Creamos el primer reto
+        reto = Reto(id_reto=Utils.crear_id_reto(), titulo="PRUEBA RETO VIEWS",
+                    objetivo="OBJETIVO RETO VIEWS", categoria="inteligencia",
+                    recompensa="RECOMPENSA RETO VIEWS", coordinador=usuario)
+        reto.save()
+
+        # Creamos la primera etapa del reto
+        Etapa(id_etapa=Utils.crear_id_etapa(), objetivo="ETAPA 1 RETO VIEWS",
+              reto=reto).save()
+
+        # Creamos el animador del reto
+        animador = Animador()
+        animador.save()
+        animador.reto = reto
+        animador.usuario = otro_usuario
+        animador.superanimador = True
+        animador.save()
+
+    def permitida_obtencion(self):
+        self.client.login(username="eliminarreto_view@gmail.com", password='Password1.')
+        reto = Reto.objects.filter(
+            coordinador__email='eliminarreto_view@gmail.com').first()
+        resp = self.client.get(f'/eliminar_reto/{reto.id_reto}')
+
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        self.assertFalse(Reto.objects.filter(id_reto=reto.id_reto).exists())
+        self.assertFalse(Etapa.objects.filter(reto__id_reto=reto.id_reto).exists())
+        self.assertFalse(Animador.objects.filter(reto__id_reto=reto.id_reto).exists())
+
+    def no_permitida_obtencion(self):
+        self.client.login(username="eliminarreto_otro_view@gmail.com",
+                          password='Password1.')
+        reto = Reto.objects.filter(
+            coordinador__email='eliminarreto_view@gmail.com').first()
+        resp = self.client.get(f'/eliminar_reto/{reto.id_reto}')
         self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
