@@ -368,8 +368,7 @@ class NuevoRetoTest(TestCase):
         id_reto = resp.url[-50:]
         self.assertTrue(Reto.objects.filter(id_reto=id_reto).exists())
         self.assertTrue(Etapa.objects.filter(reto__id_reto=id_reto).exists())
-        self.assertEqual(Participante.objects.filter(reto__id_reto=id_reto).
-                         last().usuario.all().first().email, "nuevoreto_view@gmail.com")
+        self.assertFalse(Participante.objects.filter(reto__id_reto=id_reto).exists())
 
     def test_post_reto_individual_animadores(self):
         self.client.login(username='nuevoreto_view@gmail.com', password="Password1.")
@@ -409,8 +408,7 @@ class NuevoRetoTest(TestCase):
         id_reto = resp.url[-50:]
         self.assertTrue(Reto.objects.filter(id_reto=id_reto).exists())
         self.assertTrue(Etapa.objects.filter(reto__id_reto=id_reto).exists())
-        self.assertEqual(Participante.objects.filter(reto__id_reto=id_reto).
-                         last().usuario.all().first().email, "nuevoreto_view@gmail.com")
+        self.assertFalse(Participante.objects.filter(reto__id_reto=id_reto).exists())
         self.assertTrue(Animador.objects.filter(reto__id_reto=id_reto).exists())
 
     def test_post_reto_colectivo(self):
@@ -454,10 +452,8 @@ class NuevoRetoTest(TestCase):
         id_reto = resp.url[-50:]
         self.assertTrue(Reto.objects.filter(id_reto=id_reto).exists())
         self.assertTrue(Etapa.objects.filter(reto__id_reto=id_reto).exists())
-        self.assertEqual(Participante.objects.filter(reto__id_reto=id_reto).
-                         last().usuario.all().first().email, "nuevoreto_view@gmail.com")
         self.assertTrue(Animador.objects.filter(reto__id_reto=id_reto).exists())
-        self.assertEqual(len(Participante.objects.filter(reto__id_reto=id_reto).all()), 2)
+        self.assertTrue(Participante.objects.filter(reto__id_reto=id_reto).exists())
 
 
 ##########################################################################################
