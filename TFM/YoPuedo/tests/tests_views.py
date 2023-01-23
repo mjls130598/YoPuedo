@@ -364,7 +364,7 @@ class NuevoRetoTest(TestCase):
         resp = self.client.post('/nuevo_reto/?tipo=individual', data, format='multipart')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         print("URL" + resp.url)
-        self.assertTrue("/mis_retos/" in resp.url)
+        self.assertTrue("/reto/" in resp.url)
         id_reto = resp.url[-50:]
         self.assertTrue(Reto.objects.filter(id_reto=id_reto).exists())
         self.assertTrue(Etapa.objects.filter(reto__id_reto=id_reto).exists())
@@ -405,7 +405,7 @@ class NuevoRetoTest(TestCase):
 
         resp = self.client.post('/nuevo_reto/?tipo=individual', data, format='multipart')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
-        self.assertTrue("/mis_retos/" in resp.url)
+        self.assertTrue("/reto/" in resp.url)
         id_reto = resp.url[-50:]
         self.assertTrue(Reto.objects.filter(id_reto=id_reto).exists())
         self.assertTrue(Etapa.objects.filter(reto__id_reto=id_reto).exists())
@@ -450,7 +450,7 @@ class NuevoRetoTest(TestCase):
 
         resp = self.client.post('/nuevo_reto/?tipo=colectivo', data, format='multipart')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
-        self.assertTrue("/mis_retos/" in resp.url)
+        self.assertTrue("/reto/" in resp.url)
         id_reto = resp.url[-50:]
         self.assertTrue(Reto.objects.filter(id_reto=id_reto).exists())
         self.assertTrue(Etapa.objects.filter(reto__id_reto=id_reto).exists())
