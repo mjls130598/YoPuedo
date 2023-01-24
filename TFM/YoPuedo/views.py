@@ -708,7 +708,7 @@ def editar_reto(request, id_reto):
     reto = get_object_or_404(Reto, id_reto=id_reto)
 
     logger.info("Comprobamos que el reto sea de la persona que lo está viendo")
-    if reto.coordinador == request.user:
+    if reto.coordinador == request.user and reto.estado == 'Propuesto':
         logger.info("Recogemos el resto de información de un reto")
         animadores_reto = reto.animador_set.all()
         animadores = []
