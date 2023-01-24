@@ -50,6 +50,14 @@ class RegistroForm(forms.Form):
         password = cleaned_data.get('password')
         password2 = cleaned_data.get('password_again')
 
+        if len(password) < 8:
+            logger.error("La contraseña no tiene 8 caracteres como mínimo")
+            self.add_error("password", "La contraseña debe tener entre 8 y 16 caracteres")
+
+        if len(password) > 16:
+            logger.error("La contraseña tiene más de 16 caracteres")
+            self.add_error("password", "La contraseña debe tener entre 8 y 16 caracteres")
+
         if password != password2:
             logger.error("Las contraseñas introducidas no son iguales")
             self.add_error('password_again', "Las contraseñas deben ser iguales")
