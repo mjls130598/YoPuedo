@@ -63,7 +63,7 @@
         </button>
       </li>
 
-      {% if tipo_reto == "colectivo" %}
+      {% if tipo_reto == "colectivo" or '/editar_reto/' in request.get_full_path %}
       <li class="nav-item" role="presentation">
         <button class="nav-link d-none" id="participantes-tab" data-bs-toggle="tab"
           data-bs-target="#participantes" type="button" role="tab"
