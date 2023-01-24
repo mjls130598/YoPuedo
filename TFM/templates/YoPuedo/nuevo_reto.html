@@ -178,7 +178,7 @@
     </div>
   </div>
 
-  {% if tipo_reto == "" %}
+  {% if tipo_reto == "" and "/nuevo_reto/" in request.get_full_path%}
     <script>
           window.onload = () => {
               $('#modal').modal('show');
