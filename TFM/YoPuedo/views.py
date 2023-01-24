@@ -783,6 +783,9 @@ def editar_reto(request, id_reto):
             else:
                 data['recompensa_texto'] = reto.recompensa
 
+            logger.info("Recogemos la categoría del reto")
+            data['categoria'] = reto.categoria
+
             logger.info("Guardamos los datos del reto recogidos y lo mandamos a su " +
                         "formulario")
             general_form = RetoGeneralForm(data=data, files=files)
