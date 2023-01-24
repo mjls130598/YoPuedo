@@ -113,7 +113,7 @@
         {% include 'YoPuedo/formulario_reto/etapas.html'%}
       </div>
 
-      {% if tipo_reto == "colectivos" or "/editar_reto/" in request.get_full_path %}
+      {% if tipo_reto == "colectivo" or "/editar_reto/" in request.get_full_path %}
       <div class="tab-pane fade" id="participantes" role="tabpanel"
         aria-labelledby="participantes-tab">
         {% include 'YoPuedo/formulario_reto/participantes.html'%}
