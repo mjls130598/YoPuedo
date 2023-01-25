@@ -26,16 +26,16 @@ class RegistroForm(forms.Form):
                                      'class': 'form-control',
                                      'placeholder': 'María Jesús López'
                                  }))
-    password = forms.CharField(label='Contraseña:', max_length='16', min_length='8',
+    password = forms.CharField(label='Contraseña:',
                                widget=forms.PasswordInput(
                                    attrs={
                                        'class': 'form-control'
                                    }))
-    password_again = forms.CharField(label='Repetir contraseña:', max_length='16',
-                                     min_length='8', widget=forms.PasswordInput(
-            attrs={
-                'class': 'form-control col-10'
-            }))
+    password_again = forms.CharField(label='Repetir contraseña:',
+                                     widget=forms.PasswordInput(
+                                         attrs={
+                                             'class': 'form-control col-10'
+                                         }))
     foto_de_perfil = forms.ImageField(label='Foto de perfil:',
                                       widget=forms.ClearableFileInput(
                                           attrs={
@@ -101,8 +101,7 @@ class InicioForm(forms.Form):
                                             'class': 'form-control',
                                             'placeholder': 'ejemplo@ejemplo.com',
                                         }))
-    password_sesion = forms.CharField(label='Contraseña:', max_length='16',
-                                      min_length='8',
+    password_sesion = forms.CharField(label='Contraseña:',
                                       widget=forms.PasswordInput(
                                           attrs={
                                               'class': 'form-control'
