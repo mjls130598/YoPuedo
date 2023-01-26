@@ -23,7 +23,9 @@
     Objetivo:
     <div class="objetivo botones row m-1 justify-content-between">
         <div class="col-3 p-0">
-            {{ general_form.objetivo_imagen|addsrc:objetivo_imagen }}
+            {% with field=general_form.objetivo_imagen %}
+                {{ field|addsrc:objetivo_imagen }}
+            {% endwith %}
             <button class="imagen  p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_objetivo_imagen">
                     <i class="fa-solid fa-image"></i>
@@ -35,7 +37,9 @@
         </div>
 
         <div class="col-3 p-0">
-            {{ general_form.objetivo_audio|addsrc:objetivo_audio }}
+            {% with field=general_form.objetivo_audio %}
+                {{ field|addsrc:objetivo_audio }}
+            {% endwith %}
             <button class="uploadaudio  p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_objetivo_audio">
                     <i class="fa-solid fa-headphones"></i>
@@ -47,7 +51,9 @@
         </div>
 
         <div class="col-3 p-0">
-            {{ general_form.objetivo_video|addsrc:objetivo_video }}
+            {% with field=general_form.objetivo_video %}
+                {{ field|addsrc:objetivo_video }}
+            {% endwith %}
             <button class="video  p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_objetivo_video">
                     <i class="fa-solid fa-video"></i>
@@ -96,7 +102,9 @@
     Recompensa:
     <div class="recompensa botones row m-1 justify-content-between">
         <div class="col-3 p-0">
-            {{ general_form.recompensa_imagen|addsrc:recompensa_imagen }}
+            {% with field=general_form.recompensa_imagen %}
+                {{ field|addsrc:recompensa_imagen }}
+            {% endwith %}
             <button class="imagen p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_recompensa_imagen">
                     <i class="fa-solid fa-image"></i>
@@ -108,7 +116,9 @@
         </div>
 
         <div class="col-3 p-0">
-            {{ general_form.recompensa_audio|addsrc:recompensa_audio }}
+            {% with field=general_form.recompensa_audio %}
+                {{ field|addsrc:recompensa_audio }}
+            {% endwith %}
             <button class="uploadaudio p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_recompensa_audio">
                     <i class="fa-solid fa-headphones"></i>
@@ -120,7 +130,9 @@
         </div>
 
         <div class="col-3 p-0">
-            {{ general_form.recompensa_video|addsrc:recompensa_video }}
+            {% with field=general_form.recompensa_video %}
+                {{ field|addsrc:recompensa_video }}
+            {% endwith %}
             <button class="video p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_recompensa_video">
                     <i class="fa-solid fa-video"></i>
