@@ -1,5 +1,5 @@
 import logging
-import re
+from django import template
 from django import forms
 from django.forms import BaseFormSet
 
@@ -370,3 +370,11 @@ class AmigosForm(forms.Form):
             'placeholder': 'Buscar amigo ...'
         }), required=False)
     relacion = forms.CharField(widget=forms.HiddenInput())
+
+
+register = template.Library()
+
+
+@register.filter(name='src')
+def addcss(field, src):
+    return field.as_widget(attrs={"src": src})

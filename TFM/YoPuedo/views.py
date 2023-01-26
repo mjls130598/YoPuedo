@@ -729,6 +729,10 @@ def editar_reto(request, id_reto):
         etapas_form_model = formset_factory(RetoEtapaForm, formset=EtapasFormSet,
                                             max_num=max_etapas)
 
+        imagen_objetivo = ""
+        audio_objetivo = ""
+        video_objetivo = ""
+
         if request.method == 'GET':
             logger.info("Entramos en la parte GET de EDITAR RETO")
 
@@ -745,19 +749,26 @@ def editar_reto(request, id_reto):
                     objetivo_imagen = open(objetivo_imagen, 'rb')
                     files['objetivo_imagen'] = SimpleUploadedFile(objetivo_imagen.name,
                                                                   objetivo_imagen.read())
+                    imagen_objetivo = reto.objetivo
                 elif "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in \
                         reto.objetivo or "wma" in reto.objetivo:
                     objetivo_audio = os.path.join(BASE_DIR, reto.objetivo[1:])
                     objetivo_audio = open(objetivo_audio, 'rb')
                     files['objetivo_audio'] = SimpleUploadedFile(objetivo_audio.name,
                                                                  objetivo_audio.read())
+                    audio_objetivo = reto.objetivo
                 elif "mp4" in reto.objetivo or "ogg" in reto.objetivo:
                     objetivo_video = os.path.join(BASE_DIR, reto.objetivo[1:])
                     objetivo_video = open(objetivo_video, 'rb')
                     files['objetivo_video'] = SimpleUploadedFile(objetivo_video.name,
                                                                  objetivo_video.read())
+                    video_objetivo = reto.objetivo
             else:
                 data['objetivo_texto'] = reto.objetivo
+
+            imagen_recompensa = ""
+            audio_recompensa = ""
+            video_recompensa = ""
 
             logger.info("Recogemos el tipo de recompensa del reto guardado")
             if "/media/" in reto.recompensa:
@@ -769,17 +780,20 @@ def editar_reto(request, id_reto):
                     files['recompensa_imagen'] = SimpleUploadedFile(
                         recompensa_imagen.name,
                         recompensa_imagen.read())
+                    imagen_recompensa = reto.recompensa
                 elif "mp3" in reto.recompensa or "acc" in reto.recompensa or "ogg" in \
                         reto.recompensa or "wma" in reto.recompensa:
                     recompensa_audio = os.path.join(BASE_DIR, reto.recompensa[1:])
                     recompensa_audio = open(recompensa_audio, 'rb')
                     files['recompensa_audio'] = SimpleUploadedFile(recompensa_audio.name,
                                                                    recompensa_audio.read())
+                    audio_recompensa = reto.recompensa
                 elif "mp4" in reto.recompensa or "ogg" in reto.recompensa:
                     recompensa_video = os.path.join(BASE_DIR, reto.recompensa[1:])
                     recompensa_video = open(recompensa_video, 'rb')
                     files['recompensa_video'] = SimpleUploadedFile(recompensa_video.name,
                                                                    recompensa_video.read())
+                    video_recompensa = reto.recompensa
             else:
                 data['recompensa_texto'] = reto.recompensa
 
@@ -1074,7 +1088,13 @@ def editar_reto(request, id_reto):
                        "etapas_form": etapas_form, "errores": errores,
                        "max_etapas": max_etapas, "animadores": animadores,
                        "participantes": participantes,
-                       "error_etapas": not etapas_validas})
+                       "error_etapas": not etapas_validas,
+                       "objetivo_imagen": imagen_objetivo,
+                       "objetivo_audio": audio_objetivo,
+                       "objetivo_video": video_objetivo,
+                       "recompensa_imagen": imagen_recompensa,
+                       "recompensa_audio": audio_recompensa,
+                       "recompensa_video": video_recompensa})
 
     else:
         logger.error("No forma parte del reto")
