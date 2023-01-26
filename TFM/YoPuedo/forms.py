@@ -229,6 +229,12 @@ class RetoGeneralForm(forms.Form):
             'rows': '2'
         }), required=False)
 
+    register = template.Library()
+
+    @register.filter(name='src')
+    def src(field, src):
+        return field.as_widget(attrs={"src": src})
+
     def clean(self):
         logger.info("Checkeando nuevo reto - General")
 
@@ -370,11 +376,3 @@ class AmigosForm(forms.Form):
             'placeholder': 'Buscar amigo ...'
         }), required=False)
     relacion = forms.CharField(widget=forms.HiddenInput())
-
-
-register = template.Library()
-
-
-@register.filter(name='src')
-def addcss(field, src):
-    return field.as_widget(attrs={"src": src})
