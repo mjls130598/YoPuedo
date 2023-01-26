@@ -1,5 +1,4 @@
 import logging
-from django import template
 from django import forms
 from django.forms import BaseFormSet
 
@@ -228,12 +227,6 @@ class RetoGeneralForm(forms.Form):
             'placeholder': 'O escribe la recompensa ...',
             'rows': '2'
         }), required=False)
-
-    register = template.Library()
-
-    @register.filter(name='src')
-    def src(field, src):
-        return field.as_widget(attrs={"src": src})
 
     def clean(self):
         logger.info("Checkeando nuevo reto - General")

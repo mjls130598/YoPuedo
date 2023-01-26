@@ -23,7 +23,7 @@
     Objetivo:
     <div class="objetivo botones row m-1 justify-content-between">
         <div class="col-3 p-0">
-            {{ general_form.objetivo_imagen|src:objetivo_imagen }}
+            {{ general_form.objetivo_imagen|addsrc:objetivo_imagen }}
             <button class="imagen  p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_objetivo_imagen">
                     <i class="fa-solid fa-image"></i>
@@ -35,7 +35,7 @@
         </div>
 
         <div class="col-3 p-0">
-            {{ general_form.objetivo_audio|src:objetivo_audio }}
+            {{ general_form.objetivo_audio|addsrc:objetivo_audio }}
             <button class="uploadaudio  p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_objetivo_audio">
                     <i class="fa-solid fa-headphones"></i>
@@ -47,7 +47,7 @@
         </div>
 
         <div class="col-3 p-0">
-            {{ general_form.objetivo_video|src:objetivo_video }}
+            {{ general_form.objetivo_video|addsrc:objetivo_video }}
             <button class="video  p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_objetivo_video">
                     <i class="fa-solid fa-video"></i>
@@ -96,7 +96,7 @@
     Recompensa:
     <div class="recompensa botones row m-1 justify-content-between">
         <div class="col-3 p-0">
-            {{ general_form.recompensa_imagen|src:recompensa_imagen }}
+            {{ general_form.recompensa_imagen|addsrc:recompensa_imagen }}
             <button class="imagen p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_recompensa_imagen">
                     <i class="fa-solid fa-image"></i>
@@ -108,7 +108,7 @@
         </div>
 
         <div class="col-3 p-0">
-            {{ general_form.recompensa_audio|src:recompensa_audio }}
+            {{ general_form.recompensa_audio|addsrc:recompensa_audio }}
             <button class="uploadaudio p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_recompensa_audio">
                     <i class="fa-solid fa-headphones"></i>
@@ -120,7 +120,7 @@
         </div>
 
         <div class="col-3 p-0">
-            {{ general_form.recompensa_video|src:recompensa_video }}
+            {{ general_form.recompensa_video|addsrc:recompensa_video }}
             <button class="video p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_recompensa_video">
                     <i class="fa-solid fa-video"></i>
