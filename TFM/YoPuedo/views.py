@@ -733,6 +733,10 @@ def editar_reto(request, id_reto):
         audio_objetivo = ""
         video_objetivo = ""
 
+        imagen_recompensa = ""
+        audio_recompensa = ""
+        video_recompensa = ""
+
         if request.method == 'GET':
             logger.info("Entramos en la parte GET de EDITAR RETO")
 
@@ -765,10 +769,6 @@ def editar_reto(request, id_reto):
                     video_objetivo = reto.objetivo
             else:
                 data['objetivo_texto'] = reto.objetivo
-
-            imagen_recompensa = ""
-            audio_recompensa = ""
-            video_recompensa = ""
 
             logger.info("Recogemos el tipo de recompensa del reto guardado")
             if "/media/" in reto.recompensa:
