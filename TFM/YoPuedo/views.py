@@ -753,20 +753,20 @@ def editar_reto(request, id_reto):
                     objetivo_imagen = open(objetivo_imagen, 'rb')
                     files['objetivo_imagen'] = SimpleUploadedFile(objetivo_imagen.name,
                                                                   objetivo_imagen.read())
-                    imagen_objetivo = reto.objetivo
+                    imagen_objetivo = os.path.join(BASE_DIR, reto.objetivo[1:])
                 elif "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in \
                         reto.objetivo or "wma" in reto.objetivo:
                     objetivo_audio = os.path.join(BASE_DIR, reto.objetivo[1:])
                     objetivo_audio = open(objetivo_audio, 'rb')
                     files['objetivo_audio'] = SimpleUploadedFile(objetivo_audio.name,
                                                                  objetivo_audio.read())
-                    audio_objetivo = reto.objetivo
+                    audio_objetivo = os.path.join(BASE_DIR, reto.objetivo[1:])
                 elif "mp4" in reto.objetivo or "ogg" in reto.objetivo:
                     objetivo_video = os.path.join(BASE_DIR, reto.objetivo[1:])
                     objetivo_video = open(objetivo_video, 'rb')
                     files['objetivo_video'] = SimpleUploadedFile(objetivo_video.name,
                                                                  objetivo_video.read())
-                    video_objetivo = reto.objetivo
+                    video_objetivo = os.path.join(BASE_DIR, reto.objetivo[1:])
             else:
                 data['objetivo_texto'] = reto.objetivo
 
@@ -780,20 +780,20 @@ def editar_reto(request, id_reto):
                     files['recompensa_imagen'] = SimpleUploadedFile(
                         recompensa_imagen.name,
                         recompensa_imagen.read())
-                    imagen_recompensa = reto.recompensa
+                    imagen_recompensa = os.path.join(BASE_DIR, reto.recompensa[1:])
                 elif "mp3" in reto.recompensa or "acc" in reto.recompensa or "ogg" in \
                         reto.recompensa or "wma" in reto.recompensa:
                     recompensa_audio = os.path.join(BASE_DIR, reto.recompensa[1:])
                     recompensa_audio = open(recompensa_audio, 'rb')
                     files['recompensa_audio'] = SimpleUploadedFile(recompensa_audio.name,
                                                                    recompensa_audio.read())
-                    audio_recompensa = reto.recompensa
+                    audio_recompensa = os.path.join(BASE_DIR, reto.recompensa[1:])
                 elif "mp4" in reto.recompensa or "ogg" in reto.recompensa:
                     recompensa_video = os.path.join(BASE_DIR, reto.recompensa[1:])
                     recompensa_video = open(recompensa_video, 'rb')
                     files['recompensa_video'] = SimpleUploadedFile(recompensa_video.name,
                                                                    recompensa_video.read())
-                    video_recompensa = reto.recompensa
+                    video_recompensa = os.path.join(BASE_DIR, reto.recompensa[1:])
             else:
                 data['recompensa_texto'] = reto.recompensa
 
