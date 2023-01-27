@@ -25,7 +25,7 @@
     <div class="objetivo botones row m-1 justify-content-between">
         <div class="col-3 p-0">
             {% with field=general_form.objetivo_imagen %}
-                {{ field|addsrc objetivo_imagen }}
+                {{ field|addsrc:objetivo_imagen }}
             {% endwith %}
             <button class="imagen  p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_objetivo_imagen">
