@@ -1064,6 +1064,8 @@ def editar_reto(request, id_reto):
             else:
                 logger.error(f"Error al validar formulario EDITAR RETO {id_reto}")
                 errores = True
+                animadores = []
+                participantes = []
 
                 # De cada animador, obtenemos su usuario y si es superanimador
                 for animador_email in animadores_email:
