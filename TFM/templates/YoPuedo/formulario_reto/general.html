@@ -39,7 +39,7 @@
 
         <div class="col-3 p-0">
             {% with field=general_form.objetivo_audio %}
-                {{ field|addsrc objetivo_audio }}
+                {{ field|addsrc:objetivo_audio }}
             {% endwith %}
             <button class="uploadaudio  p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_objetivo_audio">
@@ -53,7 +53,7 @@
 
         <div class="col-3 p-0">
             {% with field=general_form.objetivo_video %}
-                {{ field|addsrc objetivo_video }}
+                {{ field|addsrc:objetivo_video }}
             {% endwith %}
             <button class="video  p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_objetivo_video">
@@ -104,7 +104,7 @@
     <div class="recompensa botones row m-1 justify-content-between">
         <div class="col-3 p-0">
             {% with field=general_form.recompensa_imagen %}
-                {{ field|addsrc recompensa_imagen }}
+                {{ field|addsrc:recompensa_imagen }}
             {% endwith %}
             <button class="imagen p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_recompensa_imagen">
@@ -118,7 +118,7 @@
 
         <div class="col-3 p-0">
             {% with field=general_form.recompensa_audio %}
-                {{ field|addsrc recompensa_audio }}
+                {{ field|addsrc:recompensa_audio }}
             {% endwith %}
             <button class="uploadaudio p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_recompensa_audio">
@@ -132,7 +132,7 @@
 
         <div class="col-3 p-0">
             {% with field=general_form.recompensa_video %}
-                {{ field|addsrc recompensa_video }}
+                {{ field|addsrc:recompensa_video }}
             {% endwith %}
             <button class="video p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_recompensa_video">
