@@ -885,11 +885,12 @@ def editar_reto(request, id_reto):
                     objetivo = os.path.join("/media", "YoPuedo", id_reto,
                                             'OBJETIVO' + extension)
                     try:
-                        if "/media/" in reto.objetivo:
-                            Utils.eliminarArchivo(BASE_DIR + reto.objetivo)
-
                         Utils.handle_uploaded_file(objetivo_multimedia, localizacion,
                                                    directorio)
+
+                        if "/media/" in reto.objetivo and reto.objetivo != objetivo:
+                            Utils.eliminarArchivo(
+                                os.path.join(BASE_DIR, reto.objetivo[1:]))
                     except:
                         logger.error("Error al subir el objetivo")
                 else:
@@ -923,6 +924,10 @@ def editar_reto(request, id_reto):
                             Utils.handle_uploaded_file(recompensa_multimedia,
                                                        localizacion,
                                                        directorio)
+
+                            if "/media/" in reto.recompensa and reto.recompensa != recompensa:
+                                Utils.eliminarArchivo(
+                                    os.path.join(BASE_DIR, reto.recompensa[1:]))
                         except:
                             logger.error("Error al subir la recompensa")
                 else:
@@ -1161,7 +1166,7 @@ def coordinador_reto(request, id_reto):
                 filter(Q(usuario__email__contains=consulta) |
                        Q(usuario__nombre__contains=consulta)). \
                 exclude(usuario=request.user).values('usuario') if consulta != "" \
-                else reto.participante_set.exclude(usuario__email=request.user.email).\
+                else reto.participante_set.exclude(usuario__email=request.user.email). \
                 values('usuario')
 
             logger.info("Paginamos los participantes del reto")
