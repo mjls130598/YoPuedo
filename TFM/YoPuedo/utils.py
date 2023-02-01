@@ -138,12 +138,18 @@ class Utils:
             if not ('titulo' in general_form.errors or 'categoria' in
                     general_form.errors):
                 logger.info("Verificamos que los errores encontrados son los buscados")
-                return ('Debes indicar el objetivo del reto' in
-                        general_form.errors['objetivo_texto'] and
-                        '/media/' in reto.objetivo) and \
-                    ('Debes indicar la recompensa del reto' in
-                     general_form.errors['recompensa_texto'] and
-                     '/media/' in reto.recompensa)
+
+                valido_objetivo = 'Debes indicar el objetivo del reto' in \
+                                  general_form.errors['objetivo_texto'] and \
+                                  '/media/' in reto.objetivo \
+                    if 'objetivo_texto' in general_form.errors else True
+
+                valida_recompensa = 'Debes indicar la recompensa del reto' in \
+                                    general_form.errors['recompensa_texto'] and \
+                                    '/media/' in reto.recompensa \
+                    if 'objetivo_recompensa' in general_form.errors else True
+
+                return valido_objetivo and valida_recompensa
             else:
                 logger.error("Tiene errores en título y/o categoría")
                 return False
