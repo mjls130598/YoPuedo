@@ -866,11 +866,11 @@ def editar_reto(request, id_reto):
                     except:
                         logger.error("Error al subir el objetivo")
                 else:
-                    objetivo = objetivo_texto
+                    objetivo = objetivo_texto if objetivo_texto != "" else reto.objetivo
 
                 if objetivo != reto.objetivo and "/media/" in reto.objetivo:
                     logger.info("Borramos el antiguo objetivo del reto")
-                    Utils.eliminar_archivo(BASE_DIR + reto.objetivo)
+                    Utils.eliminar_archivo(os.path.join(BASE_DIR, reto.objetivo[1:]))
 
                 logger.info(f"OBJETIVO: {objetivo}")
 
@@ -899,11 +899,11 @@ def editar_reto(request, id_reto):
                         except:
                             logger.error("Error al subir la recompensa")
                 else:
-                    recompensa = recompensa_texto
+                    recompensa = recompensa_texto if recompensa_texto != "" else reto.recompensa
 
                 if recompensa != reto.recompensa and "/media/" in reto.recompensa:
                     logger.info("Borramos la antigua recompensa del reto")
-                    Utils.eliminar_archivo(BASE_DIR + reto.recompensa)
+                    Utils.eliminar_archivo(os.path.join(BASE_DIR, reto.recompensa[1:]))
 
                 logger.info(f"RECOMPENSA: {recompensa}")
 
