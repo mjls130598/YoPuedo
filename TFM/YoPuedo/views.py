@@ -733,68 +733,44 @@ def editar_reto(request, id_reto):
         audio_objetivo = ""
         video_objetivo = ""
 
+        if "/media/" in reto.objetivo:
+            if "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in \
+                    reto.objetivo or "svg" in reto.objetivo or "gif" in \
+                    reto.objetivo:
+                imagen_objetivo = reto.objetivo.split("/")[-1]
+            elif "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in \
+                    reto.objetivo or "wma" in reto.objetivo:
+                audio_objetivo = reto.objetivo.split("/")[-1]
+            elif "mp4" in reto.objetivo or "ogg" in reto.objetivo:
+                video_objetivo = reto.objetivo.split("/")[-1]
+
         imagen_recompensa = ""
         audio_recompensa = ""
         video_recompensa = ""
+
+        if "/media/" in reto.recompensa:
+            if "jpg" in reto.recompensa or "jpeg" in reto.recompensa or "png" in \
+                    reto.recompensa or "svg" in reto.recompensa or "gif" in \
+                    reto.recompensa:
+                imagen_recompensa = reto.recompensa.split("/")[-1]
+            elif "mp3" in reto.recompensa or "acc" in reto.recompensa or "ogg" in \
+                    reto.recompensa or "wma" in reto.recompensa:
+                audio_recompensa = reto.recompensa.split("/")[-1]
+            elif "mp4" in reto.recompensa or "ogg" in reto.recompensa:
+                video_recompensa = reto.recompensa.split("/")[-1]
 
         if request.method == 'GET':
             logger.info("Entramos en la parte GET de EDITAR RETO")
 
             etapas = reto.etapa_set.all()
-            files = {}
             data = {'titulo': reto.titulo}
 
             logger.info("Recogemos el tipo de objetivo del reto guardado")
-            if "/media/" in reto.objetivo:
-                if "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in \
-                        reto.objetivo or "svg" in reto.objetivo or "gif" in \
-                        reto.objetivo:
-                    objetivo_imagen = os.path.join(BASE_DIR, reto.objetivo[1:])
-                    objetivo_imagen = open(objetivo_imagen, 'rb')
-                    files['objetivo_imagen'] = SimpleUploadedFile(objetivo_imagen.name,
-                                                                  objetivo_imagen.read())
-                    imagen_objetivo = os.path.join(BASE_DIR, reto.objetivo[1:])
-                elif "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in \
-                        reto.objetivo or "wma" in reto.objetivo:
-                    objetivo_audio = os.path.join(BASE_DIR, reto.objetivo[1:])
-                    objetivo_audio = open(objetivo_audio, 'rb')
-                    files['objetivo_audio'] = SimpleUploadedFile(objetivo_audio.name,
-                                                                 objetivo_audio.read())
-                    audio_objetivo = os.path.join(BASE_DIR, reto.objetivo[1:])
-                elif "mp4" in reto.objetivo or "ogg" in reto.objetivo:
-                    objetivo_video = os.path.join(BASE_DIR, reto.objetivo[1:])
-                    objetivo_video = open(objetivo_video, 'rb')
-                    files['objetivo_video'] = SimpleUploadedFile(objetivo_video.name,
-                                                                 objetivo_video.read())
-                    video_objetivo = os.path.join(BASE_DIR, reto.objetivo[1:])
-            else:
+            if not "/media/" in reto.objetivo:
                 data['objetivo_texto'] = reto.objetivo
 
             logger.info("Recogemos el tipo de recompensa del reto guardado")
-            if "/media/" in reto.recompensa:
-                if "jpg" in reto.recompensa or "jpeg" in reto.recompensa or "png" in \
-                        reto.recompensa or "svg" in reto.recompensa or "gif" in \
-                        reto.recompensa:
-                    recompensa_imagen = os.path.join(BASE_DIR, reto.recompensa[1:])
-                    recompensa_imagen = open(recompensa_imagen, 'rb')
-                    files['recompensa_imagen'] = SimpleUploadedFile(
-                        recompensa_imagen.name,
-                        recompensa_imagen.read())
-                    imagen_recompensa = os.path.join(BASE_DIR, reto.recompensa[1:])
-                elif "mp3" in reto.recompensa or "acc" in reto.recompensa or "ogg" in \
-                        reto.recompensa or "wma" in reto.recompensa:
-                    recompensa_audio = os.path.join(BASE_DIR, reto.recompensa[1:])
-                    recompensa_audio = open(recompensa_audio, 'rb')
-                    files['recompensa_audio'] = SimpleUploadedFile(recompensa_audio.name,
-                                                                   recompensa_audio.read())
-                    audio_recompensa = os.path.join(BASE_DIR, reto.recompensa[1:])
-                elif "mp4" in reto.recompensa or "ogg" in reto.recompensa:
-                    recompensa_video = os.path.join(BASE_DIR, reto.recompensa[1:])
-                    recompensa_video = open(recompensa_video, 'rb')
-                    files['recompensa_video'] = SimpleUploadedFile(recompensa_video.name,
-                                                                   recompensa_video.read())
-                    video_recompensa = os.path.join(BASE_DIR, reto.recompensa[1:])
-            else:
+            if not "/media/" in reto.recompensa:
                 data['recompensa_texto'] = reto.recompensa
 
             logger.info("Recogemos la categoría del reto")
@@ -802,7 +778,7 @@ def editar_reto(request, id_reto):
 
             logger.info("Guardamos los datos del reto recogidos y lo mandamos a su " +
                         "formulario")
-            general_form = RetoGeneralForm(data=data, files=files)
+            general_form = RetoGeneralForm(data=data)
 
             logger.info("Recogemos la información de cada una de las etapas")
             data = {
@@ -861,7 +837,7 @@ def editar_reto(request, id_reto):
 
             etapas_validas = etapas_form.is_valid()
             # Comprobamos si la parte principal es correcto
-            if general_form.is_valid() and etapas_validas:
+            if Utils.valido_general(reto, general_form) and etapas_validas:
                 logger.info(f"Guardamos formulario EDITAR RETO de {id_reto}")
                 # Obtenemos datos de la pestaña GENERAL
                 titulo = general_form.cleaned_data['titulo'].value()
@@ -894,7 +870,7 @@ def editar_reto(request, id_reto):
 
                 if objetivo != reto.objetivo and "/media/" in reto.objetivo:
                     logger.info("Borramos el antiguo objetivo del reto")
-                    Utils.eliminarArchivo(BASE_DIR + reto.objetivo)
+                    Utils.eliminar_archivo(BASE_DIR + reto.objetivo)
 
                 logger.info(f"OBJETIVO: {objetivo}")
 
@@ -927,7 +903,7 @@ def editar_reto(request, id_reto):
 
                 if recompensa != reto.recompensa and "/media/" in reto.recompensa:
                     logger.info("Borramos la antigua recompensa del reto")
-                    Utils.eliminarArchivo(BASE_DIR + reto.recompensa)
+                    Utils.eliminar_archivo(BASE_DIR + reto.recompensa)
 
                 logger.info(f"RECOMPENSA: {recompensa}")
 
@@ -990,7 +966,7 @@ def editar_reto(request, id_reto):
                         if objetivo != etapa.objetivo and "/media/" in etapa.objetivo:
                             logger.info(
                                 f"Borramos el antiguo objetivo de la etapa {id_etapa}")
-                            Utils.eliminarArchivo(BASE_DIR + reto.objetivo)
+                            Utils.eliminar_archivo(BASE_DIR + reto.objetivo)
                         etapa.objetivo = objetivo
                         etapa.save()
 

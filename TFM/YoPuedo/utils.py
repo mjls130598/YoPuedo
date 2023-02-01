@@ -4,6 +4,7 @@ import random
 import string
 
 from TFM.settings import BASE_DIR, EMAIL_HOST_USER
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.mail import EmailMultiAlternatives
 
 from .models import Usuario, Reto, Etapa
@@ -125,6 +126,28 @@ class Utils:
         return id_etapa
 
     @staticmethod
-    def eliminarArchivo(archivo):
+    def eliminar_archivo(archivo):
         logger.info(f"Eliminamos el archivo {archivo}")
         os.remove(archivo)
+
+    @staticmethod
+    def valido_general(reto, general_form):
+        logger.info("Miramos si el formulario GENERAL es válido")
+        if not general_form.is_valid():
+            logger.info("Comprobamos los errores encontrados en el formulario")
+            if not ('titulo' in general_form.errors or 'categoria' in
+                    general_form.errors):
+                logger.info("Verificamos que los errores encontrados son los buscados")
+                return ('Debes indicar el objetivo del reto' in
+                        general_form.errors['objetivo_texto'] and
+                        '/media/' in reto.objetivo) and \
+                    ('Debes indicar la recompensa del reto' in
+                     general_form.errors['recompensa_texto'] and
+                     '/media/' in reto.recompensa)
+            else:
+                logger.error("Tiene errores en título y/o categoría")
+                return False
+
+        else:
+            logger.info("El formulario es correcto")
+            return True

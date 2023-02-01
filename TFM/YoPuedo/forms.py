@@ -162,10 +162,10 @@ class ClaveForm(forms.Form):
 # Formulario de reto GENERAL
 class RetoGeneralForm(forms.Form):
     titulo = forms.CharField(label='Título: ', max_length='500',
-                             min_length='10', widget=forms.TextInput(
-            attrs={
-                'class': 'form-control'
-            }), required=False)
+                             widget=forms.TextInput(
+                                 attrs={
+                                     'class': 'form-control'
+                                 }), required=False)
     objetivo_imagen = forms.ImageField(label="Subir foto",
                                        widget=forms.ClearableFileInput(
                                            attrs={
