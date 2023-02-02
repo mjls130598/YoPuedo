@@ -9,7 +9,7 @@
       <label for="id_objetivo_imagen">
         <i class="fa-solid fa-image"></i>
         <span class="label d-none d-sm-inline">
-          {% with id = etapa_form.id_etapa.value %}
+          {% with id=etapa_form.id_etapa.value %}
             {% if id in etapas_objetivos.keys %}
               {{ etapas_objetivos.id.objetivo_imagen }}
             {% else %}
