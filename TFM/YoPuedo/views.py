@@ -728,6 +728,7 @@ def editar_reto(request, id_reto):
         etapas_validas = True
         etapas_form_model = formset_factory(RetoEtapaForm, formset=EtapasFormSet,
                                             max_num=max_etapas)
+        etapas = reto.etapa_set.all()
 
         imagen_objetivo = ""
         audio_objetivo = ""
@@ -759,10 +760,30 @@ def editar_reto(request, id_reto):
             elif "mp4" in reto.recompensa or "ogg" in reto.recompensa:
                 video_recompensa = reto.recompensa.split("/")[-1]
 
+        etapas_objetivo = {}
+
+        for etapa in etapas:
+            imagen_objetivo = ""
+            audio_objetivo = ""
+            video_objetivo = ""
+
+            if "jpg" in etapa.objetivo or "jpeg" in etapa.objetivo or "png" in \
+                    etapa.objetivo or "svg" in etapa.objetivo or "gif" in \
+                    etapa.objetivo:
+                imagen_objetivo = etapa.objetivo.split("/")[-1]
+            elif "mp3" in etapa.objetivo or "acc" in etapa.objetivo or "ogg" in \
+                    etapa.objetivo or "wma" in etapa.objetivo:
+                audio_objetivo = etapa.objetivo.split("/")[-1]
+            elif "mp4" in etapa.objetivo or "ogg" in etapa.objetivo:
+                video_objetivo = etapa.objetivo.split("/")[-1]
+
+            etapas_objetivo[etapa.id_etapa] = {'objetivo_imagen': imagen_objetivo,
+                                               'objetivo_audio': audio_objetivo,
+                                               'video_objetivo': video_objetivo}
+
         if request.method == 'GET':
             logger.info("Entramos en la parte GET de EDITAR RETO")
 
-            etapas = reto.etapa_set.all()
             data = {'titulo': reto.titulo}
 
             logger.info("Recogemos el tipo de objetivo del reto guardado")
@@ -787,37 +808,15 @@ def editar_reto(request, id_reto):
                 'form-TOTAL_FORMS': len(etapas),
                 'form-MAX_NUM_FORM': '5',
             }
-            files = {}
 
             for index, etapa in enumerate(etapas):
                 logger.info("Recogemos el tipo de objetivo de la etapa guardado")
                 data[f'form-{index}-id_etapa'] = etapa.id_etapa
-                if "/media/" in etapa.objetivo:
-                    if "jpg" in etapa.objetivo or "jpeg" in etapa.objetivo or "png" in \
-                            etapa.objetivo or "svg" in etapa.objetivo or "gif" in \
-                            etapa.objetivo:
-                        objetivo_imagen = os.path.join(BASE_DIR, etapa.objetivo[1:])
-                        objetivo_imagen = open(objetivo_imagen, 'rb')
-                        files[f'form-{index}-objetivo_imagen'] = SimpleUploadedFile(
-                            objetivo_imagen.name,
-                            objetivo_imagen.read())
-                    elif "mp3" in etapa.objetivo or "acc" in etapa.objetivo or "ogg" in \
-                            etapa.objetivo or "wma" in etapa.objetivo:
-                        objetivo_audio = os.path.join(BASE_DIR, etapa.objetivo[1:])
-                        objetivo_audio = open(objetivo_audio, 'rb')
-                        files[f'form-{index}-objetivo_audio'] = SimpleUploadedFile(
-                            objetivo_audio.name,
-                            objetivo_audio.read())
-                    elif "mp4" in etapa.objetivo or "ogg" in etapa.objetivo:
-                        objetivo_video = os.path.join(BASE_DIR, etapa.objetivo[1:])
-                        objetivo_video = open(objetivo_video, 'rb')
-                        files[f'form-{index}-objetivo_video'] = SimpleUploadedFile(
-                            objetivo_video.name,
-                            objetivo_video.read())
-                else:
+
+                if not "/media/" in etapa.objetivo:
                     data[f'form-{index}-objetivo_texto'] = etapa.objetivo
 
-            etapas_form = etapas_form_model(data, files)
+            etapas_form = etapas_form_model(data)
 
         else:
             logger.info("Entramos en la parte POST de EDITAR RETO")
@@ -1069,7 +1068,8 @@ def editar_reto(request, id_reto):
                        "objetivo_video": video_objetivo,
                        "recompensa_imagen": imagen_recompensa,
                        "recompensa_audio": audio_recompensa,
-                       "recompensa_video": video_recompensa})
+                       "recompensa_video": video_recompensa,
+                       "etapas_objetivo": etapas_objetivo})
 
     else:
         logger.error("No forma parte del reto")
