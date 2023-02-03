@@ -1,3 +1,4 @@
+{% load get_value %}
 <div class='form-group fw-bold {% if etapa_form.objetivo_texto.errors %} errorlist {% endif %}'>
   {{ etapa_form.id_etapa }}
   <i class="fa-solid fa-flag-checkered"></i>
@@ -9,9 +10,9 @@
       <label for="id_objetivo_imagen">
         <i class="fa-solid fa-image"></i>
         <span class="label d-none d-sm-inline">
-          {% with id=etapa_form.id_etapa.value %}
-            {% if id in etapas_objetivo.keys %}
-              {{ etapas_objetivo[id].objetivo_imagen }}
+          {% with id=etapa_form.id_etapa.value dato=etapas_objetivo|get_value:id|get_item:"objetivo_imagen" %}
+            {% if id in etapas_objetivo.keys and dato != "" %}
+              {{ dato }}
             {% else %}
               {{ etapa_form.objetivo_imagen.label }}
             {% endif %}
@@ -27,12 +28,12 @@
       <label for="id_objetivo_audio">
         <i class="fa-solid fa-headphones"></i>
         <span class="label d-none d-sm-inline">
-          {% with id=etapa_form.id_etapa.value %}
-          {% if id in etapas_objetivo.keys %}
-            {{ etapas_objetivo[id].objetivo_audio }}
-          {% else %}
-            {{ etapa_form.objetivo_audio.label }}
-          {% endif %}
+          {% with id=etapa_form.id_etapa.value dato=etapas_objetivo|get_value:id|get_item:"objetivo_audio" %}
+            {% if id in etapas_objetivo.keys and dato != "" %}
+              {{ dato }}
+            {% else %}
+              {{ etapa_form.objetivo_imagen.label }}
+            {% endif %}
           {% endwith %}
         </span>
       </label>
@@ -45,12 +46,12 @@
       <label for="id_objetivo_video">
         <i class="fa-solid fa-video"></i>
         <span class="label d-none d-sm-inline">
-          {% with id=etapa_form.id_etapa.value %}
-          {% if id in etapas_objetivo.keys %}
-            {{ etapas_objetivo[id].objetivo_video }}
-          {% else %}
-            {{ etapa_form.objetivo_video.label }}
-          {% endif %}
+          {% with id=etapa_form.id_etapa.value dato=etapas_objetivo|get_value:id|get_item:"objetivo_video" %}
+            {% if id in etapas_objetivo.keys and dato != "" %}
+              {{ dato }}
+            {% else %}
+              {{ etapa_form.objetivo_imagen.label }}
+            {% endif %}
           {% endwith %}
         </span>
       </label>
