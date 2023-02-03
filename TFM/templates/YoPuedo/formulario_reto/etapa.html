@@ -11,7 +11,7 @@
         <span class="label d-none d-sm-inline">
           {% with id=etapa_form.id_etapa.value %}
             {% if id in etapas_objetivo.keys %}
-              {{ etapas_objetivo.id.objetivo_imagen }}
+              {{ etapas_objetivo[id].objetivo_imagen }}
             {% else %}
               {{ etapa_form.objetivo_imagen.label }}
             {% endif %}
@@ -29,7 +29,7 @@
         <span class="label d-none d-sm-inline">
           {% with id=etapa_form.id_etapa.value %}
           {% if id in etapas_objetivo.keys %}
-            {{ etapas_objetivo.id.objetivo_audio }}
+            {{ etapas_objetivo[id].objetivo_audio }}
           {% else %}
             {{ etapa_form.objetivo_audio.label }}
           {% endif %}
@@ -46,8 +46,8 @@
         <i class="fa-solid fa-video"></i>
         <span class="label d-none d-sm-inline">
           {% with id=etapa_form.id_etapa.value %}
-          {% if id in etapas_objetivos.keys %}
-            {{ etapas_objetivo.id.objetivo_video }}
+          {% if id in etapas_objetivo.keys %}
+            {{ etapas_objetivo[id].objetivo_video }}
           {% else %}
             {{ etapa_form.objetivo_video.label }}
           {% endif %}
