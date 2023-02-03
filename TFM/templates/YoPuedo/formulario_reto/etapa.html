@@ -10,7 +10,7 @@
         <i class="fa-solid fa-image"></i>
         <span class="label d-none d-sm-inline">
           {% with id=etapa_form.id_etapa.value %}
-            {% if id in etapas_objetivos.keys %}
+            {% if id in etapas_objetivos.items %}
               {{ etapas_objetivos.id.objetivo_imagen }}
             {% else %}
               {{ etapa_form.objetivo_imagen.label }}
@@ -27,7 +27,13 @@
       <label for="id_objetivo_audio">
         <i class="fa-solid fa-headphones"></i>
         <span class="label d-none d-sm-inline">
+          {% with id=etapa_form.id_etapa.value %}
+          {% if id in etapas_objetivos.items %}
+            {{ etapas_objetivos.id.objetivo_audio }}
+          {% else %}
             {{ etapa_form.objetivo_audio.label }}
+          {% endif %}
+          {% endwith %}
         </span>
       </label>
       </button>
@@ -39,7 +45,13 @@
       <label for="id_objetivo_video">
         <i class="fa-solid fa-video"></i>
         <span class="label d-none d-sm-inline">
+          {% with id=etapa_form.id_etapa.value %}
+          {% if id in etapas_objetivos.items %}
+            {{ etapas_objetivos.id.objetivo_video }}
+          {% else %}
             {{ etapa_form.objetivo_video.label }}
+          {% endif %}
+          {% endwith %}
         </span>
       </label>
       </button>
