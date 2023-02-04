@@ -779,7 +779,7 @@ def editar_reto(request, id_reto):
 
             etapas_objetivo[etapa.id_etapa] = {'objetivo_imagen': imagen_objetivo,
                                                'objetivo_audio': audio_objetivo,
-                                               'video_objetivo': video_objetivo}
+                                               'objetivo_video': video_objetivo}
 
         if request.method == 'GET':
             logger.info("Entramos en la parte GET de EDITAR RETO")
