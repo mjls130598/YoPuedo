@@ -812,6 +812,7 @@ def editar_reto(request, id_reto):
                 # Etapas
                 'form-INITIAL_FORMS': '0',
                 'form-TOTAL_FORMS': len(etapas),
+                'form-MAX_NUM_FORMS': max_etapas,
             }
 
             for index, etapa in enumerate(etapas):
