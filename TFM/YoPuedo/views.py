@@ -801,6 +801,12 @@ def editar_reto(request, id_reto):
                         "formulario")
             general_form = RetoGeneralForm(data=data)
 
+            logger.info("Eliminamos los errores generados en la parte GENERAL")
+            if "/media/" in reto.objetivo:
+                general_form.errors.pop('objetivo_texto', None)
+            if "/media/" in reto.recompensa:
+                general_form.errors.pop('recompensa_texto', None)
+
             logger.info("Recogemos la información de cada una de las etapas")
             data = {
                 # Etapas
@@ -817,6 +823,11 @@ def editar_reto(request, id_reto):
                     data[f'form-{index}-objetivo_texto'] = etapa.objetivo
 
             etapas_form = etapas_form_model(data)
+
+            logger.info("Borramos los errores dentro de ETAPAS")
+            for index, etapa_form in enumerate(etapas_form):
+                if "/media/" in etapas[index].objetivo:
+                    etapa_form.errors.pop('objetivo_texto', None)
 
         else:
             logger.info("Entramos en la parte POST de EDITAR RETO")
