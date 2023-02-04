@@ -17,16 +17,12 @@ function cambiarColorCuerpo(id, content){
             document.getElementById(content).style.borderColor = "#F0CEF6";
         break;
         case "etapa-1":
-            document.getElementById(content).style.backgroundColor =
-            "#BCA5E5";
-            document.getElementById(content).style.borderColor =
-            "#BCA5E5";
+            document.getElementById(content).style.backgroundColor = "#BCA5E5";
+            document.getElementById(content).style.borderColor = "#BCA5E5";
         break;
         case "etapa-2":
-            document.getElementById(content).style.backgroundColor =
-            "#9BABFF";
-            document.getElementById(content).style.borderColor =
-            "#9BABFF";
+            document.getElementById(content).style.backgroundColor = "#9BABFF";
+            document.getElementById(content).style.borderColor = "#9BABFF";
         break;
         case "etapa-3":
             document.getElementById(content).style.backgroundColor = "#CAC9F3";
@@ -34,14 +30,11 @@ function cambiarColorCuerpo(id, content){
         break;
         case "etapa-4":
             document.getElementById(content).style.backgroundColor = "#FCC2EF";
-            document.getElementById(content).style.borderColor =
-            "#FCC2EF";
+            document.getElementById(content).style.borderColor = "#FCC2EF";
         break;
         case "etapa-5":
-            document.getElementById(content).style.backgroundColor =
-            "#FD79A7";
-            document.getElementById(content).style.borderColor =
-            "#FD79A7";
+            document.getElementById(content).style.backgroundColor = "#FD79A7";
+            document.getElementById(content).style.borderColor = "#FD79A7";
         break;
     }
 }
