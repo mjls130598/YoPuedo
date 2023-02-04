@@ -10,7 +10,7 @@
       <label for="id_objetivo_imagen">
         <i class="fa-solid fa-image"></i>
         <span class="label d-none d-sm-inline">
-          {% with id=etapa_form.id_etapa.value dato=etapas_objetivo|get_value:id|get_value:"objetivo_imagen" %}
+          {% with id=etapa_form.id_etapa.value dato=etapas_objetivo|get_item:id|get_item:"objetivo_imagen" %}
             {% if id in etapas_objetivo.keys and dato != "" %}
               {{ dato }}
             {% else %}
@@ -28,7 +28,7 @@
       <label for="id_objetivo_audio">
         <i class="fa-solid fa-headphones"></i>
         <span class="label d-none d-sm-inline">
-          {% with id=etapa_form.id_etapa.value dato=etapas_objetivo|get_value:id|get_value:"objetivo_audio" %}
+          {% with id=etapa_form.id_etapa.value dato=etapas_objetivo|get_item:id|get_item:"objetivo_audio" %}
             {% if id in etapas_objetivo.keys and dato != "" %}
               {{ dato }}
             {% else %}
@@ -46,7 +46,7 @@
       <label for="id_objetivo_video">
         <i class="fa-solid fa-video"></i>
         <span class="label d-none d-sm-inline">
-          {% with id=etapa_form.id_etapa.value dato=etapas_objetivo|get_value:id|get_value:"objetivo_video" %}
+          {% with id=etapa_form.id_etapa.value dato=etapas_objetivo|get_item:id|get_item:"objetivo_video" %}
             {% if id in etapas_objetivo.keys and dato != "" %}
               {{ dato }}
             {% else %}
