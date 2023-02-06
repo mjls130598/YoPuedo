@@ -638,6 +638,9 @@ def get_reto(request, id_reto):
         logger.info(f"Recogemos las etapas del reto {id_reto}")
         etapas = reto.etapa_set.all()
 
+        logger.info(f"Ordenamos las etapas del reto")
+        etapas = [etapa for etapa in etapas[::-1]]
+
         logger.info(f"Miramos los animadores del reto {id_reto}")
         animadores = reto.animador_set.all().exclude(usuario=request.user)
 
@@ -817,10 +820,10 @@ def editar_reto(request, id_reto):
 
             for index, etapa in enumerate(etapas):
                 logger.info("Recogemos el tipo de objetivo de la etapa guardado")
-                data[f'form-{index}-id_etapa'] = etapa.id_etapa
+                data[f'form-{len(etapas) - (index + 1)}-id_etapa'] = etapa.id_etapa
 
                 if not "/media/" in etapa.objetivo:
-                    data[f'form-{index}-objetivo_texto'] = etapa.objetivo
+                    data[f'form-{len(etapas) - (index + 1)}-objetivo_texto'] = etapa.objetivo
 
             etapas_form = etapas_form_model(data)
 
