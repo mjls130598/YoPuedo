@@ -121,34 +121,22 @@
     btn_foto.name = "form-" + (num_etapa - 1) + "-objetivo_imagen";
     btn_foto.id = "id_form-" + (num_etapa - 1) + "-objetivo_imagen";
     btn_foto.value = "";
-    label_foto = btn_foto.nextElementSibling;
-    const foto_i = document.createElement("i");
-    foto_i.className = "fa-solid fa-image";
-    const foto_texto = document.createTextNode(" Subir foto ");
-    label_foto.appendChild(foto_i);
-    label_foto.appendChild(foto_texto);
+    label_foto = btn_foto.children[0].children[1];
+    label_foto.innerHTML = " Subir foto ";
 
     btn_audio = clone_cuerpo.getElementsByTagName("input")[2];
     btn_audio.name = "form-" + (num_etapa - 1) + "-objetivo_audio";
     btn_audio.id = "id_form-" + (num_etapa - 1) + "-objetivo_audio";
     btn_audio.value = "";
-    label_audio = btn_audio.nextElementSibling;
-    const audio_i = document.createElement("i");
-    audio_i.className = "fa-solid fa-headphones";
-    const audio_texto = document.createTextNode(" Subir audio ");
-    label_audio.appendChild(audio_i);
-    label_audio.appendChild(audio_texto);
+    label_audio = btn_audio.children[0].children[1];
+    label_audio.innerHTML = " Subir audio ";
 
     btn_video = clone_cuerpo.getElementsByTagName("input")[3];
     btn_video.name = "form-" + (num_etapa - 1) + "-objetivo_video";
     btn_video.id = "id_form-" + (num_etapa - 1) + "-objetivo_video";
     btn_video.value = "";
-    label_video = btn_video.nextElementSibling;
-    const video_i = document.createElement("i");
-    video_i.className = "fa-solid fa-video";
-    const video_texto = document.createTextNode(" Subir vídeo ");
-    label_video.appendChild(video_i);
-    label_video.appendChild(video_texto);
+    label_video = btn_video.children[0].children[1];
+    label_video.innerText = " Subir vídeo ";
 
     textarea = clone_cuerpo.getElementsByTagName("textarea")[0];
     textarea.name = "form-" + (num_etapa - 1) + "-objetivo_texto";
