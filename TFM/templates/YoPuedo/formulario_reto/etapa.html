@@ -10,9 +10,15 @@
       <label for="id_objetivo_imagen">
         <i class="fa-solid fa-image"></i>
         <span class="label d-none d-sm-inline">
-          {% with id=etapa_form.id_etapa.value dato=etapas_objetivo|get_item:etapa_form.id_etapa.value|get_item:"objetivo_imagen" %}
-            {% if id in etapas_objetivo.keys and dato != "" %}
-              {{ dato }}
+          {% with id=etapa_form.id_etapa.value %}
+            {% if id in etapas_objetivo.keys %}
+              {% with dato=etapas_objetivo|get_item:id|get_item:"objetivo_imagen" %}
+              {% if dato != "" %}
+                {{ dato }}
+              {% else %}
+                {{ etapa_form.objetivo_imagen.label }}
+              {% endif %}
+              {% endwith %}
             {% else %}
               {{ etapa_form.objetivo_imagen.label }}
             {% endif %}
@@ -28,9 +34,15 @@
       <label for="id_objetivo_audio">
         <i class="fa-solid fa-headphones"></i>
         <span class="label d-none d-sm-inline">
-          {% with id=etapa_form.id_etapa.value dato=etapas_objetivo|get_item:etapa_form.id_etapa.value|get_item:"objetivo_audio" %}
-            {% if id in etapas_objetivo.keys and dato != "" %}
-              {{ dato }}
+          {% with id=etapa_form.id_etapa.value %}
+            {% if id in etapas_objetivo.keys %}
+              {% with dato=etapas_objetivo|get_item:id|get_item:"objetivo_audio" %}
+              {% if dato != "" %}
+                {{ dato }}
+              {% else %}
+                {{ etapa_form.objetivo_audio.label }}
+              {% endif %}
+              {% endwith %}
             {% else %}
               {{ etapa_form.objetivo_audio.label }}
             {% endif %}
@@ -46,9 +58,15 @@
       <label for="id_objetivo_video">
         <i class="fa-solid fa-video"></i>
         <span class="label d-none d-sm-inline">
-          {% with id=etapa_form.id_etapa.value dato=etapas_objetivo|get_item:etapa_form.id_etapa.value|get_item:"objetivo_video" %}
-            {% if id in etapas_objetivo.keys and dato != "" %}
-              {{ dato }}
+          {% with id=etapa_form.id_etapa.value %}
+            {% if id in etapas_objetivo.keys %}
+              {% with dato=etapas_objetivo|get_item:id|get_item:"objetivo_video" %}
+              {% if dato != "" %}
+                {{ dato }}
+              {% else %}
+                {{ etapa_form.objetivo_video.label }}
+              {% endif %}
+              {% endwith %}
             {% else %}
               {{ etapa_form.objetivo_video.label }}
             {% endif %}
