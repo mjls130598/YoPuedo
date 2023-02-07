@@ -131,7 +131,7 @@
 
     {% if errores %}
     window.onload = () => {
-        cambiarPestana('general');
+        cambiarPestana('general', 'form-reto-content');
         document.getElementById("etapas-tab").classList.remove("d-none");
         document.getElementById("animadores-tab").classList.remove("d-none");
         {% if tipo_reto == "colectivos" %}
