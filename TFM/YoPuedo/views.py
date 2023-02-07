@@ -829,7 +829,7 @@ def editar_reto(request, id_reto):
 
             logger.info("Borramos los errores dentro de ETAPAS")
             for index, etapa_form in enumerate(etapas_form):
-                if "/media/" in etapas[index].objetivo:
+                if "/media/" in etapas[len(etapas) - (index + 1)].objetivo:
                     etapa_form.errors.pop('objetivo_texto', None)
 
         else:
