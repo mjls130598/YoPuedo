@@ -147,13 +147,25 @@ class Utils:
                 valida_recompensa = 'Debes indicar la recompensa del reto' in \
                                     general_form.errors['recompensa_texto'] and \
                                     '/media/' in reto.recompensa \
-                    if 'objetivo_recompensa' in general_form.errors else True
+                    if 'recompensa_texto' in general_form.errors else True
 
-                return valido_objetivo and valida_recompensa
+                if 'objetivo_texto' in general_form.errors and \
+                        'Debes indicar el objetivo del reto' in \
+                        general_form.errors['objetivo_texto'] and \
+                        '/media/' in reto.objetivo:
+                    general_form.errors.pop('objetivo_texto', None)
+
+                if 'recompensa_texto' in general_form.errors and \
+                        'Debes indicar la recompensa del reto' in \
+                        general_form.errors['recompensa_texto'] and \
+                        '/media/' in reto.recompensa:
+                    general_form.errors.pop('recompensa_texto', None)
+
+                return general_form, valido_objetivo and valida_recompensa
             else:
                 logger.error("Tiene errores en título y/o categoría")
-                return False
+                return general_form, False
 
         else:
             logger.info("El formulario es correcto")
-            return True
+            return general_form, True
