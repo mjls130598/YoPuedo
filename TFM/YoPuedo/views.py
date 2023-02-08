@@ -977,11 +977,11 @@ def editar_reto(request, id_reto):
                     else:
                         etapas_ids.remove(id_etapa)
                         etapa = Etapa.objects.get(id_etapa=id_etapa)
-                        if objetivo != etapa.objetivo and "/media/" in etapa.objetivo:
-                            logger.info(
-                                f"Borramos el antiguo objetivo de la etapa {id_etapa}")
-                            Utils.eliminar_archivo(BASE_DIR + reto.objetivo)
-                        etapa.objetivo = objetivo
+                        if objetivo != "" and objetivo != etapa.objetivo and "/media/" \
+                                in etapa.objetivo:
+                            logger.info(f"Borramos el antiguo objetivo de la etapa {id_etapa}")
+                            Utils.eliminar_archivo(os.path.join(BASE_DIR, etapa.objetivo[1:]))
+                        etapa.objetivo = objetivo if objetivo != "" else etapa.objetivo
                         etapa.save()
 
                 logger.info("Borramos en la BD las etapas del reto eliminadas")
