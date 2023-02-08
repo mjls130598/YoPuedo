@@ -832,21 +832,21 @@ def editar_reto(request, id_reto):
                 if "/media/" in etapas[len(etapas) - (index + 1)].objetivo:
                     etapa_form.errors.pop('objetivo_texto', None)
 
-        else:
-            logger.info("Entramos en la parte POST de EDITAR RETO")
+        if request.method == 'PUT':
+            logger.info("Entramos en la parte PUT de EDITAR RETO")
             logger.info(f"Modificamos el reto {id_reto}")
 
             # Primero obtenemos los animadores
             logger.info("Obtenemos animadores")
-            animadores_email = request.POST.getlist('animador')
+            animadores_email = request.PUT.getlist('animador')
 
             # Segundo obtenemos los participantes
             logger.info("Obtenemos participantes")
-            participantes_email = request.POST.getlist('participante')
+            participantes_email = request.PUT.getlist('participante')
 
             # Después obtenemos la parte general y las etapas del reto
-            general_form = RetoGeneralForm(request.POST, request.FILES)
-            etapas_form = etapas_form_model(request.POST, request.FILES)
+            general_form = RetoGeneralForm(request.PUT, request.FILES)
+            etapas_form = etapas_form_model(request.PUT, request.FILES)
 
             general_form, valido_general = Utils.valido_general(reto, general_form)
             etapas_form, etapas_validas = Utils.validas_etapas(reto, etapas_form)
@@ -1122,8 +1122,8 @@ def coordinador_reto(request, id_reto):
 
     logger.info("Comprobamos que el reto sea de la persona que lo está viendo")
     if reto.coordinador == request.user:
-        if request.method == 'POST':
-            coordinador = request.POST.get('coordinador')
+        if request.method == 'PUT':
+            coordinador = request.PUT.get('coordinador')
 
             if coordinador != "" and reto.participante_set.filter(
                     usuario__email=coordinador).exists():

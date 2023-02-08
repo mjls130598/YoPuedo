@@ -99,7 +99,8 @@
     </ul>
 
     <!-- CUERPO DE LOS TABS -->
-    <form class="form tab-content p-3" method="post"
+    <form class="form tab-content p-3"
+          method="{% if '/nuevo_reto/' in request.get_full_path %}post{% else %}put{% endif %}"
           action="{{ request.get_full_path }}"
           enctype="multipart/form-data" id="form-reto-content">
       {% csrf_token %}
