@@ -848,8 +848,6 @@ def editar_reto(request, id_reto):
             general_form = RetoGeneralForm(request.POST, request.FILES)
             etapas_form = etapas_form_model(request.POST, request.FILES)
 
-            etapas_form.is_valid()
-
             general_form, valido_general = Utils.valido_general(reto, general_form)
             etapas_form, etapas_validas = Utils.validas_etapas(reto, etapas_form)
             # Comprobamos si la parte principal es correcto
