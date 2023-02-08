@@ -175,8 +175,6 @@ class Utils:
 
         etapas_validas = etapas_form.is_valid()
 
-        logger.info(f"Tamaño de etapas_form: {len(etapas_form)}")
-
         logger.info("Miramos si el formulario ETAPAS es válido")
         if not etapas_validas:
             logger.info("Comprobamos los errores encontrados en el formulario")
@@ -197,6 +195,8 @@ class Utils:
                             etapas_form[index].errors.pop('objetivo_texto', None)
                         else:
                             etapas_validas = False
+                else:
+                    logger.info(f"Etapa {index + 1} correcta")
         else:
             logger.info("El formulario es correcto")
 
