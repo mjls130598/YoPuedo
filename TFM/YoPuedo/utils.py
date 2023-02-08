@@ -173,8 +173,10 @@ class Utils:
     @staticmethod
     def validas_etapas(reto, etapas_form):
 
+        etapas_validas = etapas_form.is_valid()
+
         logger.info("Miramos si el formulario ETAPAS es válido")
-        if not etapas_form.is_valid():
+        if not etapas_validas:
             logger.info("Comprobamos los errores encontrados en el formulario")
             etapas_validas = True
             etapas = reto.etapa_set.all()
@@ -193,8 +195,7 @@ class Utils:
                             etapas_form[index].errors.pop('objetivo_texto', None)
                         else:
                             etapas_validas = False
-
-            return etapas_form, etapas_validas
         else:
             logger.info("El formulario es correcto")
-            return etapas_form, True
+
+        return etapas_form, etapas_validas
