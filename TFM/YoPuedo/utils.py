@@ -169,3 +169,32 @@ class Utils:
         else:
             logger.info("El formulario es correcto")
             return general_form, True
+
+    @staticmethod
+    def validas_etapas(reto, etapas_form):
+
+        logger.info("Miramos si el formulario ETAPAS es válido")
+        if not etapas_form.is_valid():
+            logger.info("Comprobamos los errores encontrados en el formulario")
+            etapas_validas = True
+            etapas = reto.etapa_set.all()
+
+            for index, etapa_form in enumerate(etapas_form):
+                if not etapa_form.is_valid():
+                    logger.info("No es válida la etapa por ...")
+                    if etapa_form.cleaned_data['id_etapa'].value() == "":
+                        logger.info("Es nueva y no tiene los datos necesarios")
+                        etapas_validas = False
+                    else:
+                        id_etapa = etapa_form.cleaned_data['id_etapa'].value()
+                        if 'Debes indicar el objetivo de la etapa' in \
+                                etapa_form.errors['objetivo_texto'] and \
+                                '/media/' in etapas.get(id_etapa=id_etapa).objetivo:
+                            etapas_form[index].errors.pop('objetivo_texto', None)
+                        else:
+                            etapas_validas = False
+
+            return etapas_form, etapas_validas
+        else:
+            logger.info("El formulario es correcto")
+            return etapas_form, True

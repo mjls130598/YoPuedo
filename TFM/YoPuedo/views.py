@@ -849,7 +849,7 @@ def editar_reto(request, id_reto):
             etapas_form = etapas_form_model(request.POST, request.FILES)
 
             general_form, valido_general = Utils.valido_general(reto, general_form)
-            etapas_validas = etapas_form.is_valid()
+            etapas_form, etapas_validas = Utils.validas_etapas(reto, etapas_form)
             # Comprobamos si la parte principal es correcto
             if valido_general and etapas_validas:
                 logger.info(f"Guardamos formulario EDITAR RETO de {id_reto}")
