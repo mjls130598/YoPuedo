@@ -182,7 +182,8 @@ class Utils:
             etapas = reto.etapa_set.all()
 
             for index, etapa_form in enumerate(etapas_form):
-                if not etapa_form.is_valid():
+                etapa_valida = etapa_form.is_valid()
+                if not etapa_valida:
                     logger.info("No es válida la etapa por ...")
                     if etapa_form.cleaned_data['id_etapa'].value() == "":
                         logger.info("Es nueva y no tiene los datos necesarios")
