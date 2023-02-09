@@ -347,6 +347,7 @@ class RetoEtapaForm(forms.Form):
 class EtapasFormSet(BaseFormSet):
     def clean(self):
         if any(self.errors):
+            logger.error("Error en EtapasFormSet")
             return
 
         for index in range(self.total_form_count()):
