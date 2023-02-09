@@ -397,9 +397,8 @@ def nuevo_reto(request):
             general_form = RetoGeneralForm(request.POST, request.FILES)
             etapas_form = etapas_form_model(request.POST, request.FILES)
 
-            etapas_validas = etapas_form.is_valid()
             # Comprobamos si la parte principal es correcto
-            if general_form.is_valid() and etapas_validas:
+            if general_form.is_valid() and etapas_form.is_valid():
                 logger.info("Guardamos formulario NUEVO RETO")
 
                 # Guardamos ID del reto
@@ -730,6 +729,8 @@ def editar_reto(request, id_reto):
         max_etapas = 5
         errores = False
         etapas_validas = True
+        etapas_form_model = formset_factory(RetoEtapaForm, formset=EtapasFormSet,
+                                            max_num=max_etapas)
         etapas = reto.etapa_set.all()
 
         imagen_objetivo = ""
@@ -825,8 +826,6 @@ def editar_reto(request, id_reto):
                     data[
                         f'form-{len(etapas) - (index + 1)}-objetivo_texto'] = etapa.objetivo
 
-            etapas_form_model = formset_factory(RetoEtapaForm, formset=EtapasFormSet,
-                                                max_num=max_etapas)
             etapas_form = etapas_form_model(data)
 
             logger.info("Borramos los errores dentro de ETAPAS")
@@ -850,8 +849,6 @@ def editar_reto(request, id_reto):
             general_form = RetoGeneralForm(request.POST, request.FILES)
             general_form, valido_general = Utils.valido_general(reto, general_form)
 
-            etapas_form_model = formset_factory(RetoEtapaForm, formset=EtapasFormSet,
-                                                max_num=max_etapas)
             etapas_form = etapas_form_model(request.POST, request.FILES)
             etapas_form, etapas_validas = Utils.validas_etapas(reto, etapas_form)
             # Comprobamos si la parte principal es correcto
