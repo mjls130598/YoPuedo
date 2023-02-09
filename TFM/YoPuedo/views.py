@@ -832,7 +832,7 @@ def editar_reto(request, id_reto):
                 if "/media/" in etapas[len(etapas) - (index + 1)].objetivo:
                     etapa_form.errors.pop('objetivo_texto', None)
 
-        if request.method == 'PUT':
+        if request.method == 'POST':
             logger.info("Entramos en la parte PUT de EDITAR RETO")
             logger.info(f"Modificamos el reto {id_reto}")
 
