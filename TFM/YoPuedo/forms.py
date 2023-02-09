@@ -346,9 +346,6 @@ class RetoEtapaForm(forms.Form):
 # Formulario de grupo de ETAPAS
 class EtapasFormSet(BaseFormSet):
     def clean(self):
-        if any(self.errors):
-            logger.error("Error en EtapasFormSet")
-            return
 
         for index in range(self.total_form_count()):
             logger.info(f"Checkeando {index + 1}º etapa")
