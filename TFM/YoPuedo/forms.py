@@ -327,9 +327,8 @@ class RetoEtapaForm(forms.Form):
         objetivo_audio = cleaned_data.get('objetivo_audio')
         objetivo_video = cleaned_data.get('objetivo_video')
 
-        if (not objetivo_texto and not objetivo_imagen and not objetivo_video and not
-            objetivo_audio) or (objetivo_texto == '' and objetivo_imagen == '' and
-                                objetivo_audio == '' and objetivo_video == ''):
+        if not objetivo_texto and not objetivo_imagen and not objetivo_video and not \
+                objetivo_audio:
             logger.error("No se ha indicado el objetivo")
             self.add_error('objetivo_texto', 'Debes indicar el objetivo de la etapa')
 
