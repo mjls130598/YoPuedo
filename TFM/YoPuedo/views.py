@@ -5,6 +5,7 @@ from itertools import chain
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q, F, Count
@@ -823,7 +824,8 @@ def editar_reto(request, id_reto):
                 data[f'form-{len(etapas) - (index + 1)}-id_etapa'] = etapa.id_etapa
 
                 if not "/media/" in etapa.objetivo:
-                    data[f'form-{len(etapas) - (index + 1)}-objetivo_texto'] = etapa.objetivo
+                    data[
+                        f'form-{len(etapas) - (index + 1)}-objetivo_texto'] = etapa.objetivo
 
             etapas_form = etapas_form_model(data)
 
@@ -979,8 +981,10 @@ def editar_reto(request, id_reto):
                         etapa = Etapa.objects.get(id_etapa=id_etapa)
                         if objetivo != "" and objetivo != etapa.objetivo and "/media/" \
                                 in etapa.objetivo:
-                            logger.info(f"Borramos el antiguo objetivo de la etapa {id_etapa}")
-                            Utils.eliminar_archivo(os.path.join(BASE_DIR, etapa.objetivo[1:]))
+                            logger.info(
+                                f"Borramos el antiguo objetivo de la etapa {id_etapa}")
+                            Utils.eliminar_archivo(
+                                os.path.join(BASE_DIR, etapa.objetivo[1:]))
                         etapa.objetivo = objetivo if objetivo != "" else etapa.objetivo
                         etapa.save()
 
@@ -1088,7 +1092,7 @@ def editar_reto(request, id_reto):
 
     else:
         logger.error("No forma parte del reto")
-        raise Http404("No forma parte del reto")
+        raise PermissionDenied
 
 
 ##########################################################################################
@@ -1109,7 +1113,7 @@ def eliminar_reto(request, id_reto):
 
     else:
         logger.error("No forma parte del reto")
-        raise Http404("No forma parte del reto")
+        raise PermissionDenied
 
 
 ##########################################################################################
@@ -1169,7 +1173,7 @@ def coordinador_reto(request, id_reto):
 
     else:
         logger.error("No forma parte del reto")
-        raise Http404("No forma parte del reto")
+        raise PermissionDenied
 
 
 ##########################################################################################
@@ -1189,7 +1193,7 @@ def animador_reto(request, id_reto):
 
     else:
         logger.error("No forma parte del reto")
-        raise Http404("No forma parte del reto")
+        raise PermissionDenied
 
 
 ##########################################################################################
@@ -1197,3 +1201,10 @@ def animador_reto(request, id_reto):
 # Función para mostrar el error 404
 def page_not_found(request):
     render(request, '404.html', status=404)
+
+
+##########################################################################################
+
+# Función para mostrar el error 403
+def page_not_found(request):
+    render(request, '403.html', status=403)

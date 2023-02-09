@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block static %}
+{% endblock %}
+
+{% block contenido %}
+<div class="error align-items-center">
+    <h1 class="fw-bold">ERROR 403: Página no permitida</h1>
+    <p class="fw-bold">
+        A la URL introducida no se le permite acceder. Por favor,
+        modifíquela o realice de nuevo los pasos necesarios para llegar a la página
+        permitida.
+    </p>
+</div>
+{% endblock %}
