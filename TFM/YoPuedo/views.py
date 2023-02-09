@@ -833,20 +833,20 @@ def editar_reto(request, id_reto):
                     etapa_form.errors.pop('objetivo_texto', None)
 
         if request.method == 'POST':
-            logger.info("Entramos en la parte PUT de EDITAR RETO")
+            logger.info("Entramos en la parte POST de EDITAR RETO")
             logger.info(f"Modificamos el reto {id_reto}")
 
             # Primero obtenemos los animadores
             logger.info("Obtenemos animadores")
-            animadores_email = request.PUT.getlist('animador')
+            animadores_email = request.POST.getlist('animador')
 
             # Segundo obtenemos los participantes
             logger.info("Obtenemos participantes")
-            participantes_email = request.PUT.getlist('participante')
+            participantes_email = request.POST.getlist('participante')
 
             # Después obtenemos la parte general y las etapas del reto
-            general_form = RetoGeneralForm(request.PUT, request.FILES)
-            etapas_form = etapas_form_model(request.PUT, request.FILES)
+            general_form = RetoGeneralForm(request.POST, request.FILES)
+            etapas_form = etapas_form_model(request.POST, request.FILES)
 
             general_form, valido_general = Utils.valido_general(reto, general_form)
             etapas_form, etapas_validas = Utils.validas_etapas(reto, etapas_form)
