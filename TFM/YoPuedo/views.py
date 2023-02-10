@@ -719,7 +719,7 @@ def editar_reto(request, id_reto):
         for animador in animadores_reto:
             animadores.append({
                 'usuario': animador.usuario.first(),
-                'superanimador': animador.superanimador})
+                'superanimador': str(animador.superanimador).lower()})
 
         participantes_reto = reto.participante_set.all()
         participantes = []

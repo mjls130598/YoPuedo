@@ -31,7 +31,7 @@
                     onclick="cambiarSuperanimador('{{animador.usuario.email}}')">
                 <input type="hidden" name="superanimador-{{animador.usuario.email}}"
                        value="{{animador.superanimador}}">
-                {% if animador.superanimador == 'true' or animador.superanimador %}
+                {% if animador.superanimador == 'true' %}
                 <i class="fa-solid fa-eye m-1"></i>
                 {% else %}
                 <i class="fa-solid fa-eye-slash m-1"></i>
