@@ -184,6 +184,7 @@ class Utils:
             for index, etapa_form in enumerate(etapas_form):
                 if not etapa_form.is_valid():
                     logger.info("No es válida la etapa por ...")
+                    logger.info(etapa_form.cleaned_data)
                     if not 'id_etapa' in etapa_form.cleaned_data:
                         logger.info("Es nueva y no tiene los datos necesarios")
                         etapas_validas = False
