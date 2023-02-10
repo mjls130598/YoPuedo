@@ -19,12 +19,17 @@
   <!-- CABECERA -->
   <section>
       <h4 id="titulo" class="m-2 m-md-3 m-lg-4">
-        {% if tipo_reto == "individual" %}
-          <i class="bi bi-person-fill"></i>
-        {% else %}
-          <i class="bi bi-people-fill"></i>
-        {% endif %}
+        {% if '/nuevo_reto/' in request.get_full_path %}
+          {% if tipo_reto == "individual" %}
+            <i class="bi bi-person-fill"></i>
+          {% else %}
+            <i class="bi bi-people-fill"></i>
+          {% endif %}
           Nuevo reto {% if tipo_reto %}{{ tipo_reto }}{% endif %}
+        {% else %}
+          <i class="fa-solid fa-pen-to-square"></i>
+          Editar reto
+        {% endif %}
       </h4>
   </section>
 
