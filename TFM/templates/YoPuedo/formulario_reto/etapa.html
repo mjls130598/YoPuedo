@@ -114,7 +114,7 @@
     </div>
     {% endif %}
 
-    {% if max_etapas != etapas_form.total_form_count %}
+    {% if max_etapas != etapas_form.total_form_count or num_etapa != etapas_form.total_form_count %}
     <div class='form-group d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5 col'>
         <button
                 id="{% if etapas_form.total_form_count == num_etapa %}boton-nueva-etapa{% else %}boton-siguiente-etapa{% endif %}"
