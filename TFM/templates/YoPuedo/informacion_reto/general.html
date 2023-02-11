@@ -101,7 +101,7 @@
 
 <!-- BOTONES FINALES DE EDICIÓN Y VISUALIZACIÓN DEL RESTO DEL RETO -->
 <div class="row">
-    {% if reto.coordinador.email == user.get_username %}
+    {% if reto.coordinador.email == user.get_username and reto.estado == 'Propuesto' %}
     <div class="col d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5">
         <button id="boton-editar" class="btn btn-primary fw-bold" type="button"
                 onclick="editarReto()">
