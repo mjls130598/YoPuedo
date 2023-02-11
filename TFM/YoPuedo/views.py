@@ -16,7 +16,7 @@ from django.template.loader import get_template
 from .utils import Utils
 from .forms import RegistroForm, InicioForm, ClaveForm, RetoGeneralForm, RetoEtapaForm, \
     AmigosForm, EtapasFormSet
-from .models import Usuario, Amistad, Reto, Etapa, Animador, Participante
+from .models import Usuario, Amistad, Reto, Etapa, Animador, Participante, Calificacion
 
 from django.forms import formset_factory
 
@@ -690,7 +690,7 @@ def iniciar_reto(request, id_reto):
         reto.save()
 
         logger.info("Iniciamos la primera etapa del reto")
-        etapa = reto.etapa_set.first()
+        etapa = reto.etapa_set.last()
         etapa.estado = "En proceso"
         etapa.save()
 
