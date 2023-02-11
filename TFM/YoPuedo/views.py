@@ -1087,7 +1087,8 @@ def editar_reto(request, id_reto):
                        "recompensa_imagen": imagen_recompensa,
                        "recompensa_audio": audio_recompensa,
                        "recompensa_video": video_recompensa,
-                       "etapas_objetivo": etapas_objetivo})
+                       "etapas_objetivo": etapas_objetivo,
+                       "id_reto": id_reto})
 
     else:
         logger.error("No forma parte del reto")
