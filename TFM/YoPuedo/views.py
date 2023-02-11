@@ -1198,6 +1198,54 @@ def animador_reto(request, id_reto):
 
 ##########################################################################################
 
+# Función para calificar una etapa
+@login_required
+def calificar_etapa(request, id_etapa):
+    logger.info("Comprobamos que existe esa etapa")
+    etapa = get_object_or_404(Etapa, id_etapa=id_etapa)
+
+    logger.info("Comprobamos que clasifica una persona que sea del reto")
+    if etapa.reto.coordinador == request.user or \
+            etapa.reto.participante_set.filter(usuario=request.user).exists():
+
+        logger.info("Recogemos la calificación de esa persona")
+        calificacion = request.GET.get('calificacion')
+
+        if calificacion != "":
+            logger.info("Guardamos calificación de la etapa")
+            calificacion = Calificacion(etapa=etapa, participante=request.user,
+                                        calificacion=calificacion)
+            calificacion.save()
+
+            logger.info("Modificamos el estado de esa etapa")
+            etapa.estado = 'Finalizada'
+            etapa.save()
+
+            etapas = etapa.reto.etapa_set.all()
+
+            logger.info("Miramos si es la última etapa del reto")
+            if etapa == etapas.first():
+                logger.info("Se actualiza el estado del reto")
+                etapa.reto.estado = 'Finalizado'
+                etapa.reto.save()
+
+            else:
+                logger.info("Actualizamos la siguiente etapa")
+                etapas = list(etapas)
+                num_etapa = etapas.index(etapa)
+                siguiente_etapa = etapa.reto.etapa_set.all()[num_etapa - 1]
+                siguiente_etapa.estado = 'En proceso'
+                siguiente_etapa.save()
+
+        logger.info("Mostramos el reto de nuevo")
+        return redirect(f'/reto/{etapa.reto.id_reto}/')
+    else:
+        logger.error("No forma parte activa del reto")
+        raise PermissionDenied
+
+
+##########################################################################################
+
 # Función para mostrar el error 404
 def page_not_found(request):
     render(request, '404.html', status=404)
