@@ -238,6 +238,11 @@
                         num_etapa + ", 1), 'form-etapa-content')");
             }
             else{
+                boton_siguiente = clone_cuerpo.getElementsByClassName('siguiente')[0];
+
+                if(boton_siguiente)
+                    boton_siguiente.remove();
+
                 const nuevo_button = document.createElement("button");
                 nuevo_button.id = "boton-nueva-etapa";
                 nuevo_button.className = "btn btn-primary fw-bold nueva";
@@ -249,8 +254,8 @@
                 const nuevo_texto = document.createTextNode(" Nueva etapa ");
                 nuevo_button.appendChild(nuevo_i);
                 nuevo_button.appendChild(nuevo_texto);
-                nuevo_div = clone_cuerpo.getElementsByClassName("form-group d-flex " +
-                "justify-content-end mt-2 mt-sm-3 mt-lg-5 col")[0];
+                nuevo_div = clone_cuerpo.getElementsByClassName("form-group d-flex" +
+                " justify-content-end mt-2 mt-sm-3 mt-lg-5 col")[0];
                 nuevo_div.appendChild(nuevo_button);
             }
         }
