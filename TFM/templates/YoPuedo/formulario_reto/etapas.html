@@ -92,7 +92,7 @@
     const cuerpo = document.getElementById("etapa-" + (num_etapa - 1));
     clone_cuerpo = cuerpo.cloneNode(true);
 
-    cambiarCuerpo(clone_cuerpo, num_etapa);
+    cambiarCuerpo(clone_cuerpo, num_etapa, true);
 
     // Insertamos el último cuerpo
     cuerpo.parentNode.appendChild(clone_cuerpo);
@@ -103,7 +103,7 @@
 
 /****************************************************************************************/
   // Función para cambiar el cuerpo de la etapa dada
-  function cambiarCuerpo(clone_cuerpo, num_etapa){
+  function cambiarCuerpo(clone_cuerpo, num_etapa, nueva){
 
     // Cambiamos los valores del div principal del nuevo cuerpo
     clone_cuerpo.id = "etapa-" + num_etapa;
@@ -115,33 +115,41 @@
     id_etapa = clone_cuerpo.getElementsByTagName("input")[0];
     id_etapa.name = "form-" + (num_etapa - 1) + "-id_etapa";
     id_etapa.id = "id_form-" + (num_etapa - 1) + "-id_etapa";
-    id_etapa.value = "";
+    if(nueva)
+        id_etapa.value = "";
 
     btn_foto = clone_cuerpo.getElementsByTagName("input")[1];
     btn_foto.name = "form-" + (num_etapa - 1) + "-objetivo_imagen";
     btn_foto.id = "id_form-" + (num_etapa - 1) + "-objetivo_imagen";
-    btn_foto.value = "";
-    label_foto = btn_foto.nextElementSibling.children[0].children[1];
-    label_foto.innerHTML = " Subir foto ";
+    if(nueva){
+        btn_foto.value = "";
+        label_foto = btn_foto.nextElementSibling.children[0].children[1];
+        label_foto.innerHTML = " Subir foto ";
+    }
 
     btn_audio = clone_cuerpo.getElementsByTagName("input")[2];
     btn_audio.name = "form-" + (num_etapa - 1) + "-objetivo_audio";
     btn_audio.id = "id_form-" + (num_etapa - 1) + "-objetivo_audio";
-    btn_audio.value = "";
-    label_audio = btn_audio.nextElementSibling.children[0].children[1];
-    label_audio.innerHTML = " Subir audio ";
+    if(nueva){
+        btn_audio.value = "";
+        label_audio = btn_audio.nextElementSibling.children[0].children[1];
+        label_audio.innerHTML = " Subir audio ";
+    }
 
     btn_video = clone_cuerpo.getElementsByTagName("input")[3];
     btn_video.name = "form-" + (num_etapa - 1) + "-objetivo_video";
     btn_video.id = "id_form-" + (num_etapa - 1) + "-objetivo_video";
-    btn_video.value = "";
-    label_video = btn_video.nextElementSibling.children[0].children[1];
-    label_video.innerText = " Subir vídeo ";
+    if(nueva){
+        btn_video.value = "";
+        label_video = btn_video.nextElementSibling.children[0].children[1];
+        label_video.innerText = " Subir vídeo ";
+    }
 
     textarea = clone_cuerpo.getElementsByTagName("textarea")[0];
     textarea.name = "form-" + (num_etapa - 1) + "-objetivo_texto";
     textarea.id = "id_form-" + (num_etapa - 1) + "-objetivo_texto";
-    textarea.value = "";
+    if(nueva)
+        textarea.value = "";
 
     microfono = clone_cuerpo.getElementsByClassName("microfono")[0];
     microfono.id = "microfono_id_form-" + (num_etapa - 1) +"-objetivo_texto";
@@ -259,7 +267,7 @@
 
                 if(!nuevo_div){
                     nuevo_div = document.createElement("div");
-                    nuevo_div.class_name = "form-group d-flex justify-content-end mt-2" +
+                    nuevo_div.className = "form-group d-flex justify-content-end mt-2" +
                         " mt-sm-3 mt-lg-5 col";
                     div_botones = clone_cuerpo.children[0].getElementsByClassName("row botones-etapa")[0];
                     div_botones.appendChild(nuevo_div);
@@ -300,7 +308,7 @@
         pestana_etapa.setAttribute("onclick", "cambiarPestanaEtapa('etapa-" + i + "', 'form-etapa-content')");
 
         // Arreglamos los elementos del cuerpo
-        cambiarCuerpo(document.getElementById("etapa-" + (i + 1)), i);
+        cambiarCuerpo(document.getElementById("etapa-" + (i + 1)), i, false);
     }
 
     // Si la etapa anterior va a ser la total, ...
