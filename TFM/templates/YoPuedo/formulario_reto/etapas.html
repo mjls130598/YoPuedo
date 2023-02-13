@@ -256,6 +256,15 @@
                 nuevo_button.appendChild(nuevo_texto);
                 nuevo_div = clone_cuerpo.getElementsByClassName("form-group d-flex" +
                 " justify-content-end mt-2 mt-sm-3 mt-lg-5 col")[0];
+
+                if(!nuevo_div){
+                    nuevo_div = document.createElement("div");
+                    nuevo_div.class_name = "form-group d-flex justify-content-end mt-2" +
+                        " mt-sm-3 mt-lg-5 col";
+                    div_botones = clone_cuerpo.children[0].getElementsByClassName("row botones-etapa")[0];
+                    div_botones.appendChild(nuevo_div);
+                }
+
                 nuevo_div.appendChild(nuevo_button);
             }
         }
