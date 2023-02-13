@@ -62,9 +62,10 @@
   }
 
   window.onload = () => {
+    cambiarPestanaEtapa('etapa-1', 'etapa-content');
     {% for etapa in etapas %}
       {% if etapa.estado == 'En proceso' %}
-        cambiarColorCuerpo('etapa-{{ forloop.counter }}', 'etapa-content');
+        cambiarPestanaEtapa('etapa-{{ forloop.counter }}', 'etapa-content');
       {% endif %}
     {% endfor %}
   }
