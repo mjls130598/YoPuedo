@@ -1126,7 +1126,7 @@ def coordinador_reto(request, id_reto):
 
     logger.info("Comprobamos que el reto sea de la persona que lo está viendo")
     if reto.coordinador == request.user:
-        if request.method == 'PUT':
+        if request.method == 'POST':
             coordinador = request.PUT.get('coordinador')
 
             if coordinador != "":

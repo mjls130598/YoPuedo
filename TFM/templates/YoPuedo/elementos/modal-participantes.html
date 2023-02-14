@@ -162,7 +162,7 @@
     // Función para añadir participantes
     function cambiarCoordinador(){
         if(participante != "")
-            htmx.ajax('PUT', {{ request.get_path }}, {target:'#dialog-participantes',
+            htmx.ajax('POST', {{ request.get_path }}, {target:'#dialog-participantes',
                 swap:'innerHTML', values:{'coordinador': participante.usuario.email}});
     }
 
