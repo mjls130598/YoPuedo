@@ -664,12 +664,14 @@ def get_reto(request, id_reto):
         for participante in participantes:
             participantes_finales.append(participante.usuario.first())
 
-        anima = Animador.objects.filter(reto=reto,
-                                        usuario=request.user).exists()
+        anima = reto.animador_set.filter(usuario=request.user).exists()
+        participa = reto.coordinador == request.user or \
+            reto.participante_set.filter(usuario=request.user).exists()
 
         return render(request, 'YoPuedo/reto.html',
                       {'reto': reto, 'etapas': etapas, 'animadores': animadores_finales,
-                       'participantes': participantes_finales, 'anima': anima})
+                       'participantes': participantes_finales, 'anima': anima,
+                       'participa': participa})
 
     else:
         logger.error("No forma parte del reto")
@@ -1213,29 +1215,34 @@ def calificar_etapa(request, id_etapa):
 
         if calificacion != "":
             logger.info("Guardamos calificación de la etapa")
-            calificacion = Calificacion(etapa=etapa, participante=request.user,
+            participante = etapa.reto.participante_set.get(usuario=request.user)
+            calificacion = Calificacion(etapa=etapa, participante=participante,
                                         calificacion=calificacion)
             calificacion.save()
 
-            logger.info("Modificamos el estado de esa etapa")
-            etapa.estado = 'Finalizada'
-            etapa.save()
+            calificaciones = etapa.calificacion_set.all()
+            participantes = etapa.reto.participante_set.all()
 
-            etapas = etapa.reto.etapa_set.all()
+            if len(calificaciones) == (len(participantes) + 1):
+                logger.info("Modificamos el estado de esa etapa")
+                etapa.estado = 'Finalizada'
+                etapa.save()
 
-            logger.info("Miramos si es la última etapa del reto")
-            if etapa == etapas.first():
-                logger.info("Se actualiza el estado del reto")
-                etapa.reto.estado = 'Finalizado'
-                etapa.reto.save()
+                etapas = etapa.reto.etapa_set.all()
 
-            else:
-                logger.info("Actualizamos la siguiente etapa")
-                etapas = list(etapas)
-                num_etapa = etapas.index(etapa)
-                siguiente_etapa = etapa.reto.etapa_set.all()[num_etapa - 1]
-                siguiente_etapa.estado = 'En proceso'
-                siguiente_etapa.save()
+                logger.info("Miramos si es la última etapa del reto")
+                if etapa == etapas.first():
+                    logger.info("Se actualiza el estado del reto")
+                    etapa.reto.estado = 'Finalizado'
+                    etapa.reto.save()
+
+                else:
+                    logger.info("Actualizamos la siguiente etapa")
+                    etapas = list(etapas)
+                    num_etapa = etapas.index(etapa)
+                    siguiente_etapa = etapa.reto.etapa_set.all()[num_etapa - 1]
+                    siguiente_etapa.estado = 'En proceso'
+                    siguiente_etapa.save()
 
         logger.info("Mostramos el reto de nuevo")
         return redirect(f'/reto/{etapa.reto.id_reto}/')
