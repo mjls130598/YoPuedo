@@ -533,6 +533,13 @@ def nuevo_reto(request):
                     participante.usuario.add(usuario)
                     participante.save()
 
+                logger.info("Guardamos COORDINADOR como PARTICIPANTE")
+                participante = Participante()
+                participante.save()
+                participante.reto.add(reto)
+                participante.usuario.add(request.user)
+                participante.save()
+
                 # Redireccionamos a la visualización del reto
                 return redirect(f'/reto/{id_reto}')
 
@@ -632,8 +639,7 @@ def get_reto(request, id_reto):
     reto = get_object_or_404(Reto, id_reto=id_reto)
 
     logger.info("Comprobamos que el reto sea de la persona que lo está viendo")
-    if reto.coordinador == request.user or \
-            reto.animador_set.filter(usuario=request.user).exists() or \
+    if reto.animador_set.filter(usuario=request.user).exists() or \
             reto.participante_set.filter(usuario=request.user).exists():
         logger.info(f"Recogemos las etapas del reto {id_reto}")
         etapas = reto.etapa_set.all()
@@ -1131,11 +1137,7 @@ def coordinador_reto(request, id_reto):
         if request.method == 'PUT':
             coordinador = request.PUT.get('coordinador')
 
-            if coordinador != "" and reto.participante_set.filter(
-                    usuario__email=coordinador).exists():
-                logger.info("Añadimos actual coordinador como participante del reto")
-                reto.participante_set.add(reto.coordinador)
-
+            if coordinador != "":
                 logger.info(f"Cambiamos el coordinador por {coordinador}")
                 reto.coordinador = Usuario.objects.get(email=coordinador)
                 reto.save()
@@ -1207,8 +1209,7 @@ def calificar_etapa(request, id_etapa):
     etapa = get_object_or_404(Etapa, id_etapa=id_etapa)
 
     logger.info("Comprobamos que clasifica una persona que sea del reto")
-    if etapa.reto.coordinador == request.user or \
-            etapa.reto.participante_set.filter(usuario=request.user).exists():
+    if etapa.reto.participante_set.filter(usuario=request.user).exists():
 
         logger.info("Recogemos la calificación de esa persona")
         calificacion = request.GET.get('calificacion')
