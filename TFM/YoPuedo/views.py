@@ -671,8 +671,9 @@ def get_reto(request, id_reto):
             for etapa in etapas:
                 calificaciones.append({
                     etapa.id_etapa: etapa.calificacion_set.
-                                        filter(participante=participante).first().
-                                            calificacion
+                    filter(participante=participante).first().calificacion
+                    if etapa.calificacion_set.filter(participante=participante).exists()
+                    else ""
                 })
 
         return render(request, 'YoPuedo/reto.html',
