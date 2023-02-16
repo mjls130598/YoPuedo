@@ -1,3 +1,4 @@
+{% load get_value %}
 <div class='row'>
     <h6 class="fw-bold col-md-2 align-self-center">
         <i class="fa-solid fa-flag-checkered"></i>
@@ -37,6 +38,56 @@
     </div>
     {% endif %}
 </div>
+{% if participa %}
+{% if etapa.estado == 'En proceso' %}
+<div class="row calificacion">
+    <div class="mal col">
+        <i class="fa-regular fa-face-frown-slight"
+           onclick="calificacion({{ etapa.id_etapa }}, 'mal', {{ num_etapa }})"></i>
+    </div>
+
+    <div class="normal col">
+        <i class="fa-regular fa-face-smile"
+           onclick="calificacion({{ etapa.id_etapa }}, 'normal', {{ num_etapa }})"></i>
+    </div>
+
+    <div class="muy_bien col">
+        <i class="fa-regular fa-face-laugh-beam"
+           onclick="calificacion({{ etapa.id_etapa }}, 'muy bien', {{ num_etapa }})"></i>
+    </div>
+</div>
+{% elif etapa.estado != 'Propuesto' %}
+<div class="row calificacion">
+    {% with calificacion=etapas_objetivo|get_item:etapa.id_etapa%}
+
+    <div class="mal col">
+        {% if calificacion == 'mal' %}
+        <i class="fa-solid fa-face-frown-slight"></i>
+        {% else %}
+        <i class="fa-regular fa-face-frown-slight"></i>
+        {% endif %}
+    </div>
+
+    <div class="normal col">
+        {% if calificacion == 'normal' %}
+        <i class="fa-solid fa-face-smile"></i>
+        {% else %}
+        <i class="fa-regular fa-face-smile"></i>
+        {% endif %}
+    </div>
+
+    <div class="muy_bien col">
+        {% if calificacion == 'muy bien' %}
+        <i class="fa-solid fa-face-laugh-beam"></i>
+        {% else %}
+        <i class="fa-regular fa-face-laugh-beam"></i>
+        {% endif %}
+    </div>
+
+    {% endwith %}
+</div>
+{% endif %}
+{% endif %}
 <div class="row botones-etapa">
     {% if num_etapa != 1 %}
     <div class='d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5 col'>

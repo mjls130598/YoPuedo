@@ -55,20 +55,53 @@
 <script>
 /****************************************************************************************/
 
-  // Función para obtener el número de etapa al que ir
-  function getNumEtapa(etapa, cantidad){
-    num_etapa = etapa + cantidad;
-    return 'etapa-' + num_etapa;
-  }
+    // Función para obtener el número de etapa al que ir
+    function getNumEtapa(etapa, cantidad){
+        num_etapa = etapa + cantidad;
+        return 'etapa-' + num_etapa;
+    }
 
-  window.onload = () => {
-    cambiarPestanaEtapa('etapa-1', 'etapa-content');
-    {% for etapa in etapas %}
-      {% if etapa.estado == 'En proceso' %}
+/****************************************************************************************/
+
+    // Función para dejar lista, cuando se cargue, la etapa a visualizar
+    window.onload = () => {
+        cambiarPestanaEtapa('etapa-1', 'etapa-content');
+        {% for etapa in etapas %}
+        {% if etapa.estado == 'En proceso' %}
         cambiarPestanaEtapa('etapa-{{ forloop.counter }}', 'etapa-content');
-      {% endif %}
-    {% endfor %}
-  }
+        {% endif %}
+        {% endfor %}
+    }
+
+/****************************************************************************************/
+
+    // Función para enviar la calificación de una persona
+    function calificacion(id_etapa, puntuacion, num_etapa){
+        url = ({% url 'calificar' id_etapa='id' %}).replace("id", id_etapa);
+        htmx.ajax('POST', url, {values:{'calificacion': puntuacion}}).then(
+            response => {
+                if(this.status == 201){
+                    div_etapa = document.getElementById("etapa-" + num_etapa);
+
+                    if(puntuacion == 'mal'){
+                        i_mal = div_etapa.getElementsByClassName("mal col")[0].children[0];
+                        i_mal.className = "fa-solid fa-face-frown-slight";
+                        i_mal.setAttribute("onclick", "");
+                    }
+                    else if (puntuacion == 'normal'){
+                        i_normal = div_etapa.getElementsByClassName("normal col")[0].children[0];
+                        i_normal.className = "fa-solid fa-face-smile";
+                        i_normal.setAttribute("onclick", "");
+                    }
+                    else{
+                        i_bien = div_etapa.getElementsByClassName("muy_bien col")[0].children[0];
+                        i_bien.className = "fa-solid fa-face-laugh-beam";
+                        i_bien.setAttribute("onclick", "");
+                    }
+                }
+            }
+        );
+    }
 
 /****************************************************************************************/
 </script>

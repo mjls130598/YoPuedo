@@ -31,5 +31,6 @@ urlpatterns = [
     path('coordinador_reto/<str:id_reto>', views.coordinador_reto,
          name="coordinador_reto"),
     path('animador_reto/<str:id_reto>', views.animador_reto, name="animador_reto"),
-    path('amigos/', views.get_amigos, name="amigos")
+    path('amigos/', views.get_amigos, name="amigos"),
+    path('calificar/<str:id_etapa', views.calificar_etapa, name="calificar")
 ]

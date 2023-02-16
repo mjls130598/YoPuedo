@@ -630,9 +630,11 @@ def get_reto(request, id_reto):
     logger.info(f"Obtenemos información de {id_reto}")
     reto = get_object_or_404(Reto, id_reto=id_reto)
 
+    anima = reto.animador_set.filter(usuario=request.user).exists()
+    participa = reto.participante_set.filter(usuario=request.user).exists()
+
     logger.info("Comprobamos que el reto sea de la persona que lo está viendo")
-    if reto.animador_set.filter(usuario=request.user).exists() or \
-            reto.participante_set.filter(usuario=request.user).exists():
+    if anima or participa:
         logger.info(f"Recogemos las etapas del reto {id_reto}")
         etapas = reto.etapa_set.all()
 
@@ -662,18 +664,25 @@ def get_reto(request, id_reto):
         for participante in participantes:
             participantes_finales.append(participante.usuario.first())
 
-        anima = reto.animador_set.filter(usuario=request.user).exists()
-        participa = reto.coordinador == request.user or \
-            reto.participante_set.filter(usuario=request.user).exists()
+        calificaciones = []
+
+        if participa:
+            participante = reto.participante_set.filter(usuario=request.user).first()
+            for etapa in etapas:
+                calificaciones.append({
+                    etapa.id_etapa: etapa.calificacion_set.
+                                        filter(participante=participante).first().
+                                            calificacion
+                })
 
         return render(request, 'YoPuedo/reto.html',
                       {'reto': reto, 'etapas': etapas, 'animadores': animadores_finales,
                        'participantes': participantes_finales, 'anima': anima,
-                       'participa': participa})
+                       'participa': participa, 'calificaciones': calificaciones})
 
     else:
         logger.error("No forma parte del reto")
-        raise Http404("No forma parte del reto")
+        raise PermissionDenied
 
 
 ##########################################################################################
@@ -699,7 +708,7 @@ def iniciar_reto(request, id_reto):
 
     else:
         logger.error("No forma parte del reto")
-        raise Http404("No forma parte del reto")
+        raise PermissionDenied
 
 
 ##########################################################################################
@@ -1204,7 +1213,7 @@ def calificar_etapa(request, id_etapa):
     if etapa.reto.participante_set.filter(usuario=request.user).exists():
 
         logger.info("Recogemos la calificación de esa persona")
-        calificacion = request.GET.get('calificacion')
+        calificacion = request.POST.get('calificacion')
 
         if calificacion != "":
             logger.info("Guardamos calificación de la etapa")
@@ -1237,8 +1246,11 @@ def calificar_etapa(request, id_etapa):
                     siguiente_etapa.estado = 'En proceso'
                     siguiente_etapa.save()
 
-        logger.info("Mostramos el reto de nuevo")
-        return redirect(f'/reto/{etapa.reto.id_reto}/')
+            logger.info(f"Devolvemos el estado {HTTPStatus.CREATED}")
+            return HttpResponse(HTTPStatus.CREATED)
+
+        logger.info(f'Devolvemos el estado {HTTPStatus.BAD_REQUEST}')
+        return HttpResponse(HTTPStatus.BAD_REQUEST)
     else:
         logger.error("No forma parte activa del reto")
         raise PermissionDenied
