@@ -77,7 +77,7 @@
 
     // Función para enviar la calificación de una persona
     function calificacion(id_etapa, puntuacion, num_etapa){
-        url = ({% url 'calificar' id_etapa='id' %}).replace("id", id_etapa);
+        url = "{% url 'calificar' id_etapa='id' %}".replace("id", id_etapa);
         htmx.ajax('POST', url, {values:{'calificacion': puntuacion}}).then(
             response => {
                 if(this.status == 201){
