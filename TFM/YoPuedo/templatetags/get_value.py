@@ -5,4 +5,4 @@ register = template.Library()
 
 @register.filter(name='get_item')
 def get_item(dictionary, key):
-    return dictionary.get(key)
+    return dictionary.get(key) if key in dictionary else ""
