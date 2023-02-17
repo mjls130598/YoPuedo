@@ -44,7 +44,7 @@
 <ul class="btn btn-light list-inline calificacion m-md-5">
     {% with calificacion=etapas_objetivo|get_item:etapa.id_etapa%}
 
-    <li class="mal" onclick="calificacion({{ etapa.id_etapa }}, 'mal', {{ num_etapa }})">
+    <li class="mal" onclick="calificacion('{{ etapa.id_etapa }}', 'mal', {{ num_etapa }})">
         {% if calificacion == 'mal' %}
         <i class="fa-solid fa-face-frown"></i>
         {% else %}
@@ -52,7 +52,7 @@
         {% endif %}
     </li>
 
-    <li class="normal" onclick="calificacion({{ etapa.id_etapa }}, 'normal', {{ num_etapa }})">
+    <li class="normal" onclick="calificacion('{{ etapa.id_etapa }}', 'normal', {{ num_etapa }})">
         {% if calificacion == 'normal' %}
         <i class="fa-solid fa-face-smile"></i>
         {% else %}
@@ -61,7 +61,7 @@
     </li>
 
     <li class="muy_bien"
-       onclick="calificacion({{ etapa.id_etapa }}, 'muy bien', {{ num_etapa }})">
+       onclick="calificacion('{{ etapa.id_etapa }}', 'muy bien', {{ num_etapa }})">
         {% if calificacion == 'muy bien' %}
         <i class="fa-solid fa-face-laugh-beam"></i>
         {% else %}
