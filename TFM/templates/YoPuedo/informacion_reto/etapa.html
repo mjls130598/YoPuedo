@@ -36,6 +36,7 @@
     <div class="col-md-1 col align-self-center">
         {% with 'texto_etapa_'|add:num_etapa as texto %}
         {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech=texto %}
+        {% endwith %}
     </div>
     {% endif %}
 </div>
