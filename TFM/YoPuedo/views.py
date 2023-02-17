@@ -1226,7 +1226,7 @@ def calificar_etapa(request, id_etapa):
             calificaciones = etapa.calificacion_set.all()
             participantes = etapa.reto.participante_set.all()
 
-            if len(calificaciones) == len(participantes):
+            if len(calificaciones) == len(participantes) & etapa.estado != 'Finalizada':
                 logger.info("Modificamos el estado de esa etapa")
                 etapa.estado = 'Finalizada'
                 etapa.save()

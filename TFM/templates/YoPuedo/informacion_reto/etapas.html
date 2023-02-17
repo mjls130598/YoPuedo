@@ -85,18 +85,15 @@
 
                     if(puntuacion == 'mal'){
                         i_mal = div_etapa.getElementsByClassName("mal col")[0].children[0];
-                        i_mal.className = "fa-solid fa-face-frown-slight";
-                        i_mal.setAttribute("onclick", "");
+                        i_mal.className = "fa-solid fa-face-frown";
                     }
                     else if (puntuacion == 'normal'){
                         i_normal = div_etapa.getElementsByClassName("normal col")[0].children[0];
                         i_normal.className = "fa-solid fa-face-smile";
-                        i_normal.setAttribute("onclick", "");
                     }
                     else{
                         i_bien = div_etapa.getElementsByClassName("muy_bien col")[0].children[0];
                         i_bien.className = "fa-solid fa-face-laugh-beam";
-                        i_bien.setAttribute("onclick", "");
                     }
                 }
             }
