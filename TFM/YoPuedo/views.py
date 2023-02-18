@@ -1227,6 +1227,9 @@ def calificar_etapa(request, id_etapa):
                 calificacion.etapa.add(etapa)
                 calificacion.participante.add(participante)
 
+            else:
+                calificacion = calificacion.first()
+
             calificacion.calificacion = puntuacion
             calificacion.save()
 
