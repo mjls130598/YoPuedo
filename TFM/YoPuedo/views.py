@@ -1224,8 +1224,8 @@ def calificar_etapa(request, id_etapa):
             if not calificacion.exists():
                 calificacion = Calificacion()
                 calificacion.save()
-                calificacion.etapa = etapa
-                calificacion.participante = participante
+                calificacion.etapa.add(etapa)
+                calificacion.participante.add(participante)
 
             calificacion.calificacion = puntuacion
             calificacion.save()
