@@ -41,35 +41,45 @@
     {% endif %}
 </div>
 {% if participa and etapa.estado != 'Propuesto'%}
-<ul class="btn btn-light list-group list-group-horizontal calificacion m-md-5">
-    {% with calificacion=etapas_objetivo|get_item:etapa.id_etapa%}
+<div class="row row mt-md-3">
+    <h6 class="fw-bold col-md-3 align-self-center">
+        <i class="fa-solid fa-star"></i>
+        Calificación:
+    </h6>
+    <div class="col d-flex justify-content-center justify-content-md-start">
+        <ul class="mt-2 m-md-0 btn btn-light list-inline list-group list-group-horizontal calificacion p-0">
+            {% with calificacion=etapas_objetivo|get_item:etapa.id_etapa%}
 
-    <li class="mal" onclick="calificacion('{{ etapa.id_etapa }}', 'mal', {{ num_etapa }})">
-        {% if calificacion == 'mal' %}
-        <i class="fa-solid fa-face-frown"></i>
-        {% else %}
-        <i class="fa-regular fa-face-frown"></i>
-        {% endif %}
-    </li>
+            <li class="list-group-item mal"
+                onclick="calificacion('{{ etapa.id_etapa }}', 'mal', {{ num_etapa }})">
+                {% if calificacion == 'mal' %}
+                <i class="fa-solid fa-face-frown"></i>
+                {% else %}
+                <i class="fa-regular fa-face-frown"></i>
+                {% endif %}
+            </li>
 
-    <li class="normal" onclick="calificacion('{{ etapa.id_etapa }}', 'normal', {{ num_etapa }})">
-        {% if calificacion == 'normal' %}
-        <i class="fa-solid fa-face-smile"></i>
-        {% else %}
-        <i class="fa-regular fa-face-smile"></i>
-        {% endif %}
-    </li>
+            <li class="list-group-item normal"
+                onclick="calificacion('{{ etapa.id_etapa }}', 'normal', {{ num_etapa }})">
+                {% if calificacion == 'normal' %}
+                <i class="fa-solid fa-face-smile"></i>
+                {% else %}
+                <i class="fa-regular fa-face-smile"></i>
+                {% endif %}
+            </li>
 
-    <li class="muy_bien"
-       onclick="calificacion('{{ etapa.id_etapa }}', 'muy bien', {{ num_etapa }})">
-        {% if calificacion == 'muy bien' %}
-        <i class="fa-solid fa-face-laugh-beam"></i>
-        {% else %}
-        <i class="fa-regular fa-face-laugh-beam"></i>
-        {% endif %}
-    </li>
-    {% endwith %}
-</ul>
+            <li class="list-group-item muy_bien"
+               onclick="calificacion('{{ etapa.id_etapa }}', 'muy bien', {{ num_etapa }})">
+                {% if calificacion == 'muy bien' %}
+                <i class="fa-solid fa-face-laugh-beam"></i>
+                {% else %}
+                <i class="fa-regular fa-face-laugh-beam"></i>
+                {% endif %}
+            </li>
+            {% endwith %}
+        </ul>
+    </div>
+</div>
 {% endif %}
 <div class="row botones-etapa">
     {% if num_etapa != 1 %}

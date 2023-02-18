@@ -8,5 +8,10 @@
 }
 
 .calificacion{
-    font-size: xx-large;
+    font-size: x-large;
+    width: fit-content;
+}
+
+.calificacion > .list-group-item{
+    border: 0;
 }
