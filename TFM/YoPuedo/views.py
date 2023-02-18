@@ -1214,7 +1214,7 @@ def calificar_etapa(request, id_etapa):
     if etapa.reto.participante_set.filter(usuario=request.user).exists():
 
         logger.info("Recogemos la calificación de esa persona")
-        puntuacion = request.POST.get('calificacion')
+        puntuacion = request.GET.get('calificacion')
 
         if puntuacion != "":
             logger.info("Guardamos calificación de la etapa")
