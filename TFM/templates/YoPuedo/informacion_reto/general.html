@@ -122,7 +122,7 @@
         </button>
     </div>
     {% endif %}
-    <div class="col d-flex justify-content-center mt-2 mt-sm-3 mt-lg-5">
+    <div class="col d-flex {% if reto.estado != 'Propuesto' and not participantes %} justify-content-center {% else %} justify-content-start {% endif %} mt-2 mt-sm-3 mt-lg-5">
         <button id="boton-eliminar" class="btn btn-primary fw-bold borrar" type="button"
                 onclick="eliminarReto()">
             <i class="fa-sharp fa-solid fa-trash"></i>
