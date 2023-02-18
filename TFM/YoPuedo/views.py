@@ -1258,10 +1258,10 @@ def calificar_etapa(request, id_etapa):
                     siguiente_etapa.save()
 
             logger.info(f"Devolvemos el estado {HTTPStatus.CREATED}")
-            return HttpResponse(HTTPStatus.CREATED)
+            return HttpResponse(status=HTTPStatus.CREATED)
 
         logger.info(f'Devolvemos el estado {HTTPStatus.BAD_REQUEST}')
-        return HttpResponse(HTTPStatus.BAD_REQUEST)
+        return HttpResponse(status=HTTPStatus.BAD_REQUEST)
     else:
         logger.error("No forma parte activa del reto")
         raise PermissionDenied
