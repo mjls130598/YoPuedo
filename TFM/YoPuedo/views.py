@@ -1214,13 +1214,20 @@ def calificar_etapa(request, id_etapa):
     if etapa.reto.participante_set.filter(usuario=request.user).exists():
 
         logger.info("Recogemos la calificación de esa persona")
-        calificacion = request.POST.get('calificacion')
+        puntuacion = request.POST.get('calificacion')
 
-        if calificacion != "":
+        if puntuacion != "":
             logger.info("Guardamos calificación de la etapa")
             participante = etapa.reto.participante_set.get(usuario=request.user)
-            calificacion = Calificacion(etapa=etapa, participante=participante,
-                                        calificacion=calificacion)
+            calificacion = etapa.calificacion_set.filter(participante=participante)
+
+            if not calificacion.exists():
+                calificacion = Calificacion()
+                calificacion.save()
+                calificacion.etapa = etapa
+                calificacion.participante = participante
+
+            calificacion.calificacion = puntuacion
             calificacion.save()
 
             calificaciones = etapa.calificacion_set.all()
