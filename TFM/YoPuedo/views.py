@@ -661,17 +661,15 @@ def get_reto(request, id_reto):
         for participante in participantes:
             participantes_finales.append(participante.usuario.first())
 
-        calificaciones = []
+        calificaciones = {}
 
         if participa:
             participante = reto.participante_set.filter(usuario=request.user).first()
             for etapa in etapas:
-                calificaciones.append({
-                    etapa.id_etapa: etapa.calificacion_set.
-                    filter(participante=participante).first().calificacion
-                    if etapa.calificacion_set.filter(participante=participante).exists()
+                calificaciones[etapa.id_etapa] = etapa.calificacion_set.\
+                    filter(participante=participante).first().calificacion \
+                    if etapa.calificacion_set.filter(participante=participante).exists() \
                     else ""
-                })
 
         return render(request, 'YoPuedo/reto.html',
                       {'reto': reto, 'etapas': etapas, 'animadores': animadores_finales,
