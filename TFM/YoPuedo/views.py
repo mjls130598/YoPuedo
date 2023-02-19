@@ -468,7 +468,7 @@ def nuevo_reto(request):
                 # Guardamos datos de las pestañas de ETAPAS
                 logger.info("Creación de ETAPAS")
                 for index, etapa_form in enumerate(etapas_form):
-                    id_etapa = Utils.crear_id_etapa()
+                    id_etapa = Utils.crear_id_etapa(index)
                     logger.info(f"NUEVA ETAPA {id_etapa}")
                     objetivo_texto = etapa_form.cleaned_data['objetivo_texto'].value()
                     objetivo_imagen = request.FILES[f"form-{index}-objetivo_imagen"] \
@@ -638,9 +638,6 @@ def get_reto(request, id_reto):
         logger.info(f"Recogemos las etapas del reto {id_reto}")
         etapas = reto.etapa_set.all()
 
-        logger.info(f"Ordenamos las etapas del reto")
-        etapas = [etapa for etapa in etapas[::-1]]
-
         logger.info(f"Miramos los animadores del reto {id_reto}")
         animadores = reto.animador_set.all().exclude(usuario=request.user)
 
@@ -700,7 +697,7 @@ def iniciar_reto(request, id_reto):
         reto.save()
 
         logger.info("Iniciamos la primera etapa del reto")
-        etapa = reto.etapa_set.last()
+        etapa = reto.etapa_set.first()
         etapa.estado = "En proceso"
         etapa.save()
 
@@ -830,17 +827,16 @@ def editar_reto(request, id_reto):
 
             for index, etapa in enumerate(etapas):
                 logger.info("Recogemos el tipo de objetivo de la etapa guardado")
-                data[f'form-{len(etapas) - (index + 1)}-id_etapa'] = etapa.id_etapa
+                data[f'form-{index}-id_etapa'] = etapa.id_etapa
 
                 if not "/media/" in etapa.objetivo:
-                    data[
-                        f'form-{len(etapas) - (index + 1)}-objetivo_texto'] = etapa.objetivo
+                    data[f'form-{index}-objetivo_texto'] = etapa.objetivo
 
             etapas_form = etapas_form_model(data)
 
             logger.info("Borramos los errores dentro de ETAPAS")
             for index, etapa_form in enumerate(etapas_form):
-                if "/media/" in etapas[len(etapas) - (index + 1)].objetivo:
+                if "/media/" in etapas[index].objetivo:
                     etapa_form.errors.pop('objetivo_texto', None)
 
         if request.method == 'POST':
@@ -981,7 +977,7 @@ def editar_reto(request, id_reto):
                     logger.info(f"OBJETIVO: {objetivo}")
 
                     if id_etapa == "":
-                        id_etapa = Utils.crear_id_etapa()
+                        id_etapa = Utils.crear_id_etapa(index)
                         logger.info(f"NUEVA ETAPA {id_etapa}")
 
                         Etapa(id_etapa=id_etapa, reto=reto, objetivo=objetivo).save()
@@ -1222,12 +1218,14 @@ def calificar_etapa(request, id_etapa):
             calificacion = etapa.calificacion_set.filter(participante=participante)
 
             if not calificacion.exists():
+                logger.info("Creamos una nueva calificación")
                 calificacion = Calificacion()
                 calificacion.save()
                 calificacion.etapa.add(etapa)
                 calificacion.participante.add(participante)
 
             else:
+                logger.info("Cogemos la calificación ya creada")
                 calificacion = calificacion.first()
 
             calificacion.calificacion = puntuacion
@@ -1238,13 +1236,13 @@ def calificar_etapa(request, id_etapa):
 
             if len(calificaciones) == len(participantes) and etapa.estado != 'Finalizada':
                 logger.info("Modificamos el estado de esa etapa")
-                etapa.estado = 'Finalizada'
+                etapa.estado = 'Finalizado'
                 etapa.save()
 
                 etapas = etapa.reto.etapa_set.all()
 
                 logger.info("Miramos si es la última etapa del reto")
-                if etapa == etapas.first():
+                if etapa == etapas.last():
                     logger.info("Se actualiza el estado del reto")
                     etapa.reto.estado = 'Finalizado'
                     etapa.reto.save()
@@ -1253,7 +1251,7 @@ def calificar_etapa(request, id_etapa):
                     logger.info("Actualizamos la siguiente etapa")
                     etapas = list(etapas)
                     num_etapa = etapas.index(etapa)
-                    siguiente_etapa = etapa.reto.etapa_set.all()[num_etapa - 1]
+                    siguiente_etapa = etapa.reto.etapa_set.all()[num_etapa + 1]
                     siguiente_etapa.estado = 'En proceso'
                     siguiente_etapa.save()
 
