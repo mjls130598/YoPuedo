@@ -182,7 +182,7 @@ class GetRetosTest(TestCase):
         reto.save()
 
         # Creamos la primera etapa del reto
-        Etapa(id_etapa=Utils.crear_id_etapa(), objetivo="ETAPA 1 RETO VIEWS",
+        Etapa(id_etapa=Utils.crear_id_etapa(0), objetivo="ETAPA 1 RETO VIEWS",
               reto=reto).save()
 
         # Creamos el animador del reto
@@ -201,7 +201,7 @@ class GetRetosTest(TestCase):
         reto2.save()
 
         # Creamos la primera etapa del reto
-        Etapa(id_etapa=Utils.crear_id_etapa(), objetivo="ETAPA 1 RETO 2 VIEWS",
+        Etapa(id_etapa=Utils.crear_id_etapa(0), objetivo="ETAPA 1 RETO 2 VIEWS",
               reto=reto2).save()
 
         # Creamos participantes en el reto
@@ -513,7 +513,7 @@ class GetRetoTest(TestCase):
         reto.save()
 
         # Creamos la primera etapa del reto
-        Etapa(id_etapa=Utils.crear_id_etapa(), objetivo="ETAPA 1 RETO VIEWS",
+        Etapa(id_etapa=Utils.crear_id_etapa(0), objetivo="ETAPA 1 RETO VIEWS",
               reto=reto).save()
 
     def permitida_obtencion(self):
@@ -556,7 +556,7 @@ class IniciarRetoTest(TestCase):
         reto.save()
 
         # Creamos la primera etapa del reto
-        Etapa(id_etapa=Utils.crear_id_etapa(), objetivo="ETAPA 1 RETO VIEWS",
+        Etapa(id_etapa=Utils.crear_id_etapa(0), objetivo="ETAPA 1 RETO VIEWS",
               reto=reto).save()
 
         # Creamos el animador del reto
@@ -615,7 +615,7 @@ class EliminarRetoTest(TestCase):
         reto.save()
 
         # Creamos la primera etapa del reto
-        Etapa(id_etapa=Utils.crear_id_etapa(), objetivo="ETAPA 1 RETO VIEWS",
+        Etapa(id_etapa=Utils.crear_id_etapa(0), objetivo="ETAPA 1 RETO VIEWS",
               reto=reto).save()
 
         # Creamos el animador del reto
@@ -673,7 +673,7 @@ class CoordinadorRetoTest(TestCase):
         reto.save()
 
         # Creamos la primera etapa del reto
-        Etapa(id_etapa=Utils.crear_id_etapa(), objetivo="ETAPA 1 RETO VIEWS",
+        Etapa(id_etapa=Utils.crear_id_etapa(0), objetivo="ETAPA 1 RETO VIEWS",
               reto=reto).save()
 
         # Creamos el participante del reto
@@ -760,7 +760,7 @@ class EliminarAnimadorRetoTest(TestCase):
         reto.save()
 
         # Creamos la primera etapa del reto
-        Etapa(id_etapa=Utils.crear_id_etapa(), objetivo="ETAPA 1 RETO VIEWS",
+        Etapa(id_etapa=Utils.crear_id_etapa(0), objetivo="ETAPA 1 RETO VIEWS",
               reto=reto).save()
 
         # Creamos el animador del reto
@@ -818,7 +818,7 @@ class EditarRetoTest(TestCase):
         reto.save()
 
         # Creamos la primera etapa del reto
-        Etapa(id_etapa=Utils.crear_id_etapa(), objetivo="ETAPA 1 RETO VIEWS",
+        Etapa(id_etapa=Utils.crear_id_etapa(0), objetivo="ETAPA 1 RETO VIEWS",
               reto=reto).save()
 
         data = {
@@ -867,7 +867,7 @@ class EditarRetoTest(TestCase):
         reto.save()
 
         # Creamos la primera etapa del reto
-        Etapa(id_etapa=Utils.crear_id_etapa(), objetivo="ETAPA 1 RETO VIEWS",
+        Etapa(id_etapa=Utils.crear_id_etapa(0), objetivo="ETAPA 1 RETO VIEWS",
               reto=reto).save()
 
         data = {
@@ -915,7 +915,7 @@ class EditarRetoTest(TestCase):
         reto.save()
 
         # Creamos la primera etapa del reto
-        Etapa(id_etapa=Utils.crear_id_etapa(), objetivo="ETAPA 1 RETO VIEWS",
+        Etapa(id_etapa=Utils.crear_id_etapa(0), objetivo="ETAPA 1 RETO VIEWS",
               reto=reto).save()
 
         data = {
@@ -964,7 +964,7 @@ class EditarRetoTest(TestCase):
         reto.save()
 
         # Creamos la primera etapa del reto
-        Etapa(id_etapa=Utils.crear_id_etapa(), objetivo="ETAPA 1 RETO VIEWS",
+        Etapa(id_etapa=Utils.crear_id_etapa(0), objetivo="ETAPA 1 RETO VIEWS",
               reto=reto).save()
 
         data = {
@@ -1014,7 +1014,7 @@ class EditarRetoTest(TestCase):
         reto.save()
 
         # Creamos la primera etapa del reto
-        Etapa(id_etapa=Utils.crear_id_etapa(), objetivo="ETAPA 1 RETO VIEWS",
+        Etapa(id_etapa=Utils.crear_id_etapa(0), objetivo="ETAPA 1 RETO VIEWS",
               reto=reto).save()
 
         data = {
@@ -1063,7 +1063,7 @@ class EditarRetoTest(TestCase):
         reto.save()
 
         # Creamos la primera etapa del reto
-        Etapa(id_etapa=Utils.crear_id_etapa(), objetivo="ETAPA 1 RETO VIEWS",
+        Etapa(id_etapa=Utils.crear_id_etapa(0), objetivo="ETAPA 1 RETO VIEWS",
               reto=reto).save()
 
         data = {
@@ -1112,7 +1112,7 @@ class EditarRetoTest(TestCase):
         reto.save()
 
         # Creamos la primera etapa del reto
-        id_etapa = Utils.crear_id_etapa()
+        id_etapa = Utils.crear_id_etapa(0)
         Etapa(id_etapa=id_etapa,
               objetivo=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg",
               reto=reto).save()
@@ -1165,7 +1165,7 @@ class EditarRetoTest(TestCase):
         reto.save()
 
         # Creamos la primera etapa del reto
-        id_etapa = Utils.crear_id_etapa()
+        id_etapa = Utils.crear_id_etapa(0)
         Etapa(id_etapa=id_etapa,
               objetivo="OBJETIVO ETAPA VIEWS",
               reto=reto).save()
@@ -1217,7 +1217,7 @@ class EditarRetoTest(TestCase):
         reto.save()
 
         # Creamos la primera etapa del reto
-        id_etapa = Utils.crear_id_etapa()
+        id_etapa = Utils.crear_id_etapa(0)
         Etapa(id_etapa=id_etapa,
               objetivo=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg",
               reto=reto).save()
@@ -1269,7 +1269,7 @@ class EditarRetoTest(TestCase):
         reto.save()
 
         # Creamos la primera etapa del reto
-        id_etapa = Utils.crear_id_etapa()
+        id_etapa = Utils.crear_id_etapa(0)
         Etapa(id_etapa=id_etapa,
               objetivo=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg",
               reto=reto).save()
@@ -1328,7 +1328,7 @@ class EditarRetoTest(TestCase):
         reto.save()
 
         # Creamos la primera etapa del reto
-        id_etapa = Utils.crear_id_etapa()
+        id_etapa = Utils.crear_id_etapa(0)
         Etapa(id_etapa=id_etapa,
               objetivo=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg",
               reto=reto).save()
@@ -1371,3 +1371,118 @@ class EditarRetoTest(TestCase):
         self.assertEqual(len(reto.etapa_set.all()), 2)
         self.assertEqual(reto.etapa_set.all().last().objetivo,
                          "Objetivo NUEVO Etapa VIEWS")
+
+
+##########################################################################################
+# Comprobamos el funcionamiento de editar reto
+class CalificarEtapaTest(TestCase):
+    def setUpTestData(cls):
+        # Creamos usuarios
+        usuario = Usuario.objects.create_user(email="calificaretapa_view@gmail.com",
+                                    nombre="María Jesús", password="Password1.",
+                                    clave_aleatoria="clavealeat",
+                                    clave_fija="clavefijausuario",
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        Usuario.objects.create_user(email="extraño_view@gmail.com",
+                                              nombre="María Jesús", password="Password1.",
+                                              clave_aleatoria="clavealeat",
+                                              clave_fija="clavefijausuario",
+                                              foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        # Creamos el reto
+        reto = Reto(id_reto="RETCALIFICARETAPA012345678901234567890123456789012",
+                    titulo="PRUEBA RETO VIEWS",
+                    objetivo="OBJETIVO RETO VIEWS",
+                    categoria="inteligencia",
+                    recompensa=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg",
+                    coordinador=usuario, estado="En proceso")
+        reto.save()
+
+        # Creamos la primera etapa del reto
+        Etapa(id_etapa=Utils.crear_id_etapa(0),
+              objetivo=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg",
+              reto=reto, estado="En proceso").save()
+
+        # Creamos la segunda etapa del reto
+        Etapa(id_etapa=Utils.crear_id_etapa(1), objetivo=f"OBJETIVO ETAPA VIEWS",
+              reto=reto).save()
+
+    def calificarVacio(self):
+        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+                          password='Password1.')
+        data = {
+            'calificacion': ''
+        }
+
+        reto = Reto.objects.get(id_reto = "RETCALIFICARETAPA012345678901234567890123456789012")
+        etapas = reto.etapa_set.all()
+        etapa = etapas.first()
+        ultima_etapa = etapas.last()
+
+        resp = self.client.get(f'/calificar/{etapa.id_etapa}', data)
+        self.assertEqual(resp.status_code, HTTPStatus.BAD_REQUEST)
+        self.assertEqual(len(etapa.calificacion_set.all()), 0)
+        self.assertEqual(etapa.estado, "En proceso")
+        self.assertEqual(ultima_etapa.estado, "Propuesto")
+        self.assertEqual(reto.estado, "En proceso")
+
+    def calificarExtraño(self):
+        self.client.login(username="extraño_view@gmail.com",
+                          password='Password1.')
+        data = {
+            'calificacion': 'normal'
+        }
+
+        reto = Reto.objects.get(
+            id_reto="RETCALIFICARETAPA012345678901234567890123456789012")
+        etapas = reto.etapa_set.all()
+        etapa = etapas.first()
+        ultima_etapa = etapas.last()
+
+        resp = self.client.get(f'/calificar/{etapa.id_etapa}', data)
+        self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
+        self.assertEqual(len(etapa.calificacion_set.all()), 0)
+        self.assertEqual(etapa.estado, "En proceso")
+        self.assertEqual(ultima_etapa.estado, "Propuesto")
+        self.assertEqual(reto.estado, "En proceso")
+
+    def calificarPrimera(self):
+        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+                          password='Password1.')
+        data = {
+            'calificacion': 'normal'
+        }
+
+        reto = Reto.objects.get(
+            id_reto="RETCALIFICARETAPA012345678901234567890123456789012")
+        etapas = reto.etapa_set.all()
+        etapa = etapas.first()
+        ultima_etapa = etapas.last()
+
+        resp = self.client.get(f'/calificar/{etapa.id_etapa}', data)
+        self.assertEqual(resp.status_code, HTTPStatus.CREATED)
+        self.assertEqual(len(etapa.calificacion_set.all()), 1)
+        self.assertEqual(etapa.estado, "Finalizado")
+        self.assertEqual(ultima_etapa.estado, "En proceso")
+        self.assertEqual(reto.estado, "En proceso")
+
+    def calificarUltima(self):
+        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+                          password='Password1.')
+        data = {
+            'calificacion': 'normal'
+        }
+
+        reto = Reto.objects.get(
+            id_reto="RETCALIFICARETAPA012345678901234567890123456789012")
+        etapas = reto.etapa_set.all()
+        etapa = etapas.first()
+        ultima_etapa = etapas.last()
+
+        resp = self.client.get(f'/calificar/{ultima_etapa.id_etapa}', data)
+        self.assertEqual(resp.status_code, HTTPStatus.CREATED)
+        self.assertEqual(len(ultima_etapa.calificacion_set.all()), 1)
+        self.assertEqual(etapa.estado, "Finalizado")
+        self.assertEqual(ultima_etapa.estado, "Finalizado")
+        self.assertEqual(reto.estado, "Finalizado")
