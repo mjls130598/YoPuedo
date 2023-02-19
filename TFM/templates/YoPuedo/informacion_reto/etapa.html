@@ -48,7 +48,7 @@
     </h6>
     <div class="col d-flex justify-content-center justify-content-md-start">
         <ul class="mt-2 m-md-0 btn btn-light list-inline list-group list-group-horizontal calificacion p-0">
-            {% with calificacion=etapas_objetivo|get_item:etapa.id_etapa%}
+            {% with calificacion=calificaciones|get_item:etapa.id_etapa%}
 
             <li class="list-group-item mal"
                 onclick="calificacion('{{ etapa.id_etapa }}', 'mal', {{ num_etapa }})">
