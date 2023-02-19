@@ -802,6 +802,13 @@ class EditarRetoTest(TestCase):
                                     clave_fija="clavefijausuario",
                                     foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
+        # Creamos usuarios
+        Usuario.objects.create_user(email="extrañoeditando_view@gmail.com",
+                                    nombre="María Jesús", password="Password1.",
+                                    clave_aleatoria="clavealeat",
+                                    clave_fija="clavefijausuario",
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
     def objetivoRetoMedia(self):
         self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
                           password='Password1.')
@@ -1372,7 +1379,121 @@ class EditarRetoTest(TestCase):
         self.assertEqual(reto.etapa_set.all().last().objetivo,
                          "Objetivo NUEVO Etapa VIEWS")
 
+    def retoComenzado(self):
+        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+                          password='Password1.')
 
+        usuario = Usuario.objects.get(email="editarreto_view@gmail.com")
+        id_reto = Utils.crear_id_reto()
+
+        # Creamos el reto
+        reto = Reto(id_reto=id_reto,
+                    titulo="PRUEBA RETO VIEWS",
+                    objetivo="OBJETIVO RETO VIEWS",
+                    categoria="inteligencia",
+                    recompensa=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg",
+                    coordinador=usuario, estado="En proceso")
+        reto.save()
+
+        # Creamos la primera etapa del reto
+        id_etapa = Utils.crear_id_etapa(0)
+        Etapa(id_etapa=id_etapa,
+              objetivo=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg",
+              reto=reto, estado="En proceso").save()
+
+        data = {
+            # General
+            'titulo': 'Prueba RETO VIEWS',
+            'objetivo_imagen': '',
+            'objetivo_audio': '',
+            'objetivo_video': '',
+            'objetivo_texto': 'Objetivo RETO VIEWS',
+            'recompensa_imagen': '',
+            'recompensa_audio': '',
+            'recompensa_video': '',
+            'recompensa_texto': 'Recompensa RETO VIEWS',
+            'categoria': 'economia',
+
+            # Etapas
+            'form-INITIAL_FORMS': '0',
+            'form-TOTAL_FORMS': '2',
+            'form-MAX_NUM_FORM': '5',
+
+            # 1º Etapa
+            'form-0-id_etapa': id_etapa,
+            'form-0-objetivo_imagen': '',
+            'form-0-objetivo_video': '',
+            'form-0-objetivo_audio': '',
+            'form-0-objetivo_texto': 'Objetivo ETAPA VIEWS',
+
+            # Nueva Etapa
+            'form-0-id_etapa': '',
+            'form-0-objetivo_imagen': '',
+            'form-0-objetivo_video': '',
+            'form-0-objetivo_audio': '',
+            'form-0-objetivo_texto': 'Objetivo NUEVO Etapa VIEWS',
+        }
+
+        resp = self.client.post(f'/editar_reto/{id_reto}', data, format='multipart')
+        self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
+
+    def extrañoEditando(self):
+        self.client.login(username="extrañoeditando_view@gmail.com",
+                          password='Password1.')
+
+        usuario = Usuario.objects.get(email="editarreto_view@gmail.com")
+        id_reto = Utils.crear_id_reto()
+
+        # Creamos el reto
+        reto = Reto(id_reto=id_reto,
+                    titulo="PRUEBA RETO VIEWS",
+                    objetivo="OBJETIVO RETO VIEWS",
+                    categoria="inteligencia",
+                    recompensa=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg",
+                    coordinador=usuario)
+        reto.save()
+
+        # Creamos la primera etapa del reto
+        id_etapa = Utils.crear_id_etapa(0)
+        Etapa(id_etapa=id_etapa,
+              objetivo=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg",
+              reto=reto).save()
+
+        data = {
+            # General
+            'titulo': 'Prueba RETO VIEWS',
+            'objetivo_imagen': '',
+            'objetivo_audio': '',
+            'objetivo_video': '',
+            'objetivo_texto': 'Objetivo RETO VIEWS',
+            'recompensa_imagen': '',
+            'recompensa_audio': '',
+            'recompensa_video': '',
+            'recompensa_texto': 'Recompensa RETO VIEWS',
+            'categoria': 'economia',
+
+            # Etapas
+            'form-INITIAL_FORMS': '0',
+            'form-TOTAL_FORMS': '2',
+            'form-MAX_NUM_FORM': '5',
+
+            # 1º Etapa
+            'form-0-id_etapa': id_etapa,
+            'form-0-objetivo_imagen': '',
+            'form-0-objetivo_video': '',
+            'form-0-objetivo_audio': '',
+            'form-0-objetivo_texto': 'Objetivo ETAPA VIEWS',
+
+            # Nueva Etapa
+            'form-0-id_etapa': '',
+            'form-0-objetivo_imagen': '',
+            'form-0-objetivo_video': '',
+            'form-0-objetivo_audio': '',
+            'form-0-objetivo_texto': 'Objetivo NUEVO Etapa VIEWS',
+        }
+
+        resp = self.client.post(f'/editar_reto/{id_reto}', data, format='multipart')
+        self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
 ##########################################################################################
 # Comprobamos el funcionamiento de editar reto
 class CalificarEtapaTest(TestCase):
