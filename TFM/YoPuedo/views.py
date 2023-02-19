@@ -1234,19 +1234,23 @@ def calificar_etapa(request, id_etapa):
             calificaciones = etapa.calificacion_set.all()
             participantes = etapa.reto.participante_set.all()
 
-            if len(calificaciones) == len(participantes) and etapa.estado != 'Finalizada':
+            # Si todos los participantes han calificado la etapa, ...
+            if len(calificaciones) == len(participantes) and etapa.estado != 'Finalizado':
                 logger.info("Modificamos el estado de esa etapa")
+                etapa = Etapa.objects.get(id_etapa=id_etapa)
                 etapa.estado = 'Finalizado'
                 etapa.save()
 
                 etapas = etapa.reto.etapa_set.all()
 
+                # Si es la última etapa, modificamos el estado del reto a "Finalizado"
                 logger.info("Miramos si es la última etapa del reto")
                 if etapa == etapas.last():
                     logger.info("Se actualiza el estado del reto")
                     etapa.reto.estado = 'Finalizado'
                     etapa.reto.save()
 
+                # Sino, modificamos la siguiente etapa a "En proceso"
                 else:
                     logger.info("Actualizamos la siguiente etapa")
                     etapas = list(etapas)
