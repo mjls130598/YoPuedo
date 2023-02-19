@@ -83,10 +83,14 @@
     // Función para enviar la calificación de una persona
     function calificacion(id_etapa, puntuacion, num_etapa){
         url = "{% url 'calificar' id_etapa='id' %}".replace("id", id_etapa);
-        htmx.ajax('GET', url, {values:{'calificacion': puntuacion}}).then(
-            response => {
-                if(this.status == 201){
-                    div_etapa = document.getElementById("etapa-" + num_etapa);
+        url += "?calificacion=" + puntuacion;
+        const http = new XMLHttpRequest();
+
+        http.open("GET", url)
+        http.onreadystatechange = function(){
+
+            if(this.readyState == 4 && this.status == 201){
+                div_etapa = document.getElementById("etapa-" + num_etapa);
 
                     if(puntuacion == 'mal'){
                         i_mal = div_etapa.getElementsByClassName("mal")[0].children[0];
@@ -100,9 +104,9 @@
                         i_bien = div_etapa.getElementsByClassName("muy_bien")[0].children[0];
                         i_bien.className = "fa-solid fa-face-laugh-beam";
                     }
-                }
             }
-        );
+        }
+        http.send();
     }
 
 /****************************************************************************************/
