@@ -34,7 +34,9 @@
     </div>
     {% elif not '/media/' in etapa.objetivo %}
     <div class="col-md-1 col align-self-center">
-        {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='texto_etapa_' %}
+        {% with texto='texto_etapa_'|addvalue:num_etapa %}
+        {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech=texto %}
+        {% endwith %}
     </div>
     {% endif %}
 </div>
