@@ -1237,7 +1237,6 @@ def calificar_etapa(request, id_etapa):
             # Si todos los participantes han calificado la etapa, ...
             if len(calificaciones) == len(participantes) and etapa.estado != 'Finalizado':
                 logger.info("Modificamos el estado de esa etapa")
-                etapa = Etapa.objects.get(id_etapa=id_etapa)
                 etapa.estado = 'Finalizado'
                 etapa.save()
 

@@ -65,12 +65,11 @@
 
     // Función para dejar lista, cuando se cargue, la etapa a visualizar
     window.onload = () => {
+        {% if etapas.first().estado == 'Propuesto' %}
         cambiarPestanaEtapa('etapa-1', 'etapa-content');
-        {% for etapa in etapas %}
-        {% if etapa.estado == 'En proceso' %}
-        cambiarPestanaEtapa('etapa-{{ forloop.counter }}', 'etapa-content');
+        {% elif etapas.last().estado == 'Finalizado' %}
+        cambiarPestanaEtapa('etapa-{{ etapas|length }}', 'etapa-content');
         {% endif %}
-        {% endfor %}
     }
 
 /****************************************************************************************/
