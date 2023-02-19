@@ -95,12 +95,24 @@
                     if(puntuacion == 'mal'){
                         i_mal = div_etapa.getElementsByClassName("mal")[0].children[0];
                         i_mal.className = "fa-solid fa-face-frown";
+                        i_normal = div_etapa.getElementsByClassName("normal")[0].children[0];
+                        i_normal.className = "fa-regular fa-face-smile";
+                        i_bien = div_etapa.getElementsByClassName("muy_bien")[0].children[0];
+                        i_bien.className = "fa-regular fa-face-laugh-beam";
                     }
                     else if (puntuacion == 'normal'){
+                        i_mal = div_etapa.getElementsByClassName("mal")[0].children[0];
+                        i_mal.className = "fa-regular fa-face-frown";
                         i_normal = div_etapa.getElementsByClassName("normal")[0].children[0];
                         i_normal.className = "fa-solid fa-face-smile";
+                        i_bien = div_etapa.getElementsByClassName("muy_bien")[0].children[0];
+                        i_bien.className = "fa-regular fa-face-laugh-beam";
                     }
                     else{
+                        i_mal = div_etapa.getElementsByClassName("mal")[0].children[0];
+                        i_mal.className = "fa-regular fa-face-frown";
+                        i_normal = div_etapa.getElementsByClassName("normal")[0].children[0];
+                        i_normal.className = "fa-regular fa-face-smile";
                         i_bien = div_etapa.getElementsByClassName("muy_bien")[0].children[0];
                         i_bien.className = "fa-solid fa-face-laugh-beam";
                     }
