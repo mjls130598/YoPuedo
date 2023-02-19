@@ -65,9 +65,9 @@
 
     // Función para dejar lista, cuando se cargue, la etapa a visualizar
     window.onload = () => {
-        {% if etapas.first().estado == 'Propuesto' %}
+        {% if etapas.first.estado == 'Propuesto' %}
         cambiarPestanaEtapa('etapa-1', 'etapa-content');
-        {% elif etapas.last().estado == 'Finalizado' %}
+        {% elif etapas.last.estado == 'Finalizado' %}
         cambiarPestanaEtapa('etapa-{{ etapas|length }}', 'etapa-content');
         {% endif %}
     }
