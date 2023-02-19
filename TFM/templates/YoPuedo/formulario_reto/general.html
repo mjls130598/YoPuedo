@@ -28,7 +28,7 @@
                 <label for="id_objetivo_imagen">
                     <i class="fa-solid fa-image"></i>
                     <span class="label d-none d-sm-inline">
-                        {% if objetivo_imagen != "" %}
+                        {% if objetivo_imagen and objetivo_imagen != "" %}
                             {{ objetivo_imagen }}
                         {% else %}
                             {{ general_form.objetivo_imagen.label }}
@@ -44,7 +44,7 @@
                 <label for="id_objetivo_audio">
                     <i class="fa-solid fa-headphones"></i>
                     <span class="label d-none d-sm-inline">
-                        {% if objetivo_audio != "" %}
+                        {% if objetivo_audio and objetivo_audio != "" %}
                             {{ objetivo_audio }}
                         {% else %}
                             {{ general_form.objetivo_audio.label }}
@@ -60,7 +60,7 @@
                 <label for="id_objetivo_video">
                     <i class="fa-solid fa-video"></i>
                     <span class="label d-none d-sm-inline">
-                        {% if objetivo_video != "" %}
+                        {% if objetivo_video and objetivo_video != "" %}
                             {{ objetivo_video }}
                         {% else %}
                             {{ general_form.objetivo_video.label }}
@@ -113,7 +113,7 @@
                 <label for="id_recompensa_imagen">
                     <i class="fa-solid fa-image"></i>
                     <span class="label d-none d-sm-inline">
-                        {% if recompensa_imagen != "" %}
+                        {% if recompensa_imagen and recompensa_imagen != "" %}
                             {{ recompensa_imagen }}
                         {% else %}
                             {{ general_form.recompensa_imagen.label }}
@@ -129,7 +129,7 @@
                 <label for="id_recompensa_audio">
                     <i class="fa-solid fa-headphones"></i>
                     <span class="label d-none d-sm-inline">
-                        {% if recompensa_audio != "" %}
+                        {% if recompensa_audio and recompensa_audio != "" %}
                             {{ recompensa_audio }}
                         {% else %}
                             {{ general_form.recompensa_audio.label }}
@@ -145,7 +145,7 @@
                 <label for="id_recompensa_video">
                     <i class="fa-solid fa-video"></i>
                     <span class="label d-none d-sm-inline">
-                        {% if recompensa_video != "" %}
+                        {% if recompensa_video and recompensa_video != "" %}
                             {{ recompensa_video }}
                         {% else %}
                             {{ general_form.recompensa_video.label }}
