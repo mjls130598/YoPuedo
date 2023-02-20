@@ -369,3 +369,59 @@ class AmigosForm(forms.Form):
             'placeholder': 'Buscar amigo ...'
         }), required=False)
     relacion = forms.CharField(widget=forms.HiddenInput())
+
+
+##########################################################################################
+
+# Formulario de reto ETAPAS
+class PruebaForm(forms.Form):
+    prueba_imagen = forms.ImageField(label="Subir foto",
+                                     widget=forms.ClearableFileInput(
+                                         attrs={
+                                             'class': 'form-control uploadfile'
+                                         }),
+                                     required=False)
+    prueba_audio = forms.FileField(label="Subir audio",
+                                   widget=forms.ClearableFileInput(
+                                       attrs={
+                                           'class': 'form-control uploadfile',
+                                           'accept': "audio/*"
+                                       }),
+                                   required=False)
+    prueba_video = forms.FileField(label="Subir vídeo",
+                                   widget=forms.ClearableFileInput(
+                                       attrs={
+                                           'class': 'form-control uploadfile',
+                                           'accept': "video/*"
+                                       }),
+                                   required=False)
+
+    prueba_texto = forms.CharField(max_length='500', widget=forms.Textarea(
+        attrs={
+            'class': 'form-control mt-2 mb-2',
+            'placeholder': 'O escribe el objetivo ...',
+            'rows': '5'
+        }), required=False)
+
+    def clean(self):
+        logger.info("Checkeando PRUEBA")
+
+        cleaned_data = super().clean()
+
+        prueba_texto = cleaned_data.get('prueba_texto')
+        prueba_imagen = cleaned_data.get('prueba_imagen')
+        prueba_audio = cleaned_data.get('prueba_audio')
+        prueba_video = cleaned_data.get('prueba_video')
+
+        if not prueba_texto and not prueba_imagen and not prueba_video and not \
+                prueba_audio:
+            logger.error("No se ha indicado ninguna prueba")
+            self.add_error('prueba_texto', 'Debes indicar alguna prueba en la etapa')
+
+        if Utils.numero_elementos_importados([prueba_texto, prueba_audio,
+                                              prueba_video, prueba_imagen]) > 1:
+            logger.error("Se ha introducido varias maneras en prueba")
+            self.add_error('prueba_texto', 'Elige una forma de indicar la prueba de la '
+                                           'de la etapa')
+
+        return self
