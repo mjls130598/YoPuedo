@@ -1275,10 +1275,10 @@ def pruebas(request, id_etapa):
     participante = etapa.reto.participante_set.filter(usuario=request.user)
 
     logger.info("Comprobamos que añade una prueba un participante de la etapa encontrada")
-    if participante.exists() and etapa.estado == 'En proceso':
+    if participante.exists():
         participante = participante.all().first()
 
-        if request.method == 'POST':
+        if request.method == 'POST' and etapa.estado == 'En proceso':
             logger.info("Entramos en la parte POST de PRUEBAS")
             prueba_form = PruebaForm(request.POST, request.FILES)
 
@@ -1325,7 +1325,19 @@ def pruebas(request, id_etapa):
                 return HttpResponse(status=HTTPStatus.CREATED)
 
             else:
-                logger.error(f"Error al validar el formulario PRUEBAS de {id_etapa}")            
+                logger.error(f"Error al validar el formulario PRUEBAS de {id_etapa}")
+
+        else:
+            logger.info("Entramos en la parte GET de PRUEBAS")
+            prueba_form = PruebaForm() if etapa.estado == 'En proceso' else None
+
+        pruebas = etapa.prueba_set.all()
+
+        return render(request, 'YoPuedo/pruebas.html', {
+            'prueba_form': prueba_form,
+            'pruebas': pruebas
+        })
+
     else:
         logger.error("No forma la parte activa de PRUEBAS")
         raise PermissionDenied
