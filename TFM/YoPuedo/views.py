@@ -14,8 +14,9 @@ from django.template.loader import get_template
 
 from .utils import Utils
 from .forms import RegistroForm, InicioForm, ClaveForm, RetoGeneralForm, RetoEtapaForm, \
-    AmigosForm, EtapasFormSet
-from .models import Usuario, Amistad, Reto, Etapa, Animador, Participante, Calificacion
+    AmigosForm, EtapasFormSet, PruebaForm
+from .models import Usuario, Amistad, Reto, Etapa, Animador, Participante, Calificacion, \
+    Prueba
 
 from django.forms import formset_factory
 
@@ -1130,7 +1131,7 @@ def coordinador_reto(request, id_reto):
     logger.info("Comprobamos que el reto sea de la persona que lo está viendo")
     if reto.coordinador == request.user:
         if request.method == 'POST':
-            coordinador = request.PUT.get('coordinador')
+            coordinador = request.POST.get('coordinador')
 
             if coordinador != "":
                 logger.info(f"Cambiamos el coordinador por {coordinador}")
@@ -1262,6 +1263,71 @@ def calificar_etapa(request, id_etapa):
         return HttpResponse(status=HTTPStatus.BAD_REQUEST)
     else:
         logger.error("No forma parte activa del reto")
+        raise PermissionDenied
+
+
+##########################################################################################
+
+# Función para ver y crear PRUEBAS
+def pruebas(request, id_etapa):
+    logger.info(f"Recogemos los datos de la etapa {id_etapa}")
+    etapa = get_object_or_404(Etapa, id_etapa=id_etapa)
+    participante = etapa.reto.participante_set.filter(usuario=request.user)
+
+    logger.info("Comprobamos que añade una prueba un participante de la etapa encontrada")
+    if participante.exists() and etapa.estado == 'En proceso':
+        participante = participante.all().first()
+
+        if request.method == 'POST':
+            logger.info("Entramos en la parte POST de PRUEBAS")
+            prueba_form = PruebaForm(request.POST, request.FILES)
+
+            if prueba_form.is_valid():
+                logger.info(f"NUEVA PRUEBA EN {id_etapa}")
+
+                prueba_texto = prueba_form.cleaned_data['prueba_texto'].value()
+                prueba_imagen = request.FILES["prueba_imagen"] \
+                    if 'prueba_imagen' in request.FILES else None
+                prueba_audio = request.FILES["prueba_audio"] \
+                    if 'prueba_audio' in request.FILES else None
+                prueba_video = request.FILES["prueba_video"] \
+                    if 'prueba_video' in request.FILES else None
+
+                prueba_multimedia = prueba_imagen if prueba_imagen else (
+                    prueba_audio if prueba_audio else prueba_video)
+
+                if prueba_multimedia:
+                    directorio = os.path.join(BASE_DIR, "media", "YoPuedo",
+                                              etapa.reto.id_reto, "Pruebas")
+                    localizacion = os.path.join(directorio, prueba_multimedia.name)
+                    prueba_guardar = os.path.join("/media", "YoPuedo",
+                                                  etapa.reto.id_reto, "Pruebas",
+                                                  prueba_multimedia.name)
+                    try:
+                        Utils.handle_uploaded_file(prueba_multimedia, localizacion,
+                                                   directorio)
+                    except:
+                        logger.error("Error al subir el objetivo")
+                else:
+                    prueba_guardar = prueba_texto
+
+                logger.info(f"PRUEBA: {prueba_guardar}")
+
+                logger.info(f"Guardamos prueba en {id_etapa}")
+                prueba = Prueba()
+                prueba.save()
+                prueba.participante.add(participante)
+                prueba.etapa.add(etapa)
+                prueba.prueba = prueba_guardar
+                prueba.save()
+
+                logger.info(f"Devolvemos status {HTTPStatus.CREATED}")
+                return HttpResponse(status=HTTPStatus.CREATED)
+
+            else:
+                logger.error(f"Error al validar el formulario PRUEBAS de {id_etapa}")            
+    else:
+        logger.error("No forma la parte activa de PRUEBAS")
         raise PermissionDenied
 
 
