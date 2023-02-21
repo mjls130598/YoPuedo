@@ -1,0 +1,112 @@
+<div class="pruebas p-3">
+    {% for prueba in pruebas %}
+    <h6 class="row fw-bold">
+        {{ prueba.participante.nombre }}
+    </h6>
+    <div class="row">
+        {% if "mp3" in prueba.prueba or "acc" in prueba.prueba or "ogg" in prueba.prueba or "wma" in prueba.prueba %}
+        <div class="col-md-4 col-12 mb-4 m-md-0 informacion align-self-center">
+        {% else %}
+        <div class="col-md-9 col-12 mb-4 m-md-0 informacion align-self-center">
+        {% endif %}
+        {% if "mp3" in prueba.prueba or "acc" in prueba.prueba or "ogg" in prueba.prueba or "wma" in prueba.prueba %}
+            <audio controls id="audio"
+                onplay="obtenerAudio('{{ prueba.prueba }}', 'texto_audio_prueba')">
+                <source src="{{ prueba.prueba }}" type="audio/mpeg">
+            </audio>
+        {% elif "jpg" in prueba.prueba or "jpeg" in prueba.prueba or "png" in prueba.prueba or "svg" in prueba.prueba or "gif" in prueba.prueba %}
+            <img class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                col-xl-5" src="{{ prueba.prueba }}">
+        {% elif "mp4" in prueba.prueba or "ogg" in prueba.prueba %}
+            <video class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                col-xl-5" controls>
+                <source src="{{ prueba.prueba }}" type="video/mp4">
+            </video>
+        {% else %}
+            <h6 id="texto_prueba_{{ forloop.counter }}">
+                {{ prueba.prueba }}
+            </h6>
+        {% endif %}
+        </div>
+        {% if "mp3" in prueba.prueba or "acc" in prueba.prueba or "ogg" in prueba.prueba or "wma" in prueba.prueba %}
+        <div class="col-md-8 align-self-center text-center overflow-auto audio">
+            <p id="texto_audio_prueba"></p>
+        </div>
+        {% elif not '/media/' in prueba.prueba %}
+        <div class="col-md-1 col align-self-center">
+            {% with texto='texto_prueba_'|addvalue:forloop.counter %}
+            {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech=texto %}
+            {% endwith %}
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+<form class="form tab-content p-3" method="post" action="{{ request.get_full_path }}"
+  enctype="multipart/form-data">
+    <div class="prueba botones row m-1 justify-content-between">
+        <div class="col-3 p-0">
+          {{ prueba_form.prueba_imagen }}
+          <button class="imagen p-md-3 p-sm-2 btn btn-primary fw-bold">
+          <label for="id_prueba_imagen">
+            <i class="fa-solid fa-image"></i>
+            <span class="label d-none d-sm-inline">
+              {{ prueba_form.prueba_imagen.label }}
+            </span>
+          </label>
+          </button>
+        </div>
+
+        <div class="col-3 p-0">
+          {{ prueba_form.prueba_audio }}
+          <button class="uploadaudio p-md-3 p-sm-2 btn btn-primary fw-bold">
+          <label for="id_prueba_audio">
+            <i class="fa-solid fa-headphones"></i>
+            <span class="label d-none d-sm-inline">
+              {{ prueba_form.prueba_audio.label }}
+            </span>
+          </label>
+          </button>
+        </div>
+
+        <div class="col-3 p-0">
+          {{ prueba_form.prueba_video }}
+          <button class="video p-md-3 p-sm-2 btn btn-primary fw-bold">
+          <label for="id_prueba_video">
+            <i class="fa-solid fa-video"></i>
+            <span class="label d-none d-sm-inline">
+              {{ prueba_form.prueba_video.label }}
+            </span>
+          </label>
+          </button>
+        </div>
+    </div>
+
+    <div class="row align-items-center">
+        <div class="col-9 col-sm-10 col-md-11 {{ prueba_form.prueba_texto.name }}">
+          {{ prueba_form.prueba_texto }}
+        </div>
+    <div class="col">
+        {% include 'YoPuedo/elementos/microfono.html' with elementRecognition=prueba_form.prueba_texto.id_for_label %}
+    </div>
+    </div>
+
+    {% for error in prueba_form.prueba_texto.errors%}
+    <div class="errorlist">
+        <i class="bi bi-x-circle-fill"></i>
+        {{ error }}
+    </div>
+    {% endfor %}
+
+    <button type="submit" class="jusify-content-end">
+        <div class="row">
+          <div class="col-2">
+            <i class="fa-solid fa-floppy-disk"></i>
+          </div>
+          <div class="d-none d-md-block col-9">
+            Guardar prueba
+          </div>
+        </div>
+    </button>
+</form>

@@ -19,104 +19,104 @@
 
 {% block contenido %}
 <!-- CABECERA -->
-    <section>
-        <h4 id="titulo" class="m-2 m-md-3 m-lg-4">
-            <i class="bi bi-graph-up"></i>
-            {{ reto.titulo }}
-        </h4>
-    </section>
+<section>
+    <h4 id="titulo" class="m-2 m-md-3 m-lg-4">
+        <i class="bi bi-graph-up"></i>
+        {{ reto.titulo }}
+    </h4>
+</section>
 
-    <section id="informacion_reto" class="m-1">
-    <!-- BOTONES NAVEGACIÓN TABS -->
-    <ul class="nav nav-tabs" id="tab-pasos" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="general-tab"
-          data-bs-toggle="tab" data-bs-target="#general" type="button"
-          role="tab" aria-controls="general" aria-selected="true"
-          onclick="cambiarColorCuerpo('general', 'reto-content')">
-          <div class="row">
-            <div class="col-2">
-              <i class="fa-solid fa-clipboard"></i>
-            </div>
-            <div class="d-none d-md-block col-9">
-              <h5>General</h5>
-            </div>
+<section id="informacion_reto" class="m-1">
+  <!-- BOTONES NAVEGACIÓN TABS -->
+  <ul class="nav nav-tabs" id="tab-pasos" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="general-tab"
+        data-bs-toggle="tab" data-bs-target="#general" type="button"
+        role="tab" aria-controls="general" aria-selected="true"
+        onclick="cambiarColorCuerpo('general', 'reto-content')">
+        <div class="row">
+          <div class="col-2">
+            <i class="fa-solid fa-clipboard"></i>
           </div>
-        </button>
-      </li>
-
-      <li class="nav-item" role="presentation">
-        <button class="nav-link d-none" id="etapas-tab" data-bs-toggle="tab"
-          data-bs-target="#etapas" type="button" role="tab"
-          aria-controls="etapas" aria-selected="false"
-          onclick="cambiarColorCuerpo('etapas', 'reto-content')">
-          <div class="row">
-            <div class="col-2">
-              <i class="fa-solid fa-chart-simple"></i>
-            </div>
-            <div class="d-none d-md-block col-9">
-              <h5>Etapas</h5>
-            </div>
+          <div class="d-none d-md-block col-9">
+            <h5>General</h5>
           </div>
-        </button>
-      </li>
+        </div>
+      </button>
+    </li>
 
-      <li class="nav-item" role="presentation">
-        <button class="nav-link d-none" id="participantes-tab" data-bs-toggle="tab"
-          data-bs-target="#participantes" type="button" role="tab"
-          aria-controls="participantes" aria-selected="false"
-          onclick="cambiarColorCuerpo('participantes', 'reto-content')">
-          <div class="row">
-            <div class="col-2">
-              <i class="fa-solid fa-people-group"></i>
-            </div>
-            <div class="d-none d-md-block col-10">
-              <h5>Participantes</h5>
-            </div>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link d-none" id="etapas-tab" data-bs-toggle="tab"
+        data-bs-target="#etapas" type="button" role="tab"
+        aria-controls="etapas" aria-selected="false"
+        onclick="cambiarColorCuerpo('etapas', 'reto-content')">
+        <div class="row">
+          <div class="col-2">
+            <i class="fa-solid fa-chart-simple"></i>
           </div>
-        </button>
-      </li>
-
-      <li class="nav-item" role="presentation">
-        <button class="nav-link d-none" id="animadores-tab" data-bs-toggle="tab"
-          data-bs-target="#animadores" type="button" role="tab"
-          aria-controls="animadores" aria-selected="false"
-          onclick="cambiarColorCuerpo('animadores', 'reto-content')">
-          <div class="row">
-            <div class="col-2">
-              <i class="fa-sharp fa-solid fa-hand-holding-hand"></i>
-            </div>
-            <div class="d-none d-md-block col-10">
-              <h5>Animadores</h5>
-            </div>
+          <div class="d-none d-md-block col-9">
+            <h5>Etapas</h5>
           </div>
-        </button>
-      </li>
-    </ul>
+        </div>
+      </button>
+    </li>
 
-    <!-- CUERPO DE LOS TABS -->
-    <div class="tab-content p-3" id="reto-content">
-      <div class="tab-pane fade show active" id="general" role="tabpanel"
-        aria-labelledby="general-tab">
-        {% include 'YoPuedo/informacion_reto/general.html'%}
-      </div>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link d-none" id="participantes-tab" data-bs-toggle="tab"
+        data-bs-target="#participantes" type="button" role="tab"
+        aria-controls="participantes" aria-selected="false"
+        onclick="cambiarColorCuerpo('participantes', 'reto-content')">
+        <div class="row">
+          <div class="col-2">
+            <i class="fa-solid fa-people-group"></i>
+          </div>
+          <div class="d-none d-md-block col-10">
+            <h5>Participantes</h5>
+          </div>
+        </div>
+      </button>
+    </li>
 
-      <div class="tab-pane fade" id="etapas" role="tabpanel"
-        aria-labelledby="etapas-tab">
-        {% include 'YoPuedo/informacion_reto/etapas.html'%}
-      </div>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link d-none" id="animadores-tab" data-bs-toggle="tab"
+        data-bs-target="#animadores" type="button" role="tab"
+        aria-controls="animadores" aria-selected="false"
+        onclick="cambiarColorCuerpo('animadores', 'reto-content')">
+        <div class="row">
+          <div class="col-2">
+            <i class="fa-sharp fa-solid fa-hand-holding-hand"></i>
+          </div>
+          <div class="d-none d-md-block col-10">
+            <h5>Animadores</h5>
+          </div>
+        </div>
+      </button>
+    </li>
+  </ul>
 
-      <div class="tab-pane fade" id="participantes" role="tabpanel"
-        aria-labelledby="participantes-tab">
-        {% include 'YoPuedo/informacion_reto/participantes.html'%}
-      </div>
-
-      <div class="tab-pane fade" id="animadores" role="tabpanel"
-        aria-labelledby="animadores-tab">
-        {% include 'YoPuedo/informacion_reto/animadores.html'%}
-      </div>
+  <!-- CUERPO DE LOS TABS -->
+  <div class="tab-content p-3" id="reto-content">
+    <div class="tab-pane fade show active" id="general" role="tabpanel"
+      aria-labelledby="general-tab">
+      {% include 'YoPuedo/informacion_reto/general.html'%}
     </div>
-  </section>
+
+    <div class="tab-pane fade" id="etapas" role="tabpanel"
+      aria-labelledby="etapas-tab">
+      {% include 'YoPuedo/informacion_reto/etapas.html'%}
+    </div>
+
+    <div class="tab-pane fade" id="participantes" role="tabpanel"
+      aria-labelledby="participantes-tab">
+      {% include 'YoPuedo/informacion_reto/participantes.html'%}
+    </div>
+
+    <div class="tab-pane fade" id="animadores" role="tabpanel"
+      aria-labelledby="animadores-tab">
+      {% include 'YoPuedo/informacion_reto/animadores.html'%}
+    </div>
+  </div>
+</section>
 
 <script>
 {% if reto.coordinador.email == user.get_username %}

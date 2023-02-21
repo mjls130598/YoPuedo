@@ -40,6 +40,35 @@
     </div>
     {% endif %}
 </div>
+
+<ul class="nav nav-tabs" id="tab-info" role="tablist">
+{% if participa %}
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="pruebas-tab"
+        data-bs-toggle="tab" data-bs-target="#pruebas" type="button"
+        role="tab" aria-controls="pruebas" aria-selected="true"
+        onclick="cambiarColorCuerpo('pruebas', 'info-content')"
+        hx-get="{% url 'pruebas' id_etapa=etapa.id_etapa%}"
+        hx-target="#pruebas">
+        <div class="row">
+          <div class="col-2">
+            <i class="fa-solid fa-clipboard-list"></i>
+          </div>
+          <div class="d-none d-md-block col-9">
+            <h5>Pruebas</h5>
+          </div>
+        </div>
+      </button>
+    </li>
+{% endif %}
+</ul>
+<div class="tab-content p-3" id="info-content">
+    {% if participa %}
+    <div class="tab-pane fade show active" id="pruebas" role="tabpanel"
+      aria-labelledby="pruebas-tab">
+    </div>
+    {% endif %}
+</div>
 {% if participa and etapa.estado != 'Propuesto'%}
 <div class="row row mt-md-3">
     <h6 class="fw-bold col-md-3 align-self-center">
