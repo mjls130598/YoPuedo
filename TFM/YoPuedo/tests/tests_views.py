@@ -856,7 +856,7 @@ class EditarRetoTest(TestCase):
         resp = self.client.post(f'/editar_reto/{id_reto}', data, format='multipart')
         self.assertTrue(f"/reto/{id_reto}" in resp.url)
         self.assertEqual(reto.objetivo,
-                          f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                         f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def objetivoRetoVacio(self):
         self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
@@ -1002,7 +1002,7 @@ class EditarRetoTest(TestCase):
         resp = self.client.post(f'/editar_reto/{id_reto}', data, format='multipart')
         self.assertTrue(f"/reto/{id_reto}" in resp.url)
         self.assertEqual(reto.recompensa,
-                          f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                         f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def recompensaRetoVacia(self):
         self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
@@ -1153,7 +1153,7 @@ class EditarRetoTest(TestCase):
         resp = self.client.post(f'/editar_reto/{id_reto}', data, format='multipart')
         self.assertTrue(f"/reto/{id_reto}" in resp.url)
         self.assertEqual(reto.etapa_set.all().first().objetivo,
-                          f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                         f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def objetivoEtapaVacia(self):
         self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
@@ -1494,22 +1494,24 @@ class EditarRetoTest(TestCase):
 
         resp = self.client.post(f'/editar_reto/{id_reto}', data, format='multipart')
         self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
+
+
 ##########################################################################################
-# Comprobamos el funcionamiento de editar reto
-class CalificarEtapaTest(TestCase):
+# Comprobamos el funcionamiento de calificar y añadir prueba en reto
+class CalificarPRuebaEtapaTest(TestCase):
     def setUpTestData(cls):
         # Creamos usuarios
         usuario = Usuario.objects.create_user(email="calificaretapa_view@gmail.com",
-                                    nombre="María Jesús", password="Password1.",
-                                    clave_aleatoria="clavealeat",
-                                    clave_fija="clavefijausuario",
-                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
-
-        Usuario.objects.create_user(email="extraño_view@gmail.com",
                                               nombre="María Jesús", password="Password1.",
                                               clave_aleatoria="clavealeat",
                                               clave_fija="clavefijausuario",
                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        Usuario.objects.create_user(email="extraño_view@gmail.com",
+                                    nombre="María Jesús", password="Password1.",
+                                    clave_aleatoria="clavealeat",
+                                    clave_fija="clavefijausuario",
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
         # Creamos el reto
         reto = Reto(id_reto="RETCALIFICARETAPA012345678901234567890123456789012",
@@ -1529,14 +1531,22 @@ class CalificarEtapaTest(TestCase):
         Etapa(id_etapa=Utils.crear_id_etapa(1), objetivo=f"OBJETIVO ETAPA VIEWS",
               reto=reto).save()
 
+        # Añadimos como participante el coordinador
+        participante = Participante()
+        participante.save()
+        participante.usuario.add(usuario)
+        participante.reto.add(reto)
+        participante.save()
+
     def calificarVacio(self):
-        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+        self.client.login(username="calificaretapa_view@gmail.com",
                           password='Password1.')
         data = {
             'calificacion': ''
         }
 
-        reto = Reto.objects.get(id_reto = "RETCALIFICARETAPA012345678901234567890123456789012")
+        reto = Reto.objects.get(
+            id_reto="RETCALIFICARETAPA012345678901234567890123456789012")
         etapas = reto.etapa_set.all()
         etapa = etapas.first()
         ultima_etapa = etapas.last()
@@ -1568,8 +1578,36 @@ class CalificarEtapaTest(TestCase):
         self.assertEqual(ultima_etapa.estado, "Propuesto")
         self.assertEqual(reto.estado, "En proceso")
 
+    def añadirPrueba(self):
+        self.client.login(username="calificaretapa_view@gmail.com",
+                          password='Password1.')
+        data = {
+            'prueba_texto': 'Esto es una prueba'
+        }
+
+        reto = Reto.objects.get(
+            id_reto="RETCALIFICARETAPA012345678901234567890123456789012")
+        etapas = reto.etapa_set.all()
+        etapa = etapas.first()
+
+        resp = self.client.post(f'/prueba/{etapa.id_etapa}', data)
+        self.assertEqual(resp.status_code, HTTPStatus.CREATED)
+        self.assertEqual(len(etapa.prueba_set.all()), 1)
+
+    def getPrueba(self):
+        self.client.login(username="calificaretapa_view@gmail.com",
+                          password='Password1.')
+
+        reto = Reto.objects.get(
+            id_reto="RETCALIFICARETAPA012345678901234567890123456789012")
+        etapas = reto.etapa_set.all()
+        etapa = etapas.first()
+
+        resp = self.client.get(f'/prueba/{etapa.id_etapa}')
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+
     def calificarPrimera(self):
-        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+        self.client.login(username="calificaretapa_view@gmail.com",
                           password='Password1.')
         data = {
             'calificacion': 'normal'
@@ -1589,7 +1627,7 @@ class CalificarEtapaTest(TestCase):
         self.assertEqual(reto.estado, "En proceso")
 
     def calificarUltima(self):
-        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+        self.client.login(username="calificaretapa_view@gmail.com",
                           password='Password1.')
         data = {
             'calificacion': 'normal'

@@ -1269,6 +1269,7 @@ def calificar_etapa(request, id_etapa):
 ##########################################################################################
 
 # Función para ver y crear PRUEBAS
+@login_required
 def pruebas(request, id_etapa):
     logger.info(f"Recogemos los datos de la etapa {id_etapa}")
     etapa = get_object_or_404(Etapa, id_etapa=id_etapa)
