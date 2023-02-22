@@ -1,8 +1,7 @@
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.forms import formset_factory
 from django.test import TestCase
-from ..forms import RegistroForm, ClaveForm, InicioForm, RetoGeneralForm, RetoEtapaForm, \
-    EtapasFormSet
+from ..forms import *
 from TFM.settings import BASE_DIR
 from ..models import Usuario
 
@@ -319,7 +318,7 @@ class RetoGeneralFormTest(TestCase):
         form = RetoGeneralForm(data)
 
         self.assertEqual(form.errors['titulo'], ['Debes indicar el título del reto',
-                         'Debes escribir entre 10 y 500 caracteres'])
+                                                 'Debes escribir entre 10 y 500 caracteres'])
         self.assertEqual(form.errors['objetivo_texto'],
                          ['Debes indicar el objetivo del reto'])
         self.assertEqual(form.errors['recompensa_texto'],
@@ -419,7 +418,6 @@ class RetoEtapasTest(TestCase):
         self.assertEqual(len(form.errors), 0)
 
     def test_no_etapas(self):
-
         etapas_form_model = formset_factory(RetoEtapaForm, formset=EtapasFormSet,
                                             max_num=5)
 
@@ -442,7 +440,6 @@ class RetoEtapasTest(TestCase):
                          ['Debes indicar el objetivo de la etapa'])
 
     def test_etapa_vacia(self):
-
         etapas_form_model = formset_factory(RetoEtapaForm, formset=EtapasFormSet,
                                             max_num=5)
 
@@ -492,7 +489,40 @@ class RetoEtapasTest(TestCase):
         self.assertEqual(len(etapas_form.errors[0]), 0)
 
 
+##########################################################################################
 
+# Comprobamos la validación del formulario de PRUEBA
+class RetoPruebaTest(TestCase):
 
+    def test_campos_vacios(self):
+        data = {}
+        form = PruebaForm(data)
 
+        self.assertEqual(form.errors['prueba_texto'],
+                         ['Debes indicar alguna prueba en la etapa'])
 
+    def test_multiples_prueba(self):
+        data = {
+            'prueba_texto': 'Prueba prueba'
+        }
+
+        prueba_imagen = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        prueba_imagen = open(prueba_imagen, 'rb')
+
+        form = PruebaForm(data=data, files={'objetivo_imagen': SimpleUploadedFile(
+            prueba_imagen.name, prueba_imagen.read())})
+
+        self.assertEqual(form.errors['prueba_texto'],
+                         ['Elige una forma de indicar la prueba de la etapa'])
+
+    def test_etapa_correcta(self):
+        data = {
+            'prueba_texto': 'Objetivo prueba',
+            'prueba_imagen': '',
+            'prueba_audio': '',
+            'prueba_video': ''
+        }
+
+        form = PruebaForm(data=data)
+
+        self.assertEqual(len(form.errors), 0)
