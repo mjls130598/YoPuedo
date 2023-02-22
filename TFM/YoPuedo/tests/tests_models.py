@@ -86,6 +86,12 @@ class RetoModelTest(TestCase):
         calificacion.calificacion = 'muy buena'
         calificacion.save()
 
+        prueba = Prueba()
+        prueba.save()
+        prueba.etapa.add(etapa)
+        prueba.participante.add(participante)
+        prueba.prueba = "Prueba etapa reto"
+
     def test_reto(self):
         reto = Reto.objects.get(
             id_reto="RET123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
@@ -130,3 +136,13 @@ class RetoModelTest(TestCase):
         self.assertEqual(calificacion.etapa.all().first(), etapa)
         self.assertEqual(calificacion.participante.all().first(), participante)
         self.assertEqual(calificacion.calificacion, "muy buena")
+
+    def test_prueba(self):
+        etapa = Etapa.objects.get(
+            id_etapa="ETP123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
+        participante = etapa.reto.participante_set.all().first()
+        prueba = etapa.prueba_set.all().first()
+
+        self.assertEqual(prueba.etapa.all().first(), etapa)
+        self.assertEqual(prueba.participante.all().first(), participante)
+        self.assertEqual(prueba.prueba, "Prueba etapa reto")
