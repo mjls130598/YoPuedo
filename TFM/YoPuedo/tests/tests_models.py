@@ -1,7 +1,9 @@
 from django.db.models import Q
 from django.test import TestCase
-from ..models import Usuario, Reto, Etapa, Animador, Participante
+from ..models import *
 
+
+##########################################################################################
 
 # Comprobamos el funcionamiento de la tabla USUARIO
 class UsuarioModelTest(TestCase):
@@ -30,7 +32,10 @@ class UsuarioModelTest(TestCase):
                          "/media/YoPuedo/foto_perfil/mariajesus@gmail.com")
 
 
-# Comprobamos el funcionamiento de la tabla RETO, ETAPA, ANIMADOR, PARTICIPANTE
+##########################################################################################
+
+# Comprobamos el funcionamiento de las tablas RETO, ETAPA, ANIMADOR, PARTICIPANTE,
+# CALIFICACION
 class RetoModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -56,7 +61,7 @@ class RetoModelTest(TestCase):
             coordinador=usuario
         )
 
-        Etapa.objects.create(
+        etapa = Etapa.objects.create(
             id_etapa="ETP123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL",
             reto=reto,
             objetivo="Objetivo ETAPA"
@@ -73,6 +78,13 @@ class RetoModelTest(TestCase):
         participante.save()
         participante.reto.add(reto)
         participante.usuario.add(usuario)
+
+        calificacion = Calificacion()
+        calificacion.save()
+        calificacion.etapa.add(etapa)
+        calificacion.participante.add(participante)
+        calificacion.calificacion = 'muy buena'
+        calificacion.save()
 
     def test_reto(self):
         reto = Reto.objects.get(
@@ -98,16 +110,23 @@ class RetoModelTest(TestCase):
     def test_animadores(self):
         reto = Reto.objects.get(
             id_reto="RET123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
-        animadores = Animador.objects.filter(Q(reto=reto))
+        animador = reto.animador_set.all().first()
 
-        for animador in animadores:
-            self.assertEqual(animador.usuario.all().first().email, "maria@jesus.com")
-            self.assertFalse(animador.superanimador)
+        self.assertFalse(animador.superanimador)
 
     def test_participantes(self):
         reto = Reto.objects.get(
             id_reto="RET123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
-        participantes = Participante.objects.filter(reto=reto)
+        participante = reto.participante_set.all().first()
 
-        for participante in participantes:
-            self.assertEqual(participante.usuario.all().first().email, "reto@gmail.com")
+        self.assertEqual(participante.usuario.all().first().email, "reto@gmail.com")
+
+    def test_calificacion(self):
+        etapa = Etapa.objects.get(
+            id_etapa="ETP123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
+        participante = etapa.reto.participante_set.all().first()
+        calificacion = etapa.calificacion_set.all().first()
+
+        self.assertEqual(calificacion.etapa.all().first(), etapa)
+        self.assertEqual(calificacion.participante.all().first(), participante)
+        self.assertEqual(calificacion.calificacion, "muy buena")
