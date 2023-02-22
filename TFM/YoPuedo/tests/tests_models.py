@@ -91,6 +91,7 @@ class RetoModelTest(TestCase):
         prueba.etapa.add(etapa)
         prueba.participante.add(participante)
         prueba.prueba = "Prueba etapa reto"
+        prueba.save()
 
     def test_reto(self):
         reto = Reto.objects.get(

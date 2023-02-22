@@ -509,7 +509,7 @@ class RetoPruebaTest(TestCase):
         prueba_imagen = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
         prueba_imagen = open(prueba_imagen, 'rb')
 
-        form = PruebaForm(data=data, files={'objetivo_imagen': SimpleUploadedFile(
+        form = PruebaForm(data=data, files={'prueba_imagen': SimpleUploadedFile(
             prueba_imagen.name, prueba_imagen.read())})
 
         self.assertEqual(form.errors['prueba_texto'],
