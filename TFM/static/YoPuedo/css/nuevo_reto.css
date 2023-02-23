@@ -108,7 +108,7 @@ label > i {
     border-color: #2196F3;
 }
 
-.animadores{
+.animadores, .participantes{
     background: white;
     border-color: white;
 }
