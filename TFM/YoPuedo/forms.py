@@ -422,6 +422,6 @@ class PruebaForm(forms.Form):
                                               prueba_video, prueba_imagen]) > 1:
             logger.error("Se ha introducido varias maneras en prueba")
             self.add_error('prueba_texto', 'Elige una forma de indicar la prueba de la '
-                                           'de la etapa')
+                                           'etapa')
 
         return self
