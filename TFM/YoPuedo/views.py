@@ -1126,17 +1126,25 @@ def coordinador_reto(request, id_reto):
 
         else:
             formulario = AmigosForm(request.GET)
-            consulta = formulario.data[
-                'consulta'] if 'consulta' in formulario.data else ""
+            consulta = formulario.data['consulta'] if 'consulta' in formulario.data \
+                else ""
             pagina = request.GET.get('page')
 
             logger.info("Encontramos los participantes del reto y lo mandamos")
             participantes = reto.participante_set. \
                 filter(Q(usuario__email__contains=consulta) |
                        Q(usuario__nombre__contains=consulta)). \
-                exclude(usuario=request.user).values('usuario') if consulta != "" \
-                else reto.participante_set.exclude(usuario__email=request.user.email). \
-                values('usuario')
+                exclude(usuario=request.user).annotate(email=F('usuario__email'),
+                                                       foto_perfil=F(
+                                                           'usuario__foto_perfil'),
+                                                       nombre=F('usuario__nombre')) \
+                .values('email', 'foto_perfil', 'nombre') \
+                if consulta != "" \
+                else reto.participante_set.exclude(usuario=request.user). \
+                annotate(email=F('usuario__email'),
+                         foto_perfil=F('usuario__foto_perfil'),
+                         nombre=F('usuario__nombre')) \
+                .values('email', 'foto_perfil', 'nombre')
 
             logger.info("Paginamos los participantes del reto")
             paginator = Paginator(participantes, 3)
