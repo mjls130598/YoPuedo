@@ -1324,7 +1324,7 @@ def pruebas(request, id_etapa):
 
         pruebas = etapa.prueba_set.all()
 
-        return render(request, 'YoPuedo/pruebas.html', {
+        return render(request, 'YoPuedo/informacion_reto/pruebas.html', {
             'prueba_form': prueba_form,
             'pruebas': pruebas
         })
