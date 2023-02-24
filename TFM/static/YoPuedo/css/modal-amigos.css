@@ -8,7 +8,7 @@
     border-color: #04C5B3;
 }
 
-.anadir-amigo{
+.anadir-amigo, .anadir-participante{
     background-color: #8BC34A;
     border-color: #8BC34A;
 }
@@ -25,7 +25,7 @@
     }
 }
 
-#dialog-amigos{
+#dialog-amigos, #dialog-participantes{
     height: 100%;
 }
 
