@@ -207,16 +207,12 @@ def mis_retos(request):
                         annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
 
         else:
-            propuestos = \
-                Reto.objects.filter(estado='Propuesto',
-                                    coordinador=request.user,
-                                    categoria=categoria). \
-                    annotate(cnt=Count('participante__usuario')).filter(cnt=1) \
-                    if tipo == 'individuales' else \
-                    Reto.objects.filter(Q(estado='Propuesto'),
-                                        Q(participante__usuario=request.user),
-                                        Q(categoria=categoria)). \
-                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
+            propuestos = Reto.objects.annotate(cnt=Count('participante')). \
+                filter(estado='Propuesto', coordinador=request.user, cnt=1) \
+                if tipo == 'individuales' else \
+                Reto.objects.annotate(cnt=Count('participante')). \
+                    filter(Q(estado='Propuesto'),
+                           Q(participante__usuario=request.user), cnt__gt=1)
 
         logger.info("Paginamos los retos")
         paginator_propuestos = Paginator(propuestos, 3)
