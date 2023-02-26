@@ -98,7 +98,7 @@ label > i {
     border-color: #26968B;
 }
 
-.borrar-amigo{
+.borrar-amigo, .borrar-participante{
     background: #F44336;
     border-color: #F44336;
 }
