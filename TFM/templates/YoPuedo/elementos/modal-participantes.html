@@ -23,7 +23,7 @@
     </form>
     <div class="participantes m-2">
         {% for participante in participantes %}
-        <div class="row pt-2 pb-2" id="participante-{{ participante.email }}">
+        <div class="row pt-2 pb-2" id="coordinador-{{ participante.email }}">
             <div class="foto-perfil col-4 col-lg-3">
                 <img class="imagen-perfil img-fluid rounded mx-auto d-block"
                      src="{{ participante.foto_perfil }}">
@@ -119,7 +119,7 @@
 
         participante = nuevo_participante;
 
-        divParticipante = document.getElementById("participante-" + participante.email);
+        divParticipante = document.getElementById("coordinador-" + participante.email);
         divParticipante.classList.add("seleccionado");
         button = divParticipante.getElementsByClassName("anadir-participante")[0];
         button.classList.remove("anadir-participante");
@@ -141,7 +141,7 @@
     function eliminarParticipante(viejo_participante){
         participante = "";
 
-        divParticipante = document.getElementById("participante-" + viejo_participante.email);
+        divParticipante = document.getElementById("coordinador-" + viejo_participante.email);
         divParticipante.classList.remove("seleccionado");
         button = divParticipante.getElementsByClassName("borrar-participante")[0];
         button.classList.add("anadir-participante");
