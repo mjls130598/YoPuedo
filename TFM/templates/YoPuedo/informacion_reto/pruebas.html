@@ -100,15 +100,17 @@
     </div>
     {% endfor %}
 
-    <button type="submit" class="jusify-content-end">
-        <div class="row">
-          <div class="col-2">
-            <i class="fa-solid fa-floppy-disk"></i>
-          </div>
-          <div class="d-none d-md-block col-9">
-            Guardar prueba
-          </div>
-        </div>
-    </button>
+    <div class="d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5"></div>
+        <button type="submit" id="guardar-prueba" class="btn fw-bold">
+            <div class="row">
+              <div class="col-2">
+                <i class="fa-solid fa-floppy-disk"></i>
+              </div>
+              <div class="d-none d-md-block col-9">
+                Guardar prueba
+              </div>
+            </div>
+        </button>
+    </div>
 </form>
 {% endif %}
