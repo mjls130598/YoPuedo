@@ -14,7 +14,7 @@
 }
 
 @media screen and (min-width: 576px){
-    #dialog-amigos{
+    #dialog-amigos, #dialog-participantes{
         max-width: 50%;
     }
 }
