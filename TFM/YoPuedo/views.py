@@ -197,14 +197,12 @@ def mis_retos(request):
                     + "separada en según el estado")
 
         if not categoria:
-            propuestos = \
-                Reto.objects.filter(estado='Propuesto',
-                                    coordinador=request.user). \
-                    annotate(cnt=Count('participante__usuario')).filter(cnt=1) \
-                    if tipo == 'individuales' else \
-                    Reto.objects.filter(Q(estado='Propuesto'),
-                                        Q(participante__usuario=request.user)). \
-                        annotate(cnt=Count('participante__usuario')).filter(cnt__gt=1)
+            propuestos = Reto.objects.annotate(cnt=Count('participante')). \
+                filter(estado='Propuesto', coordinador=request.user, cnt=1) \
+                if tipo == 'individuales' else \
+                Reto.objects.annotate(cnt=Count('participante')). \
+                    filter(Q(estado='Propuesto'),
+                           Q(participante__usuario=request.user), cnt__gt=1)
 
         else:
             propuestos = Reto.objects.annotate(cnt=Count('participante')). \
