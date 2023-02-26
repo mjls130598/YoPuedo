@@ -43,7 +43,7 @@
     </div>
     {% endfor %}
 </div>
-
+{% if prueba_form %}
 <form class="form tab-content p-3" method="post" action="{{ request.get_full_path }}"
   enctype="multipart/form-data">
     <div class="prueba botones row m-1 justify-content-between">
@@ -111,3 +111,4 @@
         </div>
     </button>
 </form>
+{% endif %}
