@@ -399,7 +399,7 @@ class PruebaForm(forms.Form):
     prueba_texto = forms.CharField(max_length='500', widget=forms.Textarea(
         attrs={
             'class': 'form-control mt-2 mb-2',
-            'placeholder': 'O escribe el objetivo ...',
+            'placeholder': 'O escribe la prueba ...',
             'rows': '5'
         }), required=False)
 
