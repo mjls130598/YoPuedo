@@ -18,7 +18,7 @@
             <i class="fa-solid fa-magnifying-glass"></i>
         </button>
         <div class="col-1">
-            {% include 'YoPuedo/elementos/microfono.html' with elementRecognition="buscador_participantes" %}
+            {% include 'YoPuedo/elementos/microfono.html' with elementRecognition="id_consulta" %}
         </div>
     </form>
     <div class="participantes m-2">
@@ -119,16 +119,16 @@
 
         participante = nuevo_participante;
 
-        divParticipante = document.getElementById("participante-" + participante.usuario.email);
+        divParticipante = document.getElementById("participante-" + participante.email);
         divParticipante.classList.add("seleccionado");
         button = divParticipante.getElementsByClassName("anadir-participante")[0];
         button.classList.remove("anadir-participante");
         button.classList.add("borrar-participante");
-        button.setAttribute("onclick", "eliminarParticipante({'usuario':{"+
-            "'email':'" + participante.usuario.email + "'," +
-            "'foto_perfil':'" + participante.usuario.foto_perfil + "'," +
-            "'nombre':'" + participante.usuario.nombre + "'"
-        +"}})");
+        button.setAttribute("onclick", "eliminarParticipante({"+
+            "'email':'" + participante.email + "'," +
+            "'foto_perfil':'" + participante.foto_perfil + "'," +
+            "'nombre':'" + participante.nombre + "'"
+        +"})");
         i = button.getElementsByTagName("i")[0];
         i.className = "fa-solid fa-user-minus";
         divTexto = button.getElementsByTagName("div")[2];
@@ -141,16 +141,16 @@
     function eliminarParticipante(viejo_participante){
         participante = "";
 
-        divParticipante = document.getElementById("participante-" + viejo_participante.usuario.email);
+        divParticipante = document.getElementById("participante-" + viejo_participante.email);
         divParticipante.classList.remove("seleccionado");
         button = divParticipante.getElementsByClassName("borrar-participante")[0];
         button.classList.add("anadir-participante");
         button.classList.remove("borrar-participante");
-        button.setAttribute("onclick", "anadirParticipante({'usuario':{"+
-            "'email':'" + viejo_participante.usuario.email + "'," +
-            "'foto_perfil':'" + viejo_participante.usuario.foto_perfil + "'," +
-            "'nombre':'" + viejo_participante.usuario.nombre + "'"
-        +"}})");
+        button.setAttribute("onclick", "anadirParticipante({"+
+            "'email':'" + viejo_participante.email + "'," +
+            "'foto_perfil':'" + viejo_participante.foto_perfil + "'," +
+            "'nombre':'" + viejo_participante.nombre + "'"
+        +"})");
         i = button.getElementsByTagName("i")[0];
         i.className = "fa-solid fa-user-plus";
         divTexto = button.getElementsByTagName("div")[2];
@@ -163,7 +163,7 @@
     function cambiarCoordinador(){
         if(participante != "")
             htmx.ajax('POST', {{ request.get_path }}, {target:'#dialog-participantes',
-                swap:'innerHTML', values:{'coordinador': participante.usuario.email}});
+                swap:'innerHTML', values:{'coordinador': participante.email}});
     }
 
 /****************************************************************************************/
