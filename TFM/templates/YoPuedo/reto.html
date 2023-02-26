@@ -161,6 +161,7 @@
       // Remove dialog content after hiding
       htmx.on("hidden.bs.modal", () => {
         document.getElementById("dialog-participantes").innerHTML = "";
+        location.reload();
       })
     })()
   </script>
