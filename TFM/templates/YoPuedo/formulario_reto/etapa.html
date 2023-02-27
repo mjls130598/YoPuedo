@@ -4,7 +4,7 @@
   <i class="fa-solid fa-flag-checkered"></i>
   Objetivo:
   <div class="objetivo botones row m-1 justify-content-between">
-    <div class="col-3 p-0">
+    <div class="col-3 p-0 d-flex justify-content-center">
       {{ etapa_form.objetivo_imagen }}
       <button class="imagen p-md-3 p-sm-2 btn btn-primary fw-bold">
       <label for="id_objetivo_imagen">
@@ -28,7 +28,7 @@
       </button>
     </div>
 
-    <div class="col-3 p-0">
+    <div class="col-3 p-0 d-flex justify-content-center">
       {{ etapa_form.objetivo_audio }}
       <button class="uploadaudio p-md-3 p-sm-2 btn btn-primary fw-bold">
       <label for="id_objetivo_audio">
@@ -52,7 +52,7 @@
       </button>
     </div>
 
-    <div class="col-3 p-0">
+    <div class="col-3 p-0 d-flex justify-content-center">
       {{ etapa_form.objetivo_video }}
       <button class="video p-md-3 p-sm-2 btn btn-primary fw-bold">
       <label for="id_objetivo_video">
@@ -78,10 +78,10 @@
   </div>
 
   <div class="row align-items-center">
-    <div class="col-9 col-sm-10 col-md-11 {{ etapa_form.objetivo_texto.name }}">
+    <div class="col-9 col-sm-10 col-lg-11 {{ etapa_form.objetivo_texto.name }}">
       {{ etapa_form.objetivo_texto }}
     </div>
-    <div class="col">
+    <div class="col-2 col-lg-1">
       {% include 'YoPuedo/elementos/microfono.html' with elementRecognition=etapa_form.objetivo_texto.id_for_label %}
     </div>
   </div>

@@ -2,10 +2,10 @@
     <i class="fa-solid fa-bullseye"></i>
     {{ general_form.titulo.label }}
     <div class="row align-items-center">
-        <div class="col-9 col-sm-10 col-md-11 {{ general_form.titulo.name }}">
+        <div class="col-9 col-sm-10 col-lg-11 {{ general_form.titulo.name }}">
             {{ general_form.titulo }}
         </div>
-        <div class="col">
+        <div class="col-2 col-lg-1 d-flex justify-content-center">
             {% include 'YoPuedo/elementos/microfono.html' with elementRecognition=general_form.titulo.id_for_label %}
         </div>
     </div>
@@ -22,7 +22,7 @@
     <i class="fa-solid fa-flag-checkered"></i>
     Objetivo:
     <div class="objetivo botones row m-1 justify-content-between">
-        <div class="col-3 p-0">
+        <div class="col-3 p-0 d-flex justify-content-center">
             {{ general_form.objetivo_imagen }}
             <button class="imagen  p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_objetivo_imagen">
@@ -38,7 +38,7 @@
             </button>
         </div>
 
-        <div class="col-3 p-0">
+        <div class="col-3 p-0 d-flex justify-content-center">
             {{ general_form.objetivo_audio }}
             <button class="uploadaudio  p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_objetivo_audio">
@@ -54,7 +54,7 @@
             </button>
         </div>
 
-        <div class="col-3 p-0">
+        <div class="col-3 p-0 d-flex justify-content-center">
             {{ general_form.objetivo_video }}
             <button class="video  p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_objetivo_video">
@@ -72,10 +72,10 @@
     </div>
 
     <div class="row align-items-center">
-        <div class="col-9 col-sm-10 col-md-11 {{ general_form.objetivo_texto.name }}">
+        <div class="col-9 col-sm-10 col-lg-11 {{ general_form.objetivo_texto.name }}">
             {{ general_form.objetivo_texto }}
         </div>
-        <div class="col">
+        <div class="col-2 col-lg-1 d-flex justify-content-center">
             {% include 'YoPuedo/elementos/microfono.html' with elementRecognition=general_form.objetivo_texto.id_for_label %}
         </div>
     </div>
@@ -107,7 +107,7 @@
     <i class="fa-solid fa-trophy"></i>
     Recompensa:
     <div class="recompensa botones row m-1 justify-content-between">
-        <div class="col-3 p-0">
+        <div class="col-3 p-0 d-flex justify-content-center">
             {{ general_form.recompensa_imagen }}
             <button class="imagen p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_recompensa_imagen">
@@ -123,7 +123,7 @@
             </button>
         </div>
 
-        <div class="col-3 p-0">
+        <div class="col-3 p-0 d-flex justify-content-center">
             {{ general_form.recompensa_audio }}
             <button class="uploadaudio p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_recompensa_audio">
@@ -139,7 +139,7 @@
             </button>
         </div>
 
-        <div class="col-3 p-0">
+        <div class="col-3 p-0 d-flex justify-content-center">
             {{ general_form.recompensa_video }}
             <button class="video p-md-3 p-sm-2  btn btn-primary fw-bold">
                 <label for="id_recompensa_video">
@@ -157,10 +157,10 @@
     </div>
 
     <div class="row align-items-center">
-        <div class="col-9 col-sm-10 col-md-11 {{ general_form.recompensa_texto.name }}">
+        <div class="col-9 col-sm-10 col-lg-11 {{ general_form.recompensa_texto.name }}">
             {{ general_form.recompensa_texto }}
         </div>
-        <div class="col">
+        <div class="col-2 col-lg-1 d-flex justify-content-center">
             {% include 'YoPuedo/elementos/microfono.html' with elementRecognition=general_form.recompensa_texto.id_for_label %}
         </div>
     </div>

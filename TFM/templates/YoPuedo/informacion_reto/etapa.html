@@ -33,7 +33,7 @@
         <p id="texto_audio_objetivo"></p>
     </div>
     {% elif not '/media/' in etapa.objetivo %}
-    <div class="col-md-1 col align-self-center">
+    <div class="col-md-1 col d-flex justify-content-center">
         {% with texto='texto_etapa_'|addvalue:num_etapa %}
         {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech=texto %}
         {% endwith %}

@@ -21,3 +21,15 @@
     background: #93F297;
     border: #93F297;
 }
+
+#reto-content {
+    max-height: 79vh;
+}
+
+#reto-content{
+    max-height: 70vh;
+}
+
+#reto-content {
+    overflow-y: auto;
+}

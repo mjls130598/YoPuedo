@@ -34,7 +34,7 @@
         <p id="texto_audio_objetivo"></p>
     </div>
     {% elif not '/media/' in reto.objetivo %}
-    <div class="col-md-1 align-self-center text-center">
+    <div class="col-md-1 col d-flex justify-content-center">
         {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='texto_reto' %}
     </div>
     {% endif %}
@@ -93,7 +93,7 @@
       <p id="texto_audio_recompensa"></p>
     </div>
     {% elif not '/media/' in reto.recompensa %}
-    <div class="col-md-1 col align-self-center">
+    <div class="col-md-1 col d-flex justify-content-center">
       {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='texto_recompensa' %}
     </div>
     {% endif %}

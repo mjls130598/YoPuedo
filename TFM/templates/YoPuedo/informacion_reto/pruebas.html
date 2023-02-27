@@ -1,5 +1,5 @@
 {% load get_value %}
-<div class="pruebas p-3">
+<div class="pruebas p-md-3 p-1">
     {% for prueba in pruebas %}
     <h6 class="row fw-bold">
         {{ prueba.participante.nombre }}
@@ -44,12 +44,13 @@
     {% endfor %}
 </div>
 {% if prueba_form %}
-<form class="form tab-content p-3" method="post" action="{{ request.get_full_path }}"
+<form class="form tab-content p-md-3 p-1" method="post"
+      action="{{ request.get_full_path }}"
   enctype="multipart/form-data">
     <div class="prueba botones row m-1 justify-content-between">
-        <div class="col-3 p-0">
+        <div class="col-3 p-0 d-flex justify-content-center">
           {{ prueba_form.prueba_imagen }}
-          <button class="imagen p-md-3 p-sm-2 btn btn-primary fw-bold">
+          <button class="imagen btn btn-primary fw-bold">
           <label for="id_prueba_imagen">
             <i class="fa-solid fa-image"></i>
             <span class="label d-none d-sm-inline">
@@ -59,9 +60,9 @@
           </button>
         </div>
 
-        <div class="col-3 p-0">
+        <div class="col-3 p-0 d-flex justify-content-center">
           {{ prueba_form.prueba_audio }}
-          <button class="uploadaudio p-md-3 p-sm-2 btn btn-primary fw-bold">
+          <button class="uploadaudio btn btn-primary fw-bold">
           <label for="id_prueba_audio">
             <i class="fa-solid fa-headphones"></i>
             <span class="label d-none d-sm-inline">
@@ -71,9 +72,9 @@
           </button>
         </div>
 
-        <div class="col-3 p-0">
+        <div class="col-3 p-0 d-flex justify-content-center">
           {{ prueba_form.prueba_video }}
-          <button class="video p-md-3 p-sm-2 btn btn-primary fw-bold">
+          <button class="video btn btn-primary fw-bold">
           <label for="id_prueba_video">
             <i class="fa-solid fa-video"></i>
             <span class="label d-none d-sm-inline">
@@ -85,10 +86,10 @@
     </div>
 
     <div class="row align-items-center">
-        <div class="col-9 col-sm-10 col-md-11 {{ prueba_form.prueba_texto.name }}">
+        <div class="col-9 col-sm-10 col-lg-11 {{ prueba_form.prueba_texto.name }}">
           {{ prueba_form.prueba_texto }}
         </div>
-    <div class="col">
+    <div class="col-2 col-lg-1 d-flex justify-content-center">
         {% include 'YoPuedo/elementos/microfono.html' with elementRecognition=prueba_form.prueba_texto.id_for_label %}
     </div>
     </div>
@@ -100,13 +101,13 @@
     </div>
     {% endfor %}
 
-    <div class="d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5"></div>
+    <div class="d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5">
         <button type="submit" id="guardar-prueba" class="btn fw-bold">
             <div class="row">
-              <div class="col-2">
+              <div class="col-3 col-md-1">
                 <i class="fa-solid fa-floppy-disk"></i>
               </div>
-              <div class="d-none d-md-block col-9">
+              <div class="d-none d-md-block col-9 col-md-10">
                 Guardar prueba
               </div>
             </div>
