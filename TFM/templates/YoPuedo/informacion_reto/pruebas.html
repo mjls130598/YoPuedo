@@ -45,8 +45,8 @@
 </div>
 {% if prueba_form %}
 <form class="form tab-content p-md-3 p-1" method="post"
-      action="{{ request.get_full_path }}"
-  enctype="multipart/form-data">
+      action="{{ request.get_full_path }}" enctype="multipart/form-data">
+     {% csrf_token %}
     <div class="prueba botones row m-1 justify-content-between">
         <div class="col-3 p-0 d-flex justify-content-center">
           <button class="uploadfile imagen btn btn-primary fw-bold" type="button">
