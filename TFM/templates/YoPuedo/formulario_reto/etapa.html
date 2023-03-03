@@ -5,74 +5,74 @@
   Objetivo:
   <div class="objetivo botones row m-1 justify-content-between">
     <div class="col-3 p-0 d-flex justify-content-center">
-      {{ etapa_form.objetivo_imagen }}
-      <button class="imagen p-md-3 p-sm-2 btn btn-primary fw-bold">
-      <label for="id_objetivo_imagen">
-        <i class="fa-solid fa-image"></i>
-        <span class="label d-none d-sm-inline">
-          {% with id=etapa_form.id_etapa.value %}
-            {% if id in etapas_objetivo.keys %}
-              {% with dato=etapas_objetivo|get_item:id|get_item:"objetivo_imagen" %}
-              {% if dato != "" %}
-                {{ dato }}
+      <button class="uploadfile imagen btn btn-primary fw-bold" type="button">
+        <label for="{{ etapa_form.objetivo_imagen.id_for_label }}">
+          <i class="fa-solid fa-image"></i>
+          <span class="label d-none d-sm-inline">
+            {% with id=etapa_form.id_etapa.value %}
+              {% if id in etapas_objetivo.keys %}
+                {% with dato=etapas_objetivo|get_item:id|get_item:"objetivo_imagen" %}
+                {% if dato != "" %}
+                  {{ dato }}
+                {% else %}
+                  {{ etapa_form.objetivo_imagen.label }}
+                {% endif %}
+                {% endwith %}
               {% else %}
                 {{ etapa_form.objetivo_imagen.label }}
               {% endif %}
-              {% endwith %}
-            {% else %}
-              {{ etapa_form.objetivo_imagen.label }}
-            {% endif %}
-          {% endwith %}
-        </span>
-      </label>
+            {% endwith %}
+          </span>
+        </label>
+        {{ etapa_form.objetivo_imagen }}
       </button>
     </div>
 
     <div class="col-3 p-0 d-flex justify-content-center">
-      {{ etapa_form.objetivo_audio }}
-      <button class="uploadaudio p-md-3 p-sm-2 btn btn-primary fw-bold">
-      <label for="id_objetivo_audio">
-        <i class="fa-solid fa-headphones"></i>
-        <span class="label d-none d-sm-inline">
-          {% with id=etapa_form.id_etapa.value %}
-            {% if id in etapas_objetivo.keys %}
-              {% with dato=etapas_objetivo|get_item:id|get_item:"objetivo_audio" %}
-              {% if dato != "" %}
-                {{ dato }}
+      <button class="uploadfile audio btn btn-primary fw-bold" type="button">
+        <label for="{{ etapa_form.objetivo_audio.id_for_label }}">
+          <i class="fa-solid fa-headphones"></i>
+          <span class="label d-none d-sm-inline">
+            {% with id=etapa_form.id_etapa.value %}
+              {% if id in etapas_objetivo.keys %}
+                {% with dato=etapas_objetivo|get_item:id|get_item:"objetivo_audio" %}
+                {% if dato != "" %}
+                  {{ dato }}
+                {% else %}
+                  {{ etapa_form.objetivo_audio.label }}
+                {% endif %}
+                {% endwith %}
               {% else %}
                 {{ etapa_form.objetivo_audio.label }}
               {% endif %}
-              {% endwith %}
-            {% else %}
-              {{ etapa_form.objetivo_audio.label }}
-            {% endif %}
-          {% endwith %}
-        </span>
-      </label>
+            {% endwith %}
+          </span>
+        </label>
+        {{ etapa_form.objetivo_audio }}
       </button>
     </div>
 
     <div class="col-3 p-0 d-flex justify-content-center">
-      {{ etapa_form.objetivo_video }}
-      <button class="video p-md-3 p-sm-2 btn btn-primary fw-bold">
-      <label for="id_objetivo_video">
-        <i class="fa-solid fa-video"></i>
-        <span class="label d-none d-sm-inline">
-          {% with id=etapa_form.id_etapa.value %}
-            {% if id in etapas_objetivo.keys %}
-              {% with dato=etapas_objetivo|get_item:id|get_item:"objetivo_video" %}
-              {% if dato != "" %}
-                {{ dato }}
+      <button class="uploadfile video btn btn-primary fw-bold" type="button">
+        <label for="{{ etapa_form.objetivo_video.id_for_label }}">
+          <i class="fa-solid fa-video"></i>
+          <span class="label d-none d-sm-inline">
+            {% with id=etapa_form.id_etapa.value %}
+              {% if id in etapas_objetivo.keys %}
+                {% with dato=etapas_objetivo|get_item:id|get_item:"objetivo_video" %}
+                {% if dato != "" %}
+                  {{ dato }}
+                {% else %}
+                  {{ etapa_form.objetivo_video.label }}
+                {% endif %}
+                {% endwith %}
               {% else %}
                 {{ etapa_form.objetivo_video.label }}
               {% endif %}
-              {% endwith %}
-            {% else %}
-              {{ etapa_form.objetivo_video.label }}
-            {% endif %}
-          {% endwith %}
-        </span>
-      </label>
+            {% endwith %}
+          </span>
+        </label>
+        {{ etapa_form.objetivo_video }}
       </button>
     </div>
   </div>

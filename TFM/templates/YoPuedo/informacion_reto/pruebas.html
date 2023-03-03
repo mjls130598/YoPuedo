@@ -49,38 +49,38 @@
   enctype="multipart/form-data">
     <div class="prueba botones row m-1 justify-content-between">
         <div class="col-3 p-0 d-flex justify-content-center">
-          {{ prueba_form.prueba_imagen }}
-          <button class="imagen btn btn-primary fw-bold">
-          <label for="id_prueba_imagen">
-            <i class="fa-solid fa-image"></i>
-            <span class="label d-none d-sm-inline">
-              {{ prueba_form.prueba_imagen.label }}
-            </span>
-          </label>
+          <button class="uploadfile imagen btn btn-primary fw-bold" type="button">
+              <label for="id_prueba_imagen">
+                <i class="fa-solid fa-image"></i>
+                <span class="label d-none d-sm-inline">
+                  {{ prueba_form.prueba_imagen.label }}
+                </span>
+              </label>
+              {{ prueba_form.prueba_imagen }}
           </button>
         </div>
 
         <div class="col-3 p-0 d-flex justify-content-center">
-          {{ prueba_form.prueba_audio }}
-          <button class="uploadaudio btn btn-primary fw-bold">
-          <label for="id_prueba_audio">
-            <i class="fa-solid fa-headphones"></i>
-            <span class="label d-none d-sm-inline">
-              {{ prueba_form.prueba_audio.label }}
-            </span>
-          </label>
+          <button class="uploadaudio btn btn-primary fw-bold" type="button">
+              <label for="id_prueba_audio">
+                <i class="fa-solid fa-headphones"></i>
+                <span class="label d-none d-sm-inline">
+                  {{ prueba_form.prueba_audio.label }}
+                </span>
+              </label>
+              {{ prueba_form.prueba_audio }}
           </button>
         </div>
 
         <div class="col-3 p-0 d-flex justify-content-center">
-          {{ prueba_form.prueba_video }}
-          <button class="video btn btn-primary fw-bold">
-          <label for="id_prueba_video">
-            <i class="fa-solid fa-video"></i>
-            <span class="label d-none d-sm-inline">
-              {{ prueba_form.prueba_video.label }}
-            </span>
-          </label>
+          <button class="uploadfile video btn btn-primary fw-bold" type="button">
+              <label for="id_prueba_video">
+                <i class="fa-solid fa-video"></i>
+                <span class="label d-none d-sm-inline">
+                  {{ prueba_form.prueba_video.label }}
+                </span>
+              </label>
+              {{ prueba_form.prueba_video }}
           </button>
         </div>
     </div>

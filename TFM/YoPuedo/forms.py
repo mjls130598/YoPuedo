@@ -171,20 +171,20 @@ class RetoGeneralForm(forms.Form):
     objetivo_imagen = forms.ImageField(label="Subir foto",
                                        widget=forms.ClearableFileInput(
                                            attrs={
-                                               'class': 'form-control uploadfile'
+                                               'class': 'd-none'
                                            }),
                                        required=False)
     objetivo_audio = forms.FileField(label="Subir audio",
                                      widget=forms.ClearableFileInput(
                                          attrs={
-                                             'class': 'form-control uploadfile',
+                                             'class': 'd-none',
                                              'accept': "audio/*"
                                          }),
                                      required=False)
     objetivo_video = forms.FileField(label="Subir vídeo",
                                      widget=forms.ClearableFileInput(
                                          attrs={
-                                             'class': 'form-control uploadfile',
+                                             'class': 'd-none',
                                              'accept': "video/*"
                                          }),
                                      required=False)
@@ -205,20 +205,20 @@ class RetoGeneralForm(forms.Form):
     recompensa_imagen = forms.ImageField(label="Subir foto",
                                          widget=forms.ClearableFileInput(
                                              attrs={
-                                                 'class': 'form-control uploadfile'
+                                                 'class': 'd-none'
                                              }),
                                          required=False)
     recompensa_audio = forms.FileField(label="Subir audio",
                                        widget=forms.ClearableFileInput(
                                            attrs={
-                                               'class': 'form-control uploadfile',
+                                               'class': 'd-none',
                                                'accept': "audio/*"
                                            }),
                                        required=False)
     recompensa_video = forms.FileField(label="Subir vídeo",
                                        widget=forms.ClearableFileInput(
                                            attrs={
-                                               'class': 'form-control uploadfile',
+                                               'class': 'd-none',
                                                'accept': "video/*"
                                            }),
                                        required=False)
@@ -292,20 +292,20 @@ class RetoEtapaForm(forms.Form):
     objetivo_imagen = forms.ImageField(label="Subir foto",
                                        widget=forms.ClearableFileInput(
                                            attrs={
-                                               'class': 'form-control uploadfile'
+                                               'class': 'd-none'
                                            }),
                                        required=False)
     objetivo_audio = forms.FileField(label="Subir audio",
                                      widget=forms.ClearableFileInput(
                                          attrs={
-                                             'class': 'form-control uploadfile',
+                                             'class': 'd-none',
                                              'accept': "audio/*"
                                          }),
                                      required=False)
     objetivo_video = forms.FileField(label="Subir vídeo",
                                      widget=forms.ClearableFileInput(
                                          attrs={
-                                             'class': 'form-control uploadfile',
+                                             'class': 'd-none',
                                              'accept': "video/*"
                                          }),
                                      required=False)
@@ -373,25 +373,25 @@ class AmigosForm(forms.Form):
 
 ##########################################################################################
 
-# Formulario de reto ETAPAS
+# Formulario de reto PRUEBA
 class PruebaForm(forms.Form):
     prueba_imagen = forms.ImageField(label="Subir foto",
                                      widget=forms.ClearableFileInput(
                                          attrs={
-                                             'class': 'form-control uploadfile'
+                                             'class': 'd-none'
                                          }),
                                      required=False)
     prueba_audio = forms.FileField(label="Subir audio",
                                    widget=forms.ClearableFileInput(
                                        attrs={
-                                           'class': 'form-control uploadfile',
+                                           'class': 'd-none',
                                            'accept': "audio/*"
                                        }),
                                    required=False)
     prueba_video = forms.FileField(label="Subir vídeo",
                                    widget=forms.ClearableFileInput(
                                        attrs={
-                                           'class': 'form-control uploadfile',
+                                           'class': 'd-none',
                                            'accept': "video/*"
                                        }),
                                    required=False)

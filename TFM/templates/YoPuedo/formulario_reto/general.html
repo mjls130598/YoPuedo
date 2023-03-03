@@ -23,8 +23,7 @@
     Objetivo:
     <div class="objetivo botones row m-1 justify-content-between">
         <div class="col-3 p-0 d-flex justify-content-center">
-            {{ general_form.objetivo_imagen }}
-            <button class="imagen  p-md-3 p-sm-2  btn btn-primary fw-bold">
+            <button class="uploadfile imagen btn btn-primary fw-bold" type="button">
                 <label for="id_objetivo_imagen">
                     <i class="fa-solid fa-image"></i>
                     <span class="label d-none d-sm-inline">
@@ -35,12 +34,12 @@
                         {% endif %}
                     </span>
                 </label>
+                {{ general_form.objetivo_imagen }}
             </button>
         </div>
 
         <div class="col-3 p-0 d-flex justify-content-center">
-            {{ general_form.objetivo_audio }}
-            <button class="uploadaudio  p-md-3 p-sm-2  btn btn-primary fw-bold">
+            <button class="uploadfile audio btn btn-primary fw-bold" type="button">
                 <label for="id_objetivo_audio">
                     <i class="fa-solid fa-headphones"></i>
                     <span class="label d-none d-sm-inline">
@@ -51,12 +50,12 @@
                         {% endif %}
                     </span>
                 </label>
+                {{ general_form.objetivo_audio }}
             </button>
         </div>
 
         <div class="col-3 p-0 d-flex justify-content-center">
-            {{ general_form.objetivo_video }}
-            <button class="video  p-md-3 p-sm-2  btn btn-primary fw-bold">
+            <button class="uploadfile video btn btn-primary fw-bold" type="button">
                 <label for="id_objetivo_video">
                     <i class="fa-solid fa-video"></i>
                     <span class="label d-none d-sm-inline">
@@ -67,6 +66,7 @@
                         {% endif %}
                     </span>
                 </label>
+                {{ general_form.objetivo_video }}
             </button>
         </div>
     </div>
@@ -108,8 +108,7 @@
     Recompensa:
     <div class="recompensa botones row m-1 justify-content-between">
         <div class="col-3 p-0 d-flex justify-content-center">
-            {{ general_form.recompensa_imagen }}
-            <button class="imagen p-md-3 p-sm-2  btn btn-primary fw-bold">
+            <button class="uploadfile imagen btn btn-primary fw-bold" type="button">
                 <label for="id_recompensa_imagen">
                     <i class="fa-solid fa-image"></i>
                     <span class="label d-none d-sm-inline">
@@ -120,12 +119,12 @@
                         {% endif %}
                     </span>
                 </label>
+                {{ general_form.recompensa_imagen }}
             </button>
         </div>
 
         <div class="col-3 p-0 d-flex justify-content-center">
-            {{ general_form.recompensa_audio }}
-            <button class="uploadaudio p-md-3 p-sm-2  btn btn-primary fw-bold">
+            <button class="uploadfile audio btn btn-primary fw-bold" type="button">
                 <label for="id_recompensa_audio">
                     <i class="fa-solid fa-headphones"></i>
                     <span class="label d-none d-sm-inline">
@@ -136,12 +135,12 @@
                         {% endif %}
                     </span>
                 </label>
+                {{ general_form.recompensa_audio }}
             </button>
         </div>
 
         <div class="col-3 p-0 d-flex justify-content-center">
-            {{ general_form.recompensa_video }}
-            <button class="video p-md-3 p-sm-2  btn btn-primary fw-bold">
+            <button class="uploadfile video btn btn-primary fw-bold" type="button">
                 <label for="id_recompensa_video">
                     <i class="fa-solid fa-video"></i>
                     <span class="label d-none d-sm-inline">
@@ -152,6 +151,7 @@
                         {% endif %}
                     </span>
                 </label>
+                {{ general_form.recompensa_video }}
             </button>
         </div>
     </div>

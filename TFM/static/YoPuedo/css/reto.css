@@ -31,5 +31,9 @@
 }
 
 #reto-content {
+    max-height: 77vh;
+}
+
+#reto-content {
     overflow-y: auto;
 }
