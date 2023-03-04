@@ -42,7 +42,7 @@
 </div>
 
 <ul class="nav nav-tabs" id="tab-info" role="tablist">
-{% if participa %}
+{% if participa and etapa.estado != 'Propuesto'%}
     <li class="nav-item" role="presentation">
       <button class="nav-link active" id="pruebas-tab"
         data-bs-toggle="tab" data-bs-target="#pruebas" type="button"
@@ -63,7 +63,7 @@
 {% endif %}
 </ul>
 <div class="tab-content p-3" id="info-content">
-    {% if participa %}
+    {% if participa and etapa.estado != 'Propuesto' %}
     <div class="tab-pane fade show active" id="pruebas" role="tabpanel"
       aria-labelledby="pruebas-tab" hx-trigger="load"
          hx-get="{% url 'pruebas' id_etapa=etapa.id_etapa %}" hx-target="this">
