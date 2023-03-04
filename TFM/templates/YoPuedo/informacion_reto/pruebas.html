@@ -2,7 +2,7 @@
 <div class="pruebas p-md-3 p-1">
     {% for prueba in pruebas %}
     <h6 class="row fw-bold">
-        {{ prueba.participante.nombre }}
+        {{ prueba.participante.first().usuario.first().nombre }}
     </h6>
     <div class="row">
         {% if "mp3" in prueba.prueba or "acc" in prueba.prueba or "ogg" in prueba.prueba or "wma" in prueba.prueba %}
