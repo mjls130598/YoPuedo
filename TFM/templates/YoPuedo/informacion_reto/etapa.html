@@ -47,7 +47,7 @@
       <button class="nav-link active" id="pruebas-tab"
         data-bs-toggle="tab" data-bs-target="#pruebas" type="button"
         role="tab" aria-controls="pruebas" aria-selected="true"
-        onclick="cambiarColorCuerpo('pruebas', 'info-content')" hx-trigger="load"
+        onclick="cambiarColorCuerpo('pruebas', 'info-content')"
         hx-get="{% url 'pruebas' id_etapa=etapa.id_etapa %}"
         hx-target="#pruebas">
         <div class="row">
@@ -65,7 +65,8 @@
 <div class="tab-content p-3" id="info-content">
     {% if participa and etapa.estado != 'Propuesto' %}
     <div class="tab-pane fade show active" id="pruebas" role="tabpanel"
-      aria-labelledby="pruebas-tab" hx-target="this">
+      aria-labelledby="pruebas-tab" hx-trigger="load, pruebaListaActualizar from:body"
+        hx-get="{% url 'pruebas' id_etapa=etapa.id_etapa %}" hx-target="this">
     </div>
     {% endif %}
 </div>

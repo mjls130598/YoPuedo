@@ -1311,7 +1311,8 @@ def pruebas(request, id_etapa):
                 prueba.save()
 
                 logger.info(f"Devolvemos status {HTTPStatus.CREATED}")
-                return HttpResponse(status=HTTPStatus.CREATED)
+                return HttpResponse(status=HTTPStatus.CREATED,
+                                    headers={'HX-Trigger': 'pruebaListaActualizar'})
 
             else:
                 logger.error(f"Error al validar el formulario PRUEBAS de {id_etapa}")
@@ -1325,7 +1326,7 @@ def pruebas(request, id_etapa):
         return render(request, 'YoPuedo/informacion_reto/pruebas.html', {
             'prueba_form': prueba_form,
             'pruebas': pruebas
-        })
+        }, headers={'HX-Trigger': 'pruebaListaActualizar'})
 
     else:
         logger.error("No forma la parte activa de PRUEBAS")
