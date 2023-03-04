@@ -65,8 +65,7 @@
 <div class="tab-content p-3" id="info-content">
     {% if participa and etapa.estado != 'Propuesto' %}
     <div class="tab-pane fade show active" id="pruebas" role="tabpanel"
-      aria-labelledby="pruebas-tab"
-         hx-get="{% url 'pruebas' id_etapa=etapa.id_etapa %}" hx-target="this">
+      aria-labelledby="pruebas-tab" hx-target="this">
     </div>
     {% endif %}
 </div>
