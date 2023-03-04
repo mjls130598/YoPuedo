@@ -1326,7 +1326,7 @@ def pruebas(request, id_etapa):
         return render(request, 'YoPuedo/informacion_reto/pruebas.html', {
             'prueba_form': prueba_form,
             'pruebas': pruebas
-        }, headers={'HX-Trigger': 'pruebaListaActualizar'})
+        })
 
     else:
         logger.error("No forma la parte activa de PRUEBAS")
