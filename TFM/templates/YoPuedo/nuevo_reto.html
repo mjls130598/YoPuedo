@@ -149,7 +149,7 @@
         var inputs = document.querySelectorAll( '.uploadfile' );
         Array.prototype.forEach.call( inputs, function( input )
         {
-            var label	 = input.nextElementSibling,
+            var label	 = input.previousElementSibling,
 			labelVal = label.innerHTML;
 
             input.addEventListener( 'change', function( e )
