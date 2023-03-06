@@ -1265,7 +1265,7 @@ def pruebas(request, id_etapa):
 
     logger.info("Comprobamos que añade una prueba un participante de la etapa encontrada")
     if participante.exists():
-        participante = participante.all().first()
+        participante = participante.first()
 
         if request.method == 'POST' and etapa.estado == 'En proceso':
             logger.info("Entramos en la parte POST de PRUEBAS")
