@@ -1,45 +1,47 @@
 {% load get_value %}
-<div class="pruebas p-md-3 p-1">
+<div class="pruebas">
     {% for prueba in pruebas %}
-    <h6 class="row fw-bold">
-        {{ prueba.participante.first.usuario.first.nombre }}
-    </h6>
-    <div class="row">
-        {% if "mp3" in prueba.prueba or "acc" in prueba.prueba or "ogg" in prueba.prueba or "wma" in prueba.prueba %}
-        <div class="col-md-4 col-12 mb-4 m-md-0 informacion align-self-center">
-        {% else %}
-        <div class="col-md-9 col-12 mb-4 m-md-0 informacion align-self-center">
-        {% endif %}
-        {% if "mp3" in prueba.prueba or "acc" in prueba.prueba or "ogg" in prueba.prueba or "wma" in prueba.prueba %}
-            <audio controls id="audio"
-                onplay="obtenerAudio('{{ prueba.prueba }}', 'texto_audio_prueba')">
-                <source src="{{ prueba.prueba }}" type="audio/mpeg">
-            </audio>
-        {% elif "jpg" in prueba.prueba or "jpeg" in prueba.prueba or "png" in prueba.prueba or "svg" in prueba.prueba or "gif" in prueba.prueba %}
-            <img class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
-                col-xl-5" src="{{ prueba.prueba }}">
-        {% elif "mp4" in prueba.prueba or "ogg" in prueba.prueba %}
-            <video class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
-                col-xl-5" controls>
-                <source src="{{ prueba.prueba }}" type="video/mp4">
-            </video>
-        {% else %}
-            <h6 id="texto_prueba_{{ forloop.counter }}">
-                {{ prueba.prueba }}
-            </h6>
-        {% endif %}
+    <div class="prueba p-md-3 p-1 m-1">
+        <h6 class="fw-bold">
+            {{ prueba.participante.first.usuario.first.nombre }}
+        </h6>
+        <div class="row">
+            {% if "mp3" in prueba.prueba or "acc" in prueba.prueba or "ogg" in prueba.prueba or "wma" in prueba.prueba %}
+            <div class="col-md-4 col-12 mb-4 m-md-0 informacion align-self-center">
+            {% else %}
+            <div class="col-md-9 col-12 mb-4 m-md-0 informacion align-self-center">
+            {% endif %}
+            {% if "mp3" in prueba.prueba or "acc" in prueba.prueba or "ogg" in prueba.prueba or "wma" in prueba.prueba %}
+                <audio controls id="audio"
+                    onplay="obtenerAudio('{{ prueba.prueba }}', 'texto_audio_prueba')">
+                    <source src="{{ prueba.prueba }}" type="audio/mpeg">
+                </audio>
+            {% elif "jpg" in prueba.prueba or "jpeg" in prueba.prueba or "png" in prueba.prueba or "svg" in prueba.prueba or "gif" in prueba.prueba %}
+                <img class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                    col-xl-5" src="{{ prueba.prueba }}">
+            {% elif "mp4" in prueba.prueba or "ogg" in prueba.prueba %}
+                <video class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                    col-xl-5" controls>
+                    <source src="{{ prueba.prueba }}" type="video/mp4">
+                </video>
+            {% else %}
+                <h6 id="texto_prueba_{{ forloop.counter }}">
+                    {{ prueba.prueba }}
+                </h6>
+            {% endif %}
+            </div>
+            {% if "mp3" in prueba.prueba or "acc" in prueba.prueba or "ogg" in prueba.prueba or "wma" in prueba.prueba %}
+            <div class="col-md-8 align-self-center text-center overflow-auto audio">
+                <p id="texto_audio_prueba"></p>
+            </div>
+            {% elif not '/media/' in prueba.prueba %}
+            <div class="col-md-1 col align-self-center">
+                {% with texto='texto_prueba_'|addvalue:forloop.counter %}
+                {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech=texto %}
+                {% endwith %}
+            </div>
+            {% endif %}
         </div>
-        {% if "mp3" in prueba.prueba or "acc" in prueba.prueba or "ogg" in prueba.prueba or "wma" in prueba.prueba %}
-        <div class="col-md-8 align-self-center text-center overflow-auto audio">
-            <p id="texto_audio_prueba"></p>
-        </div>
-        {% elif not '/media/' in prueba.prueba %}
-        <div class="col-md-1 col align-self-center">
-            {% with texto='texto_prueba_'|addvalue:forloop.counter %}
-            {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech=texto %}
-            {% endwith %}
-        </div>
-        {% endif %}
     </div>
     {% endfor %}
 </div>

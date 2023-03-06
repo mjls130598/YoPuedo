@@ -37,3 +37,8 @@
 #reto-content {
     overflow-y: auto;
 }
+
+.prueba {
+    background: white;
+    border-radius: 0.25rem;
+}
