@@ -17,7 +17,12 @@
     border: #FFD8D6;
 }
 
-#guardar-prueba {
+#animos-tab {
+    background: #DAFBF8;
+    border: #DAFBF8;
+}
+
+#guardar-prueba, #guardar-animo {
     background: #93F297;
     border: #93F297;
 }
@@ -38,7 +43,7 @@
     overflow-y: auto;
 }
 
-.prueba {
+.prueba, .animo {
     background: white;
     border-radius: 0.25rem;
 }

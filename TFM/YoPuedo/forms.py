@@ -425,3 +425,59 @@ class PruebaForm(forms.Form):
                                            'etapa')
 
         return self
+
+
+##########################################################################################
+
+# Formulario de reto ÁNIMO
+class AnimoForm(forms.Form):
+    animo_imagen = forms.ImageField(label="Subir foto",
+                                     widget=forms.ClearableFileInput(
+                                         attrs={
+                                             'class': 'd-none input-media'
+                                         }),
+                                     required=False)
+    animo_audio = forms.FileField(label="Subir audio",
+                                   widget=forms.ClearableFileInput(
+                                       attrs={
+                                           'class': 'd-none input-media',
+                                           'accept': "audio/*"
+                                       }),
+                                   required=False)
+    animo_audio = forms.FileField(label="Subir vídeo",
+                                   widget=forms.ClearableFileInput(
+                                       attrs={
+                                           'class': 'd-none input-media',
+                                           'accept': "video/*"
+                                       }),
+                                   required=False)
+
+    animo_texto = forms.CharField(max_length='100', widget=forms.Textarea(
+        attrs={
+            'class': 'form-control mt-2 mb-2',
+            'placeholder': 'O escribe el mensaje de ánimo ...',
+            'rows': '2'
+        }), required=False)
+
+    def clean(self):
+        logger.info("Checkeando ÁNIMO")
+
+        cleaned_data = super().clean()
+
+        animo_texto = cleaned_data.get('animo_texto')
+        animo_imagen = cleaned_data.get('animo_imagen')
+        animo_audio = cleaned_data.get('animo_audio')
+        animo_video = cleaned_data.get('animo_video')
+
+        if not animo_texto and not animo_imagen and not animo_video and not \
+                animo_audio:
+            logger.error("No se ha indicado ningún mensaje de ánimo")
+            self.add_error('animo_texto', 'Debes indicar algún mensaje de ánimo en la '
+                                           'etapa')
+
+        if Utils.numero_elementos_importados([animo_texto, animo_audio,
+                                              animo_video, animo_imagen]) > 1:
+            logger.error("Se ha introducido varias maneras en ánimos")
+            self.add_error('animo_texto', 'Elige una forma de animar en la etapa')
+
+        return self

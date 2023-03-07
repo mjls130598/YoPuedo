@@ -41,8 +41,9 @@
     {% endif %}
 </div>
 
+{% if etapa.estado != 'Propuesto' %}
 <ul class="nav nav-tabs" id="tab-info" role="tablist">
-{% if participa and etapa.estado != 'Propuesto'%}
+{% if participa %}
     <li class="nav-item" role="presentation">
       <button class="nav-link active" id="pruebas-tab"
         data-bs-toggle="tab" data-bs-target="#pruebas" type="button"
@@ -60,18 +61,62 @@
         </div>
       </button>
     </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="animos-tab"
+        data-bs-toggle="tab" data-bs-target="#animos" type="button"
+        role="tab" aria-controls="animos" aria-selected="true"
+        onclick="cambiarColorCuerpo('animos', 'info-content')"
+        hx-get="{% url 'animos' id_etapa=etapa.id_etapa %}"
+        hx-target="#animos">
+        <div class="row">
+          <div class="col-2">
+            <i class="fa-solid fa-clipboard-list"></i>
+          </div>
+          <div class="d-none d-md-block col-9">
+            <h6>Ánimos</h6>
+          </div>
+        </div>
+      </button>
+    </li>
+{% else %}
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="animos-tab"
+        data-bs-toggle="tab" data-bs-target="#animos" type="button"
+        role="tab" aria-controls="animos" aria-selected="true"
+        onclick="cambiarColorCuerpo('animos', 'info-content')"
+        hx-get="{% url 'animos' id_etapa=etapa.id_etapa %}"
+        hx-target="#animos">
+        <div class="row">
+          <div class="col-2">
+            <i class="fa-solid fa-clipboard-list"></i>
+          </div>
+          <div class="d-none d-md-block col-9">
+            <h6>Ánimos</h6>
+          </div>
+        </div>
+      </button>
+    </li>
 {% endif %}
 </ul>
 <div class="tab-content p-3" id="info-content">
-    {% if participa and etapa.estado != 'Propuesto' %}
+    {% if participa %}
     <div class="tab-pane fade show active" id="pruebas" role="tabpanel"
-      aria-labelledby="pruebas-tab"
-         hx-trigger="load, pruebaListaActualizar from:#pruebas"
+      aria-labelledby="pruebas-tab" hx-trigger="load, pruebaListaActualizar from:#pruebas"
         hx-get="{% url 'pruebas' id_etapa=etapa.id_etapa %}" hx-target="this">
+    </div>
+    <div class="tab-pane fade" id="animos" role="tabpanel"
+      aria-labelledby="animos-tab" hx-trigger="load, animosListaActualizar from:#animos"
+         hx-get="{% url 'animos' id_etapa=etapa.id_etapa %}" hx-target="this">
+    </div>
+    {% else %}
+    <div class="tab-pane fade show active" id="animos" role="tabpanel"
+      aria-labelledby="animos-tab" hx-trigger="load, animosListaActualizar from:#animos"
+         hx-get="{% url 'animos' id_etapa=etapa.id_etapa %}" hx-target="this">
     </div>
     {% endif %}
 </div>
-{% if participa and etapa.estado != 'Propuesto'%}
+
+{% if participa %}
 <div class="row row mt-md-3 mt-2">
     <h6 class="fw-bold col-md-3 align-self-center">
         <i class="fa-solid fa-star"></i>
@@ -111,6 +156,7 @@
         </ul>
     </div>
 </div>
+{% endif %}
 {% endif %}
 <div class="row botones-etapa">
     {% if num_etapa != 1 %}

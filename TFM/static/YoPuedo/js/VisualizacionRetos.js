@@ -36,6 +36,14 @@ function cambiarColorCuerpo(id, content){
             document.getElementById(content).style.backgroundColor = "#FD79A7";
             document.getElementById(content).style.borderColor = "#FD79A7";
         break;
+        case "pruebas":
+            document.getElementById(content).style.backgroundColor = "#FFD8D6";
+            document.getElementById(content).style.borderColor = "#FFD8D6";
+        break;
+        case "animos":
+            document.getElementById(content).style.backgroundColor = "#DAFBF8";
+            document.getElementById(content).style.borderColor = "#DAFBF8";
+        break;
     }
 }
 

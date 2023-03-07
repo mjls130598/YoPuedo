@@ -14,9 +14,9 @@ from django.template.loader import get_template
 
 from .utils import Utils
 from .forms import RegistroForm, InicioForm, ClaveForm, RetoGeneralForm, RetoEtapaForm, \
-    AmigosForm, EtapasFormSet, PruebaForm
+    AmigosForm, EtapasFormSet, PruebaForm, AnimoForm
 from .models import Usuario, Amistad, Reto, Etapa, Animador, Participante, Calificacion, \
-    Prueba
+    Prueba, Animo
 
 from django.forms import formset_factory
 
@@ -653,8 +653,8 @@ def get_reto(request, id_reto):
 
         return render(request, 'YoPuedo/reto.html',
                       {'reto': reto, 'etapas': etapas, 'animadores': animadores_finales,
-                       'participantes': participantes_finales, 'anima': anima,
-                       'participa': participa, 'calificaciones': calificaciones})
+                       'participantes': participantes_finales, 'participa': participa,
+                       'calificaciones': calificaciones})
 
     else:
         logger.error("No forma parte del reto")
@@ -1330,6 +1330,92 @@ def pruebas(request, id_etapa):
 
     else:
         logger.error("No forma la parte activa de PRUEBAS")
+        raise PermissionDenied
+
+
+##########################################################################################
+
+# Función para ver y crear ÁNIMOS
+@login_required
+def animos(request, id_etapa):
+    logger.info(f"Recogemos los datos de la etapa {id_etapa}")
+    etapa = get_object_or_404(Etapa, id_etapa=id_etapa)
+    participante = etapa.reto.participante_set.filter(usuario=request.user)
+    animador = etapa.reto.animador_set.filter(usuario=request.user)
+
+    logger.info("Comprobamos que el participante ve o el animador crea ánimos de la "
+                "etapa encontrada")
+    if participante.exists() or animador.exists():
+        if request.method == 'POST' and etapa.estado == 'En proceso' and animador.exists():
+            animador = animador.first()
+
+            logger.info("Entramos en la parte POST de ÁNIMOS")
+            animo_form = AnimoForm(request.POST, request.FILES)
+
+            if animo_form.is_valid():
+                logger.info(f"NUEVo ÁNIMO EN {id_etapa}")
+
+                animo_texto = animo_form.cleaned_data['animo_texto'].value()
+                animo_imagen = request.FILES["animo_imagen"] \
+                    if 'animo_imagen' in request.FILES else None
+                animo_audio = request.FILES["animo_audio"] \
+                    if 'animo_audio' in request.FILES else None
+                animo_video = request.FILES["animo_video"] \
+                    if 'animo_video' in request.FILES else None
+
+                animo_multimedia = animo_imagen if animo_imagen else (
+                    animo_audio if animo_audio else animo_video)
+
+                if animo_multimedia:
+                    directorio = os.path.join(BASE_DIR, "media", "YoPuedo",
+                                              etapa.reto.id_reto, "Ánimos")
+                    localizacion = os.path.join(directorio, animo_multimedia.name)
+                    animo_guardar = os.path.join("/media", "YoPuedo",
+                                                 etapa.reto.id_reto, "Ánimos",
+                                                 animo_multimedia.name)
+                    try:
+                        Utils.handle_uploaded_file(animo_multimedia, localizacion,
+                                                   directorio)
+                    except:
+                        logger.error("Error al subir el objetivo")
+                else:
+                    animo_guardar = animo_texto
+
+                logger.info(f"PRUEBA: {animo_guardar}")
+
+                logger.info(f"Guardamos ánimo en {id_etapa}")
+                animo = Animo()
+                animo.save()
+                animo.animador.add(animador)
+                animo.etapa.add(etapa)
+                animo.mensaje = animo_guardar
+                animo.save()
+
+                logger.info(f"Devolvemos status {HTTPStatus.CREATED}")
+                return HttpResponse(status=HTTPStatus.CREATED,
+                                    headers={'HX-Trigger': 'animosListaActualizar'})
+
+            else:
+                logger.error(f"Error al validar el formulario ÁNIMO de {id_etapa}")
+
+        else:
+            logger.info("Entramos en la parte GET de PRUEBAS")
+            animo_form = AnimoForm() if etapa.estado == 'En proceso' and \
+                                        animador.exists() else None
+
+        animador = etapa.reto.animador_set.filter(usuario=request.user,
+                                                  superanimador=True)
+        animos = etapa.animo_set.all() if participante.exists() or \
+                                          animador.exists() else \
+            etapa.animo_set.filter(animador=request.user).all()
+
+        return render(request, 'YoPuedo/informacion_reto/animos.html', {
+            'animo_form': animo_form,
+            'animos': animos
+        })
+
+    else:
+        logger.error("No forma la parte activa de ÁNIMOS")
         raise PermissionDenied
 
 
