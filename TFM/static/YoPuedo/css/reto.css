@@ -12,7 +12,7 @@
     border: 0;
 }
 
-#pruebas-tab, #info-content {
+#pruebas-tab, .info-content {
     background: #FFD8D6;
     border: #FFD8D6;
 }

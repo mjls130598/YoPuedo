@@ -137,10 +137,6 @@
       url = "{% url 'animador_reto' id_reto='id' %}".replace("id", id.toString());
       window.location.href = url;
   }
-
-  window.onload = () => {
-    cambiarColorCuerpo('animos', 'info-content')
-  }
 {% endif %}
 </script>
 {% endblock %}
