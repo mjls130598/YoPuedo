@@ -48,7 +48,7 @@
       <button class="nav-link active" id="pruebas-tab"
         data-bs-toggle="tab" data-bs-target="#pruebas" type="button"
         role="tab" aria-controls="pruebas" aria-selected="true"
-        onclick="cambiarColorCuerpo('pruebas', 'info-content')"
+        onclick="cambiarColorCuerpo('pruebas', 'info-content-{{etapa.id_etapa}}')"
         hx-get="{% url 'pruebas' id_etapa=etapa.id_etapa %}"
         hx-target="#pruebas">
         <div class="row">
@@ -65,7 +65,7 @@
       <button class="nav-link" id="animos-tab"
         data-bs-toggle="tab" data-bs-target="#animos" type="button"
         role="tab" aria-controls="animos" aria-selected="true"
-        onclick="cambiarColorCuerpo('animos', 'info-content')"
+        onclick="cambiarColorCuerpo('animos', 'info-content-{{etapa.id_etapa}}')"
         hx-get="{% url 'animos' id_etapa=etapa.id_etapa %}"
         hx-target="#animos">
         <div class="row">
@@ -83,7 +83,7 @@
       <button class="nav-link active" id="animos-tab"
         data-bs-toggle="tab" data-bs-target="#animos" type="button"
         role="tab" aria-controls="animos" aria-selected="true"
-        onclick="cambiarColorCuerpo('animos', 'info-content')"
+        onclick="cambiarColorCuerpo('animos', 'info-content-{{etapa.id_etapa}}')"
         hx-get="{% url 'animos' id_etapa=etapa.id_etapa %}"
         hx-target="#animos">
         <div class="row">
