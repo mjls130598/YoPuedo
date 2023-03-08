@@ -130,7 +130,7 @@
       url = "{% url 'eliminar_reto' id_reto='id' %}".replace("id", id.toString());
       window.location.href = url;
   }
-{% elif !participa %}
+{% elif not participa %}
   function eliminarReto(){
       const urlParams = new URLSearchParams(window.location.search);
       id = '{{ reto.id_reto }}';
