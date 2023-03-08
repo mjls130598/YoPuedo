@@ -444,7 +444,7 @@ class AnimoForm(forms.Form):
                                            'accept': "audio/*"
                                        }),
                                    required=False)
-    animo_audio = forms.FileField(label="Subir vídeo",
+    animo_video = forms.FileField(label="Subir vídeo",
                                    widget=forms.ClearableFileInput(
                                        attrs={
                                            'class': 'd-none input-media',

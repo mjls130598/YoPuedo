@@ -130,12 +130,16 @@
       url = "{% url 'eliminar_reto' id_reto='id' %}".replace("id", id.toString());
       window.location.href = url;
   }
-{% elif anima %}
+{% elif !participa %}
   function eliminarReto(){
       const urlParams = new URLSearchParams(window.location.search);
       id = '{{ reto.id_reto }}';
       url = "{% url 'animador_reto' id_reto='id' %}".replace("id", id.toString());
       window.location.href = url;
+  }
+
+  window.onload = () => {
+    cambiarColorCuerpo('animos', 'info-content')
   }
 {% endif %}
 </script>
