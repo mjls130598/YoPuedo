@@ -515,7 +515,7 @@ class RetoPruebaTest(TestCase):
         self.assertEqual(form.errors['prueba_texto'],
                          ['Elige una forma de indicar la prueba de la etapa'])
 
-    def test_etapa_correcta(self):
+    def test_prueba_correcta(self):
         data = {
             'prueba_texto': 'Objetivo prueba',
             'prueba_imagen': '',
@@ -524,5 +524,44 @@ class RetoPruebaTest(TestCase):
         }
 
         form = PruebaForm(data=data)
+
+        self.assertEqual(len(form.errors), 0)
+
+
+##########################################################################################
+
+# Comprobamos la validación del formulario de ÁNIMOS
+class RetoAnimoTest(TestCase):
+
+    def test_campos_vacios(self):
+        data = {}
+        form = AnimoForm(data)
+
+        self.assertEqual(form.errors['animo_texto'],
+                         ['Debes indicar algún mensaje de ánimo en la etapa'])
+
+    def test_multiples_prueba(self):
+        data = {
+            'animo_texto': 'Prueba ánimo'
+        }
+
+        animo_imagen = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        animo_imagen = open(animo_imagen, 'rb')
+
+        form = AnimoForm(data=data, files={'animo_imagen': SimpleUploadedFile(
+            animo_imagen.name, animo_imagen.read())})
+
+        self.assertEqual(form.errors['animo_texto'],
+                         ['Elige una forma de animar en la etapa'])
+
+    def test_animo_correcto(self):
+        data = {
+            'animo_texto': 'Objetivo ánimo',
+            'animo_imagen': '',
+            'animo_audio': '',
+            'animo_video': ''
+        }
+
+        form = AnimoForm(data=data)
 
         self.assertEqual(len(form.errors), 0)
