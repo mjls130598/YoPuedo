@@ -74,6 +74,9 @@
         {% if etapa.estado == 'En proceso' %}
         cambiarPestanaEtapa('etapa-{{ forloop.counter }}', 'etapa-content');
         {% endif %}
+        {% if etapa.estado != 'Propuesto' and not participa %}
+        cambiarColorCuerpo('animos', 'info-content-{{etapa.id_etapa}}')
+        {% endif %}
         {% endfor %}
         {% endif %}
     }
