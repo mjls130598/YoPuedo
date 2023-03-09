@@ -93,6 +93,13 @@ class RetoModelTest(TestCase):
         prueba.prueba = "Prueba etapa reto"
         prueba.save()
 
+        animo = Animo()
+        animo.save()
+        animo.etapa.add(etapa)
+        animo.animador.add(animador)
+        animo.mensaje = "Ánimo etapa reto"
+        animo.save()
+
     def test_reto(self):
         reto = Reto.objects.get(
             id_reto="RET123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
@@ -117,33 +124,53 @@ class RetoModelTest(TestCase):
     def test_animadores(self):
         reto = Reto.objects.get(
             id_reto="RET123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
-        animador = reto.animador_set.all().first()
+        animador = reto.animador_set.first()
 
         self.assertFalse(animador.superanimador)
 
     def test_participantes(self):
         reto = Reto.objects.get(
             id_reto="RET123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
-        participante = reto.participante_set.all().first()
+        participante = reto.participante_set.first()
 
-        self.assertEqual(participante.usuario.all().first().email, "reto@gmail.com")
+        self.assertEqual(participante.usuario.first().email, "reto@gmail.com")
 
     def test_calificacion(self):
         etapa = Etapa.objects.get(
             id_etapa="ETP123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
-        participante = etapa.reto.participante_set.all().first()
-        calificacion = etapa.calificacion_set.all().first()
+        participante = etapa.reto.participante_set.first()
+        calificacion = etapa.calificacion_set.first()
 
-        self.assertEqual(calificacion.etapa.all().first(), etapa)
-        self.assertEqual(calificacion.participante.all().first(), participante)
+        self.assertEqual(calificacion.etapa.first(), etapa)
+        self.assertEqual(calificacion.participante.first(), participante)
         self.assertEqual(calificacion.calificacion, "muy buena")
 
     def test_prueba(self):
         etapa = Etapa.objects.get(
             id_etapa="ETP123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
-        participante = etapa.reto.participante_set.all().first()
-        prueba = etapa.prueba_set.all().first()
+        participante = etapa.reto.participante_set.first()
+        prueba = etapa.prueba_set.first()
 
-        self.assertEqual(prueba.etapa.all().first(), etapa)
-        self.assertEqual(prueba.participante.all().first(), participante)
+        self.assertEqual(prueba.etapa.first(), etapa)
+        self.assertEqual(prueba.participante.first(), participante)
         self.assertEqual(prueba.prueba, "Prueba etapa reto")
+
+    def test_prueba(self):
+        etapa = Etapa.objects.get(
+            id_etapa="ETP123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
+        participante = etapa.reto.participante_set.first()
+        prueba = etapa.prueba_set.first()
+
+        self.assertEqual(prueba.etapa.first(), etapa)
+        self.assertEqual(prueba.participante.first(), participante)
+        self.assertEqual(prueba.prueba, "Prueba etapa reto")
+
+    def test_animo(self):
+        etapa = Etapa.objects.get(
+            id_etapa="ETP123456789abcdefghijklmnñopqrstuwxyzABCDEFGHIJKL")
+        animador = etapa.reto.animador_set.first()
+        animo = etapa.animo_set.first()
+
+        self.assertEqual(animo.etapa.first(), etapa)
+        self.assertEqual(animo.animador.first(), animador)
+        self.assertEqual(animo.mensaje, "Ánimo etapa reto")
