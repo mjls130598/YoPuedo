@@ -139,7 +139,9 @@
   }
   window.onload = () => {
     {% for etapa in etapas %}
+      {% if etapa.estado != 'Propuesto' %}
       cambiarColorCuerpo('animos', 'info-content-{{etapa.id_etapa}}')
+      {% endif %}
     {% endfor %}
   }
 {% endif %}
