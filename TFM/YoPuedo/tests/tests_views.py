@@ -1497,11 +1497,17 @@ class EditarRetoTest(TestCase):
 
 
 ##########################################################################################
-# Comprobamos el funcionamiento de calificar y añadir prueba en reto
-class CalificarPRuebaEtapaTest(TestCase):
+# Comprobamos el funcionamiento de calificar y añadir prueba y ánimo en reto
+class CalificarPruebaAnimoEtapaTest(TestCase):
     def setUpTestData(cls):
         # Creamos usuarios
         usuario = Usuario.objects.create_user(email="calificaretapa_view@gmail.com",
+                                              nombre="María Jesús", password="Password1.",
+                                              clave_aleatoria="clavealeat",
+                                              clave_fija="clavefijausuario",
+                                              foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+        # Creamos futuro animador
+        usuario_animador = Usuario.objects.create_user(email="animadoretapa_view@gmail.com",
                                               nombre="María Jesús", password="Password1.",
                                               clave_aleatoria="clavealeat",
                                               clave_fija="clavefijausuario",
@@ -1537,6 +1543,14 @@ class CalificarPRuebaEtapaTest(TestCase):
         participante.usuario.add(usuario)
         participante.reto.add(reto)
         participante.save()
+
+        # Añadimos animador y superanimador
+        animador = Animador()
+        animador.save()
+        animador.usuario.add(usuario_animador)
+        animador.reto.add(reto)
+        animador.superanimador = False
+        animador.save()
 
     def calificarVacio(self):
         self.client.login(username="calificaretapa_view@gmail.com",
@@ -1587,8 +1601,7 @@ class CalificarPRuebaEtapaTest(TestCase):
 
         reto = Reto.objects.get(
             id_reto="RETCALIFICARETAPA012345678901234567890123456789012")
-        etapas = reto.etapa_set.all()
-        etapa = etapas.first()
+        etapa = reto.etapa_set.first()
 
         resp = self.client.post(f'/prueba/{etapa.id_etapa}', data)
         self.assertEqual(resp.status_code, HTTPStatus.CREATED)
@@ -1600,10 +1613,46 @@ class CalificarPRuebaEtapaTest(TestCase):
 
         reto = Reto.objects.get(
             id_reto="RETCALIFICARETAPA012345678901234567890123456789012")
-        etapas = reto.etapa_set.all()
-        etapa = etapas.first()
+        etapa = reto.etapa_set.first()
 
         resp = self.client.get(f'/prueba/{etapa.id_etapa}')
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+
+    def añadirAnimo(self):
+        self.client.login(username="animadoretapa_view@gmail.com",
+                          password='Password1.')
+        data = {
+            'animo_texto': 'Esto es un ánimo del animador'
+        }
+
+        reto = Reto.objects.get(
+            id_reto="RETCALIFICARETAPA012345678901234567890123456789012")
+        etapa = reto.etapa_set.first()
+
+        resp = self.client.post(f'/animo/{etapa.id_etapa}', data)
+        self.assertEqual(resp.status_code, HTTPStatus.CREATED)
+        self.assertEqual(len(etapa.animo_set.all()), 1)
+
+    def getAnimoParticipante(self):
+        self.client.login(username="calificaretapa_view@gmail.com",
+                          password='Password1.')
+
+        reto = Reto.objects.get(
+            id_reto="RETCALIFICARETAPA012345678901234567890123456789012")
+        etapa = reto.etapa_set.first()
+
+        resp = self.client.get(f'/animo/{etapa.id_etapa}')
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+
+    def getAnimoAnimador(self):
+        self.client.login(username="animadoretapa_view@gmail.com",
+                          password='Password1.')
+
+        reto = Reto.objects.get(
+            id_reto="RETCALIFICARETAPA012345678901234567890123456789012")
+        etapa = reto.etapa_set.first()
+
+        resp = self.client.get(f'/animo/{etapa.id_etapa}')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
 
     def calificarPrimera(self):
