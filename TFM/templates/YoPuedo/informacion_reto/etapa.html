@@ -61,42 +61,24 @@
         </div>
       </button>
     </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="animos-tab"
-        data-bs-toggle="tab" data-bs-target="#animos" type="button"
-        role="tab" aria-controls="animos" aria-selected="true"
-        onclick="cambiarColorCuerpo('animos', 'info-content-{{etapa.id_etapa}}')"
-        hx-get="{% url 'animos' id_etapa=etapa.id_etapa %}"
-        hx-target="#animos">
-        <div class="row">
-          <div class="col-2">
-            <i class="fa-solid fa-clipboard-list"></i>
-          </div>
-          <div class="d-none d-md-block col-9">
-            <h6>Ánimos</h6>
-          </div>
-        </div>
-      </button>
-    </li>
-{% else %}
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="animos-tab"
-        data-bs-toggle="tab" data-bs-target="#animos" type="button"
-        role="tab" aria-controls="animos" aria-selected="true"
-        onclick="cambiarColorCuerpo('animos', 'info-content-{{etapa.id_etapa}}')"
-        hx-get="{% url 'animos' id_etapa=etapa.id_etapa %}"
-        hx-target="#animos">
-        <div class="row">
-          <div class="col-2">
-            <i class="fa-solid fa-clipboard-list"></i>
-          </div>
-          <div class="d-none d-md-block col-9">
-            <h6>Ánimos</h6>
-          </div>
-        </div>
-      </button>
-    </li>
 {% endif %}
+    <li class="nav-item" role="presentation">
+      <button class="nav-link {% if not participa %}active{% endif %}" id="animos-tab"
+        data-bs-toggle="tab" data-bs-target="#animos" type="button"
+        role="tab" aria-controls="animos" aria-selected="true"
+        onclick="cambiarColorCuerpo('animos', 'info-content-{{etapa.id_etapa}}')"
+        hx-get="{% url 'animos' id_etapa=etapa.id_etapa %}"
+        hx-target="#animos">
+        <div class="row">
+          <div class="col-2">
+            <i class="fa-solid fa-clipboard-list"></i>
+          </div>
+          <div class="d-none d-md-block col-9">
+            <h6>Ánimos</h6>
+          </div>
+        </div>
+      </button>
+    </li>
 </ul>
 <div class="tab-content p-3 infor-content" id="info-content-{{etapa.id_etapa}}">
     {% if participa %}
@@ -104,16 +86,12 @@
       aria-labelledby="pruebas-tab" hx-trigger="load, pruebaListaActualizar from:#pruebas"
         hx-get="{% url 'pruebas' id_etapa=etapa.id_etapa %}" hx-target="this">
     </div>
-    <div class="tab-pane fade" id="animos" role="tabpanel"
-      aria-labelledby="animos-tab" hx-trigger="load, animosListaActualizar from:#animos"
-         hx-get="{% url 'animos' id_etapa=etapa.id_etapa %}" hx-target="this">
-    </div>
-    {% else %}
-    <div class="tab-pane fade show active" id="animos" role="tabpanel"
-      aria-labelledby="animos-tab" hx-trigger="load, animosListaActualizar from:#animos"
-         hx-get="{% url 'animos' id_etapa=etapa.id_etapa %}" hx-target="this">
-    </div>
     {% endif %}
+    <div class="tab-pane fade {% if not participa %}show active{% endif %}" id="animos"
+         role="tabpanel" aria-labelledby="animos-tab"
+         hx-trigger="load, animosListaActualizar from:#animos"
+         hx-get="{% url 'animos' id_etapa=etapa.id_etapa %}" hx-target="this">
+    </div>
 </div>
 
 {% if participa %}
@@ -182,11 +160,3 @@
     </div>
     {% endif %}
 </div>
-
-<script>
-    {% if not participa %}
-    window.onload = () => {
-        cambiarColorCuerpo('animos', 'info-content-{{etapa.id_etapa}}')
-    }
-    {% endif %}
-</script>
