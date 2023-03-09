@@ -137,6 +137,11 @@
       url = "{% url 'animador_reto' id_reto='id' %}".replace("id", id.toString());
       window.location.href = url;
   }
+  window.onload = () => {
+    {% for etapa in etapas %}
+      cambiarColorCuerpo('animos', 'info-content-{{etapa.id_etapa}}')
+    {% endfor %}
+  }
 {% endif %}
 </script>
 {% endblock %}
