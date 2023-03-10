@@ -1,0 +1,135 @@
+{% load get_value %}
+<div class='form-group fw-bold {% if etapa_form.objetivo_texto.errors %} errorlist {% endif %}'>
+  {{ etapa_form.id_etapa }}
+  <i class="fa-solid fa-flag-checkered"></i>
+  Objetivo:
+  <div class="objetivo botones row m-1 justify-content-between">
+    <div class="col-3 p-0 d-flex justify-content-center">
+      <button class="uploadfile imagen btn btn-primary fw-bold" type="button">
+        <label for="{{ etapa_form.objetivo_imagen.id_for_label }}">
+          <i class="fa-solid fa-image"></i>
+          <span class="label d-none d-sm-inline">
+            {% with id=etapa_form.id_etapa.value %}
+              {% if id in etapas_objetivo.keys %}
+                {% with dato=etapas_objetivo|get_item:id|get_item:"objetivo_imagen" %}
+                {% if dato != "" %}
+                  {{ dato }}
+                {% else %}
+                  {{ etapa_form.objetivo_imagen.label }}
+                {% endif %}
+                {% endwith %}
+              {% else %}
+                {{ etapa_form.objetivo_imagen.label }}
+              {% endif %}
+            {% endwith %}
+          </span>
+        </label>
+        {{ etapa_form.objetivo_imagen }}
+      </button>
+    </div>
+
+    <div class="col-3 p-0 d-flex justify-content-center">
+      <button class="uploadfile uploadaudio btn btn-primary fw-bold" type="button">
+        <label for="{{ etapa_form.objetivo_audio.id_for_label }}">
+          <i class="fa-solid fa-headphones"></i>
+          <span class="label d-none d-sm-inline">
+            {% with id=etapa_form.id_etapa.value %}
+              {% if id in etapas_objetivo.keys %}
+                {% with dato=etapas_objetivo|get_item:id|get_item:"objetivo_audio" %}
+                {% if dato != "" %}
+                  {{ dato }}
+                {% else %}
+                  {{ etapa_form.objetivo_audio.label }}
+                {% endif %}
+                {% endwith %}
+              {% else %}
+                {{ etapa_form.objetivo_audio.label }}
+              {% endif %}
+            {% endwith %}
+          </span>
+        </label>
+        {{ etapa_form.objetivo_audio }}
+      </button>
+    </div>
+
+    <div class="col-3 p-0 d-flex justify-content-center">
+      <button class="uploadfile video btn btn-primary fw-bold" type="button">
+        <label for="{{ etapa_form.objetivo_video.id_for_label }}">
+          <i class="fa-solid fa-video"></i>
+          <span class="label d-none d-sm-inline">
+            {% with id=etapa_form.id_etapa.value %}
+              {% if id in etapas_objetivo.keys %}
+                {% with dato=etapas_objetivo|get_item:id|get_item:"objetivo_video" %}
+                {% if dato != "" %}
+                  {{ dato }}
+                {% else %}
+                  {{ etapa_form.objetivo_video.label }}
+                {% endif %}
+                {% endwith %}
+              {% else %}
+                {{ etapa_form.objetivo_video.label }}
+              {% endif %}
+            {% endwith %}
+          </span>
+        </label>
+        {{ etapa_form.objetivo_video }}
+      </button>
+    </div>
+  </div>
+
+  <div class="row align-items-center">
+    <div class="col-9 col-sm-10 col-lg-11 {{ etapa_form.objetivo_texto.name }}">
+      {{ etapa_form.objetivo_texto }}
+    </div>
+    <div class="col-2 col-lg-1">
+      {% include 'YoPuedo/elementos/microfono.html' with elementRecognition=etapa_form.objetivo_texto.id_for_label %}
+    </div>
+  </div>
+
+  {% for error in etapa_form.objetivo_texto.errors%}
+  <div class="errorlist">
+    <i class="bi bi-x-circle-fill"></i>
+    {{ error }}
+  </div>
+  {% endfor %}
+
+  <div class="row botones-etapa">
+    {% if num_etapa != 1 %}
+    <div class='form-group d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5 col'>
+        <button id="boton-anterior-etapa" class="btn btn-primary fw-bold anterior"
+                type="button"
+                onclick="cambiarPestanaEtapa(getNumEtapa({{num_etapa}}, -1), 'form-etapa-content')">
+            <i class="fa-solid fa-angle-left"></i>
+            Anterior etapa
+        </button>
+    </div>
+
+    <div class='form-group d-flex justify-content-center mt-2 mt-sm-3 mt-lg-5 col'>
+        <button id="boton-borrar-etapa" class="btn btn-primary fw-bold borrar"
+                type="button"
+                onclick="borrarEtapa({{num_etapa}})">
+            <i class="fa-sharp fa-solid fa-trash"></i>
+            Borrar etapa
+        </button>
+    </div>
+    {% endif %}
+
+    {% if max_etapas != etapas_form.total_form_count or num_etapa != etapas_form.total_form_count %}
+    <div class='form-group d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5 col'>
+        <button
+                id="{% if etapas_form.total_form_count == num_etapa %}boton-nueva-etapa{% else %}boton-siguiente-etapa{% endif %}"
+                class="btn btn-primary fw-bold {% if etapas_form.total_form_count == num_etapa %}nueva{% else %}siguiente{% endif %}"
+                type="button"
+                onclick="cambiarPestanaEtapa(getNumEtapa({{num_etapa}}, 1), 'form-etapa-content')">
+          {% if etapas_form.total_form_count == num_etapa %}
+            <i class="fa-solid fa-plus"></i>
+            Nueva etapa
+          {% else %}
+            Siguiente etapa
+            <i class="fa-solid fa-angle-right"></i>
+          {% endif %}
+        </button>
+    </div>
+    {% endif %}
+  </div>
+</div>

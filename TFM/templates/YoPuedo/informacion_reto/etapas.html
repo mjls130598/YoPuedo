@@ -1,0 +1,128 @@
+<!-- BOTONES NAVEGACIÓN TABS -->
+<ul class="nav nav-tabs" id="tab-etapas" role="tablist">
+  {% for etapa in etapas %}
+  <li class="nav-item" role="presentation">
+    <button class="nav-link"
+            id="etapa-{{ forloop.counter }}-tab" data-bs-toggle="tab"
+            data-bs-target="#etapa-{{ forloop.counter }}" type="button" role="tab"
+            aria-controls="etapa-{{ forloop.counter }}" aria-selected="true"
+            onclick="cambiarPestanaEtapa('etapa-{{ forloop.counter }}', 'etapa-content')">
+      <div class="row">
+        <div class="col-3">
+          <i class="fa-solid fa-chart-simple"></i>
+        </div>
+        <div class="col-3">
+            <h5>{{ forloop.counter }}º</h5>
+        </div>
+        <div class="d-none d-md-block col-6 p-0">
+          <h5>Etapa</h5>
+        </div>
+      </div>
+    </button>
+  </li>
+  {% endfor %}
+</ul>
+
+<!-- CUERPO DE LOS TABS -->
+<div class="tab-content p-3" id="etapa-content">
+  {% for etapa in etapas %}
+  <div class="tab-pane fade"
+       id="etapa-{{ forloop.counter }}" role="tabpanel"
+       aria-labelledby="etapa-{{ forloop.counter }}-tab">
+    {% include 'YoPuedo/informacion_reto/etapa.html' with num_etapa=forloop.counter %}
+  </div>
+  {% endfor %}
+</div>
+
+<div class="row">
+  <div class='d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5 col'>
+      <button type="button" id="boton-anterior" class="btn btn-primary fw-bold"
+              onclick="cambiarPestana('general', 'reto-content')">
+          <i class="fa-solid fa-angle-left"></i>
+          Anterior
+      </button>
+  </div>
+
+  <div class='d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5 col'>
+      <button type="button" id="boton-siguiente" class="btn btn-primary fw-bold"
+              onclick="cambiarPestana('participantes', 'reto-content')">
+          Siguiente
+          <i class="fa-solid fa-angle-right"></i>
+      </button>
+  </div>
+</div>
+
+<script>
+/****************************************************************************************/
+
+    // Función para obtener el número de etapa al que ir
+    function getNumEtapa(etapa, cantidad){
+        num_etapa = etapa + cantidad;
+        return 'etapa-' + num_etapa;
+    }
+
+/****************************************************************************************/
+
+    // Función para dejar lista, cuando se cargue, la etapa a visualizar
+    window.onload = () => {
+        {% if etapas.first.estado == 'Propuesto' %}
+        cambiarPestanaEtapa('etapa-1', 'etapa-content');
+        {% elif etapas.last.estado == 'Finalizado' %}
+        cambiarPestanaEtapa('etapa-{{ etapas|length }}', 'etapa-content');
+        {% else %}
+        {% for etapa in etapas %}
+        {% if etapa.estado == 'En proceso' %}
+        cambiarPestanaEtapa('etapa-{{ forloop.counter }}', 'etapa-content');
+        {% endif %}
+        {% if etapa.estado != 'Propuesto' and not participa %}
+        cambiarColorCuerpo('animos', 'info-content-{{etapa.id_etapa}}')
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    }
+
+/****************************************************************************************/
+
+    // Función para enviar la calificación de una persona
+    function calificacion(id_etapa, puntuacion, num_etapa){
+        url = "{% url 'calificar' id_etapa='id' %}".replace("id", id_etapa);
+        url += "?calificacion=" + puntuacion;
+        const http = new XMLHttpRequest();
+
+        http.open("GET", url)
+        http.onreadystatechange = function(){
+
+            if(this.readyState == 4 && this.status == 201){
+                div_etapa = document.getElementById("etapa-" + num_etapa);
+
+                    if(puntuacion == 'mal'){
+                        i_mal = div_etapa.getElementsByClassName("mal")[0].children[0];
+                        i_mal.className = "fa-solid fa-face-frown";
+                        i_normal = div_etapa.getElementsByClassName("normal")[0].children[0];
+                        i_normal.className = "fa-regular fa-face-smile";
+                        i_bien = div_etapa.getElementsByClassName("muy_bien")[0].children[0];
+                        i_bien.className = "fa-regular fa-face-laugh-beam";
+                    }
+                    else if (puntuacion == 'normal'){
+                        i_mal = div_etapa.getElementsByClassName("mal")[0].children[0];
+                        i_mal.className = "fa-regular fa-face-frown";
+                        i_normal = div_etapa.getElementsByClassName("normal")[0].children[0];
+                        i_normal.className = "fa-solid fa-face-smile";
+                        i_bien = div_etapa.getElementsByClassName("muy_bien")[0].children[0];
+                        i_bien.className = "fa-regular fa-face-laugh-beam";
+                    }
+                    else{
+                        i_mal = div_etapa.getElementsByClassName("mal")[0].children[0];
+                        i_mal.className = "fa-regular fa-face-frown";
+                        i_normal = div_etapa.getElementsByClassName("normal")[0].children[0];
+                        i_normal.className = "fa-regular fa-face-smile";
+                        i_bien = div_etapa.getElementsByClassName("muy_bien")[0].children[0];
+                        i_bien.className = "fa-solid fa-face-laugh-beam";
+                    }
+            }
+        }
+        http.send();
+    }
+
+/****************************************************************************************/
+</script>

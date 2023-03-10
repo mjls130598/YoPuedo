@@ -1,0 +1,135 @@
+#botones_misretos{
+    margin: 1%;
+}
+
+#label_categoria > h6{
+    font-weight: bold;
+}
+
+.btn.btn-primary.nuevo_reto {
+    background: #00BCD4;
+    border: #00BCD4;
+    font-weight: bold;
+}
+
+#retos {
+    margin: 1%;
+}
+
+#categorias, #id_categoria {
+    display: block;
+    padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+    -moz-padding-start: calc(0.75rem - 3px);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.nav-item{
+    margin-right: 5px;
+}
+
+.nav-link, .nav-tabs .nav-link.active{
+    color: black;
+}
+
+.nav-link.active > .row > .d-none.d-md-block.col-9 > h5,
+.nav-link.active > .row > .d-none.d-md-block.col-10 > h5,
+.nav-link.active > .row > .d-none.d-md-block.col-6 > h5,
+.nav-link.active > .row > .col-3 > h5,
+.nav-link.active > .row > .d-none.d-md-block.col-9 > h6{
+    font-weight: bold;
+}
+
+#propuestos-tab, #tab-retos-content {
+    background: #FBF3AD;
+    border-color: #FBF3AD;
+}
+
+#proceso-tab {
+    background: #FBC370;
+    border-color: #FBC370;
+}
+
+#finalizados-tab {
+    background: #B6FF61;
+    border-color: #B6FF61;
+}
+
+#animando-tab {
+    background: #ECABF7;
+    border-color: #ECABF7;
+}
+
+.nav-link.active > .row > .d-none{
+    display: block!important;
+}
+
+.nav-tabs{
+    border: 0;
+}
+
+.page-link{
+    color: black;
+}
+
+.categoria {
+    font-size: -webkit-xxx-large;
+    color: #E91E63;
+}
+
+.nav-link > .row > .col-2 > i {
+    font-size: larger;
+}
+
+@media screen and (max-width: 991px){
+    .texto_reto{
+        font-size: 1rem!important;
+    }
+}
+
+#tab-retos-content, #form-reto-content {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+@media screen and (min-height: 992px){
+    #tab-retos-content, #form-reto-content {
+        max-height: 73vh;
+    }
+}
+
+@media screen and (min-width: 1024px){
+    #tab-retos-content, #form-reto-content {
+        max-height: 65vh;
+    }
+}
+
+audio {
+    width: -webkit-fill-available;
+}
+
+.altavoz {
+    font-size: larger;
+}
+
+.ver-reto {
+    font-size: -webkit-xxx-large;
+}
+
+.audio {
+    height: 10vh;
+}
+

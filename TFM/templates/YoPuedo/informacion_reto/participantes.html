@@ -1,0 +1,34 @@
+<div class='mt-2 mt-sm-3 mt-lg-3 participantes'>
+{% for participante in participantes %}
+    <div class="participante p-2 p-md-3 row"
+         id="participante-{{participante.email}}">
+        <div class="foto-perfil col-4 col-md-2 col-lg-1">
+            <img class="imagen-perfil img-fluid rounded mx-auto d-block"
+                 src="{{participante.foto_perfil}}">
+        </div>
+        <div class="nombre col-8 col-md-10 col-lg-11 align-self-center">
+            <h5 class="fw-bold">
+                {{participante.nombre}}
+            </h5>
+        </div>
+    </div>
+{% endfor %}
+</div>
+
+<div class="row">
+  <div class='d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5 col'>
+      <button type="button" id="boton-anterior" class="btn btn-primary fw-bold"
+              onclick="cambiarPestana('etapas', 'reto-content')">
+          <i class="fa-solid fa-angle-left"></i>
+          Anterior
+      </button>
+  </div>
+
+  <div class='d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5 col'>
+      <button type="button" id="boton-siguiente" class="btn btn-primary fw-bold"
+              onclick="cambiarPestana('animadores','reto-content')">
+          Siguiente
+          <i class="fa-solid fa-angle-right"></i>
+      </button>
+  </div>
+</div>

@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% load static tags_categorias %}
+
+{% block static %}
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/mis_retos.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/nuevo_reto.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/reto.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/modal-amigos.css'%}">
+  <script src="https://kit.fontawesome.com/05cfaef439.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+  <script type="text/javascript"
+        src="{% static 'YoPuedo/js/SpeechSynthesis.js' %}"></script>
+  <script type="text/javascript"
+        src="{% static 'YoPuedo/js/AudioTranscript.js' %}"></script>
+  <script type="text/javascript"
+      src="{% static 'YoPuedo/js/VisualizacionRetos.js' %}"></script>
+{% endblock %}
+
+{% block contenido %}
+<!-- CABECERA -->
+<section>
+    <h4 id="titulo" class="m-2 m-md-3 m-lg-4">
+        <i class="bi bi-graph-up"></i>
+        {{ reto.titulo }}
+    </h4>
+</section>
+
+<section id="informacion_reto" class="m-1">
+  <!-- BOTONES NAVEGACIÓN TABS -->
+  <ul class="nav nav-tabs" id="tab-pasos" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="general-tab"
+        data-bs-toggle="tab" data-bs-target="#general" type="button"
+        role="tab" aria-controls="general" aria-selected="true"
+        onclick="cambiarColorCuerpo('general', 'reto-content')">
+        <div class="row">
+          <div class="col-2">
+            <i class="fa-solid fa-clipboard"></i>
+          </div>
+          <div class="d-none d-md-block col-9">
+            <h5>General</h5>
+          </div>
+        </div>
+      </button>
+    </li>
+
+    <li class="nav-item" role="presentation">
+      <button class="nav-link d-none" id="etapas-tab" data-bs-toggle="tab"
+        data-bs-target="#etapas" type="button" role="tab"
+        aria-controls="etapas" aria-selected="false"
+        onclick="cambiarColorCuerpo('etapas', 'reto-content')">
+        <div class="row">
+          <div class="col-2">
+            <i class="fa-solid fa-chart-simple"></i>
+          </div>
+          <div class="d-none d-md-block col-9">
+            <h5>Etapas</h5>
+          </div>
+        </div>
+      </button>
+    </li>
+
+    <li class="nav-item" role="presentation">
+      <button class="nav-link d-none" id="participantes-tab" data-bs-toggle="tab"
+        data-bs-target="#participantes" type="button" role="tab"
+        aria-controls="participantes" aria-selected="false"
+        onclick="cambiarColorCuerpo('participantes', 'reto-content')">
+        <div class="row">
+          <div class="col-2">
+            <i class="fa-solid fa-people-group"></i>
+          </div>
+          <div class="d-none d-md-block col-10">
+            <h5>Participantes</h5>
+          </div>
+        </div>
+      </button>
+    </li>
+
+    <li class="nav-item" role="presentation">
+      <button class="nav-link d-none" id="animadores-tab" data-bs-toggle="tab"
+        data-bs-target="#animadores" type="button" role="tab"
+        aria-controls="animadores" aria-selected="false"
+        onclick="cambiarColorCuerpo('animadores', 'reto-content')">
+        <div class="row">
+          <div class="col-2">
+            <i class="fa-sharp fa-solid fa-hand-holding-hand"></i>
+          </div>
+          <div class="d-none d-md-block col-10">
+            <h5>Animadores</h5>
+          </div>
+        </div>
+      </button>
+    </li>
+  </ul>
+
+  <!-- CUERPO DE LOS TABS -->
+  <div class="tab-content p-3" id="reto-content">
+    <div class="tab-pane fade show active" id="general" role="tabpanel"
+      aria-labelledby="general-tab">
+      {% include 'YoPuedo/informacion_reto/general.html'%}
+    </div>
+
+    <div class="tab-pane fade" id="etapas" role="tabpanel"
+      aria-labelledby="etapas-tab">
+      {% include 'YoPuedo/informacion_reto/etapas.html'%}
+    </div>
+
+    <div class="tab-pane fade" id="participantes" role="tabpanel"
+      aria-labelledby="participantes-tab">
+      {% include 'YoPuedo/informacion_reto/participantes.html'%}
+    </div>
+
+    <div class="tab-pane fade" id="animadores" role="tabpanel"
+      aria-labelledby="animadores-tab">
+      {% include 'YoPuedo/informacion_reto/animadores.html'%}
+    </div>
+  </div>
+</section>
+
+<script>
+{% if reto.coordinador.email == user.get_username %}
+  function editarReto(){
+      id = '{{ reto.id_reto }}';
+      url = "{% url 'editar_reto' id_reto='id' %}".replace("id", id.toString());
+      window.location.href = url;
+  }
+  function eliminarReto(){
+      id = '{{ reto.id_reto }}';
+      url = "{% url 'eliminar_reto' id_reto='id' %}".replace("id", id.toString());
+      window.location.href = url;
+  }
+{% elif not participa %}
+  function eliminarReto(){
+      const urlParams = new URLSearchParams(window.location.search);
+      id = '{{ reto.id_reto }}';
+      url = "{% url 'animador_reto' id_reto='id' %}".replace("id", id.toString());
+      window.location.href = url;
+  }
+{% endif %}
+</script>
+{% endblock %}
+
+{% block modales %}
+  <div class="modal fade" id="modal-participantes">
+    <div class="modal-dialog row align-items-center my-0" id="dialog-participantes"
+         hx-target="this">
+    </div>
+  </div>
+
+  <script>
+     // Funciones para controlar el modal
+    ;(function () {
+      const modal = new bootstrap.Modal(document.getElementById("modal-participantes"))
+      htmx.on("htmx:afterSwap", (e) => {
+        // Response targeting #dialog => show the modal
+        if (e.detail.target.id == "dialog-participantes") {
+          modal.show()
+        }
+      })
+      // Remove dialog content after hiding
+      htmx.on("hidden.bs.modal", () => {
+        document.getElementById("dialog-participantes").innerHTML = "";
+        location.reload();
+      })
+    })()
+  </script>
+{% endblock %}

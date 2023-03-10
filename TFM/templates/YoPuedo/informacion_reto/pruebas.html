@@ -1,0 +1,141 @@
+{% load get_value %}
+<div class="pruebas">
+    {% for prueba in pruebas %}
+    <div class="prueba p-md-3 p-1 m-1">
+        <h6 class="fw-bold">
+            {{ prueba.participante.first.usuario.first.nombre }}
+        </h6>
+        <div class="row">
+            {% if "mp3" in prueba.prueba or "acc" in prueba.prueba or "ogg" in prueba.prueba or "wma" in prueba.prueba %}
+            <div class="col-md-4 col-12 mb-4 m-md-0 informacion align-self-center">
+            {% else %}
+            <div class="col-md-9 col-12 mb-4 m-md-0 informacion align-self-center">
+            {% endif %}
+            {% if "mp3" in prueba.prueba or "acc" in prueba.prueba or "ogg" in prueba.prueba or "wma" in prueba.prueba %}
+                <audio controls id="audio"
+                    onplay="obtenerAudio('{{ prueba.prueba }}', 'texto_audio_prueba')">
+                    <source src="{{ prueba.prueba }}" type="audio/mpeg">
+                </audio>
+            {% elif "jpg" in prueba.prueba or "jpeg" in prueba.prueba or "png" in prueba.prueba or "svg" in prueba.prueba or "gif" in prueba.prueba %}
+                <img class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                    col-xl-5" src="{{ prueba.prueba }}">
+            {% elif "mp4" in prueba.prueba or "ogg" in prueba.prueba %}
+                <video class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                    col-xl-5" controls>
+                    <source src="{{ prueba.prueba }}" type="video/mp4">
+                </video>
+            {% else %}
+                <h6 id="texto_prueba_{{ forloop.counter }}">
+                    {{ prueba.prueba }}
+                </h6>
+            {% endif %}
+            </div>
+            {% if "mp3" in prueba.prueba or "acc" in prueba.prueba or "ogg" in prueba.prueba or "wma" in prueba.prueba %}
+            <div class="col-md-8 align-self-center text-center overflow-auto audio">
+                <p id="texto_audio_prueba"></p>
+            </div>
+            {% elif not '/media/' in prueba.prueba %}
+            <div class="col-md-1 col align-self-center">
+                {% with texto='texto_prueba_'|addvalue:forloop.counter %}
+                {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech=texto %}
+                {% endwith %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% if prueba_form %}
+<form class="form tab-content p-md-3 p-1" method="post"
+      hx-post="{{ request.get_full_path }}" enctype="multipart/form-data">
+     {% csrf_token %}
+    <div class="botones row m-1 justify-content-between">
+        <div class="col-3 p-0 d-flex justify-content-center">
+          <button class="uploadfile imagen btn btn-primary fw-bold" type="button">
+              <label for="id_prueba_imagen">
+                <i class="fa-solid fa-image"></i>
+                <span class="label d-none d-sm-inline">
+                  {{ prueba_form.prueba_imagen.label }}
+                </span>
+              </label>
+              {{ prueba_form.prueba_imagen }}
+          </button>
+        </div>
+
+        <div class="col-3 p-0 d-flex justify-content-center">
+          <button class="uploadfile uploadaudio btn btn-primary fw-bold" type="button">
+              <label for="id_prueba_audio">
+                <i class="fa-solid fa-headphones"></i>
+                <span class="label d-none d-sm-inline">
+                  {{ prueba_form.prueba_audio.label }}
+                </span>
+              </label>
+              {{ prueba_form.prueba_audio }}
+          </button>
+        </div>
+
+        <div class="col-3 p-0 d-flex justify-content-center">
+          <button class="uploadfile video btn btn-primary fw-bold" type="button">
+              <label for="id_prueba_video">
+                <i class="fa-solid fa-video"></i>
+                <span class="label d-none d-sm-inline">
+                  {{ prueba_form.prueba_video.label }}
+                </span>
+              </label>
+              {{ prueba_form.prueba_video }}
+          </button>
+        </div>
+    </div>
+
+    <div class="row align-items-center">
+        <div class="col-9 col-sm-10 col-lg-11 {{ prueba_form.prueba_texto.name }}">
+          {{ prueba_form.prueba_texto }}
+        </div>
+    <div class="col-2 col-lg-1 d-flex justify-content-center">
+        {% include 'YoPuedo/elementos/microfono.html' with elementRecognition=prueba_form.prueba_texto.id_for_label %}
+    </div>
+    </div>
+
+    {% for error in prueba_form.prueba_texto.errors%}
+    <div class="errorlist">
+        <i class="bi bi-x-circle-fill"></i>
+        {{ error }}
+    </div>
+    {% endfor %}
+
+    <div class="d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5">
+        <button type="submit" id="guardar-prueba" class="btn fw-bold">
+            <div class="row">
+              <div class="col-3 col-md-1">
+                <i class="fa-solid fa-floppy-disk"></i>
+              </div>
+              <div class="d-none d-md-block col-9 col-md-10">
+                Guardar prueba
+              </div>
+            </div>
+        </button>
+    </div>
+</form>
+{% endif %}
+
+<script>
+    ;( function ( document, window, index )
+    {
+        var inputs = document.querySelectorAll( '.input-media' );
+        Array.prototype.forEach.call( inputs, function( input )
+        {
+            var label	 = input.previousElementSibling,
+			labelVal = label.innerHTML;
+
+            input.addEventListener( 'change', function( e )
+            {
+                var fileName = e.target.value.split( '\\' ).pop();
+
+                if(fileName)
+                    label.children[1].innerText = fileName;
+                else
+                    label.innerHTML = labelVal;
+            });
+        });
+    }( document, window, 0 ));
+</script>
