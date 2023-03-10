@@ -15,7 +15,7 @@
                 hay dentro de él para continuar:
             </h6>
         </div>
-        <div class="col">
+        <div class="col-1">
             {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='texto_reproducir' %}
         </div>
     </div>
@@ -32,7 +32,7 @@
                 {{ field }}
               </div>
               <div class="col">
-                {% include 'YoPuedo/elementos/microfono.html' %}
+                {% include 'YoPuedo/elementos/microfono.html' with elementRecognition=field.id_for_label %}
               </div>
             </div>
           </div>

@@ -1,5 +1,239 @@
 {% extends "base.html" %}
 
-{% block contenido %}
+{% load static tags_categorias %}
 
+{% block static %}
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/mis_retos.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/modal-retos.css'%}">
+  <script type="text/javascript"
+        src="{% static 'YoPuedo/js/SpeechSynthesis.js' %}"></script>
+  <script src="https://kit.fontawesome.com/05cfaef439.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+{% endblock %}
+
+{% block contenido %}
+    <!-- CABECERA -->
+    <section>
+        <h4 id="titulo" class="m-2 m-md-3 m-lg-4">
+            <i class="bi bi-graph-up"></i>
+            Mis retos {% if tipo_reto %}{{ tipo_reto }}{% endif %}
+        </h4>
+    </section>
+
+    <!-- BOTONES CABECERA -->
+    <section class="row justify-content-between" id="botones_misretos">
+        <div class="col-2 align-items-start">
+            <button class="btn btn-primary nuevo_reto" onclick="nuevoReto()">
+                <div class="row">
+                    <div class="col-2">
+                        <i class="bi bi-plus-circle-fill "></i>
+                    </div>
+                    <div class="d-none d-md-block col-9">
+                        Nuevo reto
+                    </div>
+                </div>
+            </button>
+        </div>
+        <div class="col-md-6 col-lg-4 col-10 align-items-end row">
+            <div class="col" id="label_categoria">
+                <h6>
+                    <div class="row">
+                        <div class="col-2">
+                            <i class="bi bi-search"></i>
+                        </div>
+                        <div class="d-none d-md-block col-9">
+                            Filtrar por:
+                        </div>
+                    </div>
+                </h6>
+            </div>
+            <select class="col-10 col-md-7" aria-label="select_categoria"
+                    id="categorias" onchange="cambioCategoria(this)">
+              <option selected value="{% categoria_valor 'Todas categorias' %}">
+                  Todas categorías
+              </option>
+              <option value="{% categoria_valor 'Ahorro' %}">
+                  Ahorro
+              </option>
+              <option value="{% categoria_valor 'Conocimientos' %}">
+                  Conocimientos
+              </option>
+              <option value="{% categoria_valor 'Deporte' %}">
+                  Deporte
+              </option>
+              <option value="{% categoria_valor 'Miedos' %}">
+                  Miedos
+              </option>
+            </select>
+        </div>
+    </section>
+
+    <!-- CUERPO -->
+    <section id="retos">
+
+        <!-- BOTONES NAVEGACIÓN TABS -->
+        <ul class="nav nav-tabs" id="tab-estados" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="propuestos-tab"
+                    data-bs-toggle="tab" data-bs-target="#propuestos" type="button"
+                    role="tab" aria-controls="propuestos" aria-selected="true"
+                    onclick="cambiarColorCuerpo('propuestos')"
+                    {% if categoria %}
+                    hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&categoria={{categoria}}&estado=propuestos"
+                    {% else %}
+                    hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&estado=propuestos"
+                    {% endif %}
+                    hx-target="#propuestos">
+                <div class="row">
+                    <div class="col-2">
+                        <i class="bi bi-inboxes-fill"></i>
+                    </div>
+                    <div class="d-none d-md-block col-10">
+                        <h5>Propuestos</h5>
+                    </div>
+                </div>
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="proceso-tab" data-bs-toggle="tab"
+                    data-bs-target="#proceso" type="button" role="tab"
+                    aria-controls="proceso" aria-selected="false"
+                    onclick="cambiarColorCuerpo('proceso')"
+                    {% if categoria %}
+                    hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&categoria={{categoria}}&estado=proceso"
+                    {% else %}
+                    hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&estado=proceso"
+                    {% endif %}
+                    hx-target="#proceso">
+                <div class="row">
+                    <div class="col-2">
+                        <i class="bi bi-gear-wide-connected"></i>
+                    </div>
+                    <div class="d-none d-md-block col-10">
+                        <h5>En proceso</h5>
+                    </div>
+                </div>
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="finalizados-tab" data-bs-toggle="tab"
+                    data-bs-target="#finalizados" type="button" role="tab"
+                    aria-controls="finalizados" aria-selected="false"
+                    onclick="cambiarColorCuerpo('finalizados')"
+                    {% if categoria %}
+                    hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&categoria={{categoria}}&estado=finalizados"
+                    {% else %}
+                    hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&estado=finalizados"
+                    {% endif %}
+                    hx-target="#finalizados">
+                <div class="row">
+                    <div class="col-2">
+                        <i class="bi bi-check2-square"></i>
+                    </div>
+                    <div class="d-none d-md-block col-10">
+                        <h5>Finalizados</h5>
+                    </div>
+                </div>
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="animando-tab" data-bs-toggle="tab"
+                    data-bs-target="#animando" type="button" role="tab"
+                    aria-controls="animando" aria-selected="false"
+                    onclick="cambiarColorCuerpo('animando')"
+                    {% if categoria %}
+                    hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&categoria={{categoria}}&estado=animando"
+                    {% else %}
+                    hx-get="{% url 'retos'%}?tipo={{tipo_reto}}&estado=animando"
+                    {% endif %}
+                    hx-target="#animando">
+                <div class="row">
+                    <div class="col-2">
+                        <i class="bi bi-hearts"></i>
+                    </div>
+                    <div class="d-none d-md-block col-10">
+                        <h5>Animando</h5>
+                    </div>
+                </div>
+            </button>
+          </li>
+        </ul>
+
+        <!-- CUERPO DE LOS TABS -->
+        <div class="tab-content" id="tab-retos-content">
+          <div class="tab-pane fade show active" id="propuestos" role="tabpanel"
+               aria-labelledby="propuestos-tab">
+              {% include 'YoPuedo/elementos/reto.html' with retos=propuestos %}
+          </div>
+          <div class="tab-pane fade" id="proceso" role="tabpanel"
+               aria-labelledby="proceso-tab">
+          </div>
+          <div class="tab-pane fade" id="finalizados" role="tabpanel"
+               aria-labelledby="finalizados-tab">
+          </div>
+          <div class="tab-pane fade" id="animando" role="tabpanel"
+               aria-labelledby="animando-tab">
+          </div>
+        </div>
+    </section>
+<script>
+    function cambiarColorCuerpo(id){
+        switch(id){
+            case "propuestos":
+                document.getElementById("tab-retos-content").style.backgroundColor = "#FBF3AD";
+                document.getElementById("tab-retos-content").style.borderColor = "#FBF3AD";
+            break;
+            case "proceso":
+                document.getElementById("tab-retos-content").style.backgroundColor = "#FBC370";
+                document.getElementById("tab-retos-content").style.borderColor = "#FBC370";
+            break;
+            case "finalizados":
+                document.getElementById("tab-retos-content").style.backgroundColor = "#B6FF61";
+                document.getElementById("tab-retos-content").style.borderColor = "#B6FF61";
+            break;
+            case "animando":
+                document.getElementById("tab-retos-content").style.backgroundColor = "#ECABF7";
+                document.getElementById("tab-retos-content").style.borderColor = "#ECABF7";
+            break;
+        }
+    }
+
+    function cambioCategoria(opcion){
+        const urlParams = new URLSearchParams(window.location.search);
+        window.location.href = "{% url 'mis_retos' %}?tipo=" +
+            urlParams.get('tipo') + "&categoria=" + opcion.value;
+    }
+
+    function nuevoReto(){
+        window.location.href = "{% url 'nuevo_reto' %}";
+    }
+
+    window.onload = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+
+        if(urlParams.has('categoria')){
+            const select = document.querySelector('#categorias');
+            select.value = urlParams.get('categoria');
+        }
+    }
+</script>
+<script type="text/javascript"
+        src="{% static 'YoPuedo/js/AudioTranscript.js' %}"></script>
+{% endblock %}
+
+{% block modales %}
+    <!-- MODAL DEL TIPO DE RETOS-->
+    <div class="modal fade" id="modal">
+      <div class="modal-dialog row align-items-center my-0" id="dialog">
+          {% include 'YoPuedo/elementos/modal-retos.html' %}
+      </div>
+    </div>
+
+    {% if request.get_full_path == "/mis_retos/" %}
+      <script>
+            window.onload = () => {
+                $('#modal').modal('show');
+            }
+      </script>
+    {% endif %}
 {% endblock %}

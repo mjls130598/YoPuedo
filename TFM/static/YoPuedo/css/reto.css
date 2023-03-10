@@ -1,0 +1,49 @@
+#boton-coordinador{
+    border: #E91E63;
+    background: #E91E63;
+}
+
+.calificacion{
+    font-size: x-large;
+    width: fit-content;
+}
+
+.calificacion > .list-group-item{
+    border: 0;
+}
+
+#pruebas-tab, .info-content {
+    background: #FFD8D6;
+    border: #FFD8D6;
+}
+
+#animos-tab {
+    background: #DAFBF8;
+    border: #DAFBF8;
+}
+
+#guardar-prueba, #guardar-animo {
+    background: #93F297;
+    border: #93F297;
+}
+
+#reto-content {
+    max-height: 79vh;
+}
+
+#reto-content{
+    max-height: 70vh;
+}
+
+#reto-content {
+    max-height: 77vh;
+}
+
+#reto-content {
+    overflow-y: auto;
+}
+
+.prueba, .animo {
+    background: white;
+    border-radius: 0.25rem;
+}

@@ -51,8 +51,8 @@ h5.titulo {
 
 #cabecera{
     background: #04C5B3;
-    padding-bottom: 1%;
-    padding-top: 1%;
+    padding-bottom: 0.15%;
+    padding-top: 0.15%;
     padding-left: 0.5%;
 }
 
@@ -70,9 +70,20 @@ h5.titulo {
     }
 }
 
-#cabecera > div.row {
-    margin: 1%;
+@media screen and (max-width: 799px){
+
+    #cabecera_fila {
+        margin: 1%;
+    }
 }
+
+@media screen and (min-width: 800px){
+
+    #cabecera_fila {
+        margin: 0.5%;
+    }
+}
+
 
 .wrapper {
     display: block;
@@ -93,23 +104,21 @@ h5.titulo {
 }
 
 .overlay {
-    display: none;
+    display: block;
     position: fixed;
     /* full screen */
-    width: 100vw;
-    height: 100vh;
-    /* transparent black */
-    background: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%%;
     /* middle layer, i.e. appears below the sidebar */
     z-index: 998;
-    opacity: 0;
     /* animate the transition */
     transition: all 0.5s ease-in-out;
 }
 /* display .overlay when it has the .active class */
 .overlay.active {
-    display: block;
-    opacity: 1;
+    opacity: 0.5;
+    /* transparent black */
+    background: rgba(0, 0, 0, 0.2);
 }
 
 #sidebar ul.components {
@@ -181,5 +190,12 @@ ul ul a {
 
 a > i {
     margin-right: 2%;
+}
+
+#titulo{
+
+    text-align: center;
+    font-weight: bold;
+    color: #035D55;
 }
 

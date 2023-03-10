@@ -1,0 +1,182 @@
+<div class="form-group d-flex justify-content-start mt-2">
+    <button class="btn btn-primary fw-bold" id="btn-amigos"
+            data-bs-toggle="modal-amigos" hx-get="{% url 'amigos' %}?relacion=animador"
+            hx-target="#dialog-amigos">
+        <div class="row">
+            <div class="col-2">
+                <i class="fa-solid fa-user-plus"></i>
+            </div>
+            <div class="d-none d-md-block col-10">
+                Añadir animador
+            </div>
+        </div>
+    </button>
+</div>
+
+<div class='form-group mt-2 mt-sm-3 mt-lg-3 animadores'>
+{% for animador in animadores %}
+    <div class="animador p-2 p-md-3 row" id="animador-{{animador.usuario.email}}">
+        <input type="hidden" name="animador" value="{{animador.usuario.email}}">
+        <div class="foto-perfil col-4 col-md-2 col-lg-1">
+            <img class="imagen-perfil img-fluid rounded mx-auto d-block"
+                 src="{{animador.usuario.foto_perfil}}">
+        </div>
+        <div class="nombre col-4 col-md-7 col-lg-8 align-self-center">
+            <h5 class="fw-bold">
+                {{animador.usuario.nombre}}
+            </h5>
+        </div>
+        <div class="botones col-4 col-md-3 align-self-center d-md-flex justify-content-end">
+            <button type="button" class="superanimador btn btn-primary fw-bold mb-md-0 mb-2 p-1"
+                    onclick="cambiarSuperanimador('{{animador.usuario.email}}')">
+                <input type="hidden" name="superanimador-{{animador.usuario.email}}"
+                       value="{{animador.superanimador}}">
+                {% if animador.superanimador == 'true' %}
+                <i class="fa-solid fa-eye m-1"></i>
+                {% else %}
+                <i class="fa-solid fa-eye-slash m-1"></i>
+                {% endif %}
+                Ánimos
+            </button>
+            <button type="button" class="borrar-amigo btn btn-primary fw-bold borrar-amigo btn btn-primary fw-bold mx-md-1 p-1"
+                    onclick="borrarAnimador('{{animador.usuario.email}}')">
+                <i class="fa-sharp fa-solid fa-trash m-1"></i>
+                Eliminar
+            </button>
+        </div>
+    </div>
+{% endfor %}
+</div>
+
+<div class="row">
+  <div class='form-group d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5 col'>
+      <button type="button" id="boton-anterior" class="btn btn-primary fw-bold"
+              onclick="{% if tipo_reto == 'colectivo'%} cambiarPestana('participantes', 'form-reto-content') {% else %} cambiarPestana('etapas', 'form-reto-content') {% endif %}">
+          <i class="fa-solid fa-angle-left"></i>
+          Anterior
+      </button>
+  </div>
+
+  <div class='form-group d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5 col'>
+      <button type="submit" id="boton-fin" class="btn btn-primary fw-bold">
+          Finalizar
+      </button>
+  </div>
+</div>
+
+<script>
+/****************************************************************************************/
+
+    // Función para borrar el registro del animador
+    function borrarAnimador(email){
+
+        // Eliminamos el div con la información del animador a borrar
+        divAnimador = document.getElementById("animador-" + email);
+        divAnimador.remove();
+    }
+
+/****************************************************************************************/
+
+    // Función para cambiar permisos de superanimador
+    function cambiarSuperanimador(email){
+        divAnimador = document.getElementById("animador-" + email);
+        const superanimador = divAnimador.getElementsByClassName("superanimador")[0];
+        superanimadorInput = document.getElementsByName("superanimador-" +
+        email)[0];
+        esSuperanimador = (superanimadorInput.value === 'true');
+
+        // Cambiamos valor del input de superanimador
+        superanimadorInput.value = !esSuperanimador;
+
+        // Cambiamos el símbolo del botón
+        if(esSuperanimador){
+            superanimador.children[1].classList.remove("fa-eye");
+            superanimador.children[1].classList.add("fa-eye-slash");
+        }
+        else{
+            superanimador.children[1].classList.remove("fa-eye-slash");
+            superanimador.children[1].classList.add("fa-eye");
+        }
+    }
+
+/****************************************************************************************/
+
+    // Función para añadir animador
+    function anadirAnimadores(animadores){
+
+        divAnimadores = document.getElementsByClassName("animadores")[0];
+
+        animadores.forEach( animador => {
+            divAnimador = document.getElementById("animador-" + animador.email);
+
+            if(!divAnimador){
+                // Creamos div particular
+                divAnimador = document.createElement("div");
+                divAnimador.className = "animador p-2 p-md-3 row";
+                divAnimador.id = "animador-" + animador.email;
+
+                // Creamos input oculto
+                inputAnimador = document.createElement("input");
+                inputAnimador.name = "animador";
+                inputAnimador.setAttribute("type", "hidden");
+                inputAnimador.setAttribute("value", animador.email);
+                divAnimador.appendChild(inputAnimador);
+
+                // Creamos div de foto de perfil
+                divFoto = document.createElement("div");
+                divFoto.className = "foto-perfil col-4 col-md-2 col-lg-1";
+                imagen = document.createElement("img");
+                imagen.className = "imagen-perfil img-fluid rounded mx-auto d-block";
+                imagen.setAttribute("src", animador.foto_perfil);
+                divFoto.appendChild(imagen);
+                divAnimador.appendChild(divFoto);
+
+                // Creamos el div de nombre
+                divNombre = document.createElement("div");
+                divNombre.className = "nombre col-4 col-md-7 col-lg-8 align-self-center";
+                nombre = document.createElement("h5");
+                nombre.innerText = animador.nombre;
+                nombre.className = "fw-bold";
+                divNombre.appendChild(nombre);
+                divAnimador.appendChild(divNombre);
+
+                // Creamos el div de los botones
+                divBotones = document.createElement("div");
+                divBotones.className = "botones col-4 col-md-3 align-self-center d-md-flex justify-content-end";
+
+                botonSuper = document.createElement("button");
+                botonSuper.className = "superanimador btn btn-primary fw-bold mb-md-0 mb-2 p-1 p-lg-2";
+                botonSuper.setAttribute("onclick", "cambiarSuperanimador('"+
+                    animador.email +"')");
+                botonSuper.setAttribute("type", "button");
+                inputSuperanimador = document.createElement("input");
+                inputSuperanimador.setAttribute("type", "hidden");
+                inputSuperanimador.setAttribute("value", "false");
+                inputSuperanimador.name = "superanimador-" + animador.email;
+                botonSuper.appendChild(inputSuperanimador);
+                iconoSuperanimador = document.createElement("i");
+                iconoSuperanimador.className = "fa-solid fa-eye-slash m-1";
+                botonSuper.appendChild(iconoSuperanimador);
+                textoSuperanimador = document.createTextNode("Ánimos");
+                botonSuper.appendChild(textoSuperanimador);
+                divBotones.appendChild(botonSuper);
+
+                botonBorrar = document.createElement("button");
+                botonBorrar.className = "borrar-amigo btn btn-primary fw-bold p-1 mx-md-1 mx-lg-2 p-lg-2";
+                botonBorrar.setAttribute("onclick", "borrarAnimador('"+ animador.email
+                +"')");
+                botonBorrar.setAttribute("type", "button");
+                iconoBorrar = document.createElement("i");
+                iconoBorrar.className = "fa-sharp fa-solid fa-trash m-1";
+                botonBorrar.appendChild(iconoBorrar);
+                textoBorrar = document.createTextNode("Eliminar");
+                botonBorrar.appendChild(textoBorrar);
+                divBotones.appendChild(botonBorrar);
+                divAnimador.appendChild(divBotones);
+                divAnimadores.appendChild(divAnimador);
+            }
+        })
+    }
+
+/****************************************************************************************/
+</script>

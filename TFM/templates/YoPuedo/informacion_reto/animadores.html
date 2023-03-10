@@ -1,0 +1,37 @@
+<div class='mt-2 mt-sm-3 mt-lg-3 animadores'>
+{% for animador in animadores %}
+    <div class="animador p-2 p-md-3 row" id="animador-{{animador.usuario.email}}">
+        <div class="foto-perfil col-4 col-md-2 col-lg-1">
+            <img class="imagen-perfil img-fluid rounded mx-auto d-block"
+                 src="{{animador.usuario.foto_perfil}}">
+        </div>
+        <div class="nombre col-4 col-md-7 col-lg-8 align-self-center">
+            <h5 class="fw-bold">
+                {{animador.usuario.nombre}}
+            </h5>
+        </div>
+        {% if reto.coordinador.email == user.get_username %}
+        <div class="botones col-4 col-md-3 align-self-center d-md-flex justify-content-end">
+            <div class="superanimador btn btn-primary fw-bold mb-md-0 mb-2 p-1">
+                {% if animador.superanimador %}
+                <i class="fa-solid fa-eye m-1"></i>
+                {% else %}
+                <i class="fa-solid fa-eye-slash m-1"></i>
+                {% endif %}
+                Ánimos
+            </div>
+        </div>
+        {% endif %}
+    </div>
+{% endfor %}
+</div>
+
+<div class="row">
+  <div class='d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5 col'>
+      <button type="button" id="boton-anterior" class="btn btn-primary fw-bold"
+              onclick="cambiarPestana('participantes', 'reto-content')">
+          <i class="fa-solid fa-angle-left"></i>
+          Anterior
+      </button>
+  </div>
+</div>

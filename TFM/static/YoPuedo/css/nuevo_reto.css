@@ -1,0 +1,124 @@
+#formulario_reto, #informacion_reto{
+    height: 100%;
+}
+
+#general-tab, #form-reto-content, #reto-content {
+    background: #F7C985;
+    border-color: #F7C985;
+}
+
+#etapas-tab {
+    background: #CAE8A6;
+    border-color: #CAE8A6;
+}
+
+#participantes-tab {
+    background: #BBF1F7;
+    border-color: #BBF1F7;
+}
+
+#animadores-tab {
+    background: #F0CEF6;
+    border-color: #F0CEF6;
+}
+
+.imagen{
+    background: #3F51B5;
+    border-color: #3F51B5;
+}
+
+.uploadaudio{
+    background: #2196F3;
+    border-color: #2196F3;
+}
+
+.video{
+    background: #00BCD4;
+    border-color: #00BCD4;
+}
+
+#boton-siguiente, #boton-anterior, #boton-fin{
+    background: #795548;
+    border-color: #795548;
+}
+
+.uploadfile {
+    height: fit-content;
+}
+
+.uploadfile > label {
+    text-overflow: ellipsis;
+    cursor: pointer;
+    text-color: white;
+}
+
+label > i {
+    font-size: x-large;
+}
+
+#boton-nueva-etapa{
+    background: #607D8B;
+    border-color: #607D8B;
+}
+
+.borrar{
+    background: #FC204B;
+    border-color: #FC204B;
+}
+
+#etapa-1-tab, #form-etapa-content, #etapa-content{
+    background: #BCA5E5;
+    border-color: #BCA5E5;
+}
+
+#etapa-2-tab{
+    background: #9BABFF;
+    border-color: #9BABFF;
+}
+
+#etapa-3-tab{
+    background: #CAC9F3;
+    border-color: #CAC9F3;
+}
+
+#etapa-4-tab{
+    background: #FCC2EF;
+    border-color: #FCC2EF;
+}
+
+#etapa-5-tab{
+    background: #FD79A7;
+    border-color: #FD79A7;
+}
+
+#btn-amigos{
+    background: #26968B;
+    border-color: #26968B;
+}
+
+.borrar-amigo, .borrar-participante{
+    background: #F44336;
+    border-color: #F44336;
+}
+
+.superanimador{
+    background: #2196F3;
+    border-color: #2196F3;
+}
+
+.animadores, .participantes{
+    background: white;
+    border-color: white;
+}
+
+#boton-siguiente-etapa, #boton-anterior-etapa{
+    background: #CDDC39;
+    border: #CDDC39;
+    font-weight: bold;
+}
+
+#boton-iniciar {
+    background: #4CAF50;
+    border: #4CAF50;
+    font-weight: bold;
+}

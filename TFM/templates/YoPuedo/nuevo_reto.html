@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block static %}
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/nuevo_reto.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/mis_retos.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/modal-retos.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/modal-amigos.css'%}">
+  <script src="https://kit.fontawesome.com/05cfaef439.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+  <script type="text/javascript"
+      src="{% static 'YoPuedo/js/SpeechSynthesis.js' %}"></script>
+  <script type="text/javascript"
+      src="{% static 'YoPuedo/js/VisualizacionRetos.js' %}"></script>
+{% endblock %}
+
+{% block contenido %}
+  <!-- CABECERA -->
+  <section>
+      <h4 id="titulo" class="m-2 m-md-3 m-lg-4">
+        {% if '/nuevo_reto/' in request.get_full_path %}
+          {% if tipo_reto == "individual" %}
+            <i class="bi bi-person-fill"></i>
+          {% else %}
+            <i class="bi bi-people-fill"></i>
+          {% endif %}
+          Nuevo reto {% if tipo_reto %}{{ tipo_reto }}{% endif %}
+        {% else %}
+          <i class="fa-solid fa-pen-to-square"></i>
+          Editar reto
+        {% endif %}
+      </h4>
+  </section>
+
+  <section id="formulario_reto" class="m-1">
+    <!-- BOTONES NAVEGACIÓN TABS -->
+    <ul class="nav nav-tabs" id="tab-pasos" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="general-tab"
+          data-bs-toggle="tab" data-bs-target="#general" type="button"
+          role="tab" aria-controls="general" aria-selected="true"
+          onclick="cambiarColorCuerpo('general', 'form-reto-content')">
+          <div class="row {% if general_form.errors %} errorlist {% endif %}">
+            <div class="col-2">
+              <i class="fa-solid fa-clipboard"></i>
+            </div>
+            <div class="d-none d-md-block col-9">
+              <h5>General</h5>
+            </div>
+          </div>
+        </button>
+      </li>
+
+      <li class="nav-item" role="presentation">
+        <button class="nav-link d-none" id="etapas-tab" data-bs-toggle="tab"
+          data-bs-target="#etapas" type="button" role="tab"
+          aria-controls="etapas" aria-selected="false"
+          onclick="cambiarColorCuerpo('etapas', 'form-reto-content')">
+          <div class="row {% if error_etapas %} errorlist {% endif %}">
+            <div class="col-2">
+              <i class="fa-solid fa-chart-simple"></i>
+            </div>
+            <div class="d-none d-md-block col-9">
+              <h5>Etapas</h5>
+            </div>
+          </div>
+        </button>
+      </li>
+
+      {% if tipo_reto == "colectivo" or '/editar_reto/' in request.get_full_path %}
+      <li class="nav-item" role="presentation">
+        <button class="nav-link d-none" id="participantes-tab" data-bs-toggle="tab"
+          data-bs-target="#participantes" type="button" role="tab"
+          aria-controls="participantes" aria-selected="false"
+          onclick="cambiarColorCuerpo('participantes', 'form-reto-content')">
+          <div class="row">
+            <div class="col-2">
+              <i class="fa-solid fa-people-group"></i>
+            </div>
+            <div class="d-none d-md-block col-10">
+              <h5>Participantes</h5>
+            </div>
+          </div>
+        </button>
+      </li>
+      {% endif %}
+
+      <li class="nav-item" role="presentation">
+        <button class="nav-link d-none" id="animadores-tab" data-bs-toggle="tab"
+          data-bs-target="#animadores" type="button" role="tab"
+          aria-controls="animadores" aria-selected="false"
+          onclick="cambiarColorCuerpo('animadores', 'form-reto-content')">
+          <div class="row">
+            <div class="col-2">
+              <i class="fa-sharp fa-solid fa-hand-holding-hand"></i>
+            </div>
+            <div class="d-none d-md-block col-10">
+              <h5>Animadores</h5>
+            </div>
+          </div>
+        </button>
+      </li>
+    </ul>
+
+    <!-- CUERPO DE LOS TABS -->
+    <form class="form tab-content p-3" method="post" action="{{ request.get_full_path }}"
+          enctype="multipart/form-data" id="form-reto-content">
+      {% csrf_token %}
+      <div class="tab-pane fade show active" id="general" role="tabpanel"
+        aria-labelledby="general-tab">
+        {% include 'YoPuedo/formulario_reto/general.html'%}
+      </div>
+
+      <div class="tab-pane fade" id="etapas" role="tabpanel"
+        aria-labelledby="etapas-tab">
+        {% include 'YoPuedo/formulario_reto/etapas.html'%}
+      </div>
+
+      {% if tipo_reto == "colectivo" or "/editar_reto/" in request.get_full_path %}
+      <div class="tab-pane fade" id="participantes" role="tabpanel"
+        aria-labelledby="participantes-tab">
+        {% include 'YoPuedo/formulario_reto/participantes.html'%}
+      </div>
+      {% endif %}
+
+      <div class="tab-pane fade" id="animadores" role="tabpanel"
+        aria-labelledby="animadores-tab">
+        {% include 'YoPuedo/formulario_reto/animadores.html'%}
+      </div>
+    </form>
+  </section>
+
+<script>
+
+    {% if errores %}
+    window.onload = () => {
+        cambiarPestana('general', 'form-reto-content');
+        document.getElementById("etapas-tab").classList.remove("d-none");
+        document.getElementById("animadores-tab").classList.remove("d-none");
+        {% if tipo_reto == "colectivos" %}
+        document.getElementById("participantes-tab").classList.remove("d-none");
+        {% endif %}
+    }
+    {% endif %}
+
+    ;( function ( document, window, index )
+    {
+        var inputs = document.querySelectorAll( '.input-media' );
+        Array.prototype.forEach.call( inputs, function( input )
+        {
+            var label	 = input.previousElementSibling,
+			labelVal = label.innerHTML;
+
+            input.addEventListener( 'change', function( e )
+            {
+                var fileName = e.target.value.split( '\\' ).pop();
+
+                if(fileName)
+                    label.children[1].innerText = fileName;
+                else
+                    label.innerHTML = labelVal;
+            });
+        });
+    }( document, window, 0 ));
+
+    function iniciarReto(){
+      const urlParams = new URLSearchParams(window.location.search);
+      id = '{{ id_reto }}';
+      url = "{% url 'iniciar_reto' id_reto='id' %}".replace("id", id.toString());
+      window.location.href = url;
+    }
+
+</script>
+{% endblock %}
+
+{% block modales %}
+  <!-- MODAL DEL TIPO DE RETOS-->
+  <div class="modal fade" id="modal">
+    <div class="modal-dialog row align-items-center my-0" id="dialog">
+        {% include 'YoPuedo/elementos/modal-retos.html' %}
+    </div>
+  </div>
+
+  {% if tipo_reto == "" and "/nuevo_reto/" in request.get_full_path%}
+    <script>
+          window.onload = () => {
+              $('#modal').modal('show');
+          }
+    </script>
+  {% endif %}
+
+<!-- MODAL DE AÑADIR A AMIGOS-->
+  <div class="modal fade" id="modal-amigos">
+    <div class="modal-dialog row align-items-center my-0" id="dialog-amigos" hx-target="this">
+    </div>
+  </div>
+
+  <script>
+     // Funciones para controlar el modal
+    ;(function () {
+      const modal = new bootstrap.Modal(document.getElementById("modal-amigos"))
+      htmx.on("htmx:afterSwap", (e) => {
+        // Response targeting #dialog => show the modal
+        if (e.detail.target.id == "dialog-amigos") {
+          modal.show()
+        }
+      })
+      // Remove dialog content after hiding
+      htmx.on("hidden.bs.modal", () => {
+        document.getElementById("dialog-amigos").innerHTML = "";
+      })
+    })()
+  </script>
+{% endblock %}

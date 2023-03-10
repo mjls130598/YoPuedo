@@ -1,0 +1,179 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title titulo-modal fw-bold">
+      <i class="fa-solid fa-user-plus"></i>
+      Añadir {{ relacion }}
+    </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <form class="form row" hx-get="{{ request.path }}">
+        <div class="col-8 col-md-9 col-lg-10">
+            {% for field in form_consulta %}
+                {{ field }}
+            {% endfor %}
+        </div>
+        <button type="submit"
+                class="col-2 col-md-1 fw-bold btn btn-primary buscar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <div class="col-1">
+            {% include 'YoPuedo/elementos/microfono.html' with elementRecognition="id_consulta" %}
+        </div>
+    </form>
+
+    <div class="amigos m-2">
+        {% for amigo in amigos %}
+        <div class="row pt-2 pb-2" id="amigo-{{amigo.email}}">
+            <div class="foto-perfil col-4 col-lg-3">
+                <img class="imagen-perfil img-fluid rounded mx-auto d-block" src="{{amigo.foto_perfil}}">
+            </div>
+            <div class="nombre col-5 col-lg-6 align-self-center">
+                <h5 class="fw-bold">
+                    {{amigo.nombre}}
+                </h5>
+            </div>
+            <div class="botones col-3 col-lg-3 align-self-center">
+                <button class="anadir-amigo btn btn-primary fw-bold"
+                        onclick="anadirAmigo({{amigo}})">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </div>
+                        <div class="d-none d-lg-block col-8">
+                            Añadir
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="m-3" id="paginador">
+      <nav>
+        <ul class="pagination justify-content-center">
+          {% if amigos.has_previous %}
+            <li page-item>
+                <a class="page-link"
+                   onclick="irPagina('{{ amigos.previous_page_number }}')">
+                    &laquo;
+                </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&laquo;</span>
+            </li>
+          {% endif %}
+          {% for i in amigos.paginator.page_range %}
+            {% if amigos.number == i %}
+              <li class="page-item active">
+                  <span class="page-link">
+                      {{ i }}
+                      <span class="sr-only">(Actual)</span>
+                  </span>
+              </li>
+            {% else %}
+              <li class="page-item">
+                  <a class="page-link"
+                   onclick="irPagina('{{ i }}')">
+                      {{ i }}
+                  </a>
+              </li>
+            {% endif %}
+          {% endfor %}
+          {% if amigos.has_next %}
+            <li class="page-item">
+                <a class="page-link"
+                   onclick="irPagina('{{ amigos.next_page_number }}')">
+                    &raquo;
+                </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&raquo;</span>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <div class="modal-footer justify-content-end">
+    <button type="button" class="btn btn-primary fw-bold aceptar" data-bs-dismiss="modal"
+            onclick="anadirAmigos()">
+      <i class="fa-solid fa-check"></i>
+      Aceptar
+    </button>
+  </div>
+</div>
+
+<script>
+    amigos = [];
+
+/****************************************************************************************/
+
+    // Función para añadir amigos a la lista
+    function anadirAmigo(amigo){
+        amigos.push(amigo);
+
+        divAmigo = document.getElementById("amigo-" + amigo.email);
+        divAmigo.classList.add("seleccionado");
+        button = divAmigo.getElementsByClassName("anadir-amigo")[0];
+        button.classList.remove("anadir-amigo");
+        button.classList.add("borrar-amigo");
+        button.setAttribute("onclick", "eliminarAmigo({"+
+            "'email':'" + amigo.email + "'," +
+            "'foto_perfil':'" + amigo.foto_perfil + "'," +
+            "'nombre':'" + amigo.nombre + "'"
+        +"})");
+        i = button.getElementsByTagName("i")[0];
+        i.className = "fa-solid fa-user-minus";
+        divTexto = button.getElementsByTagName("div")[2];
+        divTexto.innerText = "Eliminar";
+    }
+
+/****************************************************************************************/
+
+    // Función para eliminar amigos de la lista
+    function eliminarAmigo(amigo){
+        amigos.pop(amigo);
+
+        divAmigo = document.getElementById("amigo-" + amigo.email);
+        divAmigo.classList.remove("seleccionado");
+        button = divAmigo.getElementsByClassName("borrar-amigo")[0];
+        button.classList.add("anadir-amigo");
+        button.classList.remove("borrar-amigo");
+        button.setAttribute("onclick", "anadirAmigo({"+
+            "'email':'" + amigo.email + "'," +
+            "'foto_perfil':'" + amigo.foto_perfil + "'," +
+            "'nombre':'" + amigo.nombre + "'"
+        +"})");
+        i = button.getElementsByTagName("i")[0];
+        i.className = "fa-solid fa-user-plus";
+        divTexto = button.getElementsByTagName("div")[2];
+        divTexto.innerText = "Añadir";
+    }
+
+/****************************************************************************************/
+
+    // Función para añadir amigos
+    function anadirAmigos(){
+        {% if relacion == 'animador' %}
+        anadirAnimadores(amigos);
+        {% else %}
+        anadirParticipantes(amigos);
+        {% endif %}
+
+        amigos = [];
+    }
+
+/****************************************************************************************/
+
+    // Función para la redirección de paginación
+    function irPagina(pagina){
+        const urlParams = new URLSearchParams(window.location.search);
+        enlace = enlace = "{{ request.get_full_path }}&page=" + pagina;
+
+        htmx.ajax('GET', enlace, {target:'#dialog-amigos', swap:'innerHTML'})
+    }
+</script>
+

@@ -4,7 +4,6 @@ from . import views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('', views.index, name='index'),
     path('registrarse/', views.registrarse, name="registrarse"),
     path('validar_clave/<str:tipo>/<str:email>', views.validar_clave,
          name="validar_clave"),
@@ -23,4 +22,17 @@ urlpatterns = [
         template_name='YoPuedo/recuperacion_contrasena/recuperacion_done.html',
     ), name="password_reset_complete"),
     path('mis_retos/', views.mis_retos, name="mis_retos"),
+    path('retos', views.get_retos, name="retos"),
+    path('reto/<str:id_reto>', views.get_reto, name="reto"),
+    path('nuevo_reto/', views.nuevo_reto, name="nuevo_reto"),
+    path('iniciar_reto/<str:id_reto>', views.iniciar_reto, name="iniciar_reto"),
+    path('editar_reto/<str:id_reto>', views.editar_reto, name="editar_reto"),
+    path('eliminar_reto/<str:id_reto>', views.eliminar_reto, name="eliminar_reto"),
+    path('coordinador_reto/<str:id_reto>', views.coordinador_reto,
+         name="coordinador_reto"),
+    path('animador_reto/<str:id_reto>', views.animador_reto, name="animador_reto"),
+    path('amigos/', views.get_amigos, name="amigos"),
+    path('calificar/<str:id_etapa>', views.calificar_etapa, name="calificar"),
+    path('prueba/<str:id_etapa>', views.pruebas, name="pruebas"),
+    path('animos/<str:id_etapa>', views.animos, name='animos')
 ]

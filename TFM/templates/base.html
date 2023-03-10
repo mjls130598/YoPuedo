@@ -55,9 +55,10 @@
       </ul>
     </nav>
 
+    <!-- CABECERA -->
     <div id="content">
       <div id="cabecera" class="container basic">
-        <div class="row">
+        <div class="row" id="cabecera_fila">
           <button type="button" id="apertura_menu"
                   class="btn btn-primary col">
             <i class="bi bi-list"></i>
@@ -68,15 +69,18 @@
           </h5>
         </div>
       </div>
-
-      {% block contenido %}
-      {% endblock %}
-
     </div>
 
-    <div class="overlay"></div>
+    <!-- CONTENIDO -->
+    <div class="overlay">
+      {% block contenido %}
+      {% endblock %}
+    </div>
 
   </div>
+
+  {% block modales %}
+  {% endblock %}
 </body>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -84,7 +88,7 @@
             theme: "minimal"
         });
 
-        $('#cierre_menu, .overlay').on('click', function () {
+        $('#cierre_menu, .overlay.contenedor.active').on('click', function () {
             // hide sidebar
             $('#sidebar').removeClass('active');
             // hide overlay

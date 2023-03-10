@@ -1,0 +1,336 @@
+<!-- BOTONES NAVEGACIÓN TABS -->
+<ul class="nav nav-tabs" id="tab-etapas" role="tablist">
+  {% for etapa_form in etapas_form %}
+  <li class="nav-item" role="presentation">
+    <button class="nav-link {% if forloop.counter == 1 %} active {% endif %}"
+            id="etapa-{{ forloop.counter }}-tab" data-bs-toggle="tab"
+            data-bs-target="#etapa-{{ forloop.counter }}" type="button" role="tab"
+            aria-controls="etapa-{{ forloop.counter }}" aria-selected="true"
+            onclick="cambiarPestanaEtapa('etapa-{{ forloop.counter }}', 'form-etapa-content')">
+      <div class="row {% if etapa_form.errors %} errorlist {% endif %}">
+        <div class="col-3">
+          <i class="fa-solid fa-chart-simple"></i>
+        </div>
+        <div class="col-3">
+            <h5>{{ forloop.counter }}º</h5>
+        </div>
+        <div class="d-none d-md-block col-6 p-0">
+          <h5>Etapa</h5>
+        </div>
+      </div>
+    </button>
+  </li>
+  {% endfor %}
+</ul>
+
+<!-- CUERPO DE LOS TABS -->
+<div class="tab-content p-3" id="form-etapa-content">
+  {{ etapas_form.management_form }}
+  {% for etapa_form in etapas_form %}
+  <div class="tab-pane fade {% if forloop.counter == 1 %} show active {% endif %}"
+       id="etapa-{{ forloop.counter }}" role="tabpanel"
+       aria-labelledby="etapa-{{ forloop.counter }}-tab">
+    {% include 'YoPuedo/formulario_reto/etapa.html' with num_etapa=forloop.counter %}
+  </div>
+  {% endfor %}
+</div>
+
+<div class="row">
+  <div class='form-group d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5 col'>
+      <button type="button" id="boton-anterior" class="btn btn-primary fw-bold"
+              onclick="cambiarPestana('general', 'form-reto-content')">
+          <i class="fa-solid fa-angle-left"></i>
+          Anterior
+      </button>
+  </div>
+
+  <div class='form-group d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5 col'>
+      <button type="button" id="boton-siguiente" class="btn btn-primary fw-bold"
+              onclick="{% if tipo_reto == 'colectivo' or '/editar_reto/' in request.get_full_path %} cambiarPestana('participantes', 'form-reto-content') {% else %} cambiarPestana('animadores','form-reto-content') {% endif %}">
+          Siguiente
+          <i class="fa-solid fa-angle-right"></i>
+      </button>
+  </div>
+</div>
+
+<script>
+/****************************************************************************************/
+
+  // Función para obtener el número de etapa al que ir
+  function getNumEtapa(etapa, cantidad){
+    num_etapa = etapa + cantidad;
+    total_etapas = parseInt($('#id_form-TOTAL_FORMS').val());
+
+    if (num_etapa > total_etapas)
+        crearEtapa(num_etapa);
+
+    return 'etapa-' + num_etapa;
+  }
+
+/****************************************************************************************/
+  // Función para crear una etapa
+  function crearEtapa(num_etapa){
+
+    // Clonamos la primera pestaña
+    const pestana = document.getElementById("tab-etapas").children[0];
+    const clone = pestana.cloneNode(true);
+
+    // Cambiamos los valores a la nueva etapa
+    button = clone.children[0];
+    button.classList.remove("active");
+    button.id = "etapa-" + num_etapa + "-tab";
+    button.setAttribute('data-bs-target', "#etapa-" + num_etapa);
+    button.setAttribute('aria-controls', "etapa-" + num_etapa);
+    button.setAttribute('onclick', "cambiarPestanaEtapa('etapa-" + num_etapa + "', 'form-etapa-content')");
+    titulo = button.getElementsByTagName("h5")[0];
+    titulo.innerText = num_etapa + "º";
+
+    // Insertamos la última pestaña
+    pestana.parentNode.appendChild(clone);
+
+    // Clonamos el cuerpo de la primera pestaña
+    const cuerpo = document.getElementById("etapa-" + (num_etapa - 1));
+    clone_cuerpo = cuerpo.cloneNode(true);
+
+    cambiarCuerpo(clone_cuerpo, num_etapa, true);
+
+    // Insertamos el último cuerpo
+    cuerpo.parentNode.appendChild(clone_cuerpo);
+
+    // Añadimos la etapa en la variable TOTAL_FORMS
+    $('#id_form-TOTAL_FORMS').val(num_etapa);
+  }
+
+/****************************************************************************************/
+  // Función para cambiar el cuerpo de la etapa dada
+  function cambiarCuerpo(clone_cuerpo, num_etapa, nueva){
+
+    // Cambiamos los valores del div principal del nuevo cuerpo
+    clone_cuerpo.id = "etapa-" + num_etapa;
+    clone_cuerpo.classList.remove("show");
+    clone_cuerpo.classList.remove("active");
+    clone_cuerpo.setAttribute("aria-labelledby", "etapa-" + num_etapa + "-tab");
+
+    // Cambiamos ids de los inputs
+    id_etapa = clone_cuerpo.getElementsByTagName("input")[0];
+    id_etapa.name = "form-" + (num_etapa - 1) + "-id_etapa";
+    id_etapa.id = "id_form-" + (num_etapa - 1) + "-id_etapa";
+    if(nueva)
+        id_etapa.value = "";
+
+    btn_foto = clone_cuerpo.getElementsByTagName("input")[1];
+    btn_foto.name = "form-" + (num_etapa - 1) + "-objetivo_imagen";
+    btn_foto.id = "id_form-" + (num_etapa - 1) + "-objetivo_imagen";
+    if(nueva){
+        btn_foto.value = "";
+        label_foto = btn_foto.nextElementSibling.children[0].children[1];
+        label_foto.innerHTML = " Subir foto ";
+    }
+
+    btn_audio = clone_cuerpo.getElementsByTagName("input")[2];
+    btn_audio.name = "form-" + (num_etapa - 1) + "-objetivo_audio";
+    btn_audio.id = "id_form-" + (num_etapa - 1) + "-objetivo_audio";
+    if(nueva){
+        btn_audio.value = "";
+        label_audio = btn_audio.nextElementSibling.children[0].children[1];
+        label_audio.innerHTML = " Subir audio ";
+    }
+
+    btn_video = clone_cuerpo.getElementsByTagName("input")[3];
+    btn_video.name = "form-" + (num_etapa - 1) + "-objetivo_video";
+    btn_video.id = "id_form-" + (num_etapa - 1) + "-objetivo_video";
+    if(nueva){
+        btn_video.value = "";
+        label_video = btn_video.nextElementSibling.children[0].children[1];
+        label_video.innerText = " Subir vídeo ";
+    }
+
+    textarea = clone_cuerpo.getElementsByTagName("textarea")[0];
+    textarea.name = "form-" + (num_etapa - 1) + "-objetivo_texto";
+    textarea.id = "id_form-" + (num_etapa - 1) + "-objetivo_texto";
+    if(nueva)
+        textarea.value = "";
+
+    microfono = clone_cuerpo.getElementsByClassName("microfono")[0];
+    microfono.id = "microfono_id_form-" + (num_etapa - 1) +"-objetivo_texto";
+    microfono.setAttribute("onclick", "reconocimientoVoz('id_form-" + (num_etapa - 1) +
+    "-objetivo_texto')");
+
+    // Cambiamos botones de anterior, borrar y siguiente
+    botones_etapas = clone_cuerpo.getElementsByClassName("botones-etapa")[0];
+    boton_borrar = clone_cuerpo.getElementsByClassName("borrar")[0];
+
+    if(!boton_borrar){
+        const borrar_div = document.createElement("div");
+        borrar_div.className = "form-group d-flex justify-content-center mt-5 col";
+        const borrar_button = document.createElement("button");
+        borrar_button.id = "boton-borrar-etapa";
+        borrar_button.className = "btn btn-primary fw-bold borrar";
+        borrar_button.setAttribute("type", "button");
+        borrar_button.setAttribute("onclick", "borrarEtapa(" + num_etapa + ")");
+        const borrar_i = document.createElement("i");
+        borrar_i.className = "fa-sharp fa-solid fa-trash";
+        const borrar_texto = document.createTextNode(" Borrar etapa ");
+        borrar_button.appendChild(borrar_i);
+        borrar_button.appendChild(borrar_texto);
+        borrar_div.appendChild(borrar_button);
+        botones_etapas.prepend(borrar_div);
+    }
+    else{
+        boton_borrar.setAttribute("onclick", "borrarEtapa(" + num_etapa + ")");
+    }
+
+    boton_anterior = clone_cuerpo.getElementsByClassName("anterior")[0];
+
+    if(!boton_anterior){
+        const anterior_div = document.createElement("div");
+        anterior_div.className = "form-group d-flex justify-content-start mt-5 col";
+        const anterior_button = document.createElement("button");
+        anterior_button.id = "boton-anterior-etapa";
+        anterior_button.className = "btn btn-primary fw-bold anterior";
+        anterior_button.setAttribute("type", "button");
+        anterior_button.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
+        num_etapa + ", -1))");
+        const anterior_i = document.createElement("i");
+        anterior_i.className = "fa-solid fa-angle-left";
+        const anterior_texto = document.createTextNode(" Anterior etapa ");
+        anterior_button.appendChild(anterior_i);
+        anterior_button.appendChild(anterior_texto);
+        anterior_div.appendChild(anterior_button);
+        botones_etapas.prepend(anterior_div);
+    }
+    else{
+        boton_anterior.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
+        num_etapa + ", -1), 'form-etapa-content')");
+    }
+
+    boton_nuevo = clone_cuerpo.getElementsByClassName("nueva")[0];
+    max_etapas = parseInt($('#id_form-MAX_NUM_FORMS').val());
+
+    if(boton_nuevo){
+        if(num_etapa < max_etapas)
+            boton_nuevo.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
+                num_etapa + ", 1), 'form-etapa-content')");
+
+        else
+            boton_nuevo.remove();
+    }
+
+    const total_etapas = parseInt($('#id_form-TOTAL_FORMS').val());
+
+    if(num_etapa > total_etapas){
+
+        // Cambiamos el botón nuevo de la anterior etapa por botón siguiente
+        boton_siguiente = document.getElementById("boton-nueva-etapa");
+        boton_siguiente.id = "boton-siguiente-etapa";
+        boton_siguiente.classList.remove("nueva");
+        boton_siguiente.classList.add("siguiente");
+        boton_siguiente.innerText = " Siguiente etapa ";
+        const siguiente_i = document.createElement("i");
+        siguiente_i.className = "fa-solid fa-angle-right";
+        boton_siguiente.appendChild(siguiente_i);
+    }
+
+    else{
+        if(num_etapa < total_etapas){
+            // Cambiamos función del botón "Siguiente Etapa"
+            boton_siguiente = clone_cuerpo.getElementsByClassName('siguiente')[0];
+            boton_siguiente.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
+                    num_etapa + ", 1), 'form-etapa-content')");
+        }
+        else{
+            if(num_etapa != (max_etapas - 1)){
+                // Cambiamos función del botón "Nueva Etapa"
+                boton_siguiente = clone_cuerpo.getElementsByClassName('nueva')[0];
+                boton_siguiente.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
+                        num_etapa + ", 1), 'form-etapa-content')");
+            }
+            else{
+                boton_siguiente = clone_cuerpo.getElementsByClassName('siguiente')[0];
+
+                if(boton_siguiente)
+                    boton_siguiente.remove();
+
+                const nuevo_button = document.createElement("button");
+                nuevo_button.id = "boton-nueva-etapa";
+                nuevo_button.className = "btn btn-primary fw-bold nueva";
+                nuevo_button.setAttribute("type", "button");
+                nuevo_button.setAttribute("onclick", "cambiarPestanaEtapa(getNumEtapa(" +
+                num_etapa + ", 1), 'form-etapa-content')");
+                const nuevo_i = document.createElement("i");
+                nuevo_i.className = "fa-solid fa-plus";
+                const nuevo_texto = document.createTextNode(" Nueva etapa ");
+                nuevo_button.appendChild(nuevo_i);
+                nuevo_button.appendChild(nuevo_texto);
+                nuevo_div = clone_cuerpo.getElementsByClassName("form-group d-flex" +
+                " justify-content-end mt-2 mt-sm-3 mt-lg-5 col")[0];
+
+                if(!nuevo_div){
+                    nuevo_div = document.createElement("div");
+                    nuevo_div.className = "form-group d-flex justify-content-end mt-2" +
+                        " mt-sm-3 mt-lg-5 col";
+                    div_botones = clone_cuerpo.children[0].getElementsByClassName("row botones-etapa")[0];
+                    div_botones.appendChild(nuevo_div);
+                }
+
+                nuevo_div.appendChild(nuevo_button);
+            }
+        }
+    }
+  }
+
+/****************************************************************************************/
+
+  // Función para eliminar la etapa
+  function borrarEtapa(num_etapa){
+
+    const total_etapas = parseInt($('#id_form-TOTAL_FORMS').val());
+
+    // Borramos la pestaña de la etapa a eliminar
+    document.getElementById("tab-etapas").children[num_etapa - 1].remove();
+
+    // Borramos el cuerpo de la etapa a eliminar
+    document.getElementById("etapa-" + num_etapa).remove();
+
+    // Restamos el contador de formularios total
+    $('#id_form-TOTAL_FORMS').val(total_etapas - 1);
+
+    // Actualizamos la lista del resto de etapas
+    for(i = num_etapa; i < total_etapas; i++){
+
+        // Arreglamos las pestañas de las etapas
+        const pestana_etapa = document.getElementById("tab-etapas").children[i - 1].children[0];
+        titulo = pestana_etapa.getElementsByTagName("h5")[0];
+        titulo.innerText = i + "º";
+        pestana_etapa.id = "etapa-" + i + "-tab";
+        pestana_etapa.setAttribute("data-bs-target", "#etapa-" + i);
+        pestana_etapa.setAttribute("aria-controls", "etapa-" + i);
+        pestana_etapa.setAttribute("onclick", "cambiarPestanaEtapa('etapa-" + i + "', 'form-etapa-content')");
+
+        // Arreglamos los elementos del cuerpo
+        cambiarCuerpo(document.getElementById("etapa-" + (i + 1)), i, false);
+    }
+
+    // Si la etapa anterior va a ser la total, ...
+    if((num_etapa - 1) == (total_etapas - 1)){
+        // Cambiamos el botón siguiente por botón nueva en la última etapa activa
+        const cuerpo_anterior = document.getElementById("etapa-" + (num_etapa - 1));
+        boton_siguiente = cuerpo_anterior.getElementsByClassName("siguiente")[0];
+        boton_siguiente.id = "boton-nueva-etapa";
+        boton_siguiente.classList.add("nueva");
+        boton_siguiente.classList.remove("siguiente");
+        boton_siguiente.innerText = " Nueva etapa ";
+        const siguiente_i = document.createElement("i");
+        siguiente_i.className = "fa-solid fa-plus";
+        boton_siguiente.prepend(siguiente_i);
+
+        // Cambiamos la última pestaña a activa
+        cambiarPestanaEtapa("etapa-" + (num_etapa - 1), 'form-etapa-content');
+    }
+
+    // Cambiamos la última pestaña a activa
+    else
+        cambiarPestanaEtapa("etapa-" + num_etapa, 'form-etapa-content');
+
+  }
+</script>

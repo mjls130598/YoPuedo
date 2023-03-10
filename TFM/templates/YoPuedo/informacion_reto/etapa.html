@@ -1,0 +1,162 @@
+{% load get_value %}
+<div class='row'>
+    <h6 class="fw-bold col-md-2 align-self-center">
+        <i class="fa-solid fa-flag-checkered"></i>
+        Objetivo:
+    </h6>
+    {% if "mp3" in etapa.objetivo or "acc" in etapa.objetivo or "ogg" in etapa.objetivo or "wma" in etapa.objetivo %}
+    <div class="col-md-4 col-12 mb-4 m-md-0 informacion align-self-center">
+    {% else %}
+    <div class="col-md-9 col-12 mb-4 m-md-0 informacion align-self-center">
+    {% endif %}
+    {% if "mp3" in etapa.objetivo or "acc" in etapa.objetivo or "ogg" in etapa.objetivo or "wma" in etapa.objetivo %}
+        <audio controls id="audio"
+            onplay="obtenerAudio('{{ etapa.objetivo }}', 'texto_audio_objetivo')">
+            <source src="{{ etapa.objetivo }}" type="audio/mpeg">
+        </audio>
+    {% elif "jpg" in etapa.objetivo or "jpeg" in etapa.objetivo or "png" in etapa.objetivo or "svg" in etapa.objetivo or "gif" in etapa.objetivo %}
+        <img class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+            col-xl-5" src="{{ etapa.objetivo }}">
+    {% elif "mp4" in etapa.objetivo or "ogg" in etapa.objetivo %}
+        <video class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+            col-xl-5" controls>
+            <source src="{{ etapa.objetivo }}" type="video/mp4">
+        </video>
+    {% else %}
+        <h6 id="texto_etapa_{{ num_etapa }}">
+            {{ etapa.objetivo }}
+        </h6>
+    {% endif %}
+    </div>
+    {% if "mp3" in etapa.objetivo or "acc" in etapa.objetivo or "ogg" in etapa.objetivo or "wma" in etapa.objetivo %}
+    <div class="col-md-8 align-self-center text-center overflow-auto audio">
+        <p id="texto_audio_objetivo"></p>
+    </div>
+    {% elif not '/media/' in etapa.objetivo %}
+    <div class="col-md-1 col d-flex justify-content-center">
+        {% with texto='texto_etapa_'|addvalue:num_etapa %}
+        {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech=texto %}
+        {% endwith %}
+    </div>
+    {% endif %}
+</div>
+
+{% if etapa.estado != 'Propuesto' %}
+<ul class="nav nav-tabs" id="tab-info" role="tablist">
+{% if participa %}
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="pruebas-tab"
+        data-bs-toggle="tab" data-bs-target="#pruebas" type="button"
+        role="tab" aria-controls="pruebas" aria-selected="true"
+        onclick="cambiarColorCuerpo('pruebas', 'info-content-{{etapa.id_etapa}}')"
+        hx-get="{% url 'pruebas' id_etapa=etapa.id_etapa %}"
+        hx-target="#pruebas">
+        <div class="row">
+          <div class="col-2">
+            <i class="fa-solid fa-clipboard-list"></i>
+          </div>
+          <div class="d-none d-md-block col-9">
+            <h6>Pruebas</h6>
+          </div>
+        </div>
+      </button>
+    </li>
+{% endif %}
+    <li class="nav-item" role="presentation">
+      <button class="nav-link {% if not participa %}active{% endif %}" id="animos-tab"
+        data-bs-toggle="tab" data-bs-target="#animos" type="button"
+        role="tab" aria-controls="animos" aria-selected="true"
+        onclick="cambiarColorCuerpo('animos', 'info-content-{{etapa.id_etapa}}')"
+        hx-get="{% url 'animos' id_etapa=etapa.id_etapa %}"
+        hx-target="#animos">
+        <div class="row">
+          <div class="col-2">
+            <i class="fa-solid fa-clipboard-list"></i>
+          </div>
+          <div class="d-none d-md-block col-9">
+            <h6>Ánimos</h6>
+          </div>
+        </div>
+      </button>
+    </li>
+</ul>
+<div class="tab-content p-3 info-content" id="info-content-{{etapa.id_etapa}}">
+    {% if participa %}
+    <div class="tab-pane fade show active" id="pruebas" role="tabpanel"
+      aria-labelledby="pruebas-tab" hx-trigger="load, pruebaListaActualizar from:#pruebas"
+        hx-get="{% url 'pruebas' id_etapa=etapa.id_etapa %}" hx-target="this">
+    </div>
+    {% endif %}
+    <div class="tab-pane fade {% if not participa %}show active{% endif %}" id="animos"
+         role="tabpanel" aria-labelledby="animos-tab"
+         hx-trigger="load, animosListaActualizar from:#animos"
+         hx-get="{% url 'animos' id_etapa=etapa.id_etapa %}" hx-target="this">
+    </div>
+</div>
+
+{% if participa %}
+<div class="row row mt-md-3 mt-2">
+    <h6 class="fw-bold col-md-3 align-self-center">
+        <i class="fa-solid fa-star"></i>
+        Calificación:
+    </h6>
+    <div class="col d-flex justify-content-center justify-content-md-start">
+        <ul class="mt-2 m-md-0 btn btn-light list-inline list-group list-group-horizontal calificacion p-0">
+            {% with calificacion=calificaciones|get_item:etapa.id_etapa%}
+
+            <li class="list-group-item mal"
+                onclick="calificacion('{{ etapa.id_etapa }}', 'mal', {{ num_etapa }})">
+                {% if calificacion == 'mal' %}
+                <i class="fa-solid fa-face-frown"></i>
+                {% else %}
+                <i class="fa-regular fa-face-frown"></i>
+                {% endif %}
+            </li>
+
+            <li class="list-group-item normal"
+                onclick="calificacion('{{ etapa.id_etapa }}', 'normal', {{ num_etapa }})">
+                {% if calificacion == 'normal' %}
+                <i class="fa-solid fa-face-smile"></i>
+                {% else %}
+                <i class="fa-regular fa-face-smile"></i>
+                {% endif %}
+            </li>
+
+            <li class="list-group-item muy_bien"
+               onclick="calificacion('{{ etapa.id_etapa }}', 'muy bien', {{ num_etapa }})">
+                {% if calificacion == 'muy bien' %}
+                <i class="fa-solid fa-face-laugh-beam"></i>
+                {% else %}
+                <i class="fa-regular fa-face-laugh-beam"></i>
+                {% endif %}
+            </li>
+            {% endwith %}
+        </ul>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+<div class="row botones-etapa">
+    {% if num_etapa != 1 %}
+    <div class='d-flex justify-content-start mt-2 mt-sm-3 mt-lg-5 col'>
+        <button id="boton-anterior-etapa" class="btn btn-primary fw-bold anterior"
+                type="button"
+                onclick="cambiarPestanaEtapa(getNumEtapa({{num_etapa}}, -1), 'etapa-content')">
+            <i class="fa-solid fa-angle-left"></i>
+            Anterior etapa
+        </button>
+    </div>
+    {% endif %}
+
+    {% if num_etapa != etapas|length %}
+    <div class='d-flex justify-content-end mt-2 mt-sm-3 mt-lg-5 col'>
+        <button id="boton-siguiente-etapa"
+                class="btn btn-primary fw-bold siguiente"
+                type="button"
+                onclick="cambiarPestanaEtapa(getNumEtapa({{num_etapa}}, 1), 'etapa-content')">
+            Siguiente etapa
+            <i class="fa-solid fa-angle-right"></i>
+        </button>
+    </div>
+    {% endif %}
+</div>

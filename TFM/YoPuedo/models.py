@@ -49,12 +49,13 @@ class Usuario(AbstractBaseUser):
 # TABLA YoPuedo_amistad
 class Amistad(models.Model):
     amigo = models.ManyToManyField(Usuario, related_name="amigo")
-    otro_amigo = models.ManyToManyField(Usuario, related_name="otro_Amigo")
+    otro_amigo = models.ManyToManyField(Usuario, related_name="otro_amigo")
 
 
 # TABLA YoPuedo_reto
 class Reto(models.Model):
     id_reto = models.CharField(max_length=50, primary_key=True)
+    titulo = models.CharField(max_length=500)
     objetivo = models.CharField(max_length=500)
     recompensa = models.CharField(max_length=500)
     estado = models.CharField(max_length=10, default="Propuesto")
@@ -64,44 +65,44 @@ class Reto(models.Model):
 
 # TABLA YoPuedo_participante:
 class Participante(models.Model):
-    email = models.ManyToManyField(Usuario)
-    id_reto = models.ManyToManyField(Reto)
+    usuario = models.ManyToManyField(Usuario)
+    reto = models.ManyToManyField(Reto)
 
 
 # TABLA YoPuedo_animador:
 class Animador(models.Model):
-    email = models.ManyToManyField(Usuario)
-    id_reto = models.ManyToManyField(Reto)
+    usuario = models.ManyToManyField(Usuario)
+    reto = models.ManyToManyField(Reto)
     superanimador = models.BooleanField(default=False)
 
 
 # TABLA YoPuedo_etapa
 class Etapa(models.Model):
     id_etapa = models.CharField(max_length=50, primary_key=True)
-    id_reto = models.ForeignKey(Reto, on_delete=models.CASCADE)
+    reto = models.ForeignKey(Reto, on_delete=models.CASCADE)
     objetivo = models.CharField(max_length=500)
     estado = models.CharField(max_length=10, default="Propuesto")
 
 
 # TABLA YoPuedo_animo
 class Animo(models.Model):
-    id_etapa = models.ManyToManyField(Etapa)
+    etapa = models.ManyToManyField(Etapa)
     animador = models.ManyToManyField(Animador)
     mensaje = models.CharField(max_length=500)
 
 
 # TABLA YoPuedo_prueba
 class Prueba(models.Model):
-    id_etapa = models.ManyToManyField(Etapa)
-    animador = models.ManyToManyField(Animador)
+    etapa = models.ManyToManyField(Etapa)
+    participante = models.ManyToManyField(Participante)
     prueba = models.CharField(max_length=500)
 
 
 # TABLA YoPuedo_calificacion
 class Calificacion(models.Model):
-    id_etapa = models.ManyToManyField(Etapa)
-    animador = models.ManyToManyField(Animador)
-    prueba = models.CharField(max_length=500)
+    etapa = models.ManyToManyField(Etapa)
+    participante = models.ManyToManyField(Participante)
+    calificacion = models.CharField(max_length=500)
 
 
 # TABLA YoPuedo_notificacion:
