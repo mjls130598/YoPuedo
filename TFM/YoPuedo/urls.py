@@ -34,5 +34,6 @@ urlpatterns = [
     path('amigos/', views.get_amigos, name="amigos"),
     path('calificar/<str:id_etapa>', views.calificar_etapa, name="calificar"),
     path('prueba/<str:id_etapa>', views.pruebas, name="pruebas"),
-    path('animos/<str:id_etapa>', views.animos, name='animos')
+    path('animos/<str:id_etapa>', views.animos, name='animos'),
+    path('mi_perfil', views.mi_perfil, name='perfil')
 ]

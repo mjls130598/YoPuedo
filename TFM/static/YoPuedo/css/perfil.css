@@ -1,0 +1,22 @@
+.perfil{
+    background-color: #EEF8F9;
+}
+
+.titulo, .nombre, .email{
+    color: #009688;
+}
+
+.modificar{
+    background-color: #2196F3;
+    border-color: #2196F3;
+}
+
+.cerrar_sesion{
+    background-color: #FF9800;
+    border-color: #FF9800;
+}
+
+.eliminar{
+    background-color: #F44336;
+    border-color: #F44336;
+}

@@ -1421,6 +1421,20 @@ def animos(request, id_etapa):
 
 ##########################################################################################
 
+# Función para manejar el perfil de una persona
+@login_required
+def mi_perfil(request):
+    logger.info("Devolvemos los datos de la persona")
+
+    return render(request, "YoPuedo/perfil.html", {
+        'foto_perfil': request.user.foto_perfil,
+        'nombre': request.user.nombre,
+        'email': request.user.username
+    })
+
+
+##########################################################################################
+
 # Función para mostrar el error 404
 def page_not_found(request):
     render(request, '404.html', status=404)

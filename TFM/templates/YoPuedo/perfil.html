@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% load static tags_categorias %}
+
+{% block static %}
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/perfil.css'%}">
+  <script src="https://kit.fontawesome.com/05cfaef439.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+  <script type="text/javascript"
+        src="{% static 'YoPuedo/js/AudioTranscript.js' %}"></script>
+{% endblock %}
+
+{% block contenido %}
+<div class="perfil container">
+    <h1 class="text-center fw-bold titulo">Mi perfil</h1>
+    <img src="{{ foto_perfil }}"
+         class="img-fluid rounded col-6 col-md-6 mx-auto d-block">
+    <div class="informacion">
+        <div class="row nombre">
+            <div class="col-2">
+                <div class="row">
+                    <i class="fa-solid fa-user-large col-1 d-flex justify-content-center"></i>
+                    <h5 class="col-11 fw-bold">Nombre:</h5>
+                </div>
+            </div>
+            <h5 class="col-8" id="nombre">
+                {{ nombre }}
+            </h5>
+            <div class="col-2 d-flex justify-content-center">
+                {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='nombre' %}
+            </div>
+        </div>
+        <div class="row email">
+            <div class="col-2">
+                <div class="row">
+                    <i class="fa-solid fa-envelope col-1 d-flex justify-content-center"></i>
+                    <h5 class="col-11 fw-bold">Email:</h5>
+                </div>
+            </div>
+            <h5 class="col-8" id="email">
+                {{ email }}
+            </h5>
+            <div class="col-2 d-flex justify-content-center">
+                {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='email' %}
+            </div>
+        </div>
+    </div>
+    <div class="botones">
+        <button class="btn btn-primary fw-bold modificar m-2">
+            <i class="fa-solid fa-pen-to-square"></i>
+            Modificar el perfil
+        </button>
+        <button class="btn btn-primary fw-bold cerrar_sesion m-2">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Cerrar sesión
+        </button>
+        <button class="btn btn-primary fw-bold eliminar m-2">
+            <i class="fa-sharp fa-solid fa-trash"></i>
+            Eliminar cuenta
+        </button>
+    </div>
+</div>
+{% endblock %}
