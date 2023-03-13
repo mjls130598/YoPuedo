@@ -1429,7 +1429,7 @@ def mi_perfil(request):
     return render(request, "YoPuedo/perfil.html", {
         'foto_perfil': request.user.foto_perfil,
         'nombre': request.user.nombre,
-        'email': request.user.username
+        'email': request.user.email
     })
 
 
