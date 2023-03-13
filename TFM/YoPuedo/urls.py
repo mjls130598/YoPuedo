@@ -35,5 +35,5 @@ urlpatterns = [
     path('calificar/<str:id_etapa>', views.calificar_etapa, name="calificar"),
     path('prueba/<str:id_etapa>', views.pruebas, name="pruebas"),
     path('animos/<str:id_etapa>', views.animos, name='animos'),
-    path('mi_perfil', views.mi_perfil, name='perfil')
+    path('mi_perfil', views.mi_perfil, name='mi_perfil')
 ]
