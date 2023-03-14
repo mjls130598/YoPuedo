@@ -11,53 +11,58 @@
 {% endblock %}
 
 {% block contenido %}
-<div class="perfil container">
-    <h1 class="text-center fw-bold titulo">Mi perfil</h1>
-    <img src="{{ foto_perfil }}"
-         class="img-fluid rounded col-6 col-md-6 mx-auto d-block">
-    <div class="informacion">
-        <div class="row nombre">
-            <div class="col-2">
-                <div class="row">
-                    <i class="fa-solid fa-user-large col-1 d-flex justify-content-center"></i>
-                    <h5 class="col-11 fw-bold">Nombre:</h5>
+<div class="m-2 m-md-3">
+    <div class="perfil container p-1 p-md-3">
+        <h3 class="text-center fw-bold titulo">
+            <i class="fa-solid fa-address-card"></i>
+            Mi perfil
+        </h3>
+        <img src="{{ foto_perfil }}"
+             class="img-fluid rounded col-5 col-md-3 mx-auto d-block">
+        <div class="informacion px-md-5 py-4">
+            <div class="row nombre m-2">
+                <div class="col-md-2 col-1">
+                    <div class="row align-items-center">
+                        <i class="fa-solid fa-user-large col-1 d-flex justify-content-center"></i>
+                        <h5 class="col-10 fw-bold mb-0 d-md-block d-none">Nombre:</h5>
+                    </div>
+                </div>
+                <h5 class="col-md-8 col-9" id="nombre">
+                    {{ nombre }}
+                </h5>
+                <div class="col-2 d-flex justify-content-center">
+                    {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='nombre' %}
                 </div>
             </div>
-            <h5 class="col-8" id="nombre">
-                {{ nombre }}
-            </h5>
-            <div class="col-2 d-flex justify-content-center">
-                {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='nombre' %}
-            </div>
-        </div>
-        <div class="row email">
-            <div class="col-2">
-                <div class="row">
-                    <i class="fa-solid fa-envelope col-1 d-flex justify-content-center"></i>
-                    <h5 class="col-11 fw-bold">Email:</h5>
+            <div class="row email m-2">
+                <div class="col-md-2 col-1">
+                    <div class="row align-items-center">
+                        <i class="fa-solid fa-envelope col-1 d-flex justify-content-center"></i>
+                        <h5 class="col-10 fw-bold mb-0 d-md-block d-none">Email:</h5>
+                    </div>
+                </div>
+                <h5 class="col-md-8 col-9" id="email">
+                    {{ email }}
+                </h5>
+                <div class="col-2 d-flex justify-content-center">
+                    {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='email' %}
                 </div>
             </div>
-            <h5 class="col-8" id="email">
-                {{ email }}
-            </h5>
-            <div class="col-2 d-flex justify-content-center">
-                {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='email' %}
-            </div>
         </div>
-    </div>
-    <div class="botones">
-        <button class="btn btn-primary fw-bold modificar m-2">
-            <i class="fa-solid fa-pen-to-square"></i>
-            Modificar el perfil
-        </button>
-        <button class="btn btn-primary fw-bold cerrar_sesion m-2">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            Cerrar sesión
-        </button>
-        <button class="btn btn-primary fw-bold eliminar m-2">
-            <i class="fa-sharp fa-solid fa-trash"></i>
-            Eliminar cuenta
-        </button>
+        <div class="botones d-grid justify-content-center">
+            <button class="btn btn-primary btn-block my-2 fw-bold modificar">
+                <i class="fa-solid fa-pen-to-square"></i>
+                Modificar el perfil
+            </button>
+            <button class="btn btn-primary btn-block my-2 fw-bold cerrar_sesion">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Cerrar sesión
+            </button>
+            <button class="btn btn-primary btn-block my-2 fw-bold eliminar">
+                <i class="fa-sharp fa-solid fa-trash"></i>
+                Eliminar cuenta
+            </button>
+        </div>
     </div>
 </div>
 {% endblock %}

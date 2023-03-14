@@ -2,7 +2,7 @@
     background-color: #EEF8F9;
 }
 
-.titulo, .nombre, .email{
+.titulo, .nombre > div, .email > dov{
     color: #009688;
 }
 
