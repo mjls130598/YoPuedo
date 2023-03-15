@@ -151,6 +151,11 @@ def validar_clave(request, tipo, email):
                     login(request, user,
                           backend='django.contrib.auth.backends.ModelBackend')
                     return HttpResponse(status=HTTPStatus.ACCEPTED)
+            elif tipo == 'eliminar':
+                logger.info('Eliminamos el usuario')
+                logout(request)
+                Usuario.objects.get(email=email).delete()
+                return HttpResponse(status=HTTPStatus.ACCEPTED)
 
         else:
             contador = int(clave_form['contador'].value())
