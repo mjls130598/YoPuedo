@@ -54,7 +54,8 @@
                 <i class="fa-solid fa-pen-to-square"></i>
                 Modificar el perfil
             </button>
-            <button class="btn btn-primary btn-block my-2 fw-bold cerrar_sesion">
+            <button class="btn btn-primary btn-block my-2 fw-bold cerrar_sesion"
+                    hx-get="{% url 'cerrar_sesion' %}">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Cerrar sesión
             </button>

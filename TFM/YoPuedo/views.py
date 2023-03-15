@@ -1432,6 +1432,16 @@ def mi_perfil(request):
         'email': request.user.email
     })
 
+##########################################################################################
+
+# Función para cerrar sesión a una persona
+@login_required
+def cerrar_sesion(request):
+    logger.info("Cerramos sesión a esta persona")
+
+    logout(request)
+    return redirect('/registrarse/')
+
 
 ##########################################################################################
 
