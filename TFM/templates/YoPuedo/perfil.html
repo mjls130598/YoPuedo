@@ -60,9 +60,7 @@
                 Cerrar sesión
             </button>
             <button class="btn btn-primary btn-block my-2 fw-bold eliminar"
-                    data-bs-toggle="modal"
-                    hx-get="{% url 'validar_clave' tipo='eliminar' email=user.get_username %}"
-                    hx-target="#dialog">
+                    onclick="eliminar()">
                 <i class="fa-sharp fa-solid fa-trash"></i>
                 Eliminar cuenta
             </button>
@@ -73,10 +71,18 @@
     function cerrarSesion(){
         window.location.href = "{% url 'cerrar_sesion' %}";
     }
+
+    function eliminar(){
+        window.location.href = "{% url 'eliminar' %}";
+    }
 </script>
 {% endblock %}
 
 {% block modales %}
+{% if url %}
+  <div hx-get="{{ url }}" hx-trigger="load" data-bs-toggle="modal" hx-target="#dialog">
+  </div>
+{% endif %}
 <div class="modal fade" id="modal">
     <div class="modal-dialog row align-items-center my-0" id="dialog" hx-target="this">
     </div>

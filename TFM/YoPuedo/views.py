@@ -1447,6 +1447,18 @@ def cerrar_sesion(request):
     logout(request)
     return redirect('/registrarse/')
 
+##########################################################################################
+
+# Función para cerrar sesión a una persona
+@login_required
+def eliminar(request):
+    logger.info("Creamos clave y la mandamos")
+    clave = Utils.claves_aleatorias(10)
+    enviar_clave(clave, request.user.email, f"Eliminar la cuenta de "
+                                            f"{request.user.nombre} de YoPuedo")
+
+    return render(request, "YoPuedo/perfil.html",
+                          {'url': f'/validar_clave/eliminar/{request.user.email}'})
 
 ##########################################################################################
 
