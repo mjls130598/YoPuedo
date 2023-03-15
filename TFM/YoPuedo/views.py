@@ -1456,6 +1456,8 @@ def cerrar_sesion(request):
 def eliminar(request):
     logger.info("Creamos clave y la mandamos")
     clave = Utils.claves_aleatorias(10)
+    request.user.clave_aleatoria = clave
+    request.user.save()
     enviar_clave(clave, request.user.email, f"Eliminar la cuenta de "
                                             f"{request.user.nombre} de YoPuedo")
 
