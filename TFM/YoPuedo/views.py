@@ -1437,6 +1437,7 @@ def mi_perfil(request):
         'email': request.user.email
     })
 
+
 ##########################################################################################
 
 # Función para cerrar sesión a una persona
@@ -1447,9 +1448,10 @@ def cerrar_sesion(request):
     logout(request)
     return redirect('/registrarse/')
 
+
 ##########################################################################################
 
-# Función para cerrar sesión a una persona
+# Función para eliminar a una persona
 @login_required
 def eliminar(request):
     logger.info("Creamos clave y la mandamos")
@@ -1458,7 +1460,12 @@ def eliminar(request):
                                             f"{request.user.nombre} de YoPuedo")
 
     return render(request, "YoPuedo/perfil.html",
-                          {'url': f'/validar_clave/eliminar/{request.user.email}'})
+                  {'url': f'/validar_clave/eliminar/{request.user.email}',
+                   'foto_perfil': request.user.foto_perfil,
+                   'nombre': request.user.nombre,
+                   'email': request.user.email
+                   })
+
 
 ##########################################################################################
 
