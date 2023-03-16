@@ -432,25 +432,25 @@ class PruebaForm(forms.Form):
 # Formulario de reto ÁNIMO
 class AnimoForm(forms.Form):
     animo_imagen = forms.ImageField(label="Subir foto",
-                                     widget=forms.ClearableFileInput(
-                                         attrs={
-                                             'class': 'd-none input-media'
-                                         }),
-                                     required=False)
+                                    widget=forms.ClearableFileInput(
+                                        attrs={
+                                            'class': 'd-none input-media'
+                                        }),
+                                    required=False)
     animo_audio = forms.FileField(label="Subir audio",
-                                   widget=forms.ClearableFileInput(
-                                       attrs={
-                                           'class': 'd-none input-media',
-                                           'accept': "audio/*"
-                                       }),
-                                   required=False)
+                                  widget=forms.ClearableFileInput(
+                                      attrs={
+                                          'class': 'd-none input-media',
+                                          'accept': "audio/*"
+                                      }),
+                                  required=False)
     animo_video = forms.FileField(label="Subir vídeo",
-                                   widget=forms.ClearableFileInput(
-                                       attrs={
-                                           'class': 'd-none input-media',
-                                           'accept': "video/*"
-                                       }),
-                                   required=False)
+                                  widget=forms.ClearableFileInput(
+                                      attrs={
+                                          'class': 'd-none input-media',
+                                          'accept': "video/*"
+                                      }),
+                                  required=False)
 
     animo_texto = forms.CharField(max_length='100', widget=forms.Textarea(
         attrs={
@@ -473,11 +473,101 @@ class AnimoForm(forms.Form):
                 animo_audio:
             logger.error("No se ha indicado ningún mensaje de ánimo")
             self.add_error('animo_texto', 'Debes indicar algún mensaje de ánimo en la '
-                                           'etapa')
+                                          'etapa')
 
         if Utils.numero_elementos_importados([animo_texto, animo_audio,
                                               animo_video, animo_imagen]) > 1:
             logger.error("Se ha introducido varias maneras en ánimos")
             self.add_error('animo_texto', 'Elige una forma de animar en la etapa')
+
+        return self
+
+
+##########################################################################################
+
+# Formulario de editar perfil
+class PerfilForm(forms.Form):
+    nombre = forms.CharField(label='Nombre:', max_length='100',
+                             widget=forms.TextInput(
+                                 attrs={
+                                     'class': 'form-control',
+                                     'placeholder': 'María Jesús López'
+                                 }))
+    password_antigua = forms.CharField(label='Contraseña antigua:',
+                                       widget=forms.PasswordInput(
+                                           attrs={
+                                               'class': 'form-control'
+                                           }))
+
+    password_nueva = forms.CharField(label='Nueva contraseña:',
+                                     widget=forms.PasswordInput(
+                                         attrs={
+                                             'class': 'form-control'
+                                         }))
+
+    password_again = forms.CharField(label='Repetir contraseña:',
+                                     widget=forms.PasswordInput(
+                                         attrs={
+                                             'class': 'form-control col-10'
+                                         }))
+    foto_de_perfil = forms.ImageField(label='Foto de perfil:',
+                                      widget=forms.ClearableFileInput(
+                                          attrs={
+                                              'class': 'form-control'
+                                          }))
+    email = forms.EmailField(widget=forms.HiddenInput())
+
+    def clean(self):
+        logger.info("Checkeando registro")
+
+        cleaned_data = super().clean()
+
+        password_antigua = cleaned_data.get('password_antigua')
+        password = cleaned_data.get('password_nueva')
+        password2 = cleaned_data.get('password_again')
+
+        email = cleaned_data.get('email')
+        usuario = Usuario.objects.get(email=email)
+
+        if not usuario.check_password(password_antigua):
+            logger.error("La contraseña antigua no es la guardada")
+            self.add_error("password_antigua", "La contraseña no es la esperada")
+
+        if len(password) < 8:
+            logger.error("La contraseña no tiene 8 caracteres como mínimo")
+            self.add_error("password_nueva", "La contraseña debe tener entre 8 y 16 "
+                                             "caracteres")
+
+        if len(password) > 16:
+            logger.error("La contraseña tiene más de 16 caracteres")
+            self.add_error("password_nueva",
+                           "La contraseña debe tener entre 8 y 16 caracteres")
+
+        if password != password2:
+            logger.error("Las contraseñas introducidas no son iguales")
+            self.add_error('password_again', "Las contraseñas deben ser iguales")
+
+        if not re.findall('\d', password):
+            logger.error("La contraseña no contiene números")
+            self.add_error('password_nueva',
+                           "La contraseña debe contener al menos un número")
+
+        if not re.findall('[A-Z]', password):
+            logger.error("La contraseña no tiene ninguna mayúscula")
+            self.add_error('password_nueva',
+                           "La contraseña debe tener al menos una mayúscula")
+
+        if not re.findall('[a-z]', password):
+            logger.error("La contraseña no tiene ninguna minúscula")
+            self.add_error('password_nueva',
+                           "La contraseña debe contener al menos una letra "
+                           "en minúscula")
+
+        if not re.findall('[()\[\]{}|\\`~!@#$%^&\*_\-\+=;:\'",<>./\?]', password):
+            logger.error("La contraseña no contiene ningún símbolo")
+            self.add_error('password_nueva',
+                           "La contraseña debe tener al menos uno de estos "
+                           "símbolos: "
+                           "()[]{}|\`~!@#$%^&*_-+=;:'\",<>./?")
 
         return self

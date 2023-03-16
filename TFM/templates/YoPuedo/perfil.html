@@ -4,6 +4,9 @@
 
 {% block static %}
   <link rel="stylesheet" href="{% static 'YoPuedo/css/perfil.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/peticion-clave.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/registro.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/inicio_sesion.css'%}">
   <script src="https://kit.fontawesome.com/05cfaef439.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
   <script type="text/javascript"
@@ -50,7 +53,9 @@
             </div>
         </div>
         <div class="botones d-grid justify-content-center">
-            <button class="btn btn-primary btn-block my-2 fw-bold modificar">
+            <button class="btn btn-primary btn-block my-2 fw-bold modificar"
+                    data-bs-toggle="modal" hx-get="{% url 'editar_perfil' %}"
+                    hx-target="#dialog">
                 <i class="fa-solid fa-pen-to-square"></i>
                 Modificar el perfil
             </button>
