@@ -9,7 +9,7 @@
     <div class='form-group {% if field.errors %} errorlist {% endif %}'>
       {% if "password" in field.name %}
         <i class="bi bi-key-fill"></i>
-      {% elif %}
+      {% elif field.name == "nombre" %}
         <i class="bi bi-person-fill"></i>
       {% else %}
         <i class="bi bi-file-person-fill"></i>
