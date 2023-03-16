@@ -14,7 +14,7 @@ from django.template.loader import get_template
 
 from .utils import Utils
 from .forms import RegistroForm, InicioForm, ClaveForm, RetoGeneralForm, RetoEtapaForm, \
-    AmigosForm, EtapasFormSet, PruebaForm, AnimoForm
+    AmigosForm, EtapasFormSet, PruebaForm, AnimoForm, PerfilForm
 from .models import Usuario, Amistad, Reto, Etapa, Animador, Participante, Calificacion, \
     Prueba, Animo
 
@@ -1467,6 +1467,61 @@ def eliminar(request):
                    'nombre': request.user.nombre,
                    'email': request.user.email
                    })
+
+
+##########################################################################################
+
+# Función para eliminar a una persona
+@login_required
+def editar_perfil(request):
+    if request.method == 'GET':
+        logger.info("Entramos en la parte GET de EDITAR PERFIL")
+        data = {
+            'nombre': request.user.nombre
+        }
+        editar_form = PerfilForm(data=data)
+
+    else:
+        logger.info("Entramos en la parte POST de EDITAR PERFIL")
+        editar_form = PerfilForm(request.POST, request.FILES)
+
+        if editar_form.is_valid():
+            logger.info("Válido el formulario de EDITAR PERFIL")
+
+            # Eliminamos foto de perfil antigua
+            logger.info("Eliminamos la foto de perfil antigua")
+            Utils.eliminar_archivo(os.path.join(BASE_DIR, request.user.foto_perfil[1:]))
+
+            # Recogemos los datos del formulario
+            contrasena_nueva = editar_form.cleaned_data['password_nueva'].value()
+            nombre = editar_form.cleaned_data['nombre'].value()
+            foto = request.FILES['foto_perfil']
+
+            # Guardamos foto de perfil nueva
+            fichero, extension = os.path.splitext(foto.name)
+            directorio = os.path.join(BASE_DIR, "media", "YoPuedo", "foto_perfil")
+            localizacion = os.path.join(directorio, request.user.email + extension)
+
+            try:
+                Utils.handle_uploaded_file(foto, localizacion, directorio)
+            except:
+                logger.error("Error al subir la foto de perfil")
+
+            fichero = os.path.join("/media", "YoPuedo", "foto_perfil", request.user.email + extension)
+
+            # Modificamos el perfil con los datos nuevos
+            request.user.set_password(contrasena_nueva)
+            request.user.nombre = nombre
+            request.user.foto_perfil = fichero
+            request.user.save()
+
+            return HttpResponse(HTTPStatus.ACCEPTED)
+
+        else:
+            logger.error("El formulario de EDITAR PERFIL tiene errores")
+
+    return render(request, "YoPuedo/editar_perfil.html",
+                  {'editar_form': editar_form, })
 
 
 ##########################################################################################

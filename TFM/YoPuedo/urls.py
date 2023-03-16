@@ -37,5 +37,6 @@ urlpatterns = [
     path('animos/<str:id_etapa>', views.animos, name='animos'),
     path('mi_perfil/', views.mi_perfil, name='mi_perfil'),
     path('cerrar_sesion/', views.cerrar_sesion, name='cerrar_sesion'),
-    path('eliminar/', views.eliminar, name='eliminar')
+    path('eliminar/', views.eliminar, name='eliminar'),
+    path('editar_perfil/', views.editar_perfil, name='editar_perfil')
 ]

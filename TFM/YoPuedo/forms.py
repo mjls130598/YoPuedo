@@ -518,7 +518,7 @@ class PerfilForm(forms.Form):
     email = forms.EmailField(widget=forms.HiddenInput())
 
     def clean(self):
-        logger.info("Checkeando registro")
+        logger.info("Checkeando perfil")
 
         cleaned_data = super().clean()
 
