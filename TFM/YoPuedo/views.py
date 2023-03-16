@@ -1485,7 +1485,10 @@ def editar_perfil(request):
 
         # Borramos los errores del formulario
         logger.info("Eliminamos los errores creados por el formulario")
-        editar_form.errors = []
+        editar_form.errors.pop('password_antigua', None)
+        editar_form.errors.pop('password_nueva', None)
+        editar_form.errors.pop('password_again', None)
+        editar_form.errors.pop('foto_perfil', None)
 
     else:
         logger.info("Entramos en la parte POST de EDITAR PERFIL")
