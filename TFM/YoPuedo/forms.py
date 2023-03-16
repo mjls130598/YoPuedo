@@ -496,13 +496,13 @@ class PerfilForm(forms.Form):
     password_antigua = forms.CharField(label='Contraseña antigua:',
                                        widget=forms.PasswordInput(
                                            attrs={
-                                               'class': 'form-control'
+                                               'class': 'form-control col-10'
                                            }))
 
     password_nueva = forms.CharField(label='Nueva contraseña:',
                                      widget=forms.PasswordInput(
                                          attrs={
-                                             'class': 'form-control'
+                                             'class': 'form-control col-10'
                                          }))
 
     password_again = forms.CharField(label='Repetir contraseña:',
