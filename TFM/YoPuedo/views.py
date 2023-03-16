@@ -1476,10 +1476,16 @@ def eliminar(request):
 def editar_perfil(request):
     if request.method == 'GET':
         logger.info("Entramos en la parte GET de EDITAR PERFIL")
+
+        # Creamos formulario
         data = {
             'nombre': request.user.nombre
         }
         editar_form = PerfilForm(data=data)
+
+        # Borramos los errores del formulario
+        logger.info("Eliminamos los errores creados por el formulario")
+        editar_form.errors = []
 
     else:
         logger.info("Entramos en la parte POST de EDITAR PERFIL")
@@ -1507,7 +1513,8 @@ def editar_perfil(request):
             except:
                 logger.error("Error al subir la foto de perfil")
 
-            fichero = os.path.join("/media", "YoPuedo", "foto_perfil", request.user.email + extension)
+            fichero = os.path.join("/media", "YoPuedo", "foto_perfil",
+                                   request.user.email + extension)
 
             # Modificamos el perfil con los datos nuevos
             request.user.set_password(contrasena_nueva)
