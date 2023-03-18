@@ -1493,7 +1493,7 @@ def editar_perfil(request):
 
     else:
         logger.info("Entramos en la parte POST de EDITAR PERFIL")
-        editar_form = PerfilForm(request.POST, request.FILES)
+        editar_form = PerfilForm(data=request.POST, files=request.FILES)
 
         if editar_form.is_valid():
             logger.info("Válido el formulario de EDITAR PERFIL")
@@ -1532,7 +1532,7 @@ def editar_perfil(request):
             logger.error("El formulario de EDITAR PERFIL tiene errores")
 
     return render(request, "YoPuedo/editar_perfil.html",
-                  {'editar_form': editar_form, })
+                  {'editar_form': editar_form })
 
 
 ##########################################################################################
