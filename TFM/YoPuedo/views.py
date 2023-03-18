@@ -1479,7 +1479,8 @@ def editar_perfil(request):
 
         # Creamos formulario
         data = {
-            'nombre': request.user.nombre
+            'nombre': request.user.nombre,
+            'email': request.user.email
         }
         editar_form = PerfilForm(data=data)
 
