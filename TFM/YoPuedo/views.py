@@ -1505,7 +1505,7 @@ def editar_perfil(request):
             # Recogemos los datos del formulario
             contrasena_nueva = editar_form.cleaned_data['password_nueva'].value()
             nombre = editar_form.cleaned_data['nombre'].value()
-            foto = request.FILES['foto_perfil']
+            foto = request.FILES['foto_de_perfil']
 
             # Guardamos foto de perfil nueva
             fichero, extension = os.path.splitext(foto.name)
