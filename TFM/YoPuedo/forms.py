@@ -497,24 +497,24 @@ class PerfilForm(forms.Form):
                                        widget=forms.PasswordInput(
                                            attrs={
                                                'class': 'form-control col-10'
-                                           }), initial="")
+                                           }))
 
     password_nueva = forms.CharField(label='Nueva contraseña:',
                                      widget=forms.PasswordInput(
                                          attrs={
                                              'class': 'form-control col-10'
-                                         }), initial="")
+                                         }))
 
     password_again = forms.CharField(label='Repetir contraseña:',
                                      widget=forms.PasswordInput(
                                          attrs={
                                              'class': 'form-control col-10'
-                                         }), initial="")
+                                         }))
     foto_de_perfil = forms.ImageField(label='Foto de perfil:',
                                       widget=forms.ClearableFileInput(
                                           attrs={
                                               'class': 'form-control'
-                                          }), initial="")
+                                          }))
     email = forms.EmailField(widget=forms.HiddenInput())
 
     def clean(self):
@@ -522,9 +522,9 @@ class PerfilForm(forms.Form):
 
         cleaned_data = super().clean()
 
-        password_antigua = cleaned_data.get('password_antigua')
-        password = cleaned_data.get('password_nueva')
-        password2 = cleaned_data.get('password_again')
+        password_antigua = cleaned_data.get('password_antigua', '')
+        password = cleaned_data.get('password_nueva', '')
+        password2 = cleaned_data.get('password_again', '')
 
         email = cleaned_data.get('email')
         usuario = Usuario.objects.get(email=email)
