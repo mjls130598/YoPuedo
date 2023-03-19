@@ -33,7 +33,8 @@ def registrarse(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
             logger.info("Nos redirigimos a la siguiente página")
-            valuenext = request.POST.get('next')
+            valuenext = request.GET.get('next') if 'next' in request.GET else \
+                request.POST.get('next')
             if valuenext:
                 return HttpResponseRedirect(valuenext)
             else:
