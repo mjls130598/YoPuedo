@@ -1526,7 +1526,7 @@ def editar_perfil(request):
             request.user.foto_perfil = fichero
             request.user.save()
 
-            return HttpResponse(HTTPStatus.ACCEPTED)
+            return HttpResponse(status=HTTPStatus.ACCEPTED)
 
         else:
             logger.error("El formulario de EDITAR PERFIL tiene errores")
