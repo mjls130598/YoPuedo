@@ -1495,8 +1495,6 @@ def editar_perfil(request):
         logger.info("Entramos en la parte POST de EDITAR PERFIL")
         editar_form = PerfilForm(data=request.POST, files=request.FILES)
 
-        logger.info(request.FILES)
-
         if editar_form.is_valid():
             logger.info("Válido el formulario de EDITAR PERFIL")
 
