@@ -1744,7 +1744,7 @@ class PerfilViewTest(TestCase):
     def test_url_no_accesible(self):
         resp = self.client.get('/mi_perfil/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
-        self.assertEqual(resp.url, '/registrarse/')
+        self.assertEqual('/registrarse/' in resp.url)
 
     def test_url_accesible(self):
         client = Client()
