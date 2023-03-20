@@ -1839,6 +1839,7 @@ class PerfilViewTest(TestCase):
         self.client.login(username='perfil_view@yopuedo.com', password="Password1.!")
 
         resp = self.client.get('/eliminar/')
+        self.assertEqual(resp.url, '/eliminar/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         usuario = Usuario.objects.filter(email='perfil_view@yopuedo.com')
         self.assertTrue(usuario.exists())
