@@ -54,6 +54,10 @@ class ClaveViewTest(TestCase):
         resp = self.client.get('/validar_clave/inicio_sesion/clave_view@gmail.com')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
 
+    def test_url_eliminar_accesible(self):
+        resp = self.client.get('/validar_clave/eliminar/clave_view@gmail.com')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+
     def test_post_registro_correcto(self):
         data = {
             'email': 'clave_view@gmail.com',
@@ -78,6 +82,17 @@ class ClaveViewTest(TestCase):
         user = Usuario.objects.get(email='clave_view@gmail.com')
         self.assertTrue(user.is_authenticated)
 
+    def test_post_eliminar_incorrecto(self):
+        data = {
+            'email': 'clave_view@gmail.com',
+            'contador': 2,
+            'clave': 'clavealeatoria'
+        }
+
+        resp = self.client.post('/validar_clave/eliminar/clave_view@gmail.com', data)
+        self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTrue(Usuario.objects.filter(email='clave_view@gmail.com').exists())
+
     def test_post_inicio_incorrecto(self):
         data = {
             'email': 'clave_view@gmail.com',
@@ -98,6 +113,22 @@ class ClaveViewTest(TestCase):
 
         resp = self.client.post('/validar_clave/registro/clave_view@gmail.com', data)
         self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTrue(not Usuario.objects.filter(email='clave_view@gmail.com').exists())
+
+    def test_post_eliminar_correcto(self):
+        Usuario.objects.create_user(email="clave_view@gmail.com", nombre="María Jesús",
+                                    password="Password1.", clave_aleatoria="clavealeat",
+                                    clave_fija="clavefijausuario",
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        data = {
+            'email': 'clave_view@gmail.com',
+            'contador': 0,
+            'clave': 'clavealeat'
+        }
+
+        resp = self.client.post('/validar_clave/eliminar/clave_view@gmail.com', data)
+        self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
         self.assertTrue(not Usuario.objects.filter(email='clave_view@gmail.com').exists())
 
 
