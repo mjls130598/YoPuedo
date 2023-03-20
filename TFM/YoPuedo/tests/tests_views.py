@@ -1,4 +1,4 @@
-from django.contrib.auth import login
+from django.contrib import auth
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from TFM.settings import BASE_DIR
@@ -23,7 +23,7 @@ class RegistroViewTest(TestCase):
         foto_perfil = open(foto_perfil, 'rb')
 
         data = {
-            'email': "registro@email.com",
+            'email': "registro@yopuedo.com",
             'nombre': "María Jesús",
             'password': 'Password1.',
             'password_again': 'Password1.',
@@ -31,7 +31,7 @@ class RegistroViewTest(TestCase):
         }
         resp = self.client.post('/registrarse/', data, format='multipart')
         self.assertEqual(resp.status_code, HTTPStatus.CREATED)
-        self.assertTrue(Usuario.objects.filter(email='registro@email.com').exists())
+        self.assertTrue(Usuario.objects.filter(email='registro@yopuedo.com').exists())
 
 
 ##########################################################################################
@@ -41,64 +41,97 @@ class ClaveViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        Usuario.objects.create_user(email="clave_view@gmail.com", nombre="María Jesús",
+        Usuario.objects.create_user(email="clave_view@yopuedo.com", nombre="María Jesús",
                                     password="Password1.", clave_aleatoria="clavealeat",
                                     clave_fija="clavefijausuario",
                                     foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def test_url_registro_accesible(self):
-        resp = self.client.get('/validar_clave/registro/clave_view@gmail.com')
+        resp = self.client.get('/validar_clave/registro/clave_view@yopuedo.com')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
 
     def test_url_inicio_accesible(self):
-        resp = self.client.get('/validar_clave/inicio_sesion/clave_view@gmail.com')
+        resp = self.client.get('/validar_clave/inicio_sesion/clave_view@yopuedo.com')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+
+    def test_url_eliminar_accesible(self):
+        resp = self.client.get('/validar_clave/eliminar/clave_view@yopuedo.com')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
 
     def test_post_registro_correcto(self):
         data = {
-            'email': 'clave_view@gmail.com',
+            'email': 'clave_view@yopuedo.com',
             'contador': 0,
             'clave': 'clavealeat'
         }
 
-        resp = self.client.post('/validar_clave/registro/clave_view@gmail.com', data)
+        resp = self.client.post('/validar_clave/registro/clave_view@yopuedo.com', data)
         self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
-        user = Usuario.objects.get(email='clave_view@gmail.com')
+        user = Usuario.objects.get(email='clave_view@yopuedo.com')
         self.assertTrue(user.is_authenticated)
 
     def test_post_inicio_correcto(self):
         data = {
-            'email': 'clave_view@gmail.com',
+            'email': 'clave_view@yopuedo.com',
             'contador': 0,
             'clave': 'clavealeat'
         }
 
-        resp = self.client.post('/validar_clave/inicio_sesion/clave_view@gmail.com', data)
+        resp = self.client.post('/validar_clave/inicio_sesion/clave_view@yopuedo.com',
+                                data)
         self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
-        user = Usuario.objects.get(email='clave_view@gmail.com')
+        user = Usuario.objects.get(email='clave_view@yopuedo.com')
         self.assertTrue(user.is_authenticated)
+
+    def test_post_eliminar_incorrecto(self):
+        data = {
+            'email': 'clave_view@yopuedo.com',
+            'contador': 2,
+            'clave': 'clavealeatoria'
+        }
+
+        resp = self.client.post('/validar_clave/eliminar/clave_view@yopuedo.com', data)
+        self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTrue(Usuario.objects.filter(email='clave_view@yopuedo.com').exists())
 
     def test_post_inicio_incorrecto(self):
         data = {
-            'email': 'clave_view@gmail.com',
+            'email': 'clave_view@yopuedo.com',
             'contador': 2,
             'clave': 'clavealeatoria'
         }
 
-        resp = self.client.post('/validar_clave/inicio_sesion/clave_view@gmail.com', data)
+        resp = self.client.post('/validar_clave/inicio_sesion/clave_view@yopuedo.com',
+                                data)
         self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
-        self.assertTrue(Usuario.objects.filter(email='clave_view@gmail.com').exists())
+        self.assertTrue(Usuario.objects.filter(email='clave_view@yopuedo.com').exists())
 
     def test_post_registro_incorrecto(self):
         data = {
-            'email': 'clave_view@gmail.com',
+            'email': 'clave_view@yopuedo.com',
             'contador': 2,
             'clave': 'clavealeatoria'
         }
 
-        resp = self.client.post('/validar_clave/registro/clave_view@gmail.com', data)
+        resp = self.client.post('/validar_clave/registro/clave_view@yopuedo.com', data)
         self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
-        self.assertTrue(not Usuario.objects.filter(email='clave_view@gmail.com').exists())
+        self.assertFalse(Usuario.objects.filter(email='clave_view@yopuedo.com').exists())
+
+    def test_post_eliminar_correcto(self):
+        Usuario.objects.create_user(email="clave_view@yopuedo.com", nombre="María Jesús",
+                                    password="Password1.", clave_aleatoria="clavealeat",
+                                    clave_fija="clavefijausuario",
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        data = {
+            'email': 'clave_view@yopuedo.com',
+            'contador': 0,
+            'clave': 'clavealeat'
+        }
+
+        resp = self.client.post('/validar_clave/eliminar/clave_view@yopuedo.com', data)
+        self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
+        self.assertFalse(Usuario.objects.filter(email='clave_view@yopuedo.com').exists())
 
 
 ##########################################################################################
@@ -108,7 +141,7 @@ class InicioViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        Usuario.objects.create_user(email="inicio_view@gmail.com", nombre="María Jesús",
+        Usuario.objects.create_user(email="inicio_view@yopuedo.com", nombre="María Jesús",
                                     password="Password1.", clave_aleatoria="clavealeat",
                                     clave_fija="clavefijausuario",
                                     foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
@@ -119,7 +152,7 @@ class InicioViewTest(TestCase):
 
     def test_post_inicio(self):
         data = {
-            'email_sesion': "inicio_view@gmail.com",
+            'email_sesion': "inicio_view@yopuedo.com",
             'password_sesion': 'Password1.',
         }
         resp = self.client.post('/iniciar_sesion/', data)
@@ -133,14 +166,14 @@ class MisRetosViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        Usuario.objects.create_user(email="misretos_view@gmail.com",
+        Usuario.objects.create_user(email="misretos_view@yopuedo.com",
                                     nombre="María Jesús", password="Password1.",
                                     clave_aleatoria="clavealeat",
                                     clave_fija="clavefijausuario",
                                     foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
         client = Client()
-        client.login(username='misretos_view@gmail.com', password="Password1.")
+        client.login(username='misretos_view@yopuedo.com', password="Password1.")
 
     def test_url_accesible(self):
         resp = self.client.get('/mis_retos/')
@@ -162,13 +195,13 @@ class GetRetosTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         # Creamos usuarios
-        usuario = Usuario.objects.create_user(email="getretos_view@gmail.com",
+        usuario = Usuario.objects.create_user(email="getretos_view@yopuedo.com",
                                               nombre="María Jesús", password="Password1.",
                                               clave_aleatoria="clavealeat",
                                               clave_fija="clavefijausuario",
                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
-        otro_usuario = Usuario.objects.create_user(email="getretos_otro_view@gmail.com",
+        otro_usuario = Usuario.objects.create_user(email="getretos_otro_view@yopuedo.com",
                                                    nombre="María Jesús",
                                                    password="Password1.",
                                                    clave_aleatoria="clavealeat",
@@ -212,7 +245,7 @@ class GetRetosTest(TestCase):
 
     def get_propuesto_individual(self):
         # Logueamos el primer usuario
-        self.client.login(username='getretos_view@gmail.com', password="Password1.")
+        self.client.login(username='getretos_view@yopuedo.com', password="Password1.")
 
         resp = self.client.get('/retos/?tipo=individuales&estado=propuesto')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
@@ -220,7 +253,7 @@ class GetRetosTest(TestCase):
 
     def get_propuesto_colectivo(self):
         # Logueamos el primer usuario
-        self.client.login(username='getretos_view@gmail.com', password="Password1.")
+        self.client.login(username='getretos_view@yopuedo.com', password="Password1.")
 
         resp = self.client.get('/retos/?tipo=colectivos&estado=propuesto')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
@@ -228,7 +261,8 @@ class GetRetosTest(TestCase):
 
     def get_animando_individual(self):
         # Logueamos el segundo usuario
-        self.client.login(username='getretos_otro_view@gmail.com', password="Password1.")
+        self.client.login(username='getretos_otro_view@yopuedo.com',
+                          password="Password1.")
 
         resp = self.client.get('/retos/?tipo=individuales&estado=animando')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
@@ -236,7 +270,8 @@ class GetRetosTest(TestCase):
 
     def get_animando_colectivo(self):
         # Logueamos el segundo usuario
-        self.client.login(username='getretos_otro_view@gmail.com', password="Password1.")
+        self.client.login(username='getretos_otro_view@yopuedo.com',
+                          password="Password1.")
 
         resp = self.client.get('/retos/?tipo=colectivos&estado=animando')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
@@ -244,7 +279,8 @@ class GetRetosTest(TestCase):
 
     def get_finalizado_individual(self):
         # Logueamos el segundo usuario
-        self.client.login(username='getretos_otro_view@gmail.com', password="Password1.")
+        self.client.login(username='getretos_otro_view@yopuedo.com',
+                          password="Password1.")
 
         resp = self.client.get('/retos/?tipo=individuales&estado=finalizados')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
@@ -252,7 +288,8 @@ class GetRetosTest(TestCase):
 
     def get_finalizado_colectivos(self):
         # Logueamos el segundo usuario
-        self.client.login(username='getretos_otro_view@gmail.com', password="Password1.")
+        self.client.login(username='getretos_otro_view@yopuedo.com',
+                          password="Password1.")
 
         resp = self.client.get('/retos/?tipo=colectivos&estado=finalizados')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
@@ -260,7 +297,7 @@ class GetRetosTest(TestCase):
 
     def get_proceso_individual(self):
         # Logueamos el primer usuario
-        self.client.login(username='getretos_view@gmail.com', password="Password1.")
+        self.client.login(username='getretos_view@yopuedo.com', password="Password1.")
 
         resp = self.client.get('/retos/?tipo=individuales&estado=proceso')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
@@ -268,7 +305,7 @@ class GetRetosTest(TestCase):
 
     def get_proceso_colectivos(self):
         # Logueamos el primer usuario
-        self.client.login(username='getretos_view@gmail.com', password="Password1.")
+        self.client.login(username='getretos_view@yopuedo.com', password="Password1.")
 
         resp = self.client.get('/retos/?tipo=colectivos&estado=proceso')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
@@ -276,7 +313,7 @@ class GetRetosTest(TestCase):
 
     def get_categoria_individual(self):
         # Logueamos el primer usuario
-        self.client.login(username='getretos_view@gmail.com', password="Password1.")
+        self.client.login(username='getretos_view@yopuedo.com', password="Password1.")
 
         resp = self.client.get('/retos/?tipo=individuales&categoria=inteligencia&estado'
                                '=propuesto')
@@ -285,7 +322,7 @@ class GetRetosTest(TestCase):
 
     def get_no_categoria_colectivo(self):
         # Logueamos el primer usuario
-        self.client.login(username='getretos_view@gmail.com', password="Password1.")
+        self.client.login(username='getretos_view@yopuedo.com', password="Password1.")
 
         resp = self.client.get('/retos/?tipo=colectivos&categoria=inteligencia&estado'
                                '=propuesto')
@@ -299,20 +336,20 @@ class GetRetosTest(TestCase):
 class NuevoRetoTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        usuario = Usuario.objects.create_user(email="nuevoreto_view@gmail.com",
+        usuario = Usuario.objects.create_user(email="nuevoreto_view@yopuedo.com",
                                               nombre="María Jesús", password="Password1.",
                                               clave_aleatoria="clavealeat",
                                               clave_fija="clavefijausuario",
                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
-        Usuario.objects.create_user(email="animador_view@gmail.com",
+        Usuario.objects.create_user(email="animador_view@yopuedo.com",
                                     nombre="María Jesús",
                                     password="Password1.",
                                     clave_aleatoria="clavealeat",
                                     clave_fija="clavefijausuario",
                                     foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
-        Usuario.objects.create_user(email="participante_view@gmail.com",
+        Usuario.objects.create_user(email="participante_view@yopuedo.com",
                                     nombre="María Jesús",
                                     password="Password1.",
                                     clave_aleatoria="clavealeat",
@@ -322,19 +359,19 @@ class NuevoRetoTest(TestCase):
         cls.user = usuario
 
     def test_url_accesible(self):
-        self.client.login(username='nuevoreto_view@gmail.com', password="Password1.")
+        self.client.login(username='nuevoreto_view@yopuedo.com', password="Password1.")
 
         resp = self.client.get('/nuevo_reto/')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
 
     def test_url_tipo_accesible(self):
-        self.client.login(username='nuevoreto_view@gmail.com', password="Password1.")
+        self.client.login(username='nuevoreto_view@yopuedo.com', password="Password1.")
 
         resp = self.client.get('/nuevo_reto/?tipo=individual')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
 
     def test_post_reto_individual(self):
-        self.client.login(username='nuevoreto_view@gmail.com', password="Password1.")
+        self.client.login(username='nuevoreto_view@yopuedo.com', password="Password1.")
 
         data = {
             # General
@@ -371,7 +408,7 @@ class NuevoRetoTest(TestCase):
         self.assertEqual(len(Participante.objects.filter(reto__id_reto=id_reto).all()), 1)
 
     def test_post_reto_individual_animadores(self):
-        self.client.login(username='nuevoreto_view@gmail.com', password="Password1.")
+        self.client.login(username='nuevoreto_view@yopuedo.com', password="Password1.")
 
         data = {
             # General
@@ -398,8 +435,8 @@ class NuevoRetoTest(TestCase):
             'form-0-objetivo_texto': 'Objetivo ETAPA VIEWS',
 
             # Animadores
-            'animador': ["animador_view@gmail.com"],
-            'superanimador-animador_view@gmail.com': 'false'
+            'animador': ["animador_view@yopuedo.com"],
+            'superanimador-animador_view@yopuedo.com': 'false'
         }
 
         resp = self.client.post('/nuevo_reto/?tipo=individual', data, format='multipart')
@@ -412,7 +449,7 @@ class NuevoRetoTest(TestCase):
         self.assertTrue(Animador.objects.filter(reto__id_reto=id_reto).exists())
 
     def test_post_reto_colectivo(self):
-        self.client.login(username='nuevoreto_view@gmail.com', password="Password1.")
+        self.client.login(username='nuevoreto_view@yopuedo.com', password="Password1.")
 
         data = {
             # General
@@ -439,11 +476,11 @@ class NuevoRetoTest(TestCase):
             'form-0-objetivo_texto': 'Objetivo ETAPA VIEWS',
 
             # Animadores
-            'animador': ["animador_view@gmail.com"],
-            'superanimador-animador_view@gmail.com': 'false',
+            'animador': ["animador_view@yopuedo.com"],
+            'superanimador-animador_view@yopuedo.com': 'false',
 
             # Participantes
-            'participante': ["participante_view@gmail.com"]
+            'participante': ["participante_view@yopuedo.com"]
         }
 
         resp = self.client.post('/nuevo_reto/?tipo=colectivo', data, format='multipart')
@@ -461,13 +498,13 @@ class NuevoRetoTest(TestCase):
 # Comprobamos el funcionamiento de la URL obtener amistades
 class GetAmigosTest(TestCase):
     def setUpTestData(cls):
-        usuario = Usuario.objects.create_user(email="amigo_view@gmail.com",
+        usuario = Usuario.objects.create_user(email="amigo_view@yopuedo.com",
                                               nombre="María Jesús", password="Password1.",
                                               clave_aleatoria="clavealeat",
                                               clave_fija="clavefijausuario",
                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
-        usuario2 = Usuario.objects.create_user(email="amigo2_view@gmail.com",
+        usuario2 = Usuario.objects.create_user(email="amigo2_view@yopuedo.com",
                                                nombre="María Jesús",
                                                password="Password1.",
                                                clave_aleatoria="clavealeat",
@@ -481,7 +518,7 @@ class GetAmigosTest(TestCase):
         amistad.save()
 
     def get_amigo(self):
-        self.client.login(username='amigo_view@gmail.com', password='Password1.')
+        self.client.login(username='amigo_view@yopuedo.com', password='Password1.')
         resp = self.client.get('/amigos/')
         self.assertEqual(len(resp.context['amigos']), 1)
         self.assertEqual(resp.status_code, HTTPStatus.OK)
@@ -493,13 +530,13 @@ class GetAmigosTest(TestCase):
 class GetRetoTest(TestCase):
     def setUpTestData(cls):
         # Creamos usuarios
-        usuario = Usuario.objects.create_user(email="getreto_view@gmail.com",
+        usuario = Usuario.objects.create_user(email="getreto_view@yopuedo.com",
                                               nombre="María Jesús", password="Password1.",
                                               clave_aleatoria="clavealeat",
                                               clave_fija="clavefijausuario",
                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
-        Usuario.objects.create_user(email="otro_view@gmail.com",
+        Usuario.objects.create_user(email="otro_view@yopuedo.com",
                                     nombre="María Jesús",
                                     password="Password1.",
                                     clave_aleatoria="clavealeat",
@@ -517,14 +554,14 @@ class GetRetoTest(TestCase):
               reto=reto).save()
 
     def permitida_obtencion(self):
-        self.client.login(username="getreto_view@gmail.com", password='Password1.')
-        reto = Reto.objects.filter(coordinador__email='getreto_view@gmail.com').first()
+        self.client.login(username="getreto_view@yopuedo.com", password='Password1.')
+        reto = Reto.objects.filter(coordinador__email='getreto_view@yopuedo.com').first()
         resp = self.client.get(f'/reto/{reto.id_reto}')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
 
     def no_permitida_obtencion(self):
-        self.client.login(username="otro_view@gmail.com", password='Password1.')
-        reto = Reto.objects.filter(coordinador__email='getreto_view@gmail.com').first()
+        self.client.login(username="otro_view@yopuedo.com", password='Password1.')
+        reto = Reto.objects.filter(coordinador__email='getreto_view@yopuedo.com').first()
         resp = self.client.get(f'/reto/{reto.id_reto}')
         self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
 
@@ -535,14 +572,15 @@ class GetRetoTest(TestCase):
 class IniciarRetoTest(TestCase):
     def setUpTestData(cls):
         # Creamos usuarios
-        usuario = Usuario.objects.create_user(email="iniciarreto_view@gmail.com",
+        usuario = Usuario.objects.create_user(email="iniciarreto_view@yopuedo.com",
                                               nombre="María Jesús", password="Password1.",
                                               clave_aleatoria="clavealeat",
                                               clave_fija="clavefijausuario",
                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
+
         otro_usuario = Usuario.objects.create_user(
-            email="iniciarreto_otro_view@gmail.com",
+            email="iniciarreto_otro_view@yopuedo.com",
             nombre="María Jesús",
             password="Password1.",
             clave_aleatoria="clavealeat",
@@ -568,22 +606,22 @@ class IniciarRetoTest(TestCase):
         animador.save()
 
     def permitida_obtencion(self):
-        self.client.login(username="iniciarreto_view@gmail.com", password='Password1.')
+        self.client.login(username="iniciarreto_view@yopuedo.com", password='Password1.')
         reto = Reto.objects.filter(
-            coordinador__email='iniciarreto_view@gmail.com').first()
+            coordinador__email='iniciarreto_view@yopuedo.com').first()
         resp = self.client.get(f'/iniciar_reto/{reto.id_reto}')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         reto = Reto.objects.filter(
-            coordinador__email='iniciarreto_view@gmail.com').first()
+            coordinador__email='iniciarreto_view@yopuedo.com').first()
 
         self.assertEqual(reto.estado, "En proceso")
         self.assertEqual(reto.etapa_set.first().estado, "En proceso")
 
     def no_permitida_obtencion(self):
-        self.client.login(username="iniciarreto_otro_view@gmail.com",
+        self.client.login(username="iniciarreto_otro_view@yopuedo.com",
                           password='Password1.')
         reto = Reto.objects.filter(
-            coordinador__email='iniciarreto_view@gmail.com').first()
+            coordinador__email='iniciarreto_view@yopuedo.com').first()
         resp = self.client.get(f'/iniciar_reto/{reto.id_reto}')
         self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
 
@@ -594,14 +632,15 @@ class IniciarRetoTest(TestCase):
 class EliminarRetoTest(TestCase):
     def setUpTestData(cls):
         # Creamos usuarios
-        usuario = Usuario.objects.create_user(email="eliminarreto_view@gmail.com",
+        usuario = Usuario.objects.create_user(email="eliminarreto_view@yopuedo.com",
                                               nombre="María Jesús", password="Password1.",
                                               clave_aleatoria="clavealeat",
                                               clave_fija="clavefijausuario",
                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
+
         otro_usuario = Usuario.objects.create_user(
-            email="eliminarreto_otro_view@gmail.com",
+            email="eliminarreto_otro_view@yopuedo.com",
             nombre="María Jesús",
             password="Password1.",
             clave_aleatoria="clavealeat",
@@ -627,9 +666,9 @@ class EliminarRetoTest(TestCase):
         animador.save()
 
     def permitida_obtencion(self):
-        self.client.login(username="eliminarreto_view@gmail.com", password='Password1.')
+        self.client.login(username="eliminarreto_view@yopuedo.com", password='Password1.')
         reto = Reto.objects.filter(
-            coordinador__email='eliminarreto_view@gmail.com').first()
+            coordinador__email='eliminarreto_view@yopuedo.com').first()
         resp = self.client.get(f'/eliminar_reto/{reto.id_reto}')
 
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
@@ -638,10 +677,10 @@ class EliminarRetoTest(TestCase):
         self.assertFalse(Animador.objects.filter(reto__id_reto=reto.id_reto).exists())
 
     def no_permitida_obtencion(self):
-        self.client.login(username="eliminarreto_otro_view@gmail.com",
+        self.client.login(username="eliminarreto_otro_view@yopuedo.com",
                           password='Password1.')
         reto = Reto.objects.filter(
-            coordinador__email='eliminarreto_view@gmail.com').first()
+            coordinador__email='eliminarreto_view@yopuedo.com').first()
         resp = self.client.get(f'/eliminar_reto/{reto.id_reto}')
         self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
 
@@ -652,14 +691,15 @@ class EliminarRetoTest(TestCase):
 class CoordinadorRetoTest(TestCase):
     def setUpTestData(cls):
         # Creamos usuarios
-        usuario = Usuario.objects.create_user(email="coordinadorreto_view@gmail.com",
+        usuario = Usuario.objects.create_user(email="coordinadorreto_view@yopuedo.com",
                                               nombre="María Jesús", password="Password1.",
                                               clave_aleatoria="clavealeat",
                                               clave_fija="clavefijausuario",
                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
+
         otro_usuario = Usuario.objects.create_user(
-            email="coordinadorreto_otro_view@gmail.com",
+            email="coordinadorreto_otro_view@yopuedo.com",
             nombre="María Jesús",
             password="Password1.",
             clave_aleatoria="clavealeat",
@@ -684,18 +724,18 @@ class CoordinadorRetoTest(TestCase):
         participante.save()
 
     def no_permitida_obtencion(self):
-        self.client.login(username="coordinadorreto_otro_view@gmail.com",
+        self.client.login(username="coordinadorreto_otro_view@yopuedo.com",
                           password='Password1.')
         reto = Reto.objects.filter(
-            coordinador__email='coordinadorreto_view@gmail.com').first()
+            coordinador__email='coordinadorreto_view@yopuedo.com').first()
         resp = self.client.post(f'/coordinador_reto/{reto.id_reto}')
         self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
 
     def permitida_obtencion(self):
-        self.client.login(username="coordinadorreto_view@gmail.com",
+        self.client.login(username="coordinadorreto_view@yopuedo.com",
                           password='Password1.')
         reto = Reto.objects.filter(
-            coordinador__email='coordinadorreto_view@gmail.com').first()
+            coordinador__email='coordinadorreto_view@yopuedo.com').first()
 
         resp = self.client.get(f'/coordinador_reto/{reto.id_reto}')
 
@@ -703,10 +743,10 @@ class CoordinadorRetoTest(TestCase):
         self.assertEqual(len(resp.context['participantes']), 1)
 
     def permitida_obtencion_consulta(self):
-        self.client.login(username="coordinadorreto_view@gmail.com",
+        self.client.login(username="coordinadorreto_view@yopuedo.com",
                           password='Password1.')
         reto = Reto.objects.filter(
-            coordinador__email='coordinadorreto_view@gmail.com').first()
+            coordinador__email='coordinadorreto_view@yopuedo.com').first()
 
         data = {
             'consulta': 'María'
@@ -718,19 +758,19 @@ class CoordinadorRetoTest(TestCase):
         self.assertEqual(len(resp.context['participantes']), 1)
 
     def permitido_cambio(self):
-        self.client.login(username="coordinadorreto_view@gmail.com",
+        self.client.login(username="coordinadorreto_view@yopuedo.com",
                           password='Password1.')
         reto = Reto.objects.filter(
-            coordinador__email='coordinadorreto_view@gmail.com').first()
+            coordinador__email='coordinadorreto_view@yopuedo.com').first()
         data = {
-            'coordinador': 'coordinadorreto_otro_view@gmail.com'
+            'coordinador': 'coordinadorreto_otro_view@yopuedo.com'
         }
 
         resp = self.client.post(f'/coordinador_reto/{reto.id_reto}', data)
 
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         reto = Reto.objects.get(id_reto=reto.id_reto)
-        self.assertEqual(reto.coordinador.email, 'coordinadorreto_otro_view@gmail.com')
+        self.assertEqual(reto.coordinador.email, 'coordinadorreto_otro_view@yopuedo.com')
 
 
 ##########################################################################################
@@ -739,14 +779,15 @@ class CoordinadorRetoTest(TestCase):
 class EliminarAnimadorRetoTest(TestCase):
     def setUpTestData(cls):
         # Creamos usuarios
-        usuario = Usuario.objects.create_user(email="eliminaranimadorreto_view@gmail.com",
+        usuario = Usuario.objects.create_user(
+            email="eliminaranimadorreto_view@yopuedo.com",
                                               nombre="María Jesús", password="Password1.",
                                               clave_aleatoria="clavealeat",
                                               clave_fija="clavefijausuario",
                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
         otro_usuario = Usuario.objects.create_user(
-            email="eliminaranimadorreto_otro_view@gmail.com",
+            email="eliminaranimadorreto_otro_view@yopuedo.com",
             nombre="María Jesús",
             password="Password1.",
             clave_aleatoria="clavealeat",
@@ -772,21 +813,21 @@ class EliminarAnimadorRetoTest(TestCase):
         animador.save()
 
     def permitida_obtencion(self):
-        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+        self.client.login(username="eliminaranimadorreto_otro_view@yopuedo.com",
                           password='Password1.')
         reto = Reto.objects.filter(
-            coordinador__email='eliminaranimadorreto_view@gmail.com').first()
+            coordinador__email='eliminaranimadorreto_view@yopuedo.com').first()
         resp = self.client.get(f'/animador_reto/{reto.id_reto}')
 
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertFalse(Animador.objects.filter(reto__id_reto=reto.id_reto,
-                                                 usuario__email="eliminaranimadorreto_otro_view@gmail.com").exists())
+                                                 usuario__email="eliminaranimadorreto_otro_view@yopuedo.com").exists())
 
     def no_permitida_obtencion(self):
-        self.client.login(username="eliminaranimadorreto_view@gmail.com",
+        self.client.login(username="eliminaranimadorreto_view@yopuedo.com",
                           password='Password1.')
         reto = Reto.objects.filter(
-            coordinador__email='eliminaranimadorreto_view@gmail.com').first()
+            coordinador__email='eliminaranimadorreto_view@yopuedo.com').first()
         resp = self.client.get(f'/animador_reto/{reto.id_reto}')
         self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
 
@@ -796,30 +837,33 @@ class EliminarAnimadorRetoTest(TestCase):
 class EditarRetoTest(TestCase):
     def setUpTestData(cls):
         # Creamos usuarios
-        Usuario.objects.create_user(email="editarreto_view@gmail.com",
+        Usuario.objects.create_user(email="editarreto_view@yopuedo.com",
                                     nombre="María Jesús", password="Password1.",
                                     clave_aleatoria="clavealeat",
                                     clave_fija="clavefijausuario",
                                     foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
+
         # Creamos usuarios
-        Usuario.objects.create_user(email="extrañoeditando_view@gmail.com",
+        Usuario.objects.create_user(email="extrañoeditando_view@yopuedo.com",
                                     nombre="María Jesús", password="Password1.",
                                     clave_aleatoria="clavealeat",
                                     clave_fija="clavefijausuario",
                                     foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def objetivoRetoMedia(self):
-        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+        self.client.login(username="eliminaranimadorreto_otro_view@yopuedo.com",
                           password='Password1.')
 
-        usuario = Usuario.objects.get(email="editarreto_view@gmail.com")
+        usuario = Usuario.objects.get(email="editarreto_view@yopuedo.com")
         id_reto = Utils.crear_id_reto()
 
         # Creamos el reto
         reto = Reto(id_reto=id_reto,
                     titulo="PRUEBA RETO VIEWS",
-                    objetivo=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg",
+                    objetivo=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@yopuedo"
+                             f".com"
+                             f".jpg",
                     categoria="inteligencia",
                     recompensa="RECOMPENSA RETO VIEWS", coordinador=usuario)
         reto.save()
@@ -856,13 +900,14 @@ class EditarRetoTest(TestCase):
         resp = self.client.post(f'/editar_reto/{id_reto}', data, format='multipart')
         self.assertTrue(f"/reto/{id_reto}" in resp.url)
         self.assertEqual(reto.objetivo,
-                         f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                         f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com"
+                         f".jpg")
 
     def objetivoRetoVacio(self):
-        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+        self.client.login(username="eliminaranimadorreto_otro_view@yopuedo.com",
                           password='Password1.')
 
-        usuario = Usuario.objects.get(email="editarreto_view@gmail.com")
+        usuario = Usuario.objects.get(email="editarreto_view@yopuedo.com")
         id_reto = Utils.crear_id_reto()
 
         # Creamos el reto
@@ -907,16 +952,18 @@ class EditarRetoTest(TestCase):
         self.assertEqual(reto.objetivo, "OBJETIVO RETO VIEWS")
 
     def objetivoRetoNuevo(self):
-        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+        self.client.login(username="eliminaranimadorreto_otro_view@yopuedo.com",
                           password='Password1.')
 
-        usuario = Usuario.objects.get(email="editarreto_view@gmail.com")
+        usuario = Usuario.objects.get(email="editarreto_view@yopuedo.com")
         id_reto = Utils.crear_id_reto()
 
         # Creamos el reto
         reto = Reto(id_reto=id_reto,
                     titulo="PRUEBA RETO VIEWS",
-                    objetivo=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg",
+                    objetivo=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@yopuedo"
+                             f".com"
+                             f".jpg",
                     categoria="inteligencia",
                     recompensa="RECOMPENSA RETO VIEWS", coordinador=usuario)
         reto.save()
@@ -955,10 +1002,10 @@ class EditarRetoTest(TestCase):
         self.assertEqual(reto.objetivo, "Objetivo RETO VIEWS")
 
     def recompensaRetoMedia(self):
-        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+        self.client.login(username="eliminaranimadorreto_otro_view@yopuedo.com",
                           password='Password1.')
 
-        usuario = Usuario.objects.get(email="editarreto_view@gmail.com")
+        usuario = Usuario.objects.get(email="editarreto_view@yopuedo.com")
         id_reto = Utils.crear_id_reto()
 
         # Creamos el reto
@@ -966,7 +1013,8 @@ class EditarRetoTest(TestCase):
                     titulo="PRUEBA RETO VIEWS",
                     objetivo="OBJETIVO RETO VIEWS",
                     categoria="inteligencia",
-                    recompensa=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg",
+                    recompensa=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariaje"
+                               f"sus@yopuedo.com.jpg",
                     coordinador=usuario)
         reto.save()
 
@@ -1002,13 +1050,14 @@ class EditarRetoTest(TestCase):
         resp = self.client.post(f'/editar_reto/{id_reto}', data, format='multipart')
         self.assertTrue(f"/reto/{id_reto}" in resp.url)
         self.assertEqual(reto.recompensa,
-                         f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                         f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com"
+                         f".jpg")
 
     def recompensaRetoVacia(self):
-        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+        self.client.login(username="eliminaranimadorreto_otro_view@yopuedo.com",
                           password='Password1.')
 
-        usuario = Usuario.objects.get(email="editarreto_view@gmail.com")
+        usuario = Usuario.objects.get(email="editarreto_view@yopuedo.com")
         id_reto = Utils.crear_id_reto()
 
         # Creamos el reto
@@ -1054,10 +1103,10 @@ class EditarRetoTest(TestCase):
         self.assertEqual(reto.recompensa, "RECOMPENSA RETO VIEWS")
 
     def recompensaRetoNuevo(self):
-        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+        self.client.login(username="eliminaranimadorreto_otro_view@yopuedo.com",
                           password='Password1.')
 
-        usuario = Usuario.objects.get(email="editarreto_view@gmail.com")
+        usuario = Usuario.objects.get(email="editarreto_view@yopuedo.com")
         id_reto = Utils.crear_id_reto()
 
         # Creamos el reto
@@ -1065,7 +1114,9 @@ class EditarRetoTest(TestCase):
                     titulo="PRUEBA RETO VIEWS",
                     objetivo="OBJETIVO RETO VIEWS",
                     categoria="inteligencia",
-                    recompensa=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg",
+                    recompensa=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@yopuedo"
+                               f".com"
+                               f".jpg",
                     coordinador=usuario)
         reto.save()
 
@@ -1103,10 +1154,10 @@ class EditarRetoTest(TestCase):
         self.assertEqual(reto.recompensa, "Recompensa RETO VIEWS")
 
     def objetivoEtapaMedia(self):
-        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+        self.client.login(username="eliminaranimadorreto_otro_view@yopuedo.com",
                           password='Password1.')
 
-        usuario = Usuario.objects.get(email="editarreto_view@gmail.com")
+        usuario = Usuario.objects.get(email="editarreto_view@yopuedo.com")
         id_reto = Utils.crear_id_reto()
 
         # Creamos el reto
@@ -1153,13 +1204,14 @@ class EditarRetoTest(TestCase):
         resp = self.client.post(f'/editar_reto/{id_reto}', data, format='multipart')
         self.assertTrue(f"/reto/{id_reto}" in resp.url)
         self.assertEqual(reto.etapa_set.all().first().objetivo,
-                         f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                         f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com"
+                         f".jpg")
 
     def objetivoEtapaVacia(self):
-        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+        self.client.login(username="eliminaranimadorreto_otro_view@yopuedo.com",
                           password='Password1.')
 
-        usuario = Usuario.objects.get(email="editarreto_view@gmail.com")
+        usuario = Usuario.objects.get(email="editarreto_view@yopuedo.com")
         id_reto = Utils.crear_id_reto()
 
         # Creamos el reto
@@ -1208,10 +1260,10 @@ class EditarRetoTest(TestCase):
         self.assertEqual(reto.etapa_set.all().first().objetivo, "OBJETIVO ETAPA VIEWS")
 
     def objetivoEtapaNuevo(self):
-        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+        self.client.login(username="eliminaranimadorreto_otro_view@yopuedo.com",
                           password='Password1.')
 
-        usuario = Usuario.objects.get(email="editarreto_view@gmail.com")
+        usuario = Usuario.objects.get(email="editarreto_view@yopuedo.com")
         id_reto = Utils.crear_id_reto()
 
         # Creamos el reto
@@ -1219,7 +1271,9 @@ class EditarRetoTest(TestCase):
                     titulo="PRUEBA RETO VIEWS",
                     objetivo="OBJETIVO RETO VIEWS",
                     categoria="inteligencia",
-                    recompensa=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg",
+                    recompensa=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@yopuedo"
+                               f".com"
+                               f".jpg",
                     coordinador=usuario)
         reto.save()
 
@@ -1260,10 +1314,10 @@ class EditarRetoTest(TestCase):
         self.assertEqual(reto.etapa_set.all().first().objetivo, "Objetivo ETAPA VIEWS")
 
     def etapaNuevaVacia(self):
-        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+        self.client.login(username="eliminaranimadorreto_otro_view@yopuedo.com",
                           password='Password1.')
 
-        usuario = Usuario.objects.get(email="editarreto_view@gmail.com")
+        usuario = Usuario.objects.get(email="editarreto_view@yopuedo.com")
         id_reto = Utils.crear_id_reto()
 
         # Creamos el reto
@@ -1271,7 +1325,9 @@ class EditarRetoTest(TestCase):
                     titulo="PRUEBA RETO VIEWS",
                     objetivo="OBJETIVO RETO VIEWS",
                     categoria="inteligencia",
-                    recompensa=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg",
+                    recompensa=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@yopuedo"
+                               f".com"
+                               f".jpg",
                     coordinador=usuario)
         reto.save()
 
@@ -1319,10 +1375,10 @@ class EditarRetoTest(TestCase):
         self.assertEqual(len(reto.etapa_set.all()), 1)
 
     def etapaNueva(self):
-        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+        self.client.login(username="eliminaranimadorreto_otro_view@yopuedo.com",
                           password='Password1.')
 
-        usuario = Usuario.objects.get(email="editarreto_view@gmail.com")
+        usuario = Usuario.objects.get(email="editarreto_view@yopuedo.com")
         id_reto = Utils.crear_id_reto()
 
         # Creamos el reto
@@ -1330,7 +1386,9 @@ class EditarRetoTest(TestCase):
                     titulo="PRUEBA RETO VIEWS",
                     objetivo="OBJETIVO RETO VIEWS",
                     categoria="inteligencia",
-                    recompensa=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg",
+                    recompensa=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@yopuedo"
+                               f".com"
+                               f".jpg",
                     coordinador=usuario)
         reto.save()
 
@@ -1380,10 +1438,10 @@ class EditarRetoTest(TestCase):
                          "Objetivo NUEVO Etapa VIEWS")
 
     def retoComenzado(self):
-        self.client.login(username="eliminaranimadorreto_otro_view@gmail.com",
+        self.client.login(username="eliminaranimadorreto_otro_view@yopuedo.com",
                           password='Password1.')
 
-        usuario = Usuario.objects.get(email="editarreto_view@gmail.com")
+        usuario = Usuario.objects.get(email="editarreto_view@yopuedo.com")
         id_reto = Utils.crear_id_reto()
 
         # Creamos el reto
@@ -1391,7 +1449,9 @@ class EditarRetoTest(TestCase):
                     titulo="PRUEBA RETO VIEWS",
                     objetivo="OBJETIVO RETO VIEWS",
                     categoria="inteligencia",
-                    recompensa=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg",
+                    recompensa=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@yopuedo"
+                               f".com"
+                               f".jpg",
                     coordinador=usuario, estado="En proceso")
         reto.save()
 
@@ -1438,10 +1498,10 @@ class EditarRetoTest(TestCase):
         self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
 
     def extrañoEditando(self):
-        self.client.login(username="extrañoeditando_view@gmail.com",
+        self.client.login(username="extrañoeditando_view@yopuedo.com",
                           password='Password1.')
 
-        usuario = Usuario.objects.get(email="editarreto_view@gmail.com")
+        usuario = Usuario.objects.get(email="editarreto_view@yopuedo.com")
         id_reto = Utils.crear_id_reto()
 
         # Creamos el reto
@@ -1449,7 +1509,9 @@ class EditarRetoTest(TestCase):
                     titulo="PRUEBA RETO VIEWS",
                     objetivo="OBJETIVO RETO VIEWS",
                     categoria="inteligencia",
-                    recompensa=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg",
+                    recompensa=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@yopuedo"
+                               f".com"
+                               f".jpg",
                     coordinador=usuario)
         reto.save()
 
@@ -1501,19 +1563,21 @@ class EditarRetoTest(TestCase):
 class CalificarPruebaAnimoEtapaTest(TestCase):
     def setUpTestData(cls):
         # Creamos usuarios
-        usuario = Usuario.objects.create_user(email="calificaretapa_view@gmail.com",
+        usuario = Usuario.objects.create_user(email="calificaretapa_view@yopuedo.com",
                                               nombre="María Jesús", password="Password1.",
                                               clave_aleatoria="clavealeat",
                                               clave_fija="clavefijausuario",
-                                              foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+                                              foto_perfil
+                                              =f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
         # Creamos futuro animador
-        usuario_animador = Usuario.objects.create_user(email="animadoretapa_view@gmail.com",
-                                              nombre="María Jesús", password="Password1.",
-                                              clave_aleatoria="clavealeat",
-                                              clave_fija="clavefijausuario",
-                                              foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+        usuario_animador = Usuario.objects.create_user(
+            email="animadoretapa_view@yopuedo.com",
+            nombre="María Jesús", password="Password1.",
+            clave_aleatoria="clavealeat",
+            clave_fija="clavefijausuario",
+            foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
-        Usuario.objects.create_user(email="extraño_view@gmail.com",
+        Usuario.objects.create_user(email="extraño_view@yopuedo.com",
                                     nombre="María Jesús", password="Password1.",
                                     clave_aleatoria="clavealeat",
                                     clave_fija="clavefijausuario",
@@ -1553,7 +1617,7 @@ class CalificarPruebaAnimoEtapaTest(TestCase):
         animador.save()
 
     def calificarVacio(self):
-        self.client.login(username="calificaretapa_view@gmail.com",
+        self.client.login(username="calificaretapa_view@yopuedo.com",
                           password='Password1.')
         data = {
             'calificacion': ''
@@ -1573,7 +1637,7 @@ class CalificarPruebaAnimoEtapaTest(TestCase):
         self.assertEqual(reto.estado, "En proceso")
 
     def calificarExtraño(self):
-        self.client.login(username="extraño_view@gmail.com",
+        self.client.login(username="extraño_view@yopuedo.com",
                           password='Password1.')
         data = {
             'calificacion': 'normal'
@@ -1593,7 +1657,7 @@ class CalificarPruebaAnimoEtapaTest(TestCase):
         self.assertEqual(reto.estado, "En proceso")
 
     def añadirPrueba(self):
-        self.client.login(username="calificaretapa_view@gmail.com",
+        self.client.login(username="calificaretapa_view@yopuedo.com",
                           password='Password1.')
         data = {
             'prueba_texto': 'Esto es una prueba'
@@ -1608,7 +1672,7 @@ class CalificarPruebaAnimoEtapaTest(TestCase):
         self.assertEqual(len(etapa.prueba_set.all()), 1)
 
     def getPrueba(self):
-        self.client.login(username="calificaretapa_view@gmail.com",
+        self.client.login(username="calificaretapa_view@yopuedo.com",
                           password='Password1.')
 
         reto = Reto.objects.get(
@@ -1619,7 +1683,7 @@ class CalificarPruebaAnimoEtapaTest(TestCase):
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
 
     def añadirAnimo(self):
-        self.client.login(username="animadoretapa_view@gmail.com",
+        self.client.login(username="animadoretapa_view@yopuedo.com",
                           password='Password1.')
         data = {
             'animo_texto': 'Esto es un ánimo del animador'
@@ -1634,7 +1698,7 @@ class CalificarPruebaAnimoEtapaTest(TestCase):
         self.assertEqual(len(etapa.animo_set.all()), 1)
 
     def getAnimoParticipante(self):
-        self.client.login(username="calificaretapa_view@gmail.com",
+        self.client.login(username="calificaretapa_view@yopuedo.com",
                           password='Password1.')
 
         reto = Reto.objects.get(
@@ -1645,7 +1709,7 @@ class CalificarPruebaAnimoEtapaTest(TestCase):
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
 
     def getAnimoAnimador(self):
-        self.client.login(username="animadoretapa_view@gmail.com",
+        self.client.login(username="animadoretapa_view@yopuedo.com",
                           password='Password1.')
 
         reto = Reto.objects.get(
@@ -1656,7 +1720,7 @@ class CalificarPruebaAnimoEtapaTest(TestCase):
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
 
     def calificarPrimera(self):
-        self.client.login(username="calificaretapa_view@gmail.com",
+        self.client.login(username="calificaretapa_view@yopuedo.com",
                           password='Password1.')
         data = {
             'calificacion': 'normal'
@@ -1676,7 +1740,7 @@ class CalificarPruebaAnimoEtapaTest(TestCase):
         self.assertEqual(reto.estado, "En proceso")
 
     def calificarUltima(self):
-        self.client.login(username="calificaretapa_view@gmail.com",
+        self.client.login(username="calificaretapa_view@yopuedo.com",
                           password='Password1.')
         data = {
             'calificacion': 'normal'
@@ -1694,3 +1758,89 @@ class CalificarPruebaAnimoEtapaTest(TestCase):
         self.assertEqual(etapa.estado, "Finalizado")
         self.assertEqual(ultima_etapa.estado, "Finalizado")
         self.assertEqual(reto.estado, "Finalizado")
+
+
+##########################################################################################
+
+# Comprobamos el funcionamiento de la URL perfil
+class PerfilViewTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        data = {
+            'email': "perfil_view@yopuedo.com",
+            'nombre': "María Jesús",
+            'password': 'Password1.',
+            'password_again': 'Password1.',
+            'foto_de_perfil': SimpleUploadedFile(foto_perfil.name, foto_perfil.read())
+        }
+        client = Client()
+        client.post('/registrarse/', data, format='multipart')
+
+    def test_url_no_accesible(self):
+        resp = self.client.get('/mi_perfil/')
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        self.assertTrue('/registrarse/' in resp.url)
+
+    def test_url_accesible(self):
+        self.client.login(username='perfil_view@yopuedo.com', password="Password1.")
+
+        resp = self.client.get('/mi_perfil/')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+
+    def test_cerrar_sesion(self):
+        self.client.login(username='perfil_view@yopuedo.com', password="Password1.")
+
+        resp = self.client.get('/cerrar_sesion/')
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        user = auth.get_user(self.client)
+        self.assertFalse(user.is_authenticated)
+
+    def test_get_modificar(self):
+        self.client.login(username='perfil_view@yopuedo.com', password="Password1.")
+
+        resp = self.client.get('/editar_perfil/')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+
+    def test_get_modificar_no_login(self):
+        resp = self.client.get('/editar_perfil/')
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        self.assertTrue('/registrarse/' in resp.url)
+
+    def test_post_modificar(self):
+        self.client.login(username='perfil_view@yopuedo.com', password="Password1.")
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        data = {
+            'email': "perfil_view@yopuedo.com",
+            'nombre': "María Jesús López",
+            'password_antigua': 'Password1.',
+            'password_nueva': 'Password1.!',
+            'password_again': 'Password1.!',
+            'foto_de_perfil': SimpleUploadedFile(foto_perfil.name, foto_perfil.read())
+        }
+        resp = self.client.post('/editar_perfil/', data, format='multipart')
+        self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
+        user = auth.get_user(self.client)
+        self.assertFalse(user.is_authenticated)
+        user = Usuario.objects.get(email="perfil_view@yopuedo.com")
+        self.assertEqual(user.nombre, "María Jesús López")
+        self.assertFalse(user.check_password("Password1."))
+        self.assertTrue(user.check_password("Password1.!"))
+
+    def test_eliminar(self):
+        usuario = Usuario.objects.get(email='perfil_view@yopuedo.com')
+        clave_aleatoria = usuario.clave_aleatoria
+        self.client.login(username='perfil_view@yopuedo.com', password="Password1.")
+
+        resp = self.client.get('/eliminar/')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        usuario = Usuario.objects.filter(email='perfil_view@yopuedo.com')
+        self.assertTrue(usuario.exists())
+        usuario = Usuario.objects.get(email='perfil_view@yopuedo.com')
+        self.assertNotEqual(usuario.clave_aleatoria, clave_aleatoria)

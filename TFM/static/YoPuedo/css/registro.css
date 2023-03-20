@@ -68,7 +68,7 @@
 @media screen and (min-width: 768px){
 
     .col-10.password, .col-10.password_again, .col-10.new_password1,
-    .col-10.new_password2{
+    .col-10.new_password2, .col-10.password_nueva, .col-10.password_antigua{
         width: 75%;
     }
 }
@@ -76,7 +76,7 @@
 @media screen and (max-width: 767px){
 
     .col-10.password, .col-10.password_again, .col-10.new_password1,
-    .col-10.new_password2{
+    .col-10.new_password2, .col-10.password_nueva, .col-10.password_antigua{
         width: 66.66666667%;
     }
 }
