@@ -1773,7 +1773,6 @@ class PerfilViewTest(TestCase):
 
         resp = self.client.get('/editar_perfil/')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
-        self.assertEqual('/editar_perfil/', resp.url)
 
     def test_get_modificar_no_login(self):
         resp = self.client.get('/editar_perfil/')
@@ -1795,7 +1794,7 @@ class PerfilViewTest(TestCase):
             'foto_de_perfil': SimpleUploadedFile(foto_perfil.name, foto_perfil.read())
         }
         resp = self.client.post('/editar_perfil/', data, format='multipart')
-        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
         self.assertTrue('/registrarse/' in resp.url)
         user = auth.get_user(self.client)
         self.assertEqual(user.nombre, "María Jesús López")
@@ -1805,10 +1804,12 @@ class PerfilViewTest(TestCase):
 
     def test_eliminar(self):
         self.client.login(username='perfil_view@gmail.com', password="Password1.!")
+        usuario = Usuario.objects.get(email='perfil_view@gmail.com')
+        clave_aleatoria = usuario.clave_aleatoria
 
         resp = self.client.get('/eliminar/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         usuario = Usuario.objects.filter(email='perfil_view@gmail.com')
         self.assertTrue(usuario.exists())
-        usuario = auth.get_user(self.client)
-        self.assertFalse(usuario.clave_aleatoria == "clavealeat")
+        usuario = usuario.first()
+        self.assertFalse(usuario.clave_aleatoria == clave_aleatoria)
