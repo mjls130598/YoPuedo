@@ -750,7 +750,7 @@ class PerfilTest(TestCase):
         foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/prueba.txt"
         foto_perfil = open(foto_perfil, 'rb')
 
-        form = RegistroForm(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+        form = PerfilForm(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
             foto_perfil.name, foto_perfil.read())})
 
         self.assertEqual(form.errors['foto_de_perfil'],
@@ -762,13 +762,13 @@ class PerfilTest(TestCase):
             'nombre': 'María Jesús',
             'password_antigua': 'Password1.',
             'password_nueva': 'Password1*',
-            'password_again': 'Password1',
+            'password_again': 'Password1*',
         }
 
         foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/prueba2.txt"
         foto_perfil = open(foto_perfil, 'rb')
 
-        form = RegistroForm(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+        form = PerfilForm(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
             foto_perfil.name, foto_perfil.read())})
 
         self.assertEqual(form.errors['foto_de_perfil'], ['Envíe una imagen válida. El '
