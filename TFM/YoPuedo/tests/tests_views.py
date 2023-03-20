@@ -1,3 +1,4 @@
+from django.contrib import auth
 from django.contrib.auth import login
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
@@ -68,7 +69,7 @@ class ClaveViewTest(TestCase):
         resp = self.client.post('/validar_clave/registro/clave_view@gmail.com', data)
         self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
         user = Usuario.objects.get(email='clave_view@gmail.com')
-        self.assertTrue(user.is_authenticated())
+        self.assertTrue(user.is_authenticated)
 
     def test_post_inicio_correcto(self):
         data = {
@@ -1759,8 +1760,8 @@ class PerfilViewTest(TestCase):
 
         resp = self.client.get('/cerrar_sesion/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
-        user = Usuario.objects.get(email='perfil_view@gmail.com')
-        self.assertFalse(user.is_authenticated())
+        user = auth.get_user(client)
+        self.assertFalse(user.is_authenticated)
 
     def test_get_modificar(self):
         client = Client()
@@ -1768,6 +1769,7 @@ class PerfilViewTest(TestCase):
 
         resp = self.client.get('/editar_perfil/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        self.assertEqual('/editar_perfil/', resp.url)
 
     def test_get_modificar_no_login(self):
         resp = self.client.get('/editar_perfil/')
@@ -1792,11 +1794,11 @@ class PerfilViewTest(TestCase):
         resp = self.client.post('/editar_perfil/', data, format='multipart')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertTrue('/registrarse/' in resp.url)
-        usuario = Usuario.objects.get(email='perfil_view@gmail.com')
-        self.assertEqual(usuario.nombre, "María Jesús López")
-        self.assertFalse(usuario.check_password("Password1."))
-        self.assertTrue(usuario.check_password("Password1.!"))
-        self.assertFalse(usuario.is_authenticated())
+        user = auth.get_user(client)
+        self.assertEqual(user.nombre, "María Jesús López")
+        self.assertFalse(user.check_password("Password1."))
+        self.assertTrue(user.check_password("Password1.!"))
+        self.assertFalse(user.is_authenticated)
 
     def test_eliminar(self):
         client = Client()
@@ -1807,4 +1809,4 @@ class PerfilViewTest(TestCase):
         usuario = Usuario.objects.filter(email='perfil_view@gmail.com')
         self.assertTrue(usuario.exists())
         usuario = usuario.first()
-        self.assertFalse(usuario.clave_aleatoria, "clavealeat")
+        self.assertFalse(usuario.clave_aleatoria == "clavealeat")
