@@ -1836,11 +1836,10 @@ class PerfilViewTest(TestCase):
     def test_eliminar(self):
         usuario = Usuario.objects.get(email='perfil_view@yopuedo.com')
         clave_aleatoria = usuario.clave_aleatoria
-        self.client.login(username='perfil_view@yopuedo.com', password="Password1.!")
+        self.client.login(username='perfil_view@yopuedo.com', password="Password1.")
 
         resp = self.client.get('/eliminar/')
-        self.assertEqual(resp.url, '/eliminar/')
-        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
         usuario = Usuario.objects.filter(email='perfil_view@yopuedo.com')
         self.assertTrue(usuario.exists())
         usuario = Usuario.objects.get(email='perfil_view@yopuedo.com')
