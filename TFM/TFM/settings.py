@@ -138,9 +138,9 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGOUT_REDIRECT_URL = '/registrarse/'
-LOGIN_REDIRECT_URL = '/mis_retos/'
-LOGIN_URL = '/registrarse/'
+LOGOUT_REDIRECT_URL = 'registrarse'
+LOGIN_REDIRECT_URL = 'mis_retos'
+LOGIN_URL = 'registrarse'
 
 LOG_FILE = os.path.join(BASE_DIR, 'Server.log')
 
