@@ -1811,4 +1811,4 @@ class PerfilViewTest(TestCase):
         usuario = Usuario.objects.filter(email='perfil_view@gmail.com')
         self.assertTrue(usuario.exists())
         usuario = usuario.first()
-        self.assertFalse(usuario.clave_aleatoria == clave_aleatoria)
+        self.assertEqual(usuario.clave_fija, clave_aleatoria)
