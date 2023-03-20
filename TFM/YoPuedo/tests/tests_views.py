@@ -1736,11 +1736,18 @@ class PerfilViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        Usuario.objects.create_user(email="perfil_view@gmail.com",
-                                    nombre="María Jesús", password="Password1.",
-                                    clave_aleatoria="clavealeat",
-                                    clave_fija="clavefijausuario",
-                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        data = {
+            'email': "perfil_view@gmail.com",
+            'nombre': "María Jesús",
+            'password': 'Password1.',
+            'password_again': 'Password1.',
+            'foto_de_perfil': SimpleUploadedFile(foto_perfil.name, foto_perfil.read())
+        }
+        client = Client()
+        client.post('/registrarse/', data, format='multipart')
 
     def test_url_no_accesible(self):
         resp = self.client.get('/mi_perfil/')
@@ -1751,7 +1758,7 @@ class PerfilViewTest(TestCase):
         self.client.login(username='perfil_view@gmail.com', password="Password1.")
 
         resp = self.client.get('/mi_perfil/')
-        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
 
     def test_cerrar_sesion(self):
         self.client.login(username='perfil_view@gmail.com', password="Password1.")
@@ -1765,7 +1772,7 @@ class PerfilViewTest(TestCase):
         self.client.login(username='perfil_view@gmail.com', password="Password1.")
 
         resp = self.client.get('/editar_perfil/')
-        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
         self.assertEqual('/editar_perfil/', resp.url)
 
     def test_get_modificar_no_login(self):
@@ -1803,5 +1810,5 @@ class PerfilViewTest(TestCase):
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         usuario = Usuario.objects.filter(email='perfil_view@gmail.com')
         self.assertTrue(usuario.exists())
-        usuario = usuario.first()
+        usuario = auth.get_user(self.client)
         self.assertFalse(usuario.clave_aleatoria == "clavealeat")
