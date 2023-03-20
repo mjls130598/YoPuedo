@@ -1,5 +1,4 @@
 from django.contrib import auth
-from django.contrib.auth import login
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from TFM.settings import BASE_DIR
@@ -1811,5 +1810,5 @@ class PerfilViewTest(TestCase):
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         usuario = Usuario.objects.filter(email='perfil_view@gmail.com')
         self.assertTrue(usuario.exists())
-        usuario = usuario.first()
-        self.assertFalse(usuario.clave_aleatoria == clave_aleatoria)
+        usuario = Usuario.objects.get(email='perfil_view@gmail.com')
+        self.assertNotEqual(usuario.clave_aleatoria, clave_aleatoria)
