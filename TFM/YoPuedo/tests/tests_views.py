@@ -1748,24 +1748,21 @@ class PerfilViewTest(TestCase):
         self.assertTrue('/registrarse/' in resp.url)
 
     def test_url_accesible(self):
-        client = Client()
-        client.login(username='perfil_view@gmail.com', password="Password1.")
+        self.client.login(username='perfil_view@gmail.com', password="Password1.")
 
         resp = self.client.get('/mi_perfil/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
 
     def test_cerrar_sesion(self):
-        client = Client()
-        client.login(username='perfil_view@gmail.com', password="Password1.")
+        self.client.login(username='perfil_view@gmail.com', password="Password1.")
 
         resp = self.client.get('/cerrar_sesion/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
-        user = auth.get_user(client)
+        user = auth.get_user(self.client)
         self.assertFalse(user.is_authenticated)
 
     def test_get_modificar(self):
-        client = Client()
-        client.login(username='perfil_view@gmail.com', password="Password1.")
+        self.client.login(username='perfil_view@gmail.com', password="Password1.")
 
         resp = self.client.get('/editar_perfil/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
@@ -1777,8 +1774,7 @@ class PerfilViewTest(TestCase):
         self.assertTrue('/registrarse/' in resp.url)
 
     def test_post_modificar(self):
-        client = Client()
-        client.login(username='perfil_view@gmail.com', password="Password1.")
+        self.client.login(username='perfil_view@gmail.com', password="Password1.")
 
         foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
         foto_perfil = open(foto_perfil, 'rb')
@@ -1794,15 +1790,14 @@ class PerfilViewTest(TestCase):
         resp = self.client.post('/editar_perfil/', data, format='multipart')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertTrue('/registrarse/' in resp.url)
-        user = auth.get_user(client)
+        user = auth.get_user(self.client)
         self.assertEqual(user.nombre, "María Jesús López")
         self.assertFalse(user.check_password("Password1."))
         self.assertTrue(user.check_password("Password1.!"))
         self.assertFalse(user.is_authenticated)
 
     def test_eliminar(self):
-        client = Client()
-        client.login(username='perfil_view@gmail.com', password="Password1.!")
+        self.client.login(username='perfil_view@gmail.com', password="Password1.!")
 
         resp = self.client.get('/eliminar/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
