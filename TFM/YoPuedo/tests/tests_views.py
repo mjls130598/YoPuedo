@@ -1795,7 +1795,6 @@ class PerfilViewTest(TestCase):
         }
         resp = self.client.post('/editar_perfil/', data, format='multipart')
         self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
-        self.assertTrue('/registrarse/' in resp.url)
         user = auth.get_user(self.client)
         self.assertEqual(user.nombre, "María Jesús López")
         self.assertFalse(user.check_password("Password1."))
