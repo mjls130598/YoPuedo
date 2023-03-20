@@ -565,3 +565,213 @@ class RetoAnimoTest(TestCase):
         form = AnimoForm(data=data)
 
         self.assertEqual(len(form.errors), 0)
+
+
+##########################################################################################
+
+# Comprobamos la validación del EDITAR PERFIL
+class PerfilTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        Usuario.objects.create_user(email="editar_perfil@forms.com", nombre="María Jesús",
+                                    password="Password1.",
+                                    clave_aleatoria="clave1",
+                                    clave_fija="clave2",
+                                    foto_perfil="/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+    def test_correcto(self):
+        form_data = {
+            'email': 'editar_perfil@forms.com',
+            'nombre': 'María Jesús',
+            'password_antigua': 'Password1.',
+            'password_nueva': 'Password1*',
+            'password_again': 'Password1*',
+        }
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        form = PerfilForm(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
+
+        self.assertEqual(len(form.errors), 0)
+
+    def test_nombre_largo(self):
+        form_data = {
+            'email': 'editar_perfil@forms.com',
+            'nombre': 'María Jesús López Salmerón María Jesús López Salmerón María '
+                      'Jesús López Salmerón María Jesús López Salmerón',
+            'password_antigua': 'Password1.',
+            'password_nueva': 'Password1*',
+            'password_again': 'Password1*',
+        }
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        form = PerfilForm(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
+
+        self.assertEqual(form.errors['nombre'], ["Asegúrese de que este valor tenga "
+                                                 "menos de 100 caracteres (tiene 107)."])
+
+    def test_no_antigua_password(self):
+        form_data = {
+            'email': 'editar_perfil@forms.com',
+            'nombre': 'María Jesús',
+            'password_antigua': 'Password1!',
+            'password_nueva': 'Password1*',
+            'password_again': 'Password1',
+        }
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        form = PerfilForm(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
+
+        self.assertEqual(form.errors['password_antigua'],
+                         ['La contraseña no es la esperada'])
+
+    def test_no_coinciden_password(self):
+        form_data = {
+            'email': 'editar_perfil@forms.com',
+            'nombre': 'María Jesús',
+            'password_antigua': 'Password1.',
+            'password_nueva': 'Password1*',
+            'password_again': 'Password1',
+        }
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        form = PerfilForm(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
+
+        self.assertEqual(form.errors['password_again'], ['Las contraseñas deben ser '
+                                                         'iguales'])
+
+    def test_password_no_numerico(self):
+        form_data = {
+            'email': 'editar_perfil@forms.com',
+            'nombre': 'María Jesús',
+            'password_antigua': 'Password1.',
+            'password_nueva': 'Password*',
+            'password_again': 'Password*',
+        }
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        form = PerfilForm(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
+
+        self.assertEqual(form.errors['password_nueva'], ['La contraseña debe contener '
+                                                         'al menos un número'])
+
+    def test_password_no_mayuscula(self):
+        form_data = {
+            'email': 'editar_perfil@forms.com',
+            'nombre': 'María Jesús',
+            'password_antigua': 'Password1.',
+            'password_nueva': 'password1*',
+            'password_again': 'password1*',
+        }
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        form = PerfilForm(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
+
+        self.assertEqual(form.errors['password_nueva'], ['La contraseña debe tener al '
+                                                         'menos una mayúscula'])
+
+    def test_password_no_simbolos(self):
+        form_data = {
+            'email': 'editar_perfil@forms.com',
+            'nombre': 'María Jesús',
+            'password_antigua': 'Password1.',
+            'password_nueva': 'Password1',
+            'password_again': 'Password1',
+        }
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        form = PerfilForm(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
+
+        self.assertEqual(form.errors['password_nueva'], ["La contraseña debe tener al "
+                                                         "menos uno de estos símbolos: ("
+                                                         ")[]{}|\`~!@#$%^&*_-+=;:'\",<>./?"])
+
+    def test_password_no_minuscula(self):
+        form_data = {
+            'email': 'editar_perfil@forms.com',
+            'nombre': 'María Jesús',
+            'password_antigua': 'Password1.',
+            'password_nueva': 'PASSWORD1*',
+            'password_again': 'PASSWORD1*',
+        }
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        form = PerfilForm(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
+
+        self.assertEqual(form.errors['password_nueva'],
+                         ["La contraseña debe contener al menos una letra "
+                          "en minúscula"])
+
+    def test_foto_de_perfil_vacio(self):
+        form_data = {
+            'email': 'editar_perfil@forms.com',
+            'nombre': 'María Jesús',
+            'password_antigua': 'Password1.',
+            'password_nueva': 'Password1*',
+            'password_again': 'Password1*',
+        }
+
+        form = PerfilForm(data=form_data)
+
+        self.assertEqual(form.errors['foto_de_perfil'], ['Este campo es obligatorio.'])
+
+    def test_imagen_vacia(self):
+        form_data = {
+            'email': 'editar_perfil@forms.com',
+            'nombre': 'María Jesús',
+            'password_antigua': 'Password1.',
+            'password_nueva': 'Password1*',
+            'password_again': 'Password1',
+        }
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/prueba.txt"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        form = RegistroForm(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
+
+        self.assertEqual(form.errors['foto_de_perfil'],
+                         ['El fichero enviado está vacío.'])
+
+    def test_no_imagen(self):
+        form_data = {
+            'email': 'editar_perfil@forms.com',
+            'nombre': 'María Jesús',
+            'password_antigua': 'Password1.',
+            'password_nueva': 'Password1*',
+            'password_again': 'Password1',
+        }
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/prueba2.txt"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        form = RegistroForm(data=form_data, files={'foto_de_perfil': SimpleUploadedFile(
+            foto_perfil.name, foto_perfil.read())})
+
+        self.assertEqual(form.errors['foto_de_perfil'], ['Envíe una imagen válida. El '
+                                                         'fichero que ha enviado no era '
+                                                         'una imagen o se trataba de una '
+                                                         'imagen corrupta.'])
