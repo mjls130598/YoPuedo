@@ -1796,19 +1796,20 @@ class PerfilViewTest(TestCase):
         resp = self.client.post('/editar_perfil/', data, format='multipart')
         self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
         user = auth.get_user(self.client)
+        self.assertFalse(user.is_authenticated)
+        user = Usuario.objects.get(email="perfil_view@gmail.com")
         self.assertEqual(user.nombre, "María Jesús López")
         self.assertFalse(user.check_password("Password1."))
         self.assertTrue(user.check_password("Password1.!"))
-        self.assertFalse(user.is_authenticated)
 
     def test_eliminar(self):
         self.client.login(username='perfil_view@gmail.com', password="Password1.!")
         usuario = Usuario.objects.get(email='perfil_view@gmail.com')
         clave_aleatoria = usuario.clave_aleatoria
 
-        resp = self.client.get('/eliminar/')
+        resp = self.client.post('/eliminar/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         usuario = Usuario.objects.filter(email='perfil_view@gmail.com')
         self.assertTrue(usuario.exists())
         usuario = usuario.first()
-        self.assertEqual(usuario.clave_fija, clave_aleatoria)
+        self.assertEqual(usuario.clave_aleatoria, clave_aleatoria)
