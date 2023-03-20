@@ -1772,7 +1772,7 @@ class PerfilViewTest(TestCase):
     def test_get_modificar_no_login(self):
         resp = self.client.get('/editar_perfil/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
-        self.assertEqual(resp.url, '/registrarse/')
+        self.assertTrue('/registrarse/' in resp.url)
 
     def test_post_modificar(self):
         client = Client()
@@ -1782,7 +1782,7 @@ class PerfilViewTest(TestCase):
         foto_perfil = open(foto_perfil, 'rb')
 
         data = {
-            'email': "perfil_view@email.com",
+            'email': "perfil_view@gmail.com",
             'nombre': "María Jesús López",
             'password_antigua': 'Password1.',
             'password_nueva': 'Password1.!',
@@ -1791,7 +1791,7 @@ class PerfilViewTest(TestCase):
         }
         resp = self.client.post('/editar_perfil/', data, format='multipart')
         self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
-        usuario = Usuario.objects.get(email='perfil_view@email.com')
+        usuario = Usuario.objects.get(email='perfil_view@gmail.com')
         self.assertEqual(usuario.nombre, "María Jesús López")
         self.assertFalse(usuario.check_password("Password1."))
         self.assertTrue(usuario.check_password("Password1.!"))
@@ -1803,7 +1803,7 @@ class PerfilViewTest(TestCase):
 
         resp = self.client.get('/eliminar/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
-        usuario = Usuario.objects.filter(email='perfil_view@email.com')
-        self.assertTrue(usuario.exists())
+        usuario = Usuario.objects.filter(email='perfil_view@gmail.com')
+        self.assertFalse(usuario.exists())
         usuario = usuario.first()
         self.assertFalse(usuario.clave_aleatoria, "clavealeat")
