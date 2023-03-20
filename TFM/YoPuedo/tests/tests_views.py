@@ -1796,3 +1796,14 @@ class PerfilViewTest(TestCase):
         self.assertFalse(usuario.check_password("Password1."))
         self.assertTrue(usuario.check_password("Password1.!"))
         self.assertFalse(usuario.is_authenticated)
+
+    def test_eliminar(self):
+        client = Client()
+        client.login(username='perfil_view@gmail.com', password="Password1.")
+
+        resp = self.client.get('/eliminar/')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        usuario = Usuario.objects.filter(email='perfil_view@email.com')
+        self.assertTrue(usuario.exists())
+        usuario = usuario.first()
+        self.assertFalse(usuario.clave_aleatoria, "clavealeat")
