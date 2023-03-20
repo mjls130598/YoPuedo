@@ -1744,6 +1744,7 @@ class PerfilViewTest(TestCase):
     def test_url_no_accesible(self):
         resp = self.client.get('/mi_perfil/')
         self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
+        self.assertEqual(resp.url, '/registrarse/')
 
     def test_url_accesible(self):
         client = Client()
@@ -1760,3 +1761,38 @@ class PerfilViewTest(TestCase):
         self.assertEqual(resp.status_code, HTTPStatus.OK)
         user = Usuario.objects.get(email='perfil_view@gmail.com')
         self.assertFalse(user.is_authenticated)
+
+    def test_get_modificar(self):
+        client = Client()
+        client.login(username='perfil_view@gmail.com', password="Password1.")
+
+        resp = self.client.get('/editar_perfil/')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+
+    def test_get_modificar_no_login(self):
+        resp = self.client.get('/editar_perfil/')
+        self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
+        self.assertEqual(resp.url, '/registrarse/')
+
+    def test_post_modificar(self):
+        client = Client()
+        client.login(username='perfil_view@gmail.com', password="Password1.")
+
+        foto_perfil = f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg"
+        foto_perfil = open(foto_perfil, 'rb')
+
+        data = {
+            'email': "perfil_view@email.com",
+            'nombre': "María Jesús López",
+            'password_antigua': 'Password1.',
+            'password_nueva': 'Password1.!',
+            'password_again': 'Password1.!',
+            'foto_de_perfil': SimpleUploadedFile(foto_perfil.name, foto_perfil.read())
+        }
+        resp = self.client.post('/editar_perfil/', data, format='multipart')
+        self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
+        usuario = Usuario.objects.get(email='perfil_view@email.com')
+        self.assertEqual(usuario.nombre, "María Jesús López")
+        self.assertFalse(usuario.check_password("Password1."))
+        self.assertTrue(usuario.check_password("Password1.!"))
+        self.assertFalse(usuario.is_authenticated)
