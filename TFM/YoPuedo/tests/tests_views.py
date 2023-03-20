@@ -68,7 +68,7 @@ class ClaveViewTest(TestCase):
         resp = self.client.post('/validar_clave/registro/clave_view@gmail.com', data)
         self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
         user = Usuario.objects.get(email='clave_view@gmail.com')
-        self.assertTrue(user.is_authenticated)
+        self.assertTrue(user.is_authenticated())
 
     def test_post_inicio_correcto(self):
         data = {
@@ -1744,7 +1744,7 @@ class PerfilViewTest(TestCase):
     def test_url_no_accesible(self):
         resp = self.client.get('/mi_perfil/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
-        self.assertEqual('/registrarse/' in resp.url)
+        self.assertTrue('/registrarse/' in resp.url)
 
     def test_url_accesible(self):
         client = Client()
@@ -1760,7 +1760,7 @@ class PerfilViewTest(TestCase):
         resp = self.client.get('/cerrar_sesion/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         user = Usuario.objects.get(email='perfil_view@gmail.com')
-        self.assertFalse(user.is_authenticated)
+        self.assertFalse(user.is_authenticated())
 
     def test_get_modificar(self):
         client = Client()
@@ -1790,12 +1790,13 @@ class PerfilViewTest(TestCase):
             'foto_de_perfil': SimpleUploadedFile(foto_perfil.name, foto_perfil.read())
         }
         resp = self.client.post('/editar_perfil/', data, format='multipart')
-        self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        self.assertTrue('/registrarse/' in resp.url)
         usuario = Usuario.objects.get(email='perfil_view@gmail.com')
         self.assertEqual(usuario.nombre, "María Jesús López")
         self.assertFalse(usuario.check_password("Password1."))
         self.assertTrue(usuario.check_password("Password1.!"))
-        self.assertFalse(usuario.is_authenticated)
+        self.assertFalse(usuario.is_authenticated())
 
     def test_eliminar(self):
         client = Client()
@@ -1804,6 +1805,6 @@ class PerfilViewTest(TestCase):
         resp = self.client.get('/eliminar/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         usuario = Usuario.objects.filter(email='perfil_view@gmail.com')
-        self.assertFalse(usuario.exists())
+        self.assertTrue(usuario.exists())
         usuario = usuario.first()
         self.assertFalse(usuario.clave_aleatoria, "clavealeat")
