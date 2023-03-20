@@ -1838,7 +1838,7 @@ class PerfilViewTest(TestCase):
         clave_aleatoria = usuario.clave_aleatoria
         self.client.login(username='perfil_view@yopuedo.com', password="Password1.!")
 
-        resp = self.client.generic(path='/eliminar/')
+        resp = self.client.get('/eliminar/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         usuario = Usuario.objects.filter(email='perfil_view@yopuedo.com')
         self.assertTrue(usuario.exists())
