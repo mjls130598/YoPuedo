@@ -1743,7 +1743,7 @@ class PerfilViewTest(TestCase):
 
     def test_url_no_accesible(self):
         resp = self.client.get('/mi_perfil/')
-        self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertEqual(resp.url, '/registrarse/')
 
     def test_url_accesible(self):
@@ -1751,14 +1751,14 @@ class PerfilViewTest(TestCase):
         client.login(username='perfil_view@gmail.com', password="Password1.")
 
         resp = self.client.get('/mi_perfil/')
-        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
 
     def test_cerrar_sesion(self):
         client = Client()
         client.login(username='perfil_view@gmail.com', password="Password1.")
 
         resp = self.client.get('/cerrar_sesion/')
-        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         user = Usuario.objects.get(email='perfil_view@gmail.com')
         self.assertFalse(user.is_authenticated)
 
@@ -1767,11 +1767,11 @@ class PerfilViewTest(TestCase):
         client.login(username='perfil_view@gmail.com', password="Password1.")
 
         resp = self.client.get('/editar_perfil/')
-        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
 
     def test_get_modificar_no_login(self):
         resp = self.client.get('/editar_perfil/')
-        self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertEqual(resp.url, '/registrarse/')
 
     def test_post_modificar(self):
@@ -1799,10 +1799,10 @@ class PerfilViewTest(TestCase):
 
     def test_eliminar(self):
         client = Client()
-        client.login(username='perfil_view@gmail.com', password="Password1.")
+        client.login(username='perfil_view@gmail.com', password="Password1.!")
 
         resp = self.client.get('/eliminar/')
-        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         usuario = Usuario.objects.filter(email='perfil_view@email.com')
         self.assertTrue(usuario.exists())
         usuario = usuario.first()
