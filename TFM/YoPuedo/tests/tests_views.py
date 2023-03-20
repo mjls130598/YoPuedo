@@ -1802,9 +1802,9 @@ class PerfilViewTest(TestCase):
         self.assertTrue(user.check_password("Password1.!"))
 
     def test_eliminar(self):
-        self.client.login(username='perfil_view@gmail.com', password="Password1.!")
         usuario = Usuario.objects.get(email='perfil_view@gmail.com')
         clave_aleatoria = usuario.clave_aleatoria
+        self.client.login(username='perfil_view@gmail.com', password="Password1.!")
 
         resp = self.client.post('/eliminar/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
