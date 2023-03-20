@@ -155,6 +155,7 @@ def validar_clave(request, tipo, email):
             elif tipo == 'eliminar':
                 logger.info('Eliminamos el usuario')
                 logout(request)
+                Utils.borrar_persona(request.user)
                 Usuario.objects.get(email=email).delete()
                 return HttpResponse(status=HTTPStatus.ACCEPTED)
 
@@ -1009,6 +1010,8 @@ def editar_reto(request, id_reto):
                 logger.info("Borramos el resto de animadores")
                 for animador_email in animadores_antiguos_emails:
                     logger.info(f"Eliminamos el animador {animador_email}")
+                    Utils.borrar_animo_reto(Usuario.objects.get(email=animador_email),
+                                            reto)
                     reto.animador_set.get(usuario__email=animador_email).delete()
 
                 logger.info("Obtenemos los participantes anteriores")
@@ -1036,6 +1039,8 @@ def editar_reto(request, id_reto):
                 logger.info("Borramos el resto de participantes")
                 for participante_email in participantes_antiguos_email:
                     logger.info(f"Eliminamos el animador {participante_email}")
+                    Utils.borrar_prueba_reto(Usuario.objects.get(
+                        email=participante_email), reto)
                     reto.participante_set.get(usuario__email=participante_email).delete()
 
                 # Redireccionamos a la visualización del reto
@@ -1096,6 +1101,7 @@ def eliminar_reto(request, id_reto):
     logger.info("Comprobamos que el reto sea de la persona que lo está viendo")
     if reto.coordinador == request.user:
         logger.info(f"Eliminamos el reto {id_reto}")
+        Utils.borrar_reto(reto)
         reto.delete()
 
         logger.info(f"Redirigimos a la página de mis retos")
@@ -1181,6 +1187,7 @@ def animador_reto(request, id_reto):
     logger.info("Comprobamos que el reto sea de la persona que lo está viendo")
     if reto.animador_set.filter(usuario=request.user).exists():
         logger.info(f"Eliminamos al animador del reto {id_reto}")
+        Utils.borrar_animo_reto(request.user, reto)
         Animador.objects.filter(reto=reto, usuario=request.user).delete()
 
         return redirect('/mis_retos/')
