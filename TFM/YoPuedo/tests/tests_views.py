@@ -113,7 +113,7 @@ class ClaveViewTest(TestCase):
 
         resp = self.client.post('/validar_clave/registro/clave_view@gmail.com', data)
         self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
-        self.assertTrue(not Usuario.objects.filter(email='clave_view@gmail.com').exists())
+        self.assertFalse(Usuario.objects.filter(email='clave_view@gmail.com').exists())
 
     def test_post_eliminar_correcto(self):
         Usuario.objects.create_user(email="clave_view@gmail.com", nombre="María Jesús",
@@ -129,7 +129,7 @@ class ClaveViewTest(TestCase):
 
         resp = self.client.post('/validar_clave/eliminar/clave_view@gmail.com', data)
         self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
-        self.assertTrue(not Usuario.objects.filter(email='clave_view@gmail.com').exists())
+        self.assertFalse(Usuario.objects.filter(email='clave_view@gmail.com').exists())
 
 
 ##########################################################################################
@@ -1538,11 +1538,12 @@ class CalificarPruebaAnimoEtapaTest(TestCase):
                                               clave_fija="clavefijausuario",
                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
         # Creamos futuro animador
-        usuario_animador = Usuario.objects.create_user(email="animadoretapa_view@gmail.com",
-                                              nombre="María Jesús", password="Password1.",
-                                              clave_aleatoria="clavealeat",
-                                              clave_fija="clavefijausuario",
-                                              foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+        usuario_animador = Usuario.objects.create_user(
+            email="animadoretapa_view@gmail.com",
+            nombre="María Jesús", password="Password1.",
+            clave_aleatoria="clavealeat",
+            clave_fija="clavefijausuario",
+            foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
         Usuario.objects.create_user(email="extraño_view@gmail.com",
                                     nombre="María Jesús", password="Password1.",
@@ -1725,3 +1726,28 @@ class CalificarPruebaAnimoEtapaTest(TestCase):
         self.assertEqual(etapa.estado, "Finalizado")
         self.assertEqual(ultima_etapa.estado, "Finalizado")
         self.assertEqual(reto.estado, "Finalizado")
+
+
+##########################################################################################
+
+# Comprobamos el funcionamiento de la URL perfil
+class PerfilViewTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        Usuario.objects.create_user(email="perfil_view@gmail.com",
+                                    nombre="María Jesús", password="Password1.",
+                                    clave_aleatoria="clavealeat",
+                                    clave_fija="clavefijausuario",
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+    def test_url_no_accesible(self):
+        resp = self.client.get('/mi_perfil/')
+        self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
+
+    def test_url_accesible(self):
+        client = Client()
+        client.login(username='perfil_view@gmail.com', password="Password1.")
+
+        resp = self.client.get('/mi_perfil/')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
