@@ -1751,3 +1751,12 @@ class PerfilViewTest(TestCase):
 
         resp = self.client.get('/mi_perfil/')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
+
+    def test_cerrar_sesion(self):
+        client = Client()
+        client.login(username='perfil_view@gmail.com', password="Password1.")
+
+        resp = self.client.get('/cerrar_sesion/')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        user = Usuario.objects.get(email='perfil_view@gmail.com')
+        self.assertFalse(user.is_authenticated)
