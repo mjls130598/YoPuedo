@@ -1546,6 +1546,45 @@ def editar_perfil(request):
 
 ##########################################################################################
 
+# Función para devolver los amigos de una persona
+def mis_amigos(request):
+    logger.info("Obtenemos el número de página de amigos a mostrar (si la hay)")
+    pagina = request.GET.get('page')
+
+    logger.info("Buscamos los amigos del usuario")
+    amigos = Amistad.objects.filter(amigo=request.user).\
+        order_by("otro_amigo__nombre"). \
+        annotate(email=F('otro_amigo__email'),
+                 foto_perfil=F('otro_amigo__foto_perfil'),
+                 nombre=F('otro_amigo__nombre')). \
+        values('email', 'foto_perfil', 'nombre')
+    otros_amigos = Amistad.objects.filter(otro_amigo=request.user). \
+        order_by("amigo__nombre"). \
+        annotate(email=F('amigo__email'),
+                 foto_perfil=F('amigo__foto_perfil'),
+                 nombre=F('amigo__nombre')). \
+        values('email', 'foto_perfil', 'nombre')
+
+    logger.info("Unimos amigos y los ordenamos")
+    amistades = sorted(list(chain(amigos, otros_amigos)), key=lambda x: x.nombre)
+
+    logger.info("Paginamos los amigos de esa persona")
+    paginator = Paginator(amistades, 3)
+
+    logger.info("Obtenemos los amigos de la página indicada para ese estado")
+
+    try:
+        amigos = paginator.get_page(pagina)
+    except PageNotAnInteger:
+        amigos = paginator.get_page(1)
+    except EmptyPage:
+        amigos = paginator.get_page(1)
+
+    return render(request, 'YoPuedo/mis_amigos.html', {'amigos': amigos})
+
+
+##########################################################################################
+
 # Función para mostrar el error 404
 def page_not_found(request):
     render(request, '404.html', status=404)
