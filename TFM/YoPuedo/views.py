@@ -1566,7 +1566,7 @@ def mis_amigos(request):
         values('email', 'foto_perfil', 'nombre')
 
     logger.info("Unimos amigos y los ordenamos")
-    amistades = sorted(list(chain(amigos, otros_amigos)), key=lambda x: x.nombre)
+    amistades = sorted(list(chain(amigos, otros_amigos)), key=lambda x: x['nombre'])
 
     logger.info("Paginamos los amigos de esa persona")
     paginator = Paginator(amistades, 3)
