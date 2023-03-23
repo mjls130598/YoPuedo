@@ -11,7 +11,7 @@
     font-size: -webkit-xxx-large;
 }
 
-@media (min-width: 1400px)
+@media screen and (min-width: 1400px)
 .imagen-amigo{
     width: 12%;
 }
