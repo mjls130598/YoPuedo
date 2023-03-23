@@ -11,6 +11,12 @@
     font-size: -webkit-xxx-large;
 }
 
+.amigos.m-2 {
+    height: 60vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 @media screen and (min-width: 1400px)
 .imagen-amigo{
     width: 12%;
