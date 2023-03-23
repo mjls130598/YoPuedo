@@ -2,3 +2,16 @@
     background: #FC204B;
     border-color: #FC204B;
 }
+
+.titulo{
+    color: #009688;
+}
+
+.ver-perfil {
+    font-size: -webkit-xxx-large;
+}
+
+@media (min-width: 1400px)
+.imagen-amigo{
+    width: 12%;
+}

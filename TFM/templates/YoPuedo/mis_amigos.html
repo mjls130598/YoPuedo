@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block contenido %}
-<div class="container">
+<div class="m-lg-5 p-xxl-3 m-3">
     <h3 class="text-center fw-bold titulo">
         <i class="bi bi-people-fill"></i>
         Mis amigos
@@ -25,14 +25,11 @@
         <div class="amigos m-2">
             {% for amigo in amigos %}
             <div class="row pt-2 pb-2" id="amigo-{{amigo.email}}">
-                <div class="foto-perfil col-4 col-lg-3">
-                    <img class="imagen-perfil img-fluid rounded mx-auto d-block" src="{{amigo.foto_perfil}}">
-                </div>
-                <div class="nombre col-3 col-lg-5 align-self-center">
-                    <h5 class="fw-bold">
-                        {{amigo.nombre}}
-                    </h5>
-                </div>
+                <img class="imagen-amigo img-fluid rounded p-0 m-0 col-4 col-md-2 d-block
+                    col-xxl-1" src="{{amigo.foto_perfil}}">
+                <h5 class="fw-bold col-3 col-lg-5 mx-3 align-self-center">
+                    {{amigo.nombre}}
+                </h5>
                 <div class="botones col-3 col-lg-3 align-self-center">
                     <button type="button" class="borrar btn btn-primary fw-bold"
                         onclick="">
@@ -45,11 +42,11 @@
                             </div>
                         </div>
                     </button>
+                    <button class="btn text-center align-self-center ver-perfil"
+                         onclick="">
+                        <i class="fa-solid fa-angle-right"></i>
+                    </button>
                 </div>
-                <button class="btn col-md-1 col-2 text-center align-self-center ver-reto"
-                     onclick="">
-                    <i class="fa-solid fa-angle-right"></i>
-                </button>
             </div>
             {% endfor %}
         </div>
