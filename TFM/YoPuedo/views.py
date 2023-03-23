@@ -1547,6 +1547,7 @@ def editar_perfil(request):
 ##########################################################################################
 
 # Función para devolver los amigos de una persona
+@login_required
 def mis_amigos(request):
     logger.info("Obtenemos el número de página de amigos a mostrar (si la hay)")
     pagina = request.GET.get('page')
