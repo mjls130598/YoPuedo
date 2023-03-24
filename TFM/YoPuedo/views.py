@@ -28,6 +28,16 @@ utils = Utils()
 
 ##########################################################################################
 
+# Función de inicio
+def index(request):
+    if request.user.is_authenticated:
+        return redirect('/mis_retos/')
+    else:
+        return redirect('/registrarse/')
+
+
+##########################################################################################
+
 # Función de registro
 def registrarse(request):
     if request.method == 'GET':
@@ -1553,7 +1563,7 @@ def mis_amigos(request):
     pagina = request.GET.get('page')
 
     logger.info("Buscamos los amigos del usuario")
-    amigos = Amistad.objects.filter(amigo=request.user).\
+    amigos = Amistad.objects.filter(amigo=request.user). \
         order_by("otro_amigo__nombre"). \
         annotate(email=F('otro_amigo__email'),
                  foto_perfil=F('otro_amigo__foto_perfil'),
