@@ -32,17 +32,17 @@
 
       <ul class="list-unstyled components">
 
-        <li {% if "mis_retos" in request.get_path %}class="active"{% endif %}>
+        <li class="{% if 'mis_retos' in request.get_path %}active{% endif %}">
           <a href="{% url 'mis_retos' %}">
             <i class="bi bi-graph-up"></i>Mis retos
           </a>
         </li>
-        <li {% if "mis_amigos" in request.get_path %}class="active"{% endif %}>
+        <li class="{% if 'mis_amigos' in request.get_path %}active{% endif %}">
           <a href="{% url 'mis_amigos' %}">
             <i class="bi bi-people-fill"></i>Mis amigos
           </a>
         </li>
-        <li {% if "mi_perfil" in request.get_path %}class="active"{% endif %}>
+        <li class="{% if 'mi_perfil' in request.get_path %}active{% endif %}">
           <a href="{% url 'mi_perfil' %}">
             <i class="fa-solid fa-address-card"></i>Mi perfil
           </a>
