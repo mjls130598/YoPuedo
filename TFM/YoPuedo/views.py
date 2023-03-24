@@ -1449,7 +1449,7 @@ def animos(request, id_etapa):
 def mi_perfil(request):
     logger.info("Devolvemos los datos de la persona")
 
-    return render(request, "YoPuedo/perfil.html", {
+    return render(request, "YoPuedo/mi_perfil.html", {
         'foto_perfil': request.user.foto_perfil,
         'nombre': request.user.nombre,
         'email': request.user.email
@@ -1480,7 +1480,7 @@ def eliminar(request):
     enviar_clave(clave, request.user.email, f"Eliminar la cuenta de "
                                             f"{request.user.nombre} de YoPuedo")
 
-    return render(request, "YoPuedo/perfil.html",
+    return render(request, "YoPuedo/mi_perfil.html",
                   {'url': f'/validar_clave/eliminar/{request.user.email}',
                    'foto_perfil': request.user.foto_perfil,
                    'nombre': request.user.nombre,
