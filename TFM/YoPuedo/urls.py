@@ -41,4 +41,5 @@ urlpatterns = [
     path('eliminar/', views.eliminar, name='eliminar'),
     path('editar_perfil/', views.editar_perfil, name='editar_perfil'),
     path('mis_amigos/', views.mis_amigos, name='mis_amigos'),
+    path('nuevos_amigos/', views.nuevos_amigos, name="nuevos_amigos"),
 ]

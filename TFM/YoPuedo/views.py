@@ -1562,6 +1562,7 @@ def mis_amigos(request):
     logger.info("Obtenemos el número de página de amigos a mostrar (si la hay)")
     pagina = request.GET.get('page')
 
+    # Buscamos el conjunto de amigos de esa persona
     logger.info("Buscamos los amigos del usuario")
     amigos = Amistad.objects.filter(amigo=request.user). \
         order_by("otro_amigo__nombre"). \
@@ -1576,9 +1577,11 @@ def mis_amigos(request):
                  nombre=F('amigo__nombre')). \
         values('email', 'foto_perfil', 'nombre')
 
+    # Los unimos y los ordenamos según su nombre
     logger.info("Unimos amigos y los ordenamos")
     amistades = sorted(list(chain(amigos, otros_amigos)), key=lambda x: x['nombre'])
 
+    # Los paginamos en 5 personas por página
     logger.info("Paginamos los amigos de esa persona")
     paginator = Paginator(amistades, 5)
 
@@ -1592,6 +1595,41 @@ def mis_amigos(request):
         amigos = paginator.get_page(1)
 
     return render(request, 'YoPuedo/mis_amigos.html', {'amigos': amigos})
+
+
+##########################################################################################
+
+# Función para devolver los amigos de una persona
+@login_required
+def nuevos_amigos(request):
+
+    # Obtenemos lista de futuros amigos
+    if request.method == 'GET':
+
+        # Buscamos los amigos que tiene esa persona
+        logger.info("Buscamos los amigos del usuario")
+        amigos = Amistad.objects.filter(amigo=request.user). \
+            order_by("otro_amigo__nombre"). \
+            values_list('otro_amigo', flat=True)
+        otros_amigos = Amistad.objects.filter(otro_amigo=request.user). \
+            order_by("amigo__nombre"). \
+            values_list('amigo', flat=True)
+
+        # Unimos los amigos anteriores en una lista
+        logger.info("Unimos amigos")
+        amistades = sorted(list(chain(amigos, otros_amigos)))
+
+        # Añadimos el usuario actual
+        logger.info("Añadimos a amistades el usuario actual")
+        amistades.append(request.user.email)
+
+        # Obtenemos el resto de usuarios que no esté en la lista anterior
+        logger.info("Obtenemos usuarios que no sean amigos o nosotros mismos")
+        amigos = Usuario.objects.exclude(email__in=amistades)
+
+        return render(request, "YoPuedo/elementos/modal-amigos.html", {
+            'amigos': amigos
+        })
 
 
 ##########################################################################################
