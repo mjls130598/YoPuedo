@@ -35,7 +35,7 @@
                 <div class="botones col align-self-center d-flex justify-content-end p-0">
                     <button type="button"
                             class="borrar btn btn-primary fw-bold mx-md-2 h-100 align-self-center"
-                        onclick="">
+                        onclick="dejarSeguir({{amigo.email}})">
                         <div class="row">
                             <div class="col-1">
                                 <i class="fa-sharp fa-solid fa-trash"></i>
@@ -108,11 +108,20 @@
 
     // Función para la redirección de paginación
     function irPagina(pagina){
-        const urlParams = new URLSearchParams(window.location.search);
-        enlace = enlace = "{{ request.get_full_path }}&page=" + pagina;
+        enlace = "{{ request.get_full_path }}&page=" + pagina;
 
         htmx.ajax('GET', enlace)
     }
+
+/****************************************************************************************/
+
+    // Función para dejar a una persona
+    function dejarSeguir(amigo){
+        enlace = "{% url 'dejar_amigo' amigo='amigo' %}".replace("amigo", amigo.toString());
+        htmx.ajax('POST', enlace)
+    }
+
+/****************************************************************************************/
 </script>
 {% endblock%}
 

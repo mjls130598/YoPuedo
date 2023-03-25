@@ -1628,12 +1628,27 @@ def nuevos_amigos(request):
         logger.info("Obtenemos usuarios que no sean amigos o nosotros mismos")
         amigos = Usuario.objects.exclude(email__in=amistades) if consulta == "" else \
             Usuario.objects.filter(Q(email__contains=consulta) |
-                                   Q(nombre__contains=consulta)).exclude(email__in=amistades)
+                                   Q(nombre__contains=consulta)).exclude(
+                email__in=amistades)
 
         return render(request, "YoPuedo/elementos/modal-amigos.html", {
             'amigos': amigos,
             'form_consulta': formulario
         })
+
+
+##########################################################################################
+
+# Función para mostrar el error 404
+def dejar_seguir(request, amigo):
+    if request.method == 'POST':
+        logger.info(f"Borramos la amistad con {amigo}")
+        Amistad.objects.filter(Q(amigo=request.user, otro_amigo__email=amigo)
+                               | Q(amigo__email=amigo,
+                                   otro_amigo=request.user)).first().delete()
+
+        logger.info("Rediriguimos a mis amigos")
+        return redirect("/mis_amigos/")
 
 
 ##########################################################################################
