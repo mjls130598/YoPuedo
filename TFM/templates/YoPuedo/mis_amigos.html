@@ -16,7 +16,9 @@
         Mis amigos
     </h3>
     <div class="mt-3">
-        <button type="button" class="btn btn-primary fw-bold anadir-amigo">
+        <button type="button" class="btn btn-primary fw-bold anadir-amigo"
+                data-bs-toggle="modal-amigos"
+                hx-get="{% url 'nuevos_amigos' %}" hx-target="#dialog-amigos">
             <i class="fa-solid fa-user-plus"></i>
             Añadir amigos
         </button>
@@ -113,3 +115,28 @@
     }
 </script>
 {% endblock%}
+
+{% block modales %}
+<!-- MODAL DE AÑADIR A AMIGOS-->
+  <div class="modal fade" id="modal-amigos">
+    <div class="modal-dialog row align-items-center my-0" id="dialog-amigos" hx-target="this">
+    </div>
+  </div>
+
+  <script>
+     // Funciones para controlar el modal
+    ;(function () {
+      const modal = new bootstrap.Modal(document.getElementById("modal-amigos"))
+      htmx.on("htmx:afterSwap", (e) => {
+        // Response targeting #dialog => show the modal
+        if (e.detail.target.id == "dialog-amigos") {
+          modal.show()
+        }
+      })
+      // Remove dialog content after hiding
+      htmx.on("hidden.bs.modal", () => {
+        document.getElementById("dialog-amigos").innerHTML = "";
+      })
+    })()
+  </script>
+{% endblock %}
