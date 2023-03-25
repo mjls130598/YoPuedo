@@ -1602,9 +1602,10 @@ def mis_amigos(request):
 # Función para devolver los amigos de una persona
 @login_required
 def nuevos_amigos(request):
-
     # Obtenemos lista de futuros amigos
     if request.method == 'GET':
+        formulario = AmigosForm(request.GET)
+        consulta = formulario.data['consulta'] if 'consulta' in formulario.data else ""
 
         # Buscamos los amigos que tiene esa persona
         logger.info("Buscamos los amigos del usuario")
@@ -1625,10 +1626,13 @@ def nuevos_amigos(request):
 
         # Obtenemos el resto de usuarios que no esté en la lista anterior
         logger.info("Obtenemos usuarios que no sean amigos o nosotros mismos")
-        amigos = Usuario.objects.exclude(email__in=amistades)
+        amigos = Usuario.objects.exclude(email__in=amistades) if consulta == "" else \
+            Usuario.objects.filter(Q(email__contains=consulta) |
+                                   Q(nombre__contains=consulta)).exclude(email__in=amistades)
 
         return render(request, "YoPuedo/elementos/modal-amigos.html", {
-            'amigos': amigos
+            'amigos': amigos,
+            'form_consulta': formulario
         })
 
 
