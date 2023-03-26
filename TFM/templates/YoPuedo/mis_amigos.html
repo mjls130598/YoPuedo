@@ -126,7 +126,7 @@
     // Función para ver el perfil de una persona
     function verPerfil(amigo){
         enlace = "{% url 'perfil' amigo='amigo' %}".replace("amigo", amigo.toString());
-        htmx.ajax('GET', enlace)
+        window.location.href = enlace;
     }
 
 /****************************************************************************************/
