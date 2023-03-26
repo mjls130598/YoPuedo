@@ -1657,16 +1657,34 @@ def dejar_seguir(request, amigo):
 # Función para dejar a una persona
 @login_required
 def ver_perfil(request, amigo):
+    # Obtenemos el número de página
+    logger.info("Recolectamos el número de página")
+    pagina = request.GET.get('page')
+
+    # Obtenemos amigo
     logger.info("Buscamos la información del amigo")
     usuario = Usuario.objects.get(email=amigo)
 
+    # Recogemos retos comunes entre los dos usuarios
     logger.info("Obtenemos los retos que tienen en común los usuarios")
     retos = Reto.objects.filter((Q(participante__usuario=request.user) |
                                  Q(animador__usuario=request.user)),
                                 (Q(participante__usuario=usuario) |
                                  Q(animador__usuario=usuario)))
 
-    logger.info("Rediriguimos a mis amigos")
+    # Los paginamos en 3 retos por página
+    logger.info("Paginamos los retos en común con esa persona")
+    paginator = Paginator(retos, 3)
+
+    logger.info("Obtenemos los retos de la página indicada para ese estado")
+
+    try:
+        retos = paginator.get_page(pagina)
+    except PageNotAnInteger:
+        retos = paginator.get_page(1)
+    except EmptyPage:
+        retos = paginator.get_page(1)
+
     return render(request, 'YoPuedo/perfil.html', {
         'nombre': usuario.nombre, 'foto_perfil': usuario.foto_perfil, 'email': amigo,
         'retos': retos
