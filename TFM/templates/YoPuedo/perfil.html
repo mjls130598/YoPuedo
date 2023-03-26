@@ -3,8 +3,8 @@
 {% load static %}
 
 {% block static %}
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/mis_retos.css'%}">
   <link rel="stylesheet" href="{% static 'YoPuedo/css/perfil.css'%}">
-<link rel="stylesheet" href="{% static 'YoPuedo/css/mis_retos.css'%}">
   <script src="https://kit.fontawesome.com/05cfaef439.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
   <script type="text/javascript"
@@ -16,29 +16,29 @@
 {% block contenido %}
 <div class="m-2 m-md-3">
     <div class="perfil container p-1 p-md-3">
-        <h3 class="text-center fw-bold titulo">
+        <h4 class="text-center fw-bold titulo">
             {{ nombre }}
-        </h3>
+        </h4>
         <img src="{{ foto_perfil }}"
              class="img-fluid rounded col-5 col-md-3 mx-auto d-block">
-        <div class="informacion px-md-5 py-4">
-            <div class="row email m-2">
-                <div class="col-md-2 col-1">
-                    <div class="row align-items-center">
+        <div class="informacion px-md-5 py-3">
+            <div class="row email align-items-center">
+                <div class="col-md-3 col-1">
+                    <div class="row">
                         <i class="fa-solid fa-envelope col-1 d-flex justify-content-center"></i>
-                        <h5 class="col-10 fw-bold mb-0 d-md-block d-none">Email:</h5>
+                        <h6 class="col-10 fw-bold mb-0 d-md-block d-none">Email:</h6>
                     </div>
                 </div>
-                <h5 class="col-md-8 col-9" id="email">
+                <h6 class="col-md-7 col-9" id="email">
                     {{ email }}
-                </h5>
+                </h6>
                 <div class="col-2 d-flex justify-content-center">
                     {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='email' %}
                 </div>
             </div>
         </div>
         <div class="botones d-grid justify-content-center">
-            <button class="btn btn-primary btn-block my-2 fw-bold eliminar"
+            <button class="btn btn-primary btn-block fw-bold eliminar"
                     onclick="dejarSeguir('{{ email }}')">
                 <i class="fa-sharp fa-solid fa-trash"></i>
                 Dejar de seguir
