@@ -34,7 +34,24 @@
 }
 
 .retos {
-    height: 25vh;
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+@media screen and (min-width: 992px){
+    .retos {
+        height: 25vh;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width:992){
+    .retos {
+        height: 64vh;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .retos {
+        height: 47vh;
+    }
 }
