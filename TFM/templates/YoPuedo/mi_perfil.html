@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load static tags_categorias %}
+{% load static %}
 
 {% block static %}
   <link rel="stylesheet" href="{% static 'YoPuedo/css/perfil.css'%}">
@@ -75,13 +75,21 @@
     </div>
 </div>
 <script>
+/****************************************************************************************/
+
+    // Función para cerrar sesión
     function cerrarSesion(){
         window.location.href = "{% url 'cerrar_sesion' %}";
     }
 
+/****************************************************************************************/
+
+    // Función para eliminar la cuenta de una persona
     function eliminar(){
         window.location.href = "{% url 'eliminar' %}";
     }
+
+/****************************************************************************************/
 </script>
 {% endblock %}
 

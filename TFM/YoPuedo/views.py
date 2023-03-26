@@ -1639,7 +1639,8 @@ def nuevos_amigos(request):
 
 ##########################################################################################
 
-# Función para mostrar el error 404
+# Función para dejar a una persona
+@login_required
 def dejar_seguir(request, amigo):
     if request.method == 'POST':
         logger.info(f"Borramos la amistad con {amigo}")
@@ -1649,6 +1650,27 @@ def dejar_seguir(request, amigo):
 
         logger.info("Rediriguimos a mis amigos")
         return redirect("/mis_amigos/")
+
+
+##########################################################################################
+
+# Función para dejar a una persona
+@login_required
+def ver_perfil(request, amigo):
+    logger.info("Buscamos la información del amigo")
+    usuario = Usuario.objects.get(email=amigo)
+
+    logger.info("Obtenemos los retos que tienen en común los usuarios")
+    retos = Reto.objects.filter((Q(participante__usuario=request.user) |
+                                 Q(animador__usuario=request.user)),
+                                (Q(participante__usuario=usuario) |
+                                 Q(animador__usuario=usuario)))
+
+    logger.info("Rediriguimos a mis amigos")
+    return render(request, 'YoPuedo/perfil.html', {
+        'nombre': usuario.nombre, 'foto_perfil': usuario.foto_perfil, 'email': amigo,
+        'retos': retos
+    })
 
 
 ##########################################################################################

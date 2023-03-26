@@ -35,7 +35,7 @@
                 <div class="botones col align-self-center d-flex justify-content-end p-0">
                     <button type="button"
                             class="borrar btn btn-primary fw-bold mx-md-2 h-100 align-self-center"
-                        onclick="dejarSeguir({{amigo.email}})">
+                        onclick="dejarSeguir('{{amigo.email}}')">
                         <div class="row">
                             <div class="col-1">
                                 <i class="fa-sharp fa-solid fa-trash"></i>
@@ -46,7 +46,7 @@
                         </div>
                     </button>
                     <button class="btn text-center align-self-center ver-perfil"
-                         onclick="">
+                         onclick="verPerfil('{{ amigo.email }}')">
                         <i class="fa-solid fa-angle-right"></i>
                     </button>
                 </div>
@@ -119,6 +119,14 @@
     function dejarSeguir(amigo){
         enlace = "{% url 'dejar_amigo' amigo='amigo' %}".replace("amigo", amigo.toString());
         htmx.ajax('POST', enlace)
+    }
+
+/****************************************************************************************/
+
+    // Función para ver el perfil de una persona
+    function verPerfil(amigo){
+        enlace = "{% url 'perfil' amigo='amigo' %}".replace("amigo", amigo.toString());
+        htmx.ajax('GET', enlace)
     }
 
 /****************************************************************************************/
