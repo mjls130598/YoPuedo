@@ -510,6 +510,8 @@ def nuevo_reto(request):
                     animador.usuario.add(usuario)
                     animador.superanimador = superanimador
                     animador.save()
+                    logger.info(f"Notificamos a {animador_email}")
+                    Utils.notificacion_animador(request.user, usuario, reto)
 
                 logger.info("Inserción de PARTICIPANTES")
                 # Guardamos a los participantes del reto
@@ -1011,6 +1013,8 @@ def editar_reto(request, id_reto):
                         animador.save()
                         animador.reto.add(reto)
                         animador.usuario.add(usuario)
+                        logger.info(f"Creamos notificación para {animador_email}")
+                        Utils.notificacion_animador(request.user, usuario, reto)
                     else:
                         animadores_antiguos_emails.remove(animador_email)
                         animador = reto.animador_set.get(usuario__email=animador_email)
@@ -1146,7 +1150,7 @@ def coordinador_reto(request, id_reto):
                 notificacion = Notificacion()
                 notificacion.usuario = nuevo_coordinador
                 notificacion.enlace = f'/reto/{id_reto}'
-                notificacion.categoria = 'Coordinador'
+                notificacion.categoria = 'Reto'
                 notificacion.mensaje = f"{request.user.nombre} te ha seleccionado como " \
                                        f"coordinador del reto {reto.titulo}. ¿Vemos qué" \
                                        f" es lo que puedes hacer en tu nueva categoría?"

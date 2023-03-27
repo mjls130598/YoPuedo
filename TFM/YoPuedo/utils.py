@@ -8,7 +8,7 @@ from TFM.settings import BASE_DIR, EMAIL_HOST_USER
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.mail import EmailMultiAlternatives
 
-from .models import Usuario, Reto, Etapa, Animo, Prueba
+from .models import Usuario, Reto, Etapa, Animo, Prueba, Notificacion
 
 logger = logging.getLogger(__name__)
 
@@ -261,3 +261,15 @@ class Utils:
         self.borrar_prueba(usuario)
         self.borrar_animo(usuario)
         self.borrar_retos(usuario)
+
+    # Método para crear Notificación de Animador
+    @staticmethod
+    def notificacion_animador(coordinador, animador, reto):
+        notificacion = Notificacion()
+        notificacion.categoria = "Reto"
+        notificacion.mensaje = f"{coordinador.nombre} te ha invitado a participar como " \
+                               f"animador del reto {reto.titulo}. ¿Quieres que " \
+                               f"comencemos a apoyar?"
+        notificacion.enlace = f'/reto/{reto.id_reto}'
+        notificacion.usuario = animador
+        notificacion.save()
