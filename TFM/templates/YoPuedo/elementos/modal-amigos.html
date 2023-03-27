@@ -159,8 +159,11 @@
     function anadirAmigos(){
         {% if relacion == 'animador' %}
         anadirAnimadores(amigos);
-        {% else %}
+        {% elif relacion == 'participante' %}
         anadirParticipantes(amigos);
+        {% else %}
+        enlace = "{{ request.get_full_path }}" ;
+        htmx.ajax('POST', enlace, {'amigos': amigos});
         {% endif %}
 
         amigos = [];
@@ -170,8 +173,7 @@
 
     // Función para la redirección de paginación
     function irPagina(pagina){
-        const urlParams = new URLSearchParams(window.location.search);
-        enlace = enlace = "{{ request.get_full_path }}&page=" + pagina;
+        enlace = "{{ request.get_full_path }}&page=" + pagina;
 
         htmx.ajax('GET', enlace, {target:'#dialog-amigos', swap:'innerHTML'})
     }

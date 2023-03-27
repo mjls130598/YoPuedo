@@ -28,6 +28,16 @@ utils = Utils()
 
 ##########################################################################################
 
+# Función de inicio
+def index(request):
+    if request.user.is_authenticated:
+        return redirect('/mis_retos/')
+    else:
+        return redirect('/registrarse/')
+
+
+##########################################################################################
+
 # Función de registro
 def registrarse(request):
     if request.method == 'GET':
@@ -1439,7 +1449,7 @@ def animos(request, id_etapa):
 def mi_perfil(request):
     logger.info("Devolvemos los datos de la persona")
 
-    return render(request, "YoPuedo/perfil.html", {
+    return render(request, "YoPuedo/mi_perfil.html", {
         'foto_perfil': request.user.foto_perfil,
         'nombre': request.user.nombre,
         'email': request.user.email
@@ -1470,7 +1480,7 @@ def eliminar(request):
     enviar_clave(clave, request.user.email, f"Eliminar la cuenta de "
                                             f"{request.user.nombre} de YoPuedo")
 
-    return render(request, "YoPuedo/perfil.html",
+    return render(request, "YoPuedo/mi_perfil.html",
                   {'url': f'/validar_clave/eliminar/{request.user.email}',
                    'foto_perfil': request.user.foto_perfil,
                    'nombre': request.user.nombre,
@@ -1542,6 +1552,143 @@ def editar_perfil(request):
 
     return render(request, "YoPuedo/editar_perfil.html",
                   {'editar_form': editar_form})
+
+
+##########################################################################################
+
+# Función para devolver los amigos de una persona
+@login_required
+def mis_amigos(request):
+    logger.info("Obtenemos el número de página de amigos a mostrar (si la hay)")
+    pagina = request.GET.get('page')
+
+    # Buscamos el conjunto de amigos de esa persona
+    logger.info("Buscamos los amigos del usuario")
+    amigos = Amistad.objects.filter(amigo=request.user). \
+        order_by("otro_amigo__nombre"). \
+        annotate(email=F('otro_amigo__email'),
+                 foto_perfil=F('otro_amigo__foto_perfil'),
+                 nombre=F('otro_amigo__nombre')). \
+        values('email', 'foto_perfil', 'nombre')
+    otros_amigos = Amistad.objects.filter(otro_amigo=request.user). \
+        order_by("amigo__nombre"). \
+        annotate(email=F('amigo__email'),
+                 foto_perfil=F('amigo__foto_perfil'),
+                 nombre=F('amigo__nombre')). \
+        values('email', 'foto_perfil', 'nombre')
+
+    # Los unimos y los ordenamos según su nombre
+    logger.info("Unimos amigos y los ordenamos")
+    amistades = sorted(list(chain(amigos, otros_amigos)), key=lambda x: x['nombre'])
+
+    # Los paginamos en 5 personas por página
+    logger.info("Paginamos los amigos de esa persona")
+    paginator = Paginator(amistades, 5)
+
+    logger.info("Obtenemos los amigos de la página indicada para ese estado")
+
+    try:
+        amigos = paginator.get_page(pagina)
+    except PageNotAnInteger:
+        amigos = paginator.get_page(1)
+    except EmptyPage:
+        amigos = paginator.get_page(1)
+
+    return render(request, 'YoPuedo/mis_amigos.html', {'amigos': amigos})
+
+
+##########################################################################################
+
+# Función para devolver los amigos de una persona
+@login_required
+def nuevos_amigos(request):
+    # Obtenemos lista de futuros amigos
+    if request.method == 'GET':
+        formulario = AmigosForm(request.GET)
+        consulta = formulario.data['consulta'] if 'consulta' in formulario.data else ""
+
+        # Buscamos los amigos que tiene esa persona
+        logger.info("Buscamos los amigos del usuario")
+        amigos = Amistad.objects.filter(amigo=request.user). \
+            order_by("otro_amigo__nombre"). \
+            values_list('otro_amigo', flat=True)
+        otros_amigos = Amistad.objects.filter(otro_amigo=request.user). \
+            order_by("amigo__nombre"). \
+            values_list('amigo', flat=True)
+
+        # Unimos los amigos anteriores en una lista
+        logger.info("Unimos amigos")
+        amistades = sorted(list(chain(amigos, otros_amigos)))
+
+        # Añadimos el usuario actual
+        logger.info("Añadimos a amistades el usuario actual")
+        amistades.append(request.user.email)
+
+        # Obtenemos el resto de usuarios que no esté en la lista anterior
+        logger.info("Obtenemos usuarios que no sean amigos o nosotros mismos")
+        amigos = Usuario.objects.exclude(email__in=amistades) if consulta == "" else \
+            Usuario.objects.filter(Q(email__contains=consulta) |
+                                   Q(nombre__contains=consulta)).exclude(
+                email__in=amistades)
+
+        return render(request, "YoPuedo/elementos/modal-amigos.html", {
+            'amigos': amigos,
+            'form_consulta': formulario
+        })
+
+
+##########################################################################################
+
+# Función para dejar a una persona
+@login_required
+def dejar_seguir(request, amigo):
+    if request.method == 'POST':
+        logger.info(f"Borramos la amistad con {amigo}")
+        Amistad.objects.filter(Q(amigo=request.user, otro_amigo__email=amigo)
+                               | Q(amigo__email=amigo,
+                                   otro_amigo=request.user)).first().delete()
+
+        logger.info("Rediriguimos a mis amigos")
+        return redirect("/mis_amigos/")
+
+
+##########################################################################################
+
+# Función para dejar a una persona
+@login_required
+def ver_perfil(request, amigo):
+    # Obtenemos el número de página
+    logger.info("Recolectamos el número de página")
+    pagina = request.GET.get('page')
+
+    # Obtenemos amigo
+    logger.info("Buscamos la información del amigo")
+    usuario = Usuario.objects.get(email=amigo)
+
+    # Recogemos retos comunes entre los dos usuarios
+    logger.info("Obtenemos los retos que tienen en común los usuarios")
+    retos = Reto.objects.filter((Q(participante__usuario=request.user) |
+                                 Q(animador__usuario=request.user)),
+                                (Q(participante__usuario=usuario) |
+                                 Q(animador__usuario=usuario)))
+
+    # Los paginamos en 3 retos por página
+    logger.info("Paginamos los retos en común con esa persona")
+    paginator = Paginator(retos, 3)
+
+    logger.info("Obtenemos los retos de la página indicada para ese estado")
+
+    try:
+        retos = paginator.get_page(pagina)
+    except PageNotAnInteger:
+        retos = paginator.get_page(1)
+    except EmptyPage:
+        retos = paginator.get_page(1)
+
+    return render(request, 'YoPuedo/perfil.html', {
+        'nombre': usuario.nombre, 'foto_perfil': usuario.foto_perfil, 'email': amigo,
+        'retos': retos
+    })
 
 
 ##########################################################################################
