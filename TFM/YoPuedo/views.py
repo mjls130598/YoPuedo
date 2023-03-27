@@ -16,7 +16,7 @@ from .utils import Utils
 from .forms import RegistroForm, InicioForm, ClaveForm, RetoGeneralForm, RetoEtapaForm, \
     AmigosForm, EtapasFormSet, PruebaForm, AnimoForm, PerfilForm
 from .models import Usuario, Amistad, Reto, Etapa, Animador, Participante, Calificacion, \
-    Prueba, Animo
+    Prueba, Animo, Notificacion
 
 from django.forms import formset_factory
 
@@ -1135,10 +1135,22 @@ def coordinador_reto(request, id_reto):
         if request.method == 'POST':
             coordinador = request.POST.get('coordinador')
 
-            if coordinador != "":
+            if coordinador != "" and coordinador is not None:
+                nuevo_coordinador = Usuario.objects.get(email=coordinador)
+
                 logger.info(f"Cambiamos el coordinador por {coordinador}")
-                reto.coordinador = Usuario.objects.get(email=coordinador)
+                reto.coordinador = nuevo_coordinador
                 reto.save()
+
+                logger.info(f"Enviamos notificación a {coordinador}")
+                notificacion = Notificacion()
+                notificacion.usuario = nuevo_coordinador
+                notificacion.enlace = f'/reto/{id_reto}'
+                notificacion.categoria = 'Coordinador'
+                notificacion.mensaje = f"{request.user.nombre} te ha seleccionado como " \
+                                       f"coordinador del reto {reto.titulo}. ¿Vemos qué" \
+                                       f" es lo que puedes hacer en tu nueva categoría?"
+                notificacion.save()
 
                 logger.info(f"Redirigimos con un status {HTTPStatus.ACCEPTED}")
 
