@@ -273,3 +273,13 @@ class Utils:
         notificacion.enlace = f'/reto/{reto.id_reto}'
         notificacion.usuario = animador
         notificacion.save()
+
+    @staticmethod
+    def notificacion_participante(coordinador, participante, reto):
+        notificacion = Notificacion()
+        notificacion.categoria = "Reto"
+        notificacion.mensaje = f"{coordinador.nombre} te ha invitado a participar " \
+                               f"en el reto {reto.titulo}. ¿Comenzamos?"
+        notificacion.enlace = f'/reto/{reto.id_reto}'
+        notificacion.usuario = participante
+        notificacion.save()

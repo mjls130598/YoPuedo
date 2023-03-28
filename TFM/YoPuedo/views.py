@@ -523,6 +523,8 @@ def nuevo_reto(request):
                     participante.reto.add(reto)
                     participante.usuario.add(usuario)
                     participante.save()
+                    logger.info(f"Mandamos notificación a {participante_email}")
+                    Utils.notificacion_participante(request.user, usuario, reto)
 
                 logger.info("Guardamos COORDINADOR como PARTICIPANTE")
                 participante = Participante()
@@ -1007,7 +1009,7 @@ def editar_reto(request, id_reto):
                     logger.info(f"ANIMADOR: {animador_email}")
                     superanimador = request.POST.get(
                         f'superanimador-{animador_email}') == "true"
-                    if not animador_email in animadores_antiguos_emails:
+                    if animador_email not in animadores_antiguos_emails:
                         usuario = Usuario.objects.get(email=animador_email)
                         animador = Animador()
                         animador.save()
@@ -1039,13 +1041,16 @@ def editar_reto(request, id_reto):
                 for participante_email in participantes_email:
                     logger.info(f"PARTICIPANTE: {participante_email}")
 
-                    if not participante_email in participantes_antiguos_email:
+                    if participante_email not in participantes_antiguos_email:
                         usuario = Usuario.objects.get(email=participante_email)
                         participante = Participante()
                         participante.save()
                         participante.reto.add(reto)
                         participante.usuario.add(usuario)
                         participante.save()
+
+                        logger.info(f"Mandamos notificación a {participante_email}")
+                        Utils.notificacion_participante(request.user, usuario, reto)
 
                     else:
                         participantes_antiguos_email.remove(participante_email)
