@@ -1625,6 +1625,7 @@ def mis_amigos(request):
 def nuevos_amigos(request):
     # Obtenemos lista de futuros amigos
     if request.method == 'GET':
+        logger.info("Entramos en la parte GET de NUEVOS AMIGOS")
         formulario = AmigosForm(request.GET)
         consulta = formulario.data['consulta'] if 'consulta' in formulario.data else ""
 
@@ -1656,6 +1657,26 @@ def nuevos_amigos(request):
             'amigos': amigos,
             'form_consulta': formulario
         })
+
+    else:
+        logger.info("Entramos en la parte POST de NUEVOS AMIGOS")
+        amigos = request.POST.getlist('amigos')
+
+        logger.info("Creamos notificaciones")
+        for amigo in amigos:
+            logger.info(f"Notificación a {amigo['email']}")
+            usuario = Usuario.objects.get(email=amigo['email'])
+            notificacion = Notificacion()
+            notificacion.usuario = usuario
+            notificacion.categoria = 'Amistad'
+            notificacion.enlace = f'/solicitud_amistad/{request.user.email}'
+            notificacion.mensaje = f"{request.user.nombre} te ha mandado una solicitud " \
+                                   f"de amistad para que seas su amigo. " \
+                                   f"¿Quieres aceptarla?"
+            notificacion.save()
+
+        logger.info(f"Enviamos el status {HTTPStatus.CREATED}")
+        return HttpResponse(status=HTTPStatus.CREATED)
 
 
 ##########################################################################################
