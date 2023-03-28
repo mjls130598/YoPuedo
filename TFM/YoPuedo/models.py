@@ -109,7 +109,7 @@ class Calificacion(models.Model):
 class Notificacion(models.Model):
     id_notificacion = models.BigAutoField(primary_key=True)
     mensaje = models.CharField(max_length=500)
-    categoria = models.CharField(max_length=15) # Reto, Amistad
+    categoria = models.CharField(max_length=15) # Reto, Ánimo, Amistad
     estado = models.CharField(max_length=10, default="Recibido") # Recibido, Leído
     enlace = models.CharField(max_length=250)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)

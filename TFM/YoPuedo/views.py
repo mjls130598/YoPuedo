@@ -1681,6 +1681,18 @@ def nuevos_amigos(request):
 
 ##########################################################################################
 
+# Función para devolver los amigos de una persona
+@login_required
+def notificaciones(request):
+    logger.info(f"Obtenemos notificaciones no leídas de {request.user.email}")
+    notificaciones = Notificacion.objects.filter(estado='Recibido', usuario=request.user)
+
+    return render(request, "YoPuedo/notificaciones.html",
+                  {'notificaciones': notificaciones})
+
+
+##########################################################################################
+
 # Función para dejar a una persona
 @login_required
 def dejar_seguir(request, amigo):
