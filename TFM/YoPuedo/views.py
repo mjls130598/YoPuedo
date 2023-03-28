@@ -1397,8 +1397,9 @@ def animos(request, id_etapa):
             animo_form = AnimoForm(request.POST, request.FILES)
 
             if animo_form.is_valid():
-                logger.info(f"NUEVo ÁNIMO EN {id_etapa}")
+                logger.info(f"NUEVO ÁNIMO EN {id_etapa}")
 
+                # Recogemos información del ánimo
                 animo_texto = animo_form.cleaned_data['animo_texto'].value()
                 animo_imagen = request.FILES["animo_imagen"] \
                     if 'animo_imagen' in request.FILES else None
@@ -1427,6 +1428,7 @@ def animos(request, id_etapa):
 
                 logger.info(f"PRUEBA: {animo_guardar}")
 
+                # Guardamos mensaje de ánimo dentro de la etapa
                 logger.info(f"Guardamos ánimo en {id_etapa}")
                 animo = Animo()
                 animo.save()
@@ -1434,6 +1436,20 @@ def animos(request, id_etapa):
                 animo.etapa.add(etapa)
                 animo.mensaje = animo_guardar
                 animo.save()
+
+                # Enviamos notificaciones
+                logger.info("Enviamos notificación a los participantes del reto")
+                participantes = etapa.reto.participante_set()
+
+                for participante in participantes:
+                    notificacion = Notificacion()
+                    notificacion.categoria = "Ánimos"
+                    notificacion.mensaje = f"{request.user.nombre} te ha mandado un " \
+                                           f"mensaje de ánimo en el reto " \
+                                           f"{etapa.reto.titulo}. ¿Quieres verlo?"
+                    notificacion.enlace = f'/reto/{etapa.reto.id_reto}'
+                    notificacion.usuario = participante
+                    notificacion.save()
 
                 logger.info(f"Devolvemos status {HTTPStatus.CREATED}")
                 return HttpResponse(status=HTTPStatus.CREATED,
@@ -1494,13 +1510,18 @@ def cerrar_sesion(request):
 @login_required
 def eliminar(request):
     logger.info("Creamos clave y la mandamos")
+
+    # Creamos la clave y la guardamos
     clave = Utils.claves_aleatorias(10)
     usuario = Usuario.objects.get(email=request.user.email)
     usuario.clave_aleatoria = clave
     usuario.save()
+
+    # La enviamos al usuario pertinente
     enviar_clave(clave, request.user.email, f"Eliminar la cuenta de "
                                             f"{request.user.nombre} de YoPuedo")
 
+    # Lanzamos modal que confirme la eliminación
     return render(request, "YoPuedo/mi_perfil.html",
                   {'url': f'/validar_clave/eliminar/{request.user.email}',
                    'foto_perfil': request.user.foto_perfil,
