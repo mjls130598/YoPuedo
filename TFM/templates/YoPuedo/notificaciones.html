@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% load static tags_categorias %}
+
+{% block static %}
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/mis_retos.css'%}">
+  <script type="text/javascript"
+        src="{% static 'YoPuedo/js/SpeechSynthesis.js' %}"></script>
+  <script src="https://kit.fontawesome.com/05cfaef439.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+{% endblock %}
+
+{% block contenido %}
+    <!-- CABECERA -->
+    <section>
+        <h4 id="titulo" class="m-2 m-md-3 m-lg-4">
+            <i class="bi bi-bell-fill"></i>
+            Notificaciones
+        </h4>
+    </section>
+
+    <!-- BOTONES CABECERA -->
+    <section class="row justify-content-between" id="botones_misretos">
+    {% for notificacion in notificaciones %}
+      <div class="row justify-content-between border-bottom border-dark p-md-3 p-2">
+          <div class="col-2 align-self-center text-center categoria">
+              {% if notificacion.categoria == 'economia' %}
+              <i class="fa-solid fa-piggy-bank"></i>
+              {% elif notificacion.categoria == 'inteligencia' %}
+              <i class="fa-solid fa-brain"></i>
+              {% elif notificacion.categoria == 'salud' %}
+              <i class="fa-solid fa-dumbbell"></i>
+              {% elif notificacion.categoria == 'mente' %}
+              <i class="fa-solid fa-face-frown"></i>
+              {% endif %}
+          </div>
+          <div class="col-8 row justify-content-between objetivo">
+              <div class="col-md-9 col-12 mb-4 m-md-0 informacion align-self-center">
+                  <h5 class="texto_notificacion"
+                      id="notificiacion_{{notificacion.id_notificacion}}">
+                      {{ notificacion.mensaje }}
+                  </h5>
+              </div>
+              <div class="col-md-1 col align-self-center text-center">
+                  {% with "notificacion_"|add:notificacion.id_notificacion as texto_notificacion %}
+                  {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech=texto_notificacion %}
+                  {% endwith %}
+              </div>
+          </div>
+          <button class="btn col-md-1 col-2 text-center align-self-center ver-notificacion"
+               onclick="irNotificacion('{{ notificacion.id_notificacion }}')">
+              <i class="fa-solid fa-angle-right"></i>
+          </button>
+      </div>
+    {% endfor %}
+        <div class="m-3" id="paginador">
+          <nav>
+            <ul class="pagination justify-content-center">
+              {% if notificaciones.has_previous %}
+                <li page-item>
+                    <a class="page-link"
+                       onclick="urlPagina('page={{ notificaciones.previous_page_number }}')">
+                        &laquo;
+                    </a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">&laquo;</span>
+                </li>
+              {% endif %}
+              {% for i in notificaciones.paginator.page_range %}
+                {% if notificaciones.number == i %}
+                  <li class="page-item active">
+                      <span class="page-link">
+                          {{ i }}
+                          <span class="sr-only">(Actual)</span>
+                      </span>
+                  </li>
+                {% else %}
+                  <li class="page-item">
+                      <a class="page-link"
+                       onclick="urlPagina('page={{ i }}')">
+                          {{ i }}
+                      </a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+              {% if notificaciones.has_next %}
+                <li class="page-item">
+                    <a class="page-link"
+                       onclick="urlPagina('page={{ notificaciones.next_page_number }}')">
+                        &raquo;
+                    </a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">&raquo;</span>
+                </li>
+              {% endif %}
+            </ul>
+          </nav>
+        </div>
+    </section>
+<script>
+/****************************************************************************************/
+
+    // Función para cambiar de página de notificaciones
+    function urlPagina(pagina){
+        enlace = "{% url 'notificaciones' %}" +  pagina;
+        htmx.ajax('GET', enlace)
+    }
+
+/****************************************************************************************/
+
+    // Función para redirigir al enlace dado
+    function irNotificacion(id){
+        window.location.href = "{% url 'notificacion' id='id' %}".replace("id", id);
+    }
+
+/****************************************************************************************/
+</script>
+
+{% endblock %}

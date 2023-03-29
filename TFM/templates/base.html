@@ -47,8 +47,8 @@
             <i class="fa-solid fa-address-card"></i>Mi perfil
           </a>
         </li>
-        <li>
-          <a href="#">
+        <li class="{% if 'notificaciones' in request.path %}active{% endif %}">
+          <a href="{% url 'notificaciones' %}">
             <i class="bi bi-bell-fill"></i>Notificaciones
           </a>
         </li>

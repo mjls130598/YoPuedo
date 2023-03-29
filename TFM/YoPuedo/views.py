@@ -1702,18 +1702,6 @@ def nuevos_amigos(request):
 
 ##########################################################################################
 
-# Función para devolver los amigos de una persona
-@login_required
-def notificaciones(request):
-    logger.info(f"Obtenemos notificaciones no leídas de {request.user.email}")
-    notificaciones = Notificacion.objects.filter(estado='Recibido', usuario=request.user)
-
-    return render(request, "YoPuedo/notificaciones.html",
-                  {'notificaciones': notificaciones})
-
-
-##########################################################################################
-
 # Función para dejar a una persona
 @login_required
 def dejar_seguir(request, amigo):
@@ -1764,6 +1752,53 @@ def ver_perfil(request, amigo):
         'nombre': usuario.nombre, 'foto_perfil': usuario.foto_perfil, 'email': amigo,
         'retos': retos
     })
+
+
+##########################################################################################
+
+# Función para devolver las notificaciones no leídas de una persona
+@login_required
+def notificaciones(request):
+    pagina = request.GET.get('page')
+
+    # Recogemos las notificaciones sin leer
+    logger.info(f"Obtenemos notificaciones no leídas de {request.user.email}")
+    notificaciones = Notificacion.objects.filter(estado='Recibido', usuario=request.user)
+
+    # Los paginamos en 5 notificaciones por página
+    logger.info("Paginamos las notificaciones en común con esa persona")
+    paginator = Paginator(notificaciones, 5)
+
+    logger.info("Obtenemos las notificaciones de la página indicada para ese estado")
+
+    try:
+        notificaciones = paginator.get_page(pagina)
+    except PageNotAnInteger:
+        notificaciones = paginator.get_page(1)
+    except EmptyPage:
+        notificaciones = paginator.get_page(1)
+
+    return render(request, "YoPuedo/notificaciones.html",
+                  {'notificaciones': notificaciones})
+
+
+##########################################################################################
+
+# Función para devolver el enlace de la notificación
+@login_required
+def notificacion(request, id):
+
+    # Buscamos notificación por id
+    logger.info(f"Obtenemos la información de la notificación {id}")
+    notificacion = get_object_or_404(Notificacion, id_notificacion=id)
+
+    # Cambiamos estado de la notificación
+    logger.info("Marcamos la notificación como leída")
+    notificacion.estado = "Leído"
+    notificacion.save()
+
+    # Redirigimos al usuario a la URL correspondiente
+    return redirect(notificacion.enlace)
 
 
 ##########################################################################################
