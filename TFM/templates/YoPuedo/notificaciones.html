@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-{% load static tags_categorias %}
-
 {% block static %}
   <link rel="stylesheet" href="{% static 'YoPuedo/css/mis_retos.css'%}">
   <script type="text/javascript"
@@ -24,14 +22,12 @@
     {% for notificacion in notificaciones %}
       <div class="row justify-content-between border-bottom border-dark p-md-3 p-2">
           <div class="col-2 align-self-center text-center categoria">
-              {% if notificacion.categoria == 'economia' %}
-              <i class="fa-solid fa-piggy-bank"></i>
-              {% elif notificacion.categoria == 'inteligencia' %}
-              <i class="fa-solid fa-brain"></i>
-              {% elif notificacion.categoria == 'salud' %}
-              <i class="fa-solid fa-dumbbell"></i>
-              {% elif notificacion.categoria == 'mente' %}
-              <i class="fa-solid fa-face-frown"></i>
+              {% if notificacion.categoria == 'Reto' %}
+              <i class="bi bi-graph-up fa-xl"></i>
+              {% elif notificacion.categoria == 'Ánimo' %}
+              <i class="fa-solid fa-envelope fa-xl"></i>
+              {% elif notificacion.categoria == 'Amistad' %}
+              <i class="fa-solid fa-user-plus fa-xl"></i>
               {% endif %}
           </div>
           <div class="col-8 row justify-content-between objetivo">
