@@ -45,5 +45,5 @@ urlpatterns = [
     path('eliminar_amigo/<str:amigo>', views.dejar_seguir, name="dejar_amigo"),
     path('perfil/<str:amigo>', views.ver_perfil, name="perfil"),
     path('notificaciones', views.notificaciones, name="notificaciones"),
-    path('notificacion/<int:id>', views.notificacion, name="notificacion")
+    path('notificacion/<int:id_notificacion>', views.notificacion, name="notificacion")
 ]
