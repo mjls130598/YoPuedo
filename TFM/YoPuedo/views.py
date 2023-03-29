@@ -1786,11 +1786,11 @@ def notificaciones(request):
 
 # Función para devolver el enlace de la notificación
 @login_required
-def notificacion(request, id):
+def notificacion(request, id_notificacion):
 
     # Buscamos notificación por id
-    logger.info(f"Obtenemos la información de la notificación {id}")
-    notificacion = get_object_or_404(Notificacion, id_notificacion=id)
+    logger.info(f"Obtenemos la información de la notificación {id_notificacion}")
+    notificacion = get_object_or_404(Notificacion, id_notificacion=id_notificacion)
 
     # Cambiamos estado de la notificación
     logger.info("Marcamos la notificación como leída")
