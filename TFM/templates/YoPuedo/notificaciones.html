@@ -27,15 +27,15 @@
           <div class="col-2 align-self-center text-center categoria
                 {{ notificacion.categoria }}">
               {% if notificacion.categoria == 'Reto' %}
-              <i class="bi bi-graph-up fa-xl"></i>
+              <i class="bi bi-graph-up"></i>
               {% elif notificacion.categoria == 'Ánimo' %}
-              <i class="fa-solid fa-envelope fa-xl"></i>
+              <i class="fa-solid fa-envelope"></i>
               {% elif notificacion.categoria == 'Amistad' %}
-              <i class="fa-solid fa-user-plus fa-xl"></i>
+              <i class="fa-solid fa-user-plus"></i>
               {% endif %}
           </div>
-          <div class="col-8 row justify-content-between objetivo">
-              <div class="col-md-9 col-12 mb-4 m-md-0 informacion align-self-center">
+          <div class="col-8 col-md-9 row justify-content-between notificacion">
+              <div class="col-md-11 col-12 mb-4 m-md-0 informacion align-self-center">
                   <h5 class="texto_notificacion"
                       id="notificiacion_{{notificacion.id_notificacion}}">
                       {{ notificacion.mensaje }}
