@@ -23,7 +23,8 @@
     <section class="row justify-content-between" id="botones_misretos">
     {% for notificacion in notificaciones %}
       <div class="row justify-content-between border-bottom border-dark p-md-3 p-2">
-          <div class="col-2 align-self-center text-center categoria">
+          <div class="col-2 align-self-center text-center categoria
+                {{ notificacion.categoria }}">
               {% if notificacion.categoria == 'Reto' %}
               <i class="bi bi-graph-up fa-xl"></i>
               {% elif notificacion.categoria == 'Ánimo' %}
@@ -40,8 +41,8 @@
                   </h5>
               </div>
               <div class="col-md-1 col align-self-center text-center">
-                  {% with "notificacion_"|add:notificacion.id_notificacion as texto_notificacion %}
-                  {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech=texto_notificacion %}
+                  {% with "titulo_"|add:notificacion.id_notificacion as texto_reto %}
+                  {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech=texto_reto %}
                   {% endwith %}
               </div>
           </div>
