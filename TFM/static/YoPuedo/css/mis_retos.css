@@ -125,7 +125,7 @@ audio {
     font-size: larger;
 }
 
-.ver-reto {
+.ver-reto, .ver-notificacion {
     font-size: -webkit-xxx-large;
 }
 
