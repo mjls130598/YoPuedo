@@ -21,9 +21,9 @@
     </section>
 
     <!-- BOTONES CABECERA -->
-    <section class="row justify-content-between" id="botones_misretos">
+    <section class="row">
     {% for notificacion in notificaciones %}
-      <div class="row justify-content-between border-bottom border-dark p-md-3 p-2">
+      <div class="row border-bottom border-dark m-md-3 m-2">
           <div class="col-2 align-self-center text-center categoria
                 {{ notificacion.categoria }}">
               {% if notificacion.categoria == 'Reto' %}
@@ -34,12 +34,12 @@
               <i class="fa-solid fa-user-plus"></i>
               {% endif %}
           </div>
-          <div class="col-8 col-md-9 row justify-content-between notificacion">
+          <div class="col-7 col-md-9 row notificacion">
               <div class="col-md-11 col-12 mb-4 m-md-0 informacion align-self-center">
-                  <h5 class="texto_notificacion fw-bold"
+                  <h6 class="texto_notificacion fw-bold"
                       id="notificiacion_{{notificacion.id_notificacion}}">
                       {{ notificacion.mensaje }}
-                  </h5>
+                  </h6>
               </div>
               <div class="col-md-1 col align-self-center text-center">
                   {% with "titulo_"|add:notificacion.id_notificacion as texto_reto %}
@@ -47,7 +47,7 @@
                   {% endwith %}
               </div>
           </div>
-          <button class="btn col-md-1 col-2 text-center align-self-center ver-notificacion"
+          <button class="btn col-md-1 col-3 text-center align-self-center ver-notificacion"
                onclick="irNotificacion('{{ notificacion.id_notificacion }}')">
               <i class="fa-solid fa-angle-right"></i>
           </button>
