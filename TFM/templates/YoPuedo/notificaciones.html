@@ -42,8 +42,7 @@
                   </h6>
               </div>
               <div class="col-md-1 col align-self-center text-center">
-                  {% with "notificacion_"|add:notificacion.mensaje as texto_notificacion %}
-                  {{texto_notificacion}}
+                  {% with "notificacion_"|add:notificacion.id_notificacion|stringformat:"i" as texto_notificacion %}
                   {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech=texto_notificacion %}
                   {% endwith %}
               </div>
