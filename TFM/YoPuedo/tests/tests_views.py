@@ -492,7 +492,11 @@ class NuevoRetoTest(TestCase):
         self.assertTrue(Reto.objects.filter(id_reto=id_reto).exists())
         self.assertTrue(Etapa.objects.filter(reto__id_reto=id_reto).exists())
         self.assertTrue(Animador.objects.filter(reto__id_reto=id_reto).exists())
+        self.assertTrue(Notificacion.objects.filter(
+            usuario__email="animador_view@yopuedo.com").exists())
         self.assertTrue(len(Participante.objects.filter(reto__id_reto=id_reto).all()) > 1)
+        self.assertTrue(Notificacion.objects.filter(
+            usuario__email="participante_view@yopuedo.com").exists())
 
 
 ##########################################################################################
