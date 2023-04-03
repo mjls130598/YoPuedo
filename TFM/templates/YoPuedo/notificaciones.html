@@ -42,6 +42,9 @@
                   </h6>
               </div>
               <div class="col-md-1 col align-self-center text-center">
+                  {% with forloop.counter|stringformat:"s" as numero %}
+                  {{ numero }}
+                  {% endwith %}
                   {% with "notificacion_"|add:1 as texto_notificacion %}
                   {{texto_notificacion}}
                   {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech=texto_notificacion %}
