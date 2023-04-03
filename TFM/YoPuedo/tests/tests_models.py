@@ -205,3 +205,28 @@ class RetoModelTest(TestCase):
         self.assertEqual(ultimo_animo.etapa.first(), etapa)
         self.assertEqual(ultimo_animo.animador.first(), superanimador)
         self.assertEqual(ultimo_animo.mensaje, "Superánimo etapa reto")
+
+
+##########################################################################################
+
+# Comprobamos el funcionamiento de la tabla NOTIFICACIÓN
+class NotificacionModelTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        usuario = Usuario.objects.create_user(email="notificacion@gmail.com",
+                                              nombre="María Jesús",
+                                              password="Password1.",
+                                              clave_fija='clave_fija',
+                                              clave_aleatoria='clave_aleatoria',
+                                              foto_perfil="/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        notificacion = Notificacion(mensaje="Esto es la primera prueba",
+                                    usuario=usuario, enlace="/enlace/")
+
+    def test_notificacion(self):
+        notificacion = Notificacion.objects.first()
+
+        self.assertEqual(notificacion.mensaje, "Esto es la primera prueba")
+        self.assertEqual(notificacion.usuario.nombre, "María Jesús")
+        self.assertEqual(notificacion.enlace, "/enlace/")
