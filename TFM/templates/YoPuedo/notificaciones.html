@@ -42,7 +42,8 @@
                   </h6>
               </div>
               <div class="col-md-1 col align-self-center text-center">
-                  {% with "notificacion_"|add:forloop.counter as texto_notificacion %}
+                  {% with "notificacion_"|add:1 as texto_notificacion %}
+                  {{texto_notificacion}}
                   {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech=texto_notificacion %}
                   {% endwith %}
               </div>
