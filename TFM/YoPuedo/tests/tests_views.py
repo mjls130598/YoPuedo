@@ -5,7 +5,7 @@ from TFM.settings import BASE_DIR
 from http import HTTPStatus
 from django.test.client import Client
 
-from ..models import Usuario, Reto, Etapa, Animador, Participante, Amistad
+from ..models import Usuario, Reto, Etapa, Animador, Participante, Amistad, Notificacion
 from ..utils import Utils
 
 
@@ -447,6 +447,8 @@ class NuevoRetoTest(TestCase):
         self.assertTrue(Etapa.objects.filter(reto__id_reto=id_reto).exists())
         self.assertEqual(len(Participante.objects.filter(reto__id_reto=id_reto).all()), 1)
         self.assertTrue(Animador.objects.filter(reto__id_reto=id_reto).exists())
+        self.assertTrue(Notificacion.objects.filter(
+            usuario__email="animador_view@yopuedo.com").exists())
 
     def test_post_reto_colectivo(self):
         self.client.login(username='nuevoreto_view@yopuedo.com', password="Password1.")
@@ -490,7 +492,11 @@ class NuevoRetoTest(TestCase):
         self.assertTrue(Reto.objects.filter(id_reto=id_reto).exists())
         self.assertTrue(Etapa.objects.filter(reto__id_reto=id_reto).exists())
         self.assertTrue(Animador.objects.filter(reto__id_reto=id_reto).exists())
+        self.assertTrue(Notificacion.objects.filter(
+            usuario__email="animador_view@yopuedo.com").exists())
         self.assertTrue(len(Participante.objects.filter(reto__id_reto=id_reto).all()) > 1)
+        self.assertTrue(Notificacion.objects.filter(
+            usuario__email="participante_view@yopuedo.com").exists())
 
 
 ##########################################################################################
@@ -578,7 +584,6 @@ class IniciarRetoTest(TestCase):
                                               clave_fija="clavefijausuario",
                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
-
         otro_usuario = Usuario.objects.create_user(
             email="iniciarreto_otro_view@yopuedo.com",
             nombre="María Jesús",
@@ -638,7 +643,6 @@ class EliminarRetoTest(TestCase):
                                               clave_fija="clavefijausuario",
                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
-
         otro_usuario = Usuario.objects.create_user(
             email="eliminarreto_otro_view@yopuedo.com",
             nombre="María Jesús",
@@ -696,7 +700,6 @@ class CoordinadorRetoTest(TestCase):
                                               clave_aleatoria="clavealeat",
                                               clave_fija="clavefijausuario",
                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
-
 
         otro_usuario = Usuario.objects.create_user(
             email="coordinadorreto_otro_view@yopuedo.com",
@@ -781,10 +784,10 @@ class EliminarAnimadorRetoTest(TestCase):
         # Creamos usuarios
         usuario = Usuario.objects.create_user(
             email="eliminaranimadorreto_view@yopuedo.com",
-                                              nombre="María Jesús", password="Password1.",
-                                              clave_aleatoria="clavealeat",
-                                              clave_fija="clavefijausuario",
-                                              foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+            nombre="María Jesús", password="Password1.",
+            clave_aleatoria="clavealeat",
+            clave_fija="clavefijausuario",
+            foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
         otro_usuario = Usuario.objects.create_user(
             email="eliminaranimadorreto_otro_view@yopuedo.com",
@@ -842,7 +845,6 @@ class EditarRetoTest(TestCase):
                                     clave_aleatoria="clavealeat",
                                     clave_fija="clavefijausuario",
                                     foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
-
 
         # Creamos usuarios
         Usuario.objects.create_user(email="extrañoeditando_view@yopuedo.com",
@@ -1696,6 +1698,10 @@ class CalificarPruebaAnimoEtapaTest(TestCase):
         resp = self.client.post(f'/animo/{etapa.id_etapa}', data)
         self.assertEqual(resp.status_code, HTTPStatus.CREATED)
         self.assertEqual(len(etapa.animo_set.all()), 1)
+
+        participantes = reto.participante_set.all()
+        for participante in participantes:
+            self.assertTrue(Notificacion.objects.filter(usuario=participante).exists())
 
     def getAnimoParticipante(self):
         self.client.login(username="calificaretapa_view@yopuedo.com",

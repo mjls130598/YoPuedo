@@ -16,7 +16,7 @@ from .utils import Utils
 from .forms import RegistroForm, InicioForm, ClaveForm, RetoGeneralForm, RetoEtapaForm, \
     AmigosForm, EtapasFormSet, PruebaForm, AnimoForm, PerfilForm
 from .models import Usuario, Amistad, Reto, Etapa, Animador, Participante, Calificacion, \
-    Prueba, Animo
+    Prueba, Animo, Notificacion
 
 from django.forms import formset_factory
 
@@ -510,6 +510,8 @@ def nuevo_reto(request):
                     animador.usuario.add(usuario)
                     animador.superanimador = superanimador
                     animador.save()
+                    logger.info(f"Notificamos a {animador_email}")
+                    Utils.notificacion_animador(request.user, usuario, reto)
 
                 logger.info("Inserción de PARTICIPANTES")
                 # Guardamos a los participantes del reto
@@ -521,6 +523,8 @@ def nuevo_reto(request):
                     participante.reto.add(reto)
                     participante.usuario.add(usuario)
                     participante.save()
+                    logger.info(f"Mandamos notificación a {participante_email}")
+                    Utils.notificacion_participante(request.user, usuario, reto)
 
                 logger.info("Guardamos COORDINADOR como PARTICIPANTE")
                 participante = Participante()
@@ -1005,12 +1009,14 @@ def editar_reto(request, id_reto):
                     logger.info(f"ANIMADOR: {animador_email}")
                     superanimador = request.POST.get(
                         f'superanimador-{animador_email}') == "true"
-                    if not animador_email in animadores_antiguos_emails:
+                    if animador_email not in animadores_antiguos_emails:
                         usuario = Usuario.objects.get(email=animador_email)
                         animador = Animador()
                         animador.save()
                         animador.reto.add(reto)
                         animador.usuario.add(usuario)
+                        logger.info(f"Creamos notificación para {animador_email}")
+                        Utils.notificacion_animador(request.user, usuario, reto)
                     else:
                         animadores_antiguos_emails.remove(animador_email)
                         animador = reto.animador_set.get(usuario__email=animador_email)
@@ -1035,13 +1041,16 @@ def editar_reto(request, id_reto):
                 for participante_email in participantes_email:
                     logger.info(f"PARTICIPANTE: {participante_email}")
 
-                    if not participante_email in participantes_antiguos_email:
+                    if participante_email not in participantes_antiguos_email:
                         usuario = Usuario.objects.get(email=participante_email)
                         participante = Participante()
                         participante.save()
                         participante.reto.add(reto)
                         participante.usuario.add(usuario)
                         participante.save()
+
+                        logger.info(f"Mandamos notificación a {participante_email}")
+                        Utils.notificacion_participante(request.user, usuario, reto)
 
                     else:
                         participantes_antiguos_email.remove(participante_email)
@@ -1135,10 +1144,22 @@ def coordinador_reto(request, id_reto):
         if request.method == 'POST':
             coordinador = request.POST.get('coordinador')
 
-            if coordinador != "":
+            if coordinador != "" and coordinador is not None:
+                nuevo_coordinador = Usuario.objects.get(email=coordinador)
+
                 logger.info(f"Cambiamos el coordinador por {coordinador}")
-                reto.coordinador = Usuario.objects.get(email=coordinador)
+                reto.coordinador = nuevo_coordinador
                 reto.save()
+
+                logger.info(f"Enviamos notificación a {coordinador}")
+                notificacion = Notificacion()
+                notificacion.usuario = nuevo_coordinador
+                notificacion.enlace = f'/reto/{id_reto}'
+                notificacion.categoria = 'Reto'
+                notificacion.mensaje = f"{request.user.nombre} te ha seleccionado como " \
+                                       f"coordinador del reto {reto.titulo}. ¿Vemos qué" \
+                                       f" es lo que puedes hacer en tu nueva categoría?"
+                notificacion.save()
 
                 logger.info(f"Redirigimos con un status {HTTPStatus.ACCEPTED}")
 
@@ -1376,8 +1397,9 @@ def animos(request, id_etapa):
             animo_form = AnimoForm(request.POST, request.FILES)
 
             if animo_form.is_valid():
-                logger.info(f"NUEVo ÁNIMO EN {id_etapa}")
+                logger.info(f"NUEVO ÁNIMO EN {id_etapa}")
 
+                # Recogemos información del ánimo
                 animo_texto = animo_form.cleaned_data['animo_texto'].value()
                 animo_imagen = request.FILES["animo_imagen"] \
                     if 'animo_imagen' in request.FILES else None
@@ -1406,6 +1428,7 @@ def animos(request, id_etapa):
 
                 logger.info(f"PRUEBA: {animo_guardar}")
 
+                # Guardamos mensaje de ánimo dentro de la etapa
                 logger.info(f"Guardamos ánimo en {id_etapa}")
                 animo = Animo()
                 animo.save()
@@ -1413,6 +1436,20 @@ def animos(request, id_etapa):
                 animo.etapa.add(etapa)
                 animo.mensaje = animo_guardar
                 animo.save()
+
+                # Enviamos notificaciones
+                logger.info("Enviamos notificación a los participantes del reto")
+                participantes = etapa.reto.participante_set()
+
+                for participante in participantes:
+                    notificacion = Notificacion()
+                    notificacion.categoria = "Ánimos"
+                    notificacion.mensaje = f"{request.user.nombre} te ha mandado un " \
+                                           f"mensaje de ánimo en el reto " \
+                                           f"{etapa.reto.titulo}. ¿Quieres verlo?"
+                    notificacion.enlace = f'/reto/{etapa.reto.id_reto}'
+                    notificacion.usuario = participante
+                    notificacion.save()
 
                 logger.info(f"Devolvemos status {HTTPStatus.CREATED}")
                 return HttpResponse(status=HTTPStatus.CREATED,
@@ -1473,13 +1510,18 @@ def cerrar_sesion(request):
 @login_required
 def eliminar(request):
     logger.info("Creamos clave y la mandamos")
+
+    # Creamos la clave y la guardamos
     clave = Utils.claves_aleatorias(10)
     usuario = Usuario.objects.get(email=request.user.email)
     usuario.clave_aleatoria = clave
     usuario.save()
+
+    # La enviamos al usuario pertinente
     enviar_clave(clave, request.user.email, f"Eliminar la cuenta de "
                                             f"{request.user.nombre} de YoPuedo")
 
+    # Lanzamos modal que confirme la eliminación
     return render(request, "YoPuedo/mi_perfil.html",
                   {'url': f'/validar_clave/eliminar/{request.user.email}',
                    'foto_perfil': request.user.foto_perfil,
@@ -1604,6 +1646,7 @@ def mis_amigos(request):
 def nuevos_amigos(request):
     # Obtenemos lista de futuros amigos
     if request.method == 'GET':
+        logger.info("Entramos en la parte GET de NUEVOS AMIGOS")
         formulario = AmigosForm(request.GET)
         consulta = formulario.data['consulta'] if 'consulta' in formulario.data else ""
 
@@ -1635,6 +1678,26 @@ def nuevos_amigos(request):
             'amigos': amigos,
             'form_consulta': formulario
         })
+
+    else:
+        logger.info("Entramos en la parte POST de NUEVOS AMIGOS")
+        amigos = request.POST.getlist('amigos')
+
+        logger.info("Creamos notificaciones")
+        for amigo in amigos:
+            logger.info(f"Notificación a {amigo['email']}")
+            usuario = Usuario.objects.get(email=amigo['email'])
+            notificacion = Notificacion()
+            notificacion.usuario = usuario
+            notificacion.categoria = 'Amistad'
+            notificacion.enlace = f'/solicitud_amistad/{request.user.email}'
+            notificacion.mensaje = f"{request.user.nombre} te ha mandado una solicitud " \
+                                   f"de amistad para que seas su amigo. " \
+                                   f"¿Quieres aceptarla?"
+            notificacion.save()
+
+        logger.info(f"Enviamos el status {HTTPStatus.CREATED}")
+        return HttpResponse(status=HTTPStatus.CREATED)
 
 
 ##########################################################################################
@@ -1689,6 +1752,53 @@ def ver_perfil(request, amigo):
         'nombre': usuario.nombre, 'foto_perfil': usuario.foto_perfil, 'email': amigo,
         'retos': retos
     })
+
+
+##########################################################################################
+
+# Función para devolver las notificaciones no leídas de una persona
+@login_required
+def notificaciones(request):
+    pagina = request.GET.get('page')
+
+    # Recogemos las notificaciones sin leer
+    logger.info(f"Obtenemos notificaciones no leídas de {request.user.email}")
+    notificaciones = Notificacion.objects.filter(estado='Recibido', usuario=request.user)
+
+    # Los paginamos en 5 notificaciones por página
+    logger.info("Paginamos las notificaciones en común con esa persona")
+    paginator = Paginator(notificaciones, 5)
+
+    logger.info("Obtenemos las notificaciones de la página indicada para ese estado")
+
+    try:
+        notificaciones = paginator.get_page(pagina)
+    except PageNotAnInteger:
+        notificaciones = paginator.get_page(1)
+    except EmptyPage:
+        notificaciones = paginator.get_page(1)
+
+    return render(request, "YoPuedo/notificaciones.html",
+                  {'notificaciones': notificaciones})
+
+
+##########################################################################################
+
+# Función para devolver el enlace de la notificación
+@login_required
+def notificacion(request, id_notificacion):
+
+    # Buscamos notificación por id
+    logger.info(f"Obtenemos la información de la notificación {id_notificacion}")
+    notificacion = get_object_or_404(Notificacion, id_notificacion=id_notificacion)
+
+    # Cambiamos estado de la notificación
+    logger.info("Marcamos la notificación como leída")
+    notificacion.estado = "Leído"
+    notificacion.save()
+
+    # Redirigimos al usuario a la URL correspondiente
+    return redirect(notificacion.enlace)
 
 
 ##########################################################################################
