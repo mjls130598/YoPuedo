@@ -584,7 +584,6 @@ class IniciarRetoTest(TestCase):
                                               clave_fija="clavefijausuario",
                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
-
         otro_usuario = Usuario.objects.create_user(
             email="iniciarreto_otro_view@yopuedo.com",
             nombre="María Jesús",
@@ -644,7 +643,6 @@ class EliminarRetoTest(TestCase):
                                               clave_fija="clavefijausuario",
                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
-
         otro_usuario = Usuario.objects.create_user(
             email="eliminarreto_otro_view@yopuedo.com",
             nombre="María Jesús",
@@ -702,7 +700,6 @@ class CoordinadorRetoTest(TestCase):
                                               clave_aleatoria="clavealeat",
                                               clave_fija="clavefijausuario",
                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
-
 
         otro_usuario = Usuario.objects.create_user(
             email="coordinadorreto_otro_view@yopuedo.com",
@@ -787,10 +784,10 @@ class EliminarAnimadorRetoTest(TestCase):
         # Creamos usuarios
         usuario = Usuario.objects.create_user(
             email="eliminaranimadorreto_view@yopuedo.com",
-                                              nombre="María Jesús", password="Password1.",
-                                              clave_aleatoria="clavealeat",
-                                              clave_fija="clavefijausuario",
-                                              foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+            nombre="María Jesús", password="Password1.",
+            clave_aleatoria="clavealeat",
+            clave_fija="clavefijausuario",
+            foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
         otro_usuario = Usuario.objects.create_user(
             email="eliminaranimadorreto_otro_view@yopuedo.com",
@@ -848,7 +845,6 @@ class EditarRetoTest(TestCase):
                                     clave_aleatoria="clavealeat",
                                     clave_fija="clavefijausuario",
                                     foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
-
 
         # Creamos usuarios
         Usuario.objects.create_user(email="extrañoeditando_view@yopuedo.com",
@@ -1702,6 +1698,10 @@ class CalificarPruebaAnimoEtapaTest(TestCase):
         resp = self.client.post(f'/animo/{etapa.id_etapa}', data)
         self.assertEqual(resp.status_code, HTTPStatus.CREATED)
         self.assertEqual(len(etapa.animo_set.all()), 1)
+
+        participantes = reto.participante_set.all()
+        for participante in participantes:
+            self.assertTrue(Notificacion.objects.filter(usuario=participante).exists())
 
     def getAnimoParticipante(self):
         self.client.login(username="calificaretapa_view@yopuedo.com",
