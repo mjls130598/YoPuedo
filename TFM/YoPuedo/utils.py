@@ -205,62 +205,62 @@ class Utils:
         return etapas_form, etapas_validas
 
     # Método para borrar los archivos multimedia del reto
-    def borrar_reto(self, reto):
+    def borrar_reto(reto):
         logger.info(f"Borramos archivos del reto {reto.id_reto}")
         rmtree(os.path.join(BASE_DIR, "media", "YoPuedo", reto.id_reto))
 
     # Método para borrar los archivos de ánimos de una persona
-    def borrar_animo(self, usuario):
+    def borrar_animo(usuario):
         logger.info(f"Borramos los archivos de ánimo de {usuario.email}")
         animos = Animo.objects.filter(animador__usuario=usuario,
                                       mensaje__contains='/media/')
 
         for animo in animos:
-            self.eliminar_archivo(os.path.join(BASE_DIR, animo.mensaje[1:]))
+            Utils.eliminar_archivo(os.path.join(BASE_DIR, animo.mensaje[1:]))
 
     # Método para borrar los archivos de ánimos de una persona
-    def borrar_animo_reto(self, usuario, reto):
+    def borrar_animo_reto(usuario, reto):
         logger.info(f"Borramos los archivos de ánimo de {usuario.email} del reto {reto.id_reto}")
         animos = Animo.objects.filter(animador__usuario=usuario,
                                       etapa__reto=reto,
                                       mensaje__contains='/media/')
 
         for animo in animos:
-            self.eliminar_archivo(os.path.join(BASE_DIR, animo.mensaje[1:]))
+            Utils.eliminar_archivo(os.path.join(BASE_DIR, animo.mensaje[1:]))
 
     # Método para borrar los archivos de pruebs de una persona
-    def borrar_prueba(self, usuario):
+    def borrar_prueba(usuario):
         logger.info(f"Borramos los archivos de prueba de {usuario.email}")
         pruebas = Prueba.objects.filter(participante__usuario=usuario,
                                         prueba__contains='/media/')
 
         for prueba in pruebas:
-            self.eliminar_archivo(os.path.join(BASE_DIR, prueba.prueba[1:]))
+            Utils.eliminar_archivo(os.path.join(BASE_DIR, prueba.prueba[1:]))
 
     # Método para borrar los archivos de pruebs de una persona
-    def borrar_prueba_reto(self, usuario, reto):
+    def borrar_prueba_reto(usuario, reto):
         logger.info(f"Borramos los archivos de prueba de {usuario.email} del reto "
                     f"{reto.id_reto}")
         pruebas = Prueba.objects.filter(participante__usuario=usuario,
                                         prueba__contains='/media/')
 
         for prueba in pruebas:
-            self.eliminar_archivo(os.path.join(BASE_DIR, prueba.prueba[1:]))
+            Utils.eliminar_archivo(os.path.join(BASE_DIR, prueba.prueba[1:]))
 
     # Método para borrar los retos de una persona
-    def borrar_retos(self, usuario):
+    def borrar_retos(usuario):
         logger.info(f"Borramos los archivos de los retos como coordinador de {usuario.email}")
         retos = Reto.objects.filter(coordinador=usuario)
 
         for reto in retos:
-            self.borrar_reto(reto)
+            Utils.borrar_reto(reto)
 
     # Método para eliminar los archivos insertados por una persona
-    def borrar_persona(self, usuario):
+    def borrar_persona(usuario):
         logger.info(f"Borramos todos los documentos del usuario {usuario.email}")
-        self.borrar_prueba(usuario)
-        self.borrar_animo(usuario)
-        self.borrar_retos(usuario)
+        Utils.borrar_prueba(usuario)
+        Utils.borrar_animo(usuario)
+        Utils.borrar_retos(usuario)
 
     # Método para crear Notificación de Animador
     @staticmethod

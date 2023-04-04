@@ -221,12 +221,15 @@ class NotificacionModelTest(TestCase):
                                               clave_aleatoria='clave_aleatoria',
                                               foto_perfil="/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
-        notificacion = Notificacion(mensaje="Esto es la primera prueba",
-                                    usuario=usuario, enlace="/enlace/")
+        notificacion = Notificacion()
+        notificacion.mensaje = "Esto es la primera prueba"
+        notificacion.usuario = usuario
+        notificacion.enlace = "/enlace/"
+        notificacion.categoria = "Prueba"
         notificacion.save()
 
     def test_notificacion(self):
-        notificacion = Notificacion.objects.first()
+        notificacion = Notificacion.objects.get(id_notificacion="1")
 
         self.assertEqual(notificacion.mensaje, "Esto es la primera prueba")
         self.assertEqual(notificacion.usuario.nombre, "María Jesús")
