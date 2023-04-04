@@ -122,6 +122,7 @@ class ClaveViewTest(TestCase):
                                     password="Password1.", clave_aleatoria="clavealeat",
                                     clave_fija="clavefijausuario",
                                     foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
         self.client.login(username='clave_view@yopuedo.com', password="Password1.")
 
         data = {

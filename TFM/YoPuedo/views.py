@@ -155,8 +155,8 @@ def validar_clave(request, tipo, email):
         clave_form = ClaveForm(request.POST)
 
         if clave_form.is_valid():
+            user = Usuario.objects.get(email=email)
             if tipo == 'registro' or tipo == 'inicio_sesion':
-                user = Usuario.objects.get(email=email)
                 if user is not None:
                     logger.info("Iniciamos sesión")
                     login(request, user,
@@ -165,8 +165,8 @@ def validar_clave(request, tipo, email):
             elif tipo == 'eliminar':
                 logger.info('Eliminamos el usuario')
                 logout(request)
-                Utils.borrar_persona(request.user)
-                Usuario.objects.get(email=email).delete()
+                Utils.borrar_persona(user)
+                user.delete()
                 return HttpResponse(status=HTTPStatus.ACCEPTED)
 
         else:
