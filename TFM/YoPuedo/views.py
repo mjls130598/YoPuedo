@@ -1804,8 +1804,16 @@ def get_notificacion(request, id_notificacion):
 
 # Función para devolver el enlace de la notificación
 @login_required
-def get_notificacion(request, id_notificacion):
-    return None
+def solicitud_amistad(request, usuario):
+    logger.info("Comprobamos que existe usuario")
+    amigo = get_object_or_404(Usuario, email=usuario)
+
+    logger.info("Devolvemos información del usuario")
+    return render(request, "YoPuedo/perfil.html", {
+        'email': amigo.email,
+        'nombre': amigo.nombre,
+        'foto_perfil': amigo.foto_perfil
+    })
 
 ##########################################################################################
 
