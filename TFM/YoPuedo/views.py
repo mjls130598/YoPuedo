@@ -1758,7 +1758,7 @@ def ver_perfil(request, amigo):
 
 # Función para devolver las notificaciones no leídas de una persona
 @login_required
-def notificaciones(request):
+def get_notificaciones(request):
     pagina = request.GET.get('page')
 
     # Recogemos las notificaciones sin leer
@@ -1786,7 +1786,7 @@ def notificaciones(request):
 
 # Función para devolver el enlace de la notificación
 @login_required
-def notificacion(request, id_notificacion):
+def get_notificacion(request, id_notificacion):
 
     # Buscamos notificación por id
     logger.info(f"Obtenemos la información de la notificación {id_notificacion}")
@@ -1800,6 +1800,12 @@ def notificacion(request, id_notificacion):
     # Redirigimos al usuario a la URL correspondiente
     return redirect(notificacion.enlace)
 
+##########################################################################################
+
+# Función para devolver el enlace de la notificación
+@login_required
+def get_notificacion(request, id_notificacion):
+    return None
 
 ##########################################################################################
 
