@@ -156,18 +156,28 @@ def validar_clave(request, tipo, email):
 
         if clave_form.is_valid():
             user = Usuario.objects.get(email=email)
+            # Sesión
             if tipo == 'registro' or tipo == 'inicio_sesion':
                 if user is not None:
                     logger.info("Iniciamos sesión")
                     login(request, user,
                           backend='django.contrib.auth.backends.ModelBackend')
-                    return HttpResponse(status=HTTPStatus.ACCEPTED)
+
+            # Perfil
             elif tipo == 'eliminar':
                 logger.info('Eliminamos el usuario')
                 logout(request)
                 Utils.borrar_persona(user)
                 user.delete()
-                return HttpResponse(status=HTTPStatus.ACCEPTED)
+
+            # Amistad
+            else:
+                logger.info("Obtenemos usuario")
+                usuario = Usuario.objects.get(email=tipo)
+                logger.info("Aceptamos amistad")
+                Amistad(amigo=usuario, otro_amigo=user).save()
+
+            return HttpResponse(HTTPStatus.ACCEPTED)
 
         else:
             contador = int(clave_form['contador'].value())
@@ -1787,7 +1797,6 @@ def get_notificaciones(request):
 # Función para devolver el enlace de la notificación
 @login_required
 def get_notificacion(request, id_notificacion):
-
     # Buscamos notificación por id
     logger.info(f"Obtenemos la información de la notificación {id_notificacion}")
     notificacion = get_object_or_404(Notificacion, id_notificacion=id_notificacion)
@@ -1800,13 +1809,20 @@ def get_notificacion(request, id_notificacion):
     # Redirigimos al usuario a la URL correspondiente
     return redirect(notificacion.enlace)
 
+
 ##########################################################################################
 
-# Función para devolver el enlace de la notificación
+# Función para devolver solicitud de amistad
 @login_required
 def solicitud_amistad(request, usuario):
+    # Obtención del usuario que va a ser nuestro nuevo amigo
     logger.info("Comprobamos que existe usuario")
     amigo = get_object_or_404(Usuario, email=usuario)
+
+    # Envío de clave para aceptar solicitud
+    logger.info("Enviamos clave para aceptar solicitud")
+    clave = Utils.claves_aleatorias(10)
+    enviar_clave(clave=clave, email=request.user.email, contexto="Nueva solicitud de amistad")
 
     logger.info("Devolvemos información del usuario")
     return render(request, "YoPuedo/perfil.html", {
@@ -1814,6 +1830,7 @@ def solicitud_amistad(request, usuario):
         'nombre': amigo.nombre,
         'foto_perfil': amigo.foto_perfil
     })
+
 
 ##########################################################################################
 

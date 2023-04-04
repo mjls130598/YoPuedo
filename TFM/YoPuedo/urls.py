@@ -47,5 +47,7 @@ urlpatterns = [
     path('notificaciones', views.get_notificaciones, name="notificaciones"),
     path('notificacion/<int:id_notificacion>', views.get_notificacion,
          name="notificacion"),
-    path('solicitud_amistad/<str:usuario>', views.solicitud_amistad, name="solicitud")
+    path('solicitud_amistad/<str:usuario>', views.solicitud_amistad, name="solicitud"),
+    path('rechazar/<str:usuario>', views.rechazar_amistad, name="rechazar"),
+
 ]
