@@ -223,6 +223,7 @@ class NotificacionModelTest(TestCase):
 
         notificacion = Notificacion(mensaje="Esto es la primera prueba",
                                     usuario=usuario, enlace="/enlace/")
+        notificacion.save()
 
     def test_notificacion(self):
         notificacion = Notificacion.objects.first()
