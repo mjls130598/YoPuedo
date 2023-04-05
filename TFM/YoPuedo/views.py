@@ -1771,9 +1771,9 @@ def ver_perfil(request, amigo):
 def get_notificaciones(request):
     pagina = request.GET.get('page')
 
-    # Recogemos las notificaciones sin leer
-    logger.info(f"Obtenemos notificaciones no leídas de {request.user.email}")
-    notificaciones = Notificacion.objects.filter(estado='Recibido', usuario=request.user)
+    # Recogemos las notificaciones, sin leer primero
+    logger.info(f"Obtenemos notificaciones de {request.user.email}")
+    notificaciones = Notificacion.objects.filter(usuario=request.user).order_by('-estado')
 
     # Los paginamos en 5 notificaciones por página
     logger.info("Paginamos las notificaciones en común con esa persona")

@@ -36,7 +36,8 @@
           </div>
           <div class="col-9 col-md-10 row notificacion">
               <div class="col-md-11 col-12 mb-4 m-md-0 informacion align-self-center">
-                  <h6 class="texto_notificacion fw-bold"
+                  <h6 class="texto_notificacion
+                    {% if notificacion.estado == 'Recibido' %}fw-bold{% endif %}"
                       id="notificacion_{{forloop.counter}}">
                       {{ notificacion.mensaje }}
                   </h6>
