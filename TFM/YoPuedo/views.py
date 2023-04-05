@@ -148,6 +148,13 @@ def validar_clave(request, tipo, email):
         logger.info("Entramos en la parte GET de VALIDAR CLAVE")
         clave_form = ClaveForm(initial={'email': email, 'contador': 0})
 
+        if tipo != 'registro' and tipo != 'inicio_sesion':
+            # Envío de clave para aceptar solicitud
+            logger.info("Enviamos clave para aceptar solicitud de amistad")
+            clave = Utils.claves_aleatorias(10)
+            enviar_clave(clave=clave, email=request.user.email,
+                         contexto="Nueva solicitud de amistad")
+
     else:
         logger.info("Entramos en la parte POST de VALIDAR CLAVE")
         logger.info("Comprobamos si la clave introducida es la correcta")
@@ -1797,7 +1804,7 @@ def get_notificaciones(request):
 # Función para devolver el enlace de la notificación
 @login_required
 def get_notificacion(request, id_notificacion):
-    # Buscamos notificación por id
+    # Buscamos notificación por ID
     logger.info(f"Obtenemos la información de la notificación {id_notificacion}")
     notificacion = get_object_or_404(Notificacion, id_notificacion=id_notificacion)
 
@@ -1823,6 +1830,22 @@ def solicitud_amistad(request, usuario):
     logger.info("Enviamos clave para aceptar solicitud")
     clave = Utils.claves_aleatorias(10)
     enviar_clave(clave=clave, email=request.user.email, contexto="Nueva solicitud de amistad")
+
+    logger.info("Devolvemos información del usuario")
+    return render(request, "YoPuedo/perfil.html", {
+        'email': amigo.email,
+        'nombre': amigo.nombre,
+        'foto_perfil': amigo.foto_perfil
+    })
+
+##########################################################################################
+
+# Función para rechazar solicitud de amistad
+@login_required
+def solicitud_amistad(request, usuario):
+    # Obtención del usuario que va a ser nuestro nuevo amigo
+    logger.info("Comprobamos que existe usuario")
+    amigo = get_object_or_404(Usuario, email=usuario)
 
     logger.info("Devolvemos información del usuario")
     return render(request, "YoPuedo/perfil.html", {
