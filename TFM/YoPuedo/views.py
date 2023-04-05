@@ -190,7 +190,7 @@ def validar_clave(request, tipo, email):
                 # Borramos notificación
                 logger.info("Borramos notificación con la solicitud de amistad")
                 Notificacion.objects.filter(usuario=request.user, categoria="Amistad",
-                                            enlace=f"/solicitud_amistad/{tipo}")
+                                            enlace=f"/solicitud_amistad/{tipo}").delete()
 
             return HttpResponse(HTTPStatus.ACCEPTED)
 
@@ -1837,7 +1837,8 @@ def solicitud_amistad(request, usuario):
     # Envío de clave para aceptar solicitud
     logger.info("Enviamos clave para aceptar solicitud")
     clave = Utils.claves_aleatorias(10)
-    enviar_clave(clave=clave, email=request.user.email, contexto="Nueva solicitud de amistad")
+    enviar_clave(clave=clave, email=request.user.email,
+                 contexto="Nueva solicitud de amistad")
 
     logger.info("Devolvemos información del usuario")
     return render(request, "YoPuedo/perfil.html", {
@@ -1845,22 +1846,19 @@ def solicitud_amistad(request, usuario):
         'nombre': amigo.nombre,
         'foto_perfil': amigo.foto_perfil
     })
+
 
 ##########################################################################################
 
 # Función para rechazar solicitud de amistad
 @login_required
-def solicitud_amistad(request, usuario):
-    # Obtención del usuario que va a ser nuestro nuevo amigo
-    logger.info("Comprobamos que existe usuario")
-    amigo = get_object_or_404(Usuario, email=usuario)
+def rechazar(request, usuario):
+    # Eliminamos notificación
+    Notificacion.objects.filter(usuario=request.user, categoria="Amistad",
+                                enlace=f"/solicitud_amistad/{usuario}").delete()
 
-    logger.info("Devolvemos información del usuario")
-    return render(request, "YoPuedo/perfil.html", {
-        'email': amigo.email,
-        'nombre': amigo.nombre,
-        'foto_perfil': amigo.foto_perfil
-    })
+    # Enviamos al usuario a la lista de amigos
+    return redirect('/mis_amigos/')
 
 
 ##########################################################################################
