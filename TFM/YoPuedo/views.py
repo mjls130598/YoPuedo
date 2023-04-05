@@ -179,10 +179,18 @@ def validar_clave(request, tipo, email):
 
             # Amistad
             else:
+                # Recogemos usuario aceptado
                 logger.info("Obtenemos usuario")
                 usuario = Usuario.objects.get(email=tipo)
+
+                # Creamos nueva amistad
                 logger.info("Aceptamos amistad")
                 Amistad(amigo=usuario, otro_amigo=user).save()
+
+                # Borramos notificación
+                logger.info("Borramos notificación con la solicitud de amistad")
+                Notificacion.objects.filter(usuario=request.user, categoria="Amistad",
+                                            enlace=f"/solicitud_amistad/{tipo}")
 
             return HttpResponse(HTTPStatus.ACCEPTED)
 
