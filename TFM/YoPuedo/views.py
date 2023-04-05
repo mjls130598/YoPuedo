@@ -1852,7 +1852,7 @@ def solicitud_amistad(request, usuario):
 
 # Función para rechazar solicitud de amistad
 @login_required
-def rechazar(request, usuario):
+def rechazar_amistad(request, usuario):
     # Eliminamos notificación
     Notificacion.objects.filter(usuario=request.user, categoria="Amistad",
                                 enlace=f"/solicitud_amistad/{usuario}").delete()
