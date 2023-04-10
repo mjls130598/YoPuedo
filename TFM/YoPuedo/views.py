@@ -163,36 +163,37 @@ def validar_clave(request, tipo, email):
 
         if clave_form.is_valid():
             user = Usuario.objects.get(email=email)
-            # Sesión
-            if tipo == 'registro' or tipo == 'inicio_sesion':
-                if user is not None:
+
+            if user is not None:
+                # Sesión
+                if tipo == 'registro' or tipo == 'inicio_sesion':
                     logger.info("Iniciamos sesión")
                     login(request, user,
                           backend='django.contrib.auth.backends.ModelBackend')
 
-            # Perfil
-            elif tipo == 'eliminar':
-                logger.info('Eliminamos el usuario')
-                logout(request)
-                Utils.borrar_persona(user)
-                user.delete()
+                # Perfil
+                elif tipo == 'eliminar':
+                    logger.info('Eliminamos el usuario')
+                    logout(request)
+                    Utils.borrar_persona(user)
+                    user.delete()
 
-            # Amistad
-            else:
-                # Recogemos usuario aceptado
-                logger.info("Obtenemos usuario")
-                usuario = Usuario.objects.get(email=tipo)
+                # Amistad
+                else:
+                    # Recogemos usuario aceptado
+                    logger.info("Obtenemos usuario")
+                    usuario = Usuario.objects.get(email=tipo)
 
-                # Creamos nueva amistad
-                logger.info("Aceptamos amistad")
-                Amistad(amigo=usuario, otro_amigo=user).save()
+                    # Creamos nueva amistad
+                    logger.info("Aceptamos amistad")
+                    Amistad(amigo=usuario, otro_amigo=user).save()
 
-                # Borramos notificación
-                logger.info("Borramos notificación con la solicitud de amistad")
-                Notificacion.objects.filter(usuario=request.user, categoria="Amistad",
-                                            enlace=f"/solicitud_amistad/{tipo}").delete()
+                    # Borramos notificación
+                    logger.info("Borramos notificación con la solicitud de amistad")
+                    Notificacion.objects.filter(usuario=request.user, categoria="Amistad",
+                                                enlace=f"/solicitud_amistad/{tipo}").delete()
 
-            return HttpResponse(HTTPStatus.ACCEPTED)
+                return HttpResponse(HTTPStatus.ACCEPTED)
 
         else:
             contador = int(clave_form['contador'].value())
