@@ -193,7 +193,7 @@ def validar_clave(request, tipo, email):
                     Notificacion.objects.filter(usuario=request.user, categoria="Amistad",
                                                 enlace=f"/solicitud_amistad/{tipo}").delete()
 
-                return HttpResponse(HTTPStatus.ACCEPTED)
+                return HttpResponse(status=HTTPStatus.ACCEPTED)
 
         else:
             contador = int(clave_form['contador'].value())
