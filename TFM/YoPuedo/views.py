@@ -1705,7 +1705,7 @@ def nuevos_amigos(request):
 
         # Los paginamos en 5 personas por página
         logger.info("Paginamos los amigos de esa persona")
-        paginator = Paginator(amigos, 5)
+        paginator = Paginator(amigos, 3)
 
         logger.info("Obtenemos los amigos de la página indicada para ese estado")
 

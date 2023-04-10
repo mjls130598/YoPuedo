@@ -2,7 +2,7 @@
   <div class="modal-header">
     <h5 class="modal-title titulo-modal fw-bold">
       <i class="fa-solid fa-user-plus"></i>
-      Añadir {{ relacion }}
+      Añadir {% if relacion %}{{ relacion }}{% else %}amigos{% endif %}
     </h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
   </div>
