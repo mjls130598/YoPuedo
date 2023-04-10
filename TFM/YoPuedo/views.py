@@ -1675,6 +1675,7 @@ def nuevos_amigos(request):
         logger.info("Entramos en la parte GET de NUEVOS AMIGOS")
         formulario = AmigosForm(request.GET)
         consulta = formulario.data['consulta'] if 'consulta' in formulario.data else ""
+        pagina = request.GET.get('page')
 
         # Buscamos los amigos que tiene esa persona
         logger.info("Buscamos los amigos del usuario")
@@ -1695,10 +1696,25 @@ def nuevos_amigos(request):
 
         # Obtenemos el resto de usuarios que no esté en la lista anterior
         logger.info("Obtenemos usuarios que no sean amigos o nosotros mismos")
-        amigos = Usuario.objects.exclude(email__in=amistades) if consulta == "" else \
+        amigos = Usuario.objects.exclude(email__in=amistades). \
+            values('email', 'nombre', 'foto_perfil') \
+            if consulta == "" else \
             Usuario.objects.filter(Q(email__contains=consulta) |
-                                   Q(nombre__contains=consulta)).exclude(
-                email__in=amistades)
+                                   Q(nombre__contains=consulta)). \
+                exclude(email__in=amistades).values('email', 'nombre', 'foto_perfil')
+
+        # Los paginamos en 5 personas por página
+        logger.info("Paginamos los amigos de esa persona")
+        paginator = Paginator(amigos, 5)
+
+        logger.info("Obtenemos los amigos de la página indicada para ese estado")
+
+        try:
+            amigos = paginator.get_page(pagina)
+        except PageNotAnInteger:
+            amigos = paginator.get_page(1)
+        except EmptyPage:
+            amigos = paginator.get_page(1)
 
         return render(request, "YoPuedo/elementos/modal-amigos.html", {
             'amigos': amigos,
