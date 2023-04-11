@@ -8,7 +8,6 @@
   </div>
   <div class="modal-body">
     <form class="form row" hx-get="{{ request.path }}">
-        {% csrf_token %}
         <div class="col-8 col-md-9 col-lg-10">
             {% for field in form_consulta %}
                 {{ field }}
@@ -164,7 +163,8 @@
         anadirParticipantes(amigos);
         {% else %}
         enlace = "{{ request.get_full_path }}" ;
-        htmx.ajax('POST', enlace, {'amigos': amigos});
+        htmx.ajax('POST', enlace, {values:{'amigos': amigos}, headers:{'X-CSRF-TOKEN':
+        {{ csrf_token }}}});
         {% endif %}
 
         amigos = [];
