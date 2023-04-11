@@ -164,7 +164,7 @@
         {% else %}
         enlace = "{{ request.get_full_path }}" ;
         htmx.ajax('POST', enlace, {values:{'amigos': amigos}, headers:{'X-CSRF-TOKEN':
-        {{ csrf_token }}}});
+        '{{ csrf_token }}'}});
         {% endif %}
 
         amigos = [];
