@@ -199,8 +199,3 @@ a > i {
     color: #035D55;
 }
 
-.imagen-perfil, .imagen-amigo{
-    object-fit: contain;
-    max-width: 50%;
-}
-

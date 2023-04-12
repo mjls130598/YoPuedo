@@ -19,6 +19,8 @@
       <div class="col-8 row justify-content-between objetivo">
           {% if "mp3" in reto.objetivo or "acc" in reto.objetivo or "ogg" in reto.objetivo or "wma" in reto.objetivo %}
           <div class="col-md-4 col-12 mb-4 m-md-0 informacion align-self-center">
+          {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
+          <div class="col-md-9 col-12 mb-4 m-md-0 informacion align-self-center ratio ratio-4x3">
           {% else %}
           <div class="col-md-9 col-12 mb-4 m-md-0 informacion align-self-center">
           {% endif %}
