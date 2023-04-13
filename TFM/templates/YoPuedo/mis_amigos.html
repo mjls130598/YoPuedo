@@ -155,7 +155,6 @@
       // Remove dialog content after hiding
       htmx.on("hidden.bs.modal", () => {
         document.getElementById("dialog-amigos").innerHTML = "";
-        window.location.href = "{{ request.get_full_path }}";
       })
     })()
   </script>

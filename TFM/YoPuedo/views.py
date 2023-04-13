@@ -1739,7 +1739,7 @@ def nuevos_amigos(request):
             notificacion.save()
 
         logger.info(f"Enviamos el status {HTTPStatus.CREATED}")
-        return HttpResponse(status=HTTPStatus.CREATED)
+        return redirect('/mis_amigos/')
 
 
 ##########################################################################################
