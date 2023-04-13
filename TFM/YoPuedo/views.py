@@ -1724,6 +1724,7 @@ def nuevos_amigos(request):
     else:
         logger.info("Entramos en la parte POST de NUEVOS AMIGOS")
         amigos = request.POST.getlist('amigos')
+        logger.info(amigos)
 
         logger.info("Creamos notificaciones")
         for amigo in amigos:
