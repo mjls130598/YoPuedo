@@ -163,8 +163,8 @@
         anadirParticipantes(amigos);
         {% else %}
         enlace = "{{ request.get_full_path }}" ;
-        htmx.ajax('POST', enlace, {'amigos': amigos, 'csrfmiddlewaretoken':
-        '{{ csrf_token }}'});
+        htmx.ajax('POST', enlace, {values:{'amigos': amigos}, headers:{'X-CSRFToken':
+        '{{ csrf_token }}'}});
         {% endif %}
 
         amigos = [];
