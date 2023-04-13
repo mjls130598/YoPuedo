@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 from http import HTTPStatus
@@ -1707,8 +1708,6 @@ def nuevos_amigos(request):
         logger.info("Paginamos los amigos de esa persona")
         paginator = Paginator(amigos, 3)
 
-        logger.info("Obtenemos los amigos de la página indicada para ese estado")
-
         try:
             amigos = paginator.get_page(pagina)
         except PageNotAnInteger:
@@ -1724,10 +1723,10 @@ def nuevos_amigos(request):
     else:
         logger.info("Entramos en la parte POST de NUEVOS AMIGOS")
         amigos = request.POST.getlist('amigos')
-        logger.info(amigos)
 
         logger.info("Creamos notificaciones")
         for amigo in amigos:
+            amigo = json.loads(amigo)
             logger.info(f"Notificación a {amigo['email']}")
             usuario = Usuario.objects.get(email=amigo['email'])
             notificacion = Notificacion()
