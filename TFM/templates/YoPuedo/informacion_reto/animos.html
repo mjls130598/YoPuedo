@@ -8,6 +8,8 @@
         <div class="row">
             {% if "mp3" in animo.mensaje or "acc" in animo.mensaje or "ogg" in animo.mensaje or "wma" in animo.mensaje %}
             <div class="col-md-4 col-12 mb-4 m-md-0 informacion align-self-center">
+            {% elif "jpg" in animo.mensaje or "jpeg" in animo.mensaje or "png" in animo.mensaje or "svg" in animo.mensaje or "gif" in animo.mensaje %}
+            <div class="col-md-9 col-12 mb-4 m-md-0 informacion align-self-center ratio-mio ratio-4x3">
             {% else %}
             <div class="col-md-9 col-12 mb-4 m-md-0 informacion align-self-center">
             {% endif %}

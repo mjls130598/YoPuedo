@@ -8,6 +8,8 @@
         <div class="row">
             {% if "mp3" in prueba.prueba or "acc" in prueba.prueba or "ogg" in prueba.prueba or "wma" in prueba.prueba %}
             <div class="col-md-4 col-12 mb-4 m-md-0 informacion align-self-center">
+            {% elif "jpg" in prueba.prueba or "jpeg" in prueba.prueba or "png" in prueba.prueba or "svg" in prueba.prueba or "gif" in prueba.prueba %}
+            <div class="col-md-9 col-12 mb-4 m-md-0 informacion align-self-center ratio-mio ratio-4x3">
             {% else %}
             <div class="col-md-9 col-12 mb-4 m-md-0 informacion align-self-center">
             {% endif %}
