@@ -4,6 +4,7 @@ import os
 from http import HTTPStatus
 from itertools import chain
 
+from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -1726,6 +1727,7 @@ def nuevos_amigos(request):
 
         logger.info("Creamos notificaciones")
         for amigo in amigos:
+            # Convertimos el string de ese amigo a diccionario
             amigo = json.loads(amigo)
             logger.info(f"Notificación a {amigo['email']}")
             usuario = Usuario.objects.get(email=amigo['email'])
@@ -1738,8 +1740,11 @@ def nuevos_amigos(request):
                                    f"¿Quieres aceptarla?"
             notificacion.save()
 
+        messages.success(request, 'Hemos enviado la solicitudes de amistad a tus nuevos '
+                                  'amigos.')
+
         logger.info(f"Enviamos el status {HTTPStatus.CREATED}")
-        return redirect('/mis_amigos/')
+        return HttpResponse(status=HTTPStatus.CREATED)
 
 
 ##########################################################################################
