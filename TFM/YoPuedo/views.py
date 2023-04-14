@@ -1743,9 +1743,6 @@ def nuevos_amigos(request):
         messages.success(request, 'Hemos enviado la solicitudes de amistad a tus nuevos '
                                   'amigos.')
 
-        logger.info(f"Enviamos el status {HTTPStatus.CREATED}")
-        return HttpResponse(status=HTTPStatus.CREATED)
-
 
 ##########################################################################################
 
