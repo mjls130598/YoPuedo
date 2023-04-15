@@ -207,7 +207,7 @@ AUTH_USER_MODEL = 'YoPuedo.Usuario'
 
 MESSAGE_TAGS = {
     messages.DEBUG: 'alert-dark',
-    messages.INFO: 'alert-info',
+    messages.INFO: 'alert-primary',
     messages.SUCCESS: 'alert-success',
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
