@@ -1740,10 +1740,10 @@ def nuevos_amigos(request):
                                    f"¿Quieres aceptarla?"
             notificacion.save()
 
-        messages.success(request, 'Hemos enviado la solicitudes de amistad a tus nuevos '
+        messages.success(request, 'Hemos enviado las solicitudes de amistad a tus nuevos '
                                   'amigos.')
 
-    return HttpResponseRedirect(redirect_to='/mis_amigos/', status=HTTPStatus.CREATED)
+    return HttpResponse(status=HTTPStatus.CREATED)
 
 
 ##########################################################################################
