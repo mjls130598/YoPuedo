@@ -1743,7 +1743,7 @@ def nuevos_amigos(request):
         messages.success(request, 'Hemos enviado las solicitudes de amistad a tus nuevos '
                                   'amigos.')
 
-    return HttpResponse(status=HTTPStatus.CREATED)
+    return redirect('/mis_amigos/')
 
 
 ##########################################################################################

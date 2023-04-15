@@ -165,7 +165,6 @@
         enlace = "{{ request.get_full_path }}" ;
         htmx.ajax('POST', enlace, {values:{'amigos': amigos}, headers:{'X-CSRFToken':
         '{{ csrf_token }}'}});
-        window.location.href = '{% url 'mis_amigos' %}';
         {% endif %}
 
         amigos = [];
