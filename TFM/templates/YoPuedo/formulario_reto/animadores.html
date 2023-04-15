@@ -18,7 +18,7 @@
     <div class="animador p-2 p-md-3 row" id="animador-{{animador.usuario.email}}">
         <input type="hidden" name="animador" value="{{animador.usuario.email}}">
         <div class="foto-perfil ratio_mio ratio-4x3 col-4 col-md-2 col-lg-1">
-            <img class="imagen-perfil img-fluid rounded mx-auto d-block"
+            <img class="imagen-perfil rounded mx-auto d-block"
                  src="{{animador.usuario.foto_perfil}}">
         </div>
         <div class="nombre col-4 col-md-7 col-lg-8 align-self-center">
@@ -126,7 +126,7 @@
                 divFoto = document.createElement("div");
                 divFoto.className = "foto-perfil col-4 col-md-2 col-lg-1";
                 imagen = document.createElement("img");
-                imagen.className = "imagen-perfil img-fluid rounded mx-auto d-block";
+                imagen.className = "imagen-perfil rounded mx-auto d-block";
                 imagen.setAttribute("src", animador.foto_perfil);
                 divFoto.appendChild(imagen);
                 divAnimador.appendChild(divFoto);

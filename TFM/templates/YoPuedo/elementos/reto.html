@@ -34,10 +34,10 @@
                 <source src="{{ reto.objetivo }}" type="audio/mpeg">
               </audio>
               {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
-                <img class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                <img class="imagen_reto rounded col-md-6 mx-auto d-block
                 col-xl-5" src="{{ reto.objetivo }}">
               {% elif "mp4" in reto.objetivo or "ogg" in reto.objetivo %}
-              <video class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+              <video class="imagen_reto rounded col-md-6 mx-auto d-block
                 col-xl-5" controls>
                   <source src="{{ reto.objetivo }}" type="video/mp4">
               </video>

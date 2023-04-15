@@ -17,10 +17,10 @@
             <source src="{{ etapa.objetivo }}" type="audio/mpeg">
         </audio>
     {% elif "jpg" in etapa.objetivo or "jpeg" in etapa.objetivo or "png" in etapa.objetivo or "svg" in etapa.objetivo or "gif" in etapa.objetivo %}
-        <img class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+        <img class="imagen_reto rounded col-md-6 mx-auto d-block
             col-xl-5" src="{{ etapa.objetivo }}">
     {% elif "mp4" in etapa.objetivo or "ogg" in etapa.objetivo %}
-        <video class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+        <video class="imagen_reto rounded col-md-6 mx-auto d-block
             col-xl-5" controls>
             <source src="{{ etapa.objetivo }}" type="video/mp4">
         </video>

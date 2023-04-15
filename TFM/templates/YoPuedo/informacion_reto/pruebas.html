@@ -19,10 +19,10 @@
                     <source src="{{ prueba.prueba }}" type="audio/mpeg">
                 </audio>
             {% elif "jpg" in prueba.prueba or "jpeg" in prueba.prueba or "png" in prueba.prueba or "svg" in prueba.prueba or "gif" in prueba.prueba %}
-                <img class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                <img class="imagen_reto rounded col-md-6 mx-auto d-block
                     col-xl-5" src="{{ prueba.prueba }}">
             {% elif "mp4" in prueba.prueba or "ogg" in prueba.prueba %}
-                <video class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                <video class="imagen_reto rounded col-md-6 mx-auto d-block
                     col-xl-5" controls>
                     <source src="{{ prueba.prueba }}" type="video/mp4">
                 </video>

@@ -19,10 +19,10 @@
                     <source src="{{ animo.mensaje }}" type="audio/mpeg">
                 </audio>
             {% elif "jpg" in animo.mensaje or "jpeg" in animo.mensaje or "png" in animo.mensaje or "svg" in animo.mensaje or "gif" in animo.mensaje %}
-                <img class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                <img class="imagen_reto rounded col-md-6 mx-auto d-block
                     col-xl-5" src="{{ animo.mensaje }}">
             {% elif "mp4" in animo.mensaje or "ogg" in animo.mensaje %}
-                <video class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+                <video class="imagen_reto rounded col-md-6 mx-auto d-block
                     col-xl-5" controls>
                     <source src="{{ animo.mensaje }}" type="video/mp4">
                 </video>

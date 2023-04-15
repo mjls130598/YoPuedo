@@ -20,7 +20,7 @@
          id="participante-{{participante.email}}">
         <input type="hidden" name="participante" value="{{participante.email}}">
         <div class="foto-perfil ratio-mio ratio-4x3 col-4 col-md-2 col-lg-1">
-            <img class="imagen-perfil img-fluid rounded mx-auto d-block"
+            <img class="imagen-perfil rounded mx-auto d-block"
                  src="{{participante.foto_perfil}}">
         </div>
         <div class="nombre col-4 col-md-7 col-lg-8 align-self-center">
@@ -96,7 +96,7 @@
                 divFoto = document.createElement("div");
                 divFoto.className = "foto-perfil col-4 col-md-2 col-lg-1";
                 imagen = document.createElement("img");
-                imagen.className = "imagen-perfil img-fluid rounded mx-auto d-block";
+                imagen.className = "imagen-perfil rounded mx-auto d-block";
                 imagen.setAttribute("src", participante.foto_perfil);
                 divFoto.appendChild(imagen);
                 divParticipante.appendChild(divFoto);
