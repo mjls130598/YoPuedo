@@ -121,7 +121,7 @@
       // Remove dialog content after hiding
       htmx.on("hidden.bs.modal", () => {
         document.getElementById("dialog").innerHTML = ""
-        window.location.href = "{% url 'solicitud_amistad' usuario=email %}";
+        window.location.href = "{% url 'solicitud' usuario=email %}";
       })
     })()
     </script>
