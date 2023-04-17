@@ -1862,12 +1862,22 @@ def solicitud_amistad(request, usuario):
     logger.info("Comprobamos que existe usuario")
     amigo = get_object_or_404(Usuario, email=usuario)
 
-    logger.info("Devolvemos información del usuario")
-    return render(request, "YoPuedo/perfil.html", {
-        'email': amigo.email,
-        'nombre': amigo.nombre,
-        'foto_perfil': amigo.foto_perfil
-    })
+    # Miramos si hay una amistad
+    amistad = Amistad.objects.filter(Q(amigo=request.user, otro_amigo=amigo) |
+                                     Q(amigo=amigo, otro_amigo=request.user))
+
+    # Si no son amigos -> solicitud
+    if not amistad.exists():
+        logger.info("Devolvemos información del usuario")
+        return render(request, "YoPuedo/perfil.html", {
+            'email': amigo.email,
+            'nombre': amigo.nombre,
+            'foto_perfil': amigo.foto_perfil
+        })
+
+    # Si lo son -> perfil
+    else:
+        redirect(f'/perfil/{usuario}')
 
 
 ##########################################################################################
