@@ -1759,6 +1759,9 @@ def dejar_seguir(request, amigo):
                                | Q(amigo__email=amigo,
                                    otro_amigo=request.user)).first().delete()
 
+        logger.info("Creamos alerta para informar de lo realizado")
+        messages.info(request, f"Hemos dejado de seguir a {amigo} correctamente")
+
         logger.info("Rediriguimos a mis amigos")
         return redirect("/mis_amigos/")
 
