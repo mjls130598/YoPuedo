@@ -39,20 +39,20 @@
         </div>
         <div class="botones d-grid justify-content-center">
             {% if not '/solicitud_amistad/' in request.get_full_path %}
-            <button class="btn btn-primary btn-block fw-bold eliminar"
+            <button class="btn btn-primary btn-block fw-bold eliminar mt-2"
                     onclick="dejarSeguir('{{ email }}')">
                 <i class="fa-sharp fa-solid fa-trash"></i>
                 Dejar de seguir
             </button>
             {% else %}
-            <button class="btn btn-primary btn-block fw-bold aceptar"
+            <button class="btn btn-primary btn-block fw-bold aceptar mt-2"
                     data-bs-toggle="modal"
                     hx-get="{% url 'validar_clave' tipo=email email=request.user.email %}"
                     hx-target="#dialog">
                 <i class="fa-solid fa-user-plus"></i>
                 Aceptar solicitud
             </button>
-            <button class="btn btn-primary btn-block fw-bold eliminar"
+            <button class="btn btn-primary btn-block fw-bold eliminar mt-2"
                     onclick="rechazar('{{ email }}')">
                 <i class="fa-sharp fa-solid fa-trash"></i>
                 Rechazar solicitud
