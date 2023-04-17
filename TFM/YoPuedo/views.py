@@ -154,6 +154,8 @@ def validar_clave(request, tipo, email):
             # Envío de clave para aceptar solicitud
             logger.info("Enviamos clave para aceptar solicitud de amistad")
             clave = Utils.claves_aleatorias(10)
+            request.user.clave = clave
+            request.user.save()
             enviar_clave(clave=clave, email=request.user.email,
                          contexto="Nueva solicitud de amistad")
 
@@ -1859,12 +1861,6 @@ def solicitud_amistad(request, usuario):
     # Obtención del usuario que va a ser nuestro nuevo amigo
     logger.info("Comprobamos que existe usuario")
     amigo = get_object_or_404(Usuario, email=usuario)
-
-    # Envío de clave para aceptar solicitud
-    logger.info("Enviamos clave para aceptar solicitud")
-    clave = Utils.claves_aleatorias(10)
-    enviar_clave(clave=clave, email=request.user.email,
-                 contexto="Nueva solicitud de amistad")
 
     logger.info("Devolvemos información del usuario")
     return render(request, "YoPuedo/perfil.html", {
