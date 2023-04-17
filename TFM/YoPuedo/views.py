@@ -190,7 +190,11 @@ def validar_clave(request, tipo, email):
 
                     # Creamos nueva amistad
                     logger.info("Aceptamos amistad")
-                    Amistad(amigo=usuario, otro_amigo=user).save()
+                    amistad = Amistad()
+                    amistad.save()
+                    amistad.amigo = request.user
+                    amistad.otro_amigo = usuario
+                    amistad.save()
 
                     # Borramos notificación
                     logger.info("Borramos notificación con la solicitud de amistad")
