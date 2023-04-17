@@ -205,7 +205,9 @@ def validar_clave(request, tipo, email):
                 logger.info(f"Intento nº {contador + 1}")
                 data = {'contador': contador + 1, 'email': email, 'clave': clave}
                 clave_form = ClaveForm(data)
-                clave_form.is_valid()
+                logger.info("Enviamos mensaje de alerta")
+                messages.warning(request, f"Solo te quedan "
+                                          f"{3 - (contador + 1)} intento/s")
 
             else:
                 logger.info("Demasiados intentos. Volvemos al principio")
