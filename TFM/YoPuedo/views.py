@@ -154,8 +154,8 @@ def validar_clave(request, tipo, email):
             # Envío de clave para aceptar solicitud
             logger.info("Enviamos clave para aceptar solicitud de amistad")
             clave = Utils.claves_aleatorias(10)
-            request.user.clave = clave
-            request.user.save()
+            user = Usuario.objects.get(email=email)
+            user.update_clave(clave)
             enviar_clave(clave=clave, email=request.user.email,
                          contexto="Nueva solicitud de amistad")
 
@@ -1546,8 +1546,7 @@ def eliminar(request):
     # Creamos la clave y la guardamos
     clave = Utils.claves_aleatorias(10)
     usuario = Usuario.objects.get(email=request.user.email)
-    usuario.clave_aleatoria = clave
-    usuario.save()
+    usuario.update_clave(clave)
 
     # La enviamos al usuario pertinente
     enviar_clave(clave, request.user.email, f"Eliminar la cuenta de "
