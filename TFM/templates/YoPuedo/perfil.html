@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="botones d-grid justify-content-center">
-            {% if not '/solicitud_amistad/' in request.get_path %}
+            {% if not '/solicitud_amistad/' in request.get_full_path %}
             <button class="btn btn-primary btn-block fw-bold eliminar"
                     onclick="dejarSeguir('{{ email }}')">
                 <i class="fa-sharp fa-solid fa-trash"></i>
@@ -60,14 +60,14 @@
             {% endif %}
         </div>
     </div>
-    {% if not '/solicitud_amistad/' in request.get_path %}
+    {% if not '/solicitud_amistad/' in request.get_full_path %}
     <div class="p-2 retos">
         {% include 'YoPuedo/elementos/reto.html' with retos=retos %}
     </div>
     {% endif %}
 </div>
 <script>
-{% if not '/solicitud_amistad/' in request.get_path %}
+{% if not '/solicitud_amistad/' in request.get_full_path %}
 /****************************************************************************************/
 
     // Función para dejar a una persona
@@ -92,36 +92,38 @@
 </script>
 {% endblock %}
 
-{% block modales %}
-<div class="modal fade" id="modal">
-    <div class="modal-dialog row align-items-center my-0" id="dialog" hx-target="this">
+{% if '/solicitud_amistad/' in request.get_full_path %}
+    {% block modales %}
+    <div class="modal fade" id="modal">
+        <div class="modal-dialog row align-items-center my-0" id="dialog" hx-target="this">
+        </div>
     </div>
-</div>
-<script>
+    <script>
 
-// Métodos para la gestión del modal
+    // Métodos para la gestión del modal
 
-  ;(function () {
-  const modal = new bootstrap.Modal(document.getElementById("modal"))
-  htmx.on("htmx:afterSwap", (e) => {
-    // Response targeting #dialog => show the modal
-    if (e.detail.target.id == "dialog") {
-      modal.show()
-    }
-  })
+      ;(function () {
+      const modal = new bootstrap.Modal(document.getElementById("modal"))
+      htmx.on("htmx:afterSwap", (e) => {
+        // Response targeting #dialog => show the modal
+        if (e.detail.target.id == "dialog") {
+          modal.show()
+        }
+      })
 
-  htmx.on("htmx:beforeSwap", (e) => {
-    // Empty response targeting #dialog => hide the modal
-    if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
-      modal.hide()
-      e.detail.shouldSwap = false
-    }
-  })
-  // Remove dialog content after hiding
-  htmx.on("hidden.bs.modal", () => {
-    document.getElementById("dialog").innerHTML = ""
-    window.location.href = "{% url 'perfil' amigo=email %}";
-  })
-})()
-</script>
-{% endblock %}
+      htmx.on("htmx:beforeSwap", (e) => {
+        // Empty response targeting #dialog => hide the modal
+        if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
+          modal.hide()
+          e.detail.shouldSwap = false
+        }
+      })
+      // Remove dialog content after hiding
+      htmx.on("hidden.bs.modal", () => {
+        document.getElementById("dialog").innerHTML = ""
+        window.location.href = "{% url 'perfil' amigo=email %}";
+      })
+    })()
+    </script>
+    {% endblock %}
+{% endif %}
