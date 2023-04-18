@@ -110,7 +110,7 @@
 
     // Función para cambiar de página de notificaciones
     function urlPagina(pagina){
-        enlace = "{% url 'notificaciones' %}" +  pagina;
+        enlace = "{% url 'notificaciones' %}?" +  pagina;
         htmx.ajax('GET', enlace)
     }
 

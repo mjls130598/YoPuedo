@@ -129,7 +129,7 @@
 
     // Función para la redirección de paginación
     function irPagina(pagina){
-        enlace = "{{ request.get_full_path }}&page=" + pagina;
+        enlace = "{{ request.get_full_path }}?page=" + pagina;
 
         htmx.ajax('GET', enlace)
     }
