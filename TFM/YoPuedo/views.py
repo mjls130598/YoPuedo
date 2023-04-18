@@ -1776,13 +1776,18 @@ def dejar_seguir(request, amigo):
 # Función para dejar a una persona
 @login_required
 def ver_perfil(request, amigo):
-    # Obtenemos el número de página
-    logger.info("Recolectamos el número de página")
-    pagina = request.GET.get('page')
-
     # Obtenemos amigo
     logger.info("Buscamos la información del amigo")
     usuario = Usuario.objects.get(email=amigo)
+
+    # Comprobamos que existe una amistad entre los dos usuarios
+    logger.info("Comprobamos amistad entre dos usuarios")
+    get_object_or_404(Amistad, Q(amigo=request.user, otro_amigo=usuario) |
+                      Q(amigo=usuario, otro_amigo=request.user))
+
+    # Obtenemos el número de página
+    logger.info("Recolectamos el número de página")
+    pagina = request.GET.get('page')
 
     # Recogemos retos comunes entre los dos usuarios
     logger.info("Obtenemos los retos que tienen en común los usuarios")
