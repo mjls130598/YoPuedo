@@ -65,6 +65,7 @@
       </button>
   </div>
 {% endfor %}
+{% if retos|length > 0 %}
 <div class="m-3" id="paginador">
   <nav>
     <ul class="pagination justify-content-center">
@@ -112,6 +113,7 @@
     </ul>
   </nav>
 </div>
+{% endif %}
 <script>
     function urlPagina(pagina){
         const urlParams = new URLSearchParams(window.location.search);

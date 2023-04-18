@@ -49,6 +49,7 @@
         </div>
         {% endfor %}
     </div>
+    {% if participantes|length > 0 %}
     <div class="m-3" id="paginador">
       <nav>
         <ul class="pagination justify-content-center">
@@ -97,6 +98,7 @@
       </nav>
     </div>
   </div>
+  {% endif %}
   <div class="modal-footer justify-content-end">
     <button type="button" class="btn btn-primary fw-bold aceptar" data-bs-dismiss="modal"
             onclick="cambiarCoordinador()">

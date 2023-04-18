@@ -49,6 +49,7 @@
         </div>
         {% endfor %}
     </div>
+    {% if amigos|length > 0 %}
     <div class="m-3" id="paginador">
       <nav>
         <ul class="pagination justify-content-center">
@@ -96,6 +97,7 @@
         </ul>
       </nav>
     </div>
+    {% endif %}
   </div>
   <div class="modal-footer justify-content-end">
     <button type="button" class="btn btn-primary fw-bold aceptar" data-bs-dismiss="modal"
