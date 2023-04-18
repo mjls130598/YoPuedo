@@ -1880,7 +1880,7 @@ def solicitud_amistad(request, usuario):
 
     # Si lo son -> perfil
     else:
-        redirect(f'/perfil/{usuario}')
+        return redirect(f'/perfil/{usuario}')
 
 
 ##########################################################################################
