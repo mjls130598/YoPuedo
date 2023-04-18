@@ -1,6 +1,6 @@
 .perfil{
     background-color: #EEF8F9;
-    height: 80vh;
+    max-height: 80vh;
     overflow-x: hidden;
     overflow-y: auto;
 }
