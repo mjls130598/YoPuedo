@@ -97,8 +97,7 @@
   {% endif %}
 
   <div class="modal fade" id="modal">
-    <div class="modal-dialog row align-items-center my-0" id="dialog" hx-target="this"
-         data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog row align-items-center my-0" id="dialog" hx-target="this">
     </div>
   </div>
 </body>
@@ -114,7 +113,8 @@
 // Métodos para la gestión del modal
 
   ;(function () {
-  const modal = new bootstrap.Modal(document.getElementById("modal"))
+  const modal = new bootstrap.Modal(document.getElementById("modal"), { backdrop:
+  "static ", keyboard: false })
   htmx.on("htmx:afterSwap", (e) => {
     // Response targeting #dialog => show the modal
     if (e.detail.target.id == "dialog") {
