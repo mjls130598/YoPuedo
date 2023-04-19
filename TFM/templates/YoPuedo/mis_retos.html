@@ -232,7 +232,7 @@
     {% if request.get_full_path == "/mis_retos/" %}
       <script>
             window.onload = () => {
-                $('#modal').modal('show');
+                $('#modal').modal('show', { backdrop: "static ", keyboard: false });
             }
       </script>
     {% endif %}
