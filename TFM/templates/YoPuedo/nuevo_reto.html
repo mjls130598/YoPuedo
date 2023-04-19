@@ -199,7 +199,8 @@
   <script>
      // Funciones para controlar el modal
     ;(function () {
-      const modal = new bootstrap.Modal(document.getElementById("modal-amigos"))
+      const modal = new bootstrap.Modal(document.getElementById("modal-amigos"),
+      { backdrop: "static ", keyboard: false })
       htmx.on("htmx:afterSwap", (e) => {
         // Response targeting #dialog => show the modal
         if (e.detail.target.id == "dialog-amigos") {
