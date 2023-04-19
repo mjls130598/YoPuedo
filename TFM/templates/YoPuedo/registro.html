@@ -97,7 +97,8 @@
   {% endif %}
 
   <div class="modal fade" id="modal">
-    <div class="modal-dialog row align-items-center my-0" id="dialog" hx-target="this">
+    <div class="modal-dialog row align-items-center my-0" id="dialog" hx-target="this"
+         data-bs-backdrop="static" data-bs-keyboard="false">
     </div>
   </div>
 </body>
@@ -134,8 +135,4 @@
     window.location.href = "{{ request.get_full_path }}";
   })
 })()
-
-// Desactivar "escapadas" de los modales por defecto
-$.fn.modal.prototype.constructor.Constructor.DEFAULTS.backdrop = 'static';
-$.fn.modal.prototype.constructor.Constructor.DEFAULTS.keyboard = false;
 </script>
