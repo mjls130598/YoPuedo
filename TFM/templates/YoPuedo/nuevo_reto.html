@@ -185,8 +185,8 @@
   {% if tipo_reto == "" and "/nuevo_reto/" in request.get_full_path%}
     <script>
           window.onload = () => {
-              $('#modal').modal('show');
               $('#modal').modal({ backdrop: "static ", keyboard: false });
+              $('#modal').modal('show');
           }
     </script>
   {% endif %}
