@@ -104,7 +104,7 @@
             // fade in the overlay
             $('.overlay').addClass('active');
 
-            htmx.ajax('GET', '{% url 'nuevas_notificaciones' %}).then((resp) => {
+            htmx.ajax('GET', '{% url 'nuevas_notificaciones' %}').then((resp) => {
               console.log(resp);
             });
         });
