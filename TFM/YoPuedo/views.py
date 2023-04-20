@@ -265,11 +265,15 @@ def mis_retos(request):
                     filter(Q(estado='Propuesto'),
                            Q(participante__usuario=request.user), cnt__gt=1)
 
-        logger.info("Paginamos los retos")
-        paginator_propuestos = Paginator(propuestos, 3)
+        if len(propuestos) > 0:
+            logger.info("Paginamos los retos")
+            paginator_propuestos = Paginator(propuestos, 3)
 
-        logger.info("Obtenemos los retos de la página indicada para ese estado")
-        propuestos = paginator_propuestos.get_page(1)
+            logger.info("Obtenemos los retos de la página indicada para ese estado")
+            propuestos = paginator_propuestos.get_page(1)
+
+        else:
+            messages.info("No hay retos en este estado con la categoría dada")
 
     elif tipo != '':
         logger.error("Tipo incorrecto")
@@ -370,17 +374,21 @@ def get_retos(request):
                         filter(animador__usuario=request.user, categoria=categoria,
                                cnt__gt=1)
 
-    logger.info("Paginamos cada uno de los estados del reto")
-    paginator = Paginator(retos, 3)
+    if len(retos) > 0:
+        logger.info("Paginamos cada uno de los estados del reto")
+        paginator = Paginator(retos, 3)
 
-    logger.info("Obtenemos los retos de la página indicada para ese estado")
+        logger.info("Obtenemos los retos de la página indicada para ese estado")
 
-    try:
-        retos = paginator.get_page(pagina)
-    except PageNotAnInteger:
-        retos = paginator.get_page(1)
-    except EmptyPage:
-        retos = paginator.get_page(1)
+        try:
+            retos = paginator.get_page(pagina)
+        except PageNotAnInteger:
+            retos = paginator.get_page(1)
+        except EmptyPage:
+            retos = paginator.get_page(1)
+
+    else:
+        messages.info("No hay retos en este estado con la categoría dada")
 
     return render(request, "YoPuedo/elementos/reto.html",
                   {"estado": estado, "retos": retos})
