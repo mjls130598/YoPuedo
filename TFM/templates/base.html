@@ -48,8 +48,11 @@
           </a>
         </li>
         <li class="{% if 'notificaciones' in request.path %}active{% endif %}">
-          <a href="{% url 'notificaciones' %}">
+          <a href="{% url 'notificaciones' %}" id="notificaciones">
             <i class="bi bi-bell-fill"></i>Notificaciones
+            <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+              <span class="visually-hidden">Nuevas notificaciones</span>
+            </span>
           </a>
         </li>
       </ul>
@@ -100,6 +103,10 @@
             $('#sidebar').addClass('active');
             // fade in the overlay
             $('.overlay').addClass('active');
+
+            htmx.ajax('GET', '/example', '#myDiv').then((resp) => {
+              console.log(resp);
+            });
         });
     });
 </script>

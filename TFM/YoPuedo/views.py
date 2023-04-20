@@ -1842,6 +1842,20 @@ def get_notificaciones(request):
     return render(request, "YoPuedo/notificaciones.html",
                   {'notificaciones': notificaciones})
 
+##########################################################################################
+
+
+# Función para devolver las notificaciones no leídas de una persona
+@login_required
+def nuevas_notificaciones(request):
+    # Comprobamos si hay notificaciones sin leer
+    logger.info(f"Comprobamos las nuevas notificaciones de {request.user.email}")
+    notificaciones = Notificacion.objects.filter(usuario=request.user,
+                                                 estado="Recibido").exists()
+
+    # Enviamos si hay o no notificaciones nuevas
+    return HttpResponse(notificaciones)
+
 
 ##########################################################################################
 
