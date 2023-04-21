@@ -1349,10 +1349,8 @@ def calificar_etapa(request, id_etapa):
                     siguiente_etapa = etapa.reto.etapa_set.all()[num_etapa + 1]
                     siguiente_etapa.estado = 'En proceso'
                     siguiente_etapa.save()
-                    messages.success(request, "¡Ya se puede empezar la siguiente etapa!")
 
             logger.info(f"Devolvemos el estado {HTTPStatus.CREATED}")
-            messages.success(request, "Se ha calificado la etapa correctamente")
             return HttpResponse(status=HTTPStatus.CREATED)
 
         logger.info(f'Devolvemos el estado {HTTPStatus.BAD_REQUEST}')
@@ -1419,12 +1417,10 @@ def pruebas(request, id_etapa):
                 prueba.save()
 
                 logger.info(f"Devolvemos status {HTTPStatus.CREATED}")
-                messages.success(request, "Se ha guardado correctamente la prueba")
                 return HttpResponse(status=HTTPStatus.CREATED,
                                     headers={'HX-Trigger': 'pruebaListaActualizar'})
 
             else:
-                messages.error(request, "Hay algún problema para guardar la prueba")
                 logger.error(f"Error al validar el formulario PRUEBAS de {id_etapa}")
 
         else:
@@ -1518,14 +1514,10 @@ def animos(request, id_etapa):
                     notificacion.save()
 
                 logger.info(f"Devolvemos status {HTTPStatus.CREATED}")
-                messages.success(request, "Se ha guardado correctamente el mensaje de "
-                                          "ánimo")
                 return HttpResponse(status=HTTPStatus.CREATED,
                                     headers={'HX-Trigger': 'animosListaActualizar'})
 
             else:
-                messages.error(request, "Hay algún problema para guardar el mensaje de " \
-                                     "ánimo")
                 logger.error(f"Error al validar el formulario ÁNIMO de {id_etapa}")
 
         else:

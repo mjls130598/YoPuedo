@@ -9,7 +9,7 @@
             {% if "mp3" in prueba.prueba or "acc" in prueba.prueba or "ogg" in prueba.prueba or "wma" in prueba.prueba %}
             <div class="col-md-4 col-12 mb-4 m-md-0 informacion align-self-center">
             {% elif "jpg" in prueba.prueba or "jpeg" in prueba.prueba or "png" in prueba.prueba or "svg" in prueba.prueba or "gif" in prueba.prueba %}
-            <div class="col-md-9 col-12 mb-4 m-md-0 informacion align-self-center ratio-mio ratio-4x3">
+            <div class="col-md-3 col-12 mx-md-4 informacion align-self-center ratio-mio ratio-4x3">
             {% else %}
             <div class="col-md-9 col-12 mb-4 m-md-0 informacion align-self-center">
             {% endif %}
@@ -19,8 +19,8 @@
                     <source src="{{ prueba.prueba }}" type="audio/mpeg">
                 </audio>
             {% elif "jpg" in prueba.prueba or "jpeg" in prueba.prueba or "png" in prueba.prueba or "svg" in prueba.prueba or "gif" in prueba.prueba %}
-                <img class="imagen_reto rounded col-md-6 mx-auto d-block
-                    col-xl-5" src="{{ prueba.prueba }}">
+                <img class="imagen_reto rounded p-0 m-0 d-block"
+                     src="{{ prueba.prueba }}">
             {% elif "mp4" in prueba.prueba or "ogg" in prueba.prueba %}
                 <video class="imagen_reto rounded col-md-6 mx-auto d-block
                     col-xl-5" controls>
