@@ -1,5 +1,9 @@
 {% load tags_categorias %}
 
+{% if messages %}
+    {% include 'YoPuedo/elementos/alerta.html'%}
+{% endif %}
+
 {% for reto in retos %}
   <div class="row justify-content-between border-bottom border-dark p-md-3 p-2">
       <div class="col-2 align-self-center text-center categoria">
