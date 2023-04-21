@@ -6,23 +6,7 @@
   </div>
   <div class="modal-body container">
     {% if messages %}
-        {% for message in messages %}
-            <div class="alert {{ message.tags }} alert-dismissible fade show mt-3"
-                 role="alert">
-                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
-                     aria-label="{{ message.tags }}:">
-                    {% if 'success' in message.tags %}
-                    <use xlink:href="#check-circle-fill"/>
-                    {% elif 'primary' in message.tags %}
-                    <use xlink:href="#info-fill"/>
-                    {% else %}
-                    <use xlink:href="#exclamation-triangle-fill"/>
-                    {% endif %}
-                </svg>
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {% endfor %}
+        {% include 'YoPuedo/elementos/alerta.html'%}
     {% endif %}
     {% csrf_token %}
     <div class="row align-items-center">

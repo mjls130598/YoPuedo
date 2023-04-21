@@ -23,6 +23,9 @@
     </form>
 
     <div class="amigos m-md-2 my-2">
+        {% if messages %}
+            {% include 'YoPuedo/elementos/alerta.html'%}
+        {% endif %}
         {% for amigo in amigos %}
         <div class="row pt-2 pb-2" id="amigo-{{amigo.email}}">
             <div class="foto-perfil col-4 col-lg-3 ratio-mio ratio-4x3 p-0 mx-md-2">

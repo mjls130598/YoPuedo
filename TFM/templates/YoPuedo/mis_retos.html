@@ -20,6 +20,10 @@
         </h4>
     </section>
 
+    {% if messages %}
+        {% include 'YoPuedo/elementos/alerta.html'%}
+    {% endif %}
+
     <!-- BOTONES CABECERA -->
     <section class="row justify-content-between" id="botones_misretos">
         <div class="col-2 align-items-start">

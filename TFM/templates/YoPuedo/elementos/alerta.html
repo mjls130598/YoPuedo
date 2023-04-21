@@ -1,0 +1,26 @@
+{% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible fade show mt-3"
+         role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+             aria-label="{{ message.tags }}:">
+            {% if 'success' in message.tags %}
+            <use xlink:href="#check-circle-fill"/>
+            {% elif 'primary' in message.tags %}
+            <use xlink:href="#info-fill"/>
+            {% else %}
+            <use xlink:href="#exclamation-triangle-fill"/>
+            {% endif %}
+        </svg>
+        <div>
+            <div class="col-8 speech">
+                <h6 id="texto_reproducir">
+                    {{ message }}
+                </h6>
+            </div>
+            <div class="col-1">
+                {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='texto_reproducir' %}
+            </div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}

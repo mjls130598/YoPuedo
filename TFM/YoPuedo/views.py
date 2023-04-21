@@ -396,6 +396,7 @@ def get_retos(request):
 
 ##########################################################################################
 
+
 # Función de creación de retos
 @login_required
 def nuevo_reto(request):
@@ -602,6 +603,9 @@ def nuevo_reto(request):
                                 f"{usuario.foto_perfil}, {usuario.nombre}")
                     participantes.append({'usuario': usuario})
 
+                messages.error(request, "Por favor, corrija los errores encontrados por"
+                                        " las distintas pestañas de este formulario")
+
     elif tipo != '':
         logger.error("Tipo incorrecto")
         tipo = ""
@@ -651,17 +655,22 @@ def get_amigos(request):
 
     amigos = list(chain(amigos_amigo, amigos_otro))
 
-    logger.info("Paginamos los amigos de esa persona")
-    paginator = Paginator(amigos, 3)
+    if len(amigos) > 0:
+        logger.info("Paginamos los amigos de esa persona")
+        paginator = Paginator(amigos, 3)
 
-    logger.info("Obtenemos los amigos de la página indicada para ese estado")
+        logger.info("Obtenemos los amigos de la página indicada para ese estado")
 
-    try:
-        amigos = paginator.get_page(pagina)
-    except PageNotAnInteger:
-        amigos = paginator.get_page(1)
-    except EmptyPage:
-        amigos = paginator.get_page(1)
+        try:
+            amigos = paginator.get_page(pagina)
+        except PageNotAnInteger:
+            amigos = paginator.get_page(1)
+        except EmptyPage:
+            amigos = paginator.get_page(1)
+
+    else:
+        messages.info(request, "No tienes aún ningún amigo. Ve a 'Mis amigos' y pulsa "
+                               "sobre 'Añadir amigos' para buscar nuevos amigos.")
 
     return render(request, "YoPuedo/elementos/modal-amigos.html",
                   {"relacion": relacion, "amigos": amigos, "form_consulta": formulario})
@@ -745,6 +754,8 @@ def iniciar_reto(request, id_reto):
         etapa.save()
 
         logger.info(f"Redirigimos a la página del reto")
+        messages.success(request, "¡Ya podéis empezar a trabajar en la primera etapa del "
+                               "reto!")
         return redirect(f"/reto/{id_reto}")
 
     else:
@@ -1107,6 +1118,8 @@ def editar_reto(request, id_reto):
                     reto.participante_set.get(usuario__email=participante_email).delete()
 
                 # Redireccionamos a la visualización del reto
+                messages.success(request, "Se ha guardado correctamente la información "
+                                          "modificada de este reto")
                 return redirect(f'/reto/{id_reto}')
 
             else:
@@ -1132,6 +1145,9 @@ def editar_reto(request, id_reto):
                     logger.info(f"Obtenemos datos usuario: {usuario.email}, "
                                 f"{usuario.foto_perfil}, {usuario.nombre}")
                     participantes.append({'usuario': usuario})
+
+                messages.error(request, "Por favor, corrija los errores encontrados por"
+                                        " las distintas pestañas de este formulario")
 
         return render(request, "YoPuedo/nuevo_reto.html",
                       {"general_form": general_form,
@@ -1168,6 +1184,7 @@ def eliminar_reto(request, id_reto):
         reto.delete()
 
         logger.info(f"Redirigimos a la página de mis retos")
+        messages.info(request, "Eliminado el reto correctamente")
         return redirect(f"/mis_retos/")
 
     else:
@@ -1265,6 +1282,7 @@ def animador_reto(request, id_reto):
         Utils.borrar_animo_reto(request.user, reto)
         Animador.objects.filter(reto=reto, usuario=request.user).delete()
 
+        messages.success("Se ha dejado de animar el reto correctamente")
         return redirect('/mis_retos/')
 
     else:
@@ -1331,8 +1349,10 @@ def calificar_etapa(request, id_etapa):
                     siguiente_etapa = etapa.reto.etapa_set.all()[num_etapa + 1]
                     siguiente_etapa.estado = 'En proceso'
                     siguiente_etapa.save()
+                    messages.success(request, "¡Ya se puede empezar la siguiente etapa!")
 
             logger.info(f"Devolvemos el estado {HTTPStatus.CREATED}")
+            messages.success(request, "Se ha calificado la etapa correctamente")
             return HttpResponse(status=HTTPStatus.CREATED)
 
         logger.info(f'Devolvemos el estado {HTTPStatus.BAD_REQUEST}')
@@ -1399,10 +1419,12 @@ def pruebas(request, id_etapa):
                 prueba.save()
 
                 logger.info(f"Devolvemos status {HTTPStatus.CREATED}")
+                messages.success("Se ha guardado correctamente la prueba")
                 return HttpResponse(status=HTTPStatus.CREATED,
                                     headers={'HX-Trigger': 'pruebaListaActualizar'})
 
             else:
+                messages.error("Hay algún problema para guardar la prueba")
                 logger.error(f"Error al validar el formulario PRUEBAS de {id_etapa}")
 
         else:
@@ -1496,10 +1518,13 @@ def animos(request, id_etapa):
                     notificacion.save()
 
                 logger.info(f"Devolvemos status {HTTPStatus.CREATED}")
+                messages.success(request, "Se ha guardado correctamente el mensaje de "
+                                          "ánimo")
                 return HttpResponse(status=HTTPStatus.CREATED,
                                     headers={'HX-Trigger': 'animosListaActualizar'})
 
             else:
+                messages.error("Hay algún problema para guardar el mensaje de ánimo")
                 logger.error(f"Error al validar el formulario ÁNIMO de {id_etapa}")
 
         else:
@@ -1666,18 +1691,23 @@ def mis_amigos(request):
     logger.info("Unimos amigos y los ordenamos")
     amistades = sorted(list(chain(amigos, otros_amigos)), key=lambda x: x['nombre'])
 
-    # Los paginamos en 5 personas por página
-    logger.info("Paginamos los amigos de esa persona")
-    paginator = Paginator(amistades, 5)
+    if len(amistades) > 0:
+        # Los paginamos en 5 personas por página
+        logger.info("Paginamos los amigos de esa persona")
+        paginator = Paginator(amistades, 5)
 
-    logger.info("Obtenemos los amigos de la página indicada para ese estado")
+        logger.info("Obtenemos los amigos de la página indicada para ese estado")
 
-    try:
-        amigos = paginator.get_page(pagina)
-    except PageNotAnInteger:
-        amigos = paginator.get_page(1)
-    except EmptyPage:
-        amigos = paginator.get_page(1)
+        try:
+            amigos = paginator.get_page(pagina)
+        except PageNotAnInteger:
+            amigos = paginator.get_page(1)
+        except EmptyPage:
+            amigos = paginator.get_page(1)
+
+    else:
+        messages.info("No tienes aún ningún amigo. Dale al botón 'Añadir amigos' y "
+                      "encuentra tus nuevos amigos")
 
     return render(request, 'YoPuedo/mis_amigos.html', {'amigos': amigos})
 
