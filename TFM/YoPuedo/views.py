@@ -273,7 +273,7 @@ def mis_retos(request):
             propuestos = paginator_propuestos.get_page(1)
 
         else:
-            messages.info("No hay retos en este estado con la categoría dada")
+            messages.info(request,"No hay retos en este estado con la categoría dada")
 
     elif tipo != '':
         logger.error("Tipo incorrecto")
@@ -388,7 +388,7 @@ def get_retos(request):
             retos = paginator.get_page(1)
 
     else:
-        messages.info("No hay retos en este estado con la categoría dada")
+        messages.info(request, "No hay retos en este estado con la categoría dada")
 
     return render(request, "YoPuedo/elementos/reto.html",
                   {"estado": estado, "retos": retos})
@@ -1282,7 +1282,7 @@ def animador_reto(request, id_reto):
         Utils.borrar_animo_reto(request.user, reto)
         Animador.objects.filter(reto=reto, usuario=request.user).delete()
 
-        messages.success("Se ha dejado de animar el reto correctamente")
+        messages.success(request, "Se ha dejado de animar el reto correctamente")
         return redirect('/mis_retos/')
 
     else:
@@ -1419,12 +1419,12 @@ def pruebas(request, id_etapa):
                 prueba.save()
 
                 logger.info(f"Devolvemos status {HTTPStatus.CREATED}")
-                messages.success("Se ha guardado correctamente la prueba")
+                messages.success(request, "Se ha guardado correctamente la prueba")
                 return HttpResponse(status=HTTPStatus.CREATED,
                                     headers={'HX-Trigger': 'pruebaListaActualizar'})
 
             else:
-                messages.error("Hay algún problema para guardar la prueba")
+                messages.error(request, "Hay algún problema para guardar la prueba")
                 logger.error(f"Error al validar el formulario PRUEBAS de {id_etapa}")
 
         else:
@@ -1524,7 +1524,8 @@ def animos(request, id_etapa):
                                     headers={'HX-Trigger': 'animosListaActualizar'})
 
             else:
-                messages.error("Hay algún problema para guardar el mensaje de ánimo")
+                messages.error(request, "Hay algún problema para guardar el mensaje de " \
+                                     "ánimo")
                 logger.error(f"Error al validar el formulario ÁNIMO de {id_etapa}")
 
         else:
@@ -1706,8 +1707,8 @@ def mis_amigos(request):
             amigos = paginator.get_page(1)
 
     else:
-        messages.info("No tienes aún ningún amigo. Dale al botón 'Añadir amigos' y "
-                      "encuentra tus nuevos amigos")
+        messages.info(request, "No tienes aún ningún amigo. Dale al botón 'Añadir "
+                              "amigos' y encuentra tus nuevos amigos")
 
     return render(request, 'YoPuedo/mis_amigos.html', {'amigos': amigos})
 
