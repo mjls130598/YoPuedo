@@ -273,7 +273,7 @@ def mis_retos(request):
             propuestos = paginator_propuestos.get_page(1)
 
         else:
-            messages.info(request,"No hay retos en este estado con la categoría dada")
+            messages.info(request, "No hay retos en este estado con la categoría dada")
 
     elif tipo != '':
         logger.error("Tipo incorrecto")
@@ -755,7 +755,7 @@ def iniciar_reto(request, id_reto):
 
         logger.info(f"Redirigimos a la página del reto")
         messages.success(request, "¡Ya podéis empezar a trabajar en la primera etapa del "
-                               "reto!")
+                                  "reto!")
         return redirect(f"/reto/{id_reto}")
 
     else:
@@ -1700,7 +1700,7 @@ def mis_amigos(request):
 
     else:
         messages.info(request, "No tienes aún ningún amigo. Dale al botón 'Añadir "
-                              "amigos' y encuentra tus nuevos amigos")
+                               "amigos' y encuentra tus nuevos amigos")
 
     return render(request, 'YoPuedo/mis_amigos.html', {'amigos': amigos})
 
@@ -1931,9 +1931,10 @@ def rechazar_amistad(request, usuario):
     # Enviamos al usuario a la lista de amigos
     return redirect('/mis_amigos/')
 
+
 ##########################################################################################
 
-# Función para rechazar solicitud de amistad
+# Función para contar cantidad de notificaciones sin leer
 @login_required
 def contador_notificaciones(request):
     # Recogida de notificaciones
