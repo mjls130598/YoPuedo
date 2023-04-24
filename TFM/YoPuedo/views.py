@@ -1931,6 +1931,22 @@ def rechazar_amistad(request, usuario):
     # Enviamos al usuario a la lista de amigos
     return redirect('/mis_amigos/')
 
+##########################################################################################
+
+# Función para rechazar solicitud de amistad
+@login_required
+def contador_notificaciones(request):
+    # Recogida de notificaciones
+    logger.info("Recogemos la cantidad de notificaciones sin leer")
+    contador = Notificacion.objects.filter(usuario=request.user,
+                                           estado='Recibido').count()
+
+    # Transformación a HTML
+    logger.info("Enviamos datos al menú principal")
+    return render(request, 'YoPuedo/elementos/contador_notificaciones.html', {
+        'contador': contador
+    })
+
 
 ##########################################################################################
 

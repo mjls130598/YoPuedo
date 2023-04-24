@@ -48,8 +48,7 @@
           </a>
         </li>
         <li class="{% if 'notificaciones' in request.path %}active{% endif %}">
-          <a href="{% url 'notificaciones' %}" id="notificaciones">
-            <i class="bi bi-bell-fill"></i>Notificaciones
+          <a href="{% url 'notificaciones' %}" id="notificaciones_menu" hx-target="this">
           </a>
         </li>
       </ul>
@@ -60,7 +59,9 @@
       <div id="cabecera" class="container basic">
         <div class="row" id="cabecera_fila">
           <button type="button" id="apertura_menu"
-                  class="btn btn-primary col">
+                  class="btn btn-primary col"
+                  hx-get="{% url 'contador_notificaciones' %}"
+                  hx-target="#notificaciones_menu">
             <i class="bi bi-list"></i>
           </button>
           <h5 class="titulo col">

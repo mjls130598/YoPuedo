@@ -49,4 +49,6 @@ urlpatterns = [
          name="notificacion"),
     path('solicitud_amistad/<str:usuario>', views.solicitud_amistad, name="solicitud"),
     path('rechazar/<str:usuario>', views.rechazar_amistad, name="rechazar"),
+    path('contador_notificaciones/', views.contador_notificaciones,
+         name='contador_notificaciones')
 ]
