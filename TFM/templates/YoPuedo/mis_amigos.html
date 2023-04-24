@@ -124,7 +124,8 @@
 
     // Función para dejar a una persona
     function dejarSeguir(amigo){
-        enlace = "{% url 'dejar_amigo' amigo='amigo' %}".replace("amigo", amigo.toString());
+        enlace = "{% url 'dejar_amigo' amigo='usuario' %}".replace("usuario",
+                    amigo.toString());
         htmx.ajax('POST', enlace, {headers:{'X-CSRFToken': '{{ csrf_token }}'}})
     }
 
