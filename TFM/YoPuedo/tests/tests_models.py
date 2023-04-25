@@ -209,6 +209,39 @@ class RetoModelTest(TestCase):
 
 ##########################################################################################
 
+# Comprobamos el funcionamiento de la tabla AMISTAD
+class AmistadModelTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        usuario1 = Usuario.objects.create_user(email="amistad1@gmail.com",
+                                               nombre="María Jesús",
+                                               password="Password1.",
+                                               clave_fija='clave_fija',
+                                               clave_aleatoria='clave_aleatoria',
+                                               foto_perfil="/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        usuario2 = Usuario.objects.create_user(email="amistad2@gmail.com",
+                                               nombre="María Jesús",
+                                               password="Password1.",
+                                               clave_fija='clave_fija',
+                                               clave_aleatoria='clave_aleatoria',
+                                               foto_perfil="/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        amistad = Amistad()
+        amistad.save()
+        amistad.amigo.add(usuario1)
+        amistad.otro_amigo.add(usuario2)
+        amistad.save()
+
+    def test_amistad(self):
+        amistad = Amistad.objects.last()
+
+        self.assertEqual(amistad.amigo.first().email, "amistad1@gmail.com")
+        self.assertEqual(amistad.otro_amigo.first().email, "amistad2@gmail.com")
+
+
+##########################################################################################
+
 # Comprobamos el funcionamiento de la tabla NOTIFICACIÓN
 class NotificacionModelTest(TestCase):
 
