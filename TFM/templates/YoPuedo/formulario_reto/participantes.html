@@ -18,16 +18,16 @@
     <div class="participante p-2 p-md-3 row"
          id="participante-{{participante.email}}">
         <input type="hidden" name="participante" value="{{participante.email}}">
-        <div class="foto-perfil ratio-mio ratio-4x3 col-4 col-md-2 col-lg-1">
+        <div class="foto-perfil ratio-mio ratio-4x3 col-3 col-md-2 col-lg-1">
             <img class="imagen-perfil rounded mx-auto d-block"
                  src="{{participante.foto_perfil}}">
         </div>
-        <div class="nombre col-4 col-md-7 col-lg-8 align-self-center">
+        <div class="nombre col-5 col-md-7 col-lg-8 align-self-center">
             <h5 class="fw-bold">
                 {{participante.nombre}}
             </h5>
         </div>
-        <div class="botones col-4 col-md-3 align-self-center d-md-flex justify-content-end">
+        <div class="botones col-3 col-md-2 align-self-center d-md-flex justify-content-end">
             <button type="button" class="borrar-amigo btn btn-primary fw-bold borrar-amigo btn btn-primary fw-bold mx-md-1 p-1"
                     onclick="borrarParticipante('{{participante.email}}')">
                 <i class="fa-sharp fa-solid fa-trash m-1"></i>
@@ -93,7 +93,7 @@
 
                 // Creamos div de foto de perfil
                 divFoto = document.createElement("div");
-                divFoto.className = "foto-perfil col-4 col-md-2 col-lg-1";
+                divFoto.className = "foto-perfil ratio-mio ratio-4x3 col-3 col-md-2 col-lg-1";
                 imagen = document.createElement("img");
                 imagen.className = "imagen-perfil rounded mx-auto d-block";
                 imagen.setAttribute("src", participante.foto_perfil);
@@ -102,7 +102,7 @@
 
                 // Creamos el div de nombre
                 divNombre = document.createElement("div");
-                divNombre.className = "nombre col-4 col-md-7 col-lg-8 align-self-center";
+                divNombre.className = "nombre col-5 col-md-7 col-lg-8 align-self-center";
                 nombre = document.createElement("h5");
                 nombre.innerText = participante.nombre;
                 nombre.className = "fw-bold";
@@ -111,7 +111,7 @@
 
                 // Creamos el div de los botones
                 divBotones = document.createElement("div");
-                divBotones.className = "botones col-4 col-md-3 align-self-center d-md-flex justify-content-end";
+                divBotones.className = "botones col-3 col-md-2 align-self-center d-md-flex justify-content-end";
 
                 botonBorrar = document.createElement("button");
                 botonBorrar.className = "borrar-amigo btn btn-primary fw-bold p-1 mx-md-1 mx-lg-2 p-lg-2";
