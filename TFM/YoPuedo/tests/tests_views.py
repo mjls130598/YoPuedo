@@ -1924,3 +1924,39 @@ class AmigosViewTest(TestCase):
         resp = self.client.get('/nuevos_amigos/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertTrue('/registrarse/' in resp.url)
+
+    def test_nuevos_amigos(self):
+        self.client.login(username='amigos_view@yopuedo.com', password='Password1.')
+
+        data = {
+            'amigos': [{'email': "extraño_amigo_view@yopuedo.com"}]
+        }
+
+        resp = self.client.post('/nuevos_amigos/', data)
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual('/mis_amigos/' in resp.url)
+
+        notificacion = Notificacion.objects.filter(
+            usuario__email="extraño_amigo_view@yopuedo.com",
+            enlace='/solicitud_amistad/amigos_view@yopuedo.com')
+
+        self.assertTrue(notificacion.exists())
+
+    def test_solicitud_amistad_no_existente(self):
+        self.client.login(username='extraño_amigo_view@yopuedo.com', password='Password1.')
+
+        resp = self.client.get('/solicitud_amistad/amigo1_view@yopuedo.com')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual('/solicitud_amistad/' in resp.url)
+
+    def test_solicitud_amistad_existente(self):
+        self.client.login(username='amigos_view@yopuedo.com', password='Password1.')
+
+        resp = self.client.get('/solicitud_amistad/amigos_view@yopuedo.com')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual('/perfil/' in resp.url)
+
+    def test_solicitud_amistad_no_accesible(self):
+        resp = self.client.get('/solicitud_amistad/amigo1_view@yopuedo.com')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual('/registrarse/' in resp.url)
