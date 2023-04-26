@@ -1867,6 +1867,25 @@ class AmigosViewTest(TestCase):
                                     clave_fija="clavefijausuario",
                                     foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
+        usuario2 = Usuario.objects.create_user(email="amigo1_view@yopuedo.com",
+                                    nombre="María Jesús", password="Password1.",
+                                    clave_aleatoria="clavealeat",
+                                    clave_fija="clavefijausuario",
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        Usuario.objects.create_user(email="extraño_amigo_view@yopuedo.com",
+                                               nombre="María Jesús",
+                                               password="Password1.",
+                                               clave_aleatoria="clavealeat",
+                                               clave_fija="clavefijausuario",
+                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        amistad = Amistad()
+        amistad.save()
+        amistad.amigo.add(usuario1)
+        amistad.otro_amigo.add(usuario2)
+        amistad.save()
+
     def test_url_no_accesible(self):
         resp = self.client.get('/mis_amigos/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
@@ -1877,3 +1896,15 @@ class AmigosViewTest(TestCase):
 
         resp = self.client.get('/mis_amigos/')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
+
+    def test_ver_perfil_amigo(self):
+        self.client.login(username='amigos_view@yopuedo.com', password='Password1.')
+
+        resp = self.client.get('/perfil/amigo1_view@yopuedo.com')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+
+    def test_ver_perfil_extraño(self):
+        self.client.login(username='amigos_view@yopuedo.com', password='Password1.')
+
+        resp = self.client.get('/perfil/extraño_amigo_view@yopuedo.com')
+        self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
