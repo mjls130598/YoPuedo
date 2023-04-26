@@ -1913,3 +1913,14 @@ class AmigosViewTest(TestCase):
         resp = self.client.get('/perfil/amigo1_view@yopuedo.com')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertTrue('/registrarse/' in resp.url)
+
+    def test_nuevos_amigos_accesible(self):
+        self.client.login(username='amigos_view@yopuedo.com', password='Password1.')
+
+        resp = self.client.get('/nuevos_amigos/')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+
+    def test_nuevos_amigos_no_accesible(self):
+        resp = self.client.get('/nuevos_amigos/')
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        self.assertTrue('/registrarse/' in resp.url)
