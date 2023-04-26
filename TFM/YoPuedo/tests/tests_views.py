@@ -1852,3 +1852,28 @@ class PerfilViewTest(TestCase):
         self.assertTrue(usuario.exists())
         usuario = Usuario.objects.get(email='perfil_view@yopuedo.com')
         self.assertNotEqual(usuario.clave_aleatoria, clave_aleatoria)
+
+
+##########################################################################################
+
+# Comprobamos el funcionamiento de la URL perfil
+class AmigosViewTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        usuario1 = Usuario.objects.create_user(email="amigos_view@yopuedo.com",
+                                    nombre="María Jesús", password="Password1.",
+                                    clave_aleatoria="clavealeat",
+                                    clave_fija="clavefijausuario",
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+    def test_url_no_accesible(self):
+        resp = self.client.get('/mis_amigos/')
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        self.assertTrue('/registrarse/' in resp.url)
+
+    def test_url_accesible(self):
+        self.client.login(username='amigos_view@yopuedo.com', password="Password1.")
+
+        resp = self.client.get('/mis_amigos/')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
