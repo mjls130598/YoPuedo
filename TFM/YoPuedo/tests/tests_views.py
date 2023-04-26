@@ -1886,12 +1886,12 @@ class AmigosViewTest(TestCase):
         amistad.otro_amigo.add(usuario2)
         amistad.save()
 
-    def test_url_no_accesible(self):
+    def test_amigos_url_no_accesible(self):
         resp = self.client.get('/mis_amigos/')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertTrue('/registrarse/' in resp.url)
 
-    def test_url_accesible(self):
+    def test_amigos_url_accesible(self):
         self.client.login(username='amigos_view@yopuedo.com', password="Password1.")
 
         resp = self.client.get('/mis_amigos/')
@@ -1908,3 +1908,8 @@ class AmigosViewTest(TestCase):
 
         resp = self.client.get('/perfil/extraño_amigo_view@yopuedo.com')
         self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
+
+    def test_ver_perfil_no_accesible(self):
+        resp = self.client.get('/perfil/amigo1_view@yopuedo.com')
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        self.assertTrue('/registrarse/' in resp.url)
