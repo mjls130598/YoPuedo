@@ -2008,3 +2008,10 @@ class AmigosViewTest(TestCase):
         )
 
         self.assertTrue(amistad.exists())
+
+    def test_aceptar_no_usuario_(self):
+        self.client.login(username='extraño_amigo_view@yopuedo.com',
+                          password='Password1.')
+
+        resp = self.client.get('/validar_clave/no_usuario_view@yopuedo.com')
+        self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
