@@ -186,7 +186,7 @@ def validar_clave(request, tipo, email):
                 else:
                     # Recogemos usuario aceptado
                     logger.info("Obtenemos usuario")
-                    usuario = Usuario.objects.get(email=tipo)
+                    usuario = get_object_or_404(Usuario, email=tipo)
 
                     # Creamos nueva amistad
                     logger.info("Aceptamos amistad")

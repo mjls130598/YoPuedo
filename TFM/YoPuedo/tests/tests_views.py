@@ -1979,3 +1979,32 @@ class AmigosViewTest(TestCase):
             enlace='/solicitud_amistad/amigos_view@yopuedo.com')
 
         self.assertFalse(notificacion.exists())
+
+    def test_aceptar(self):
+        self.client.login(username='amigos_view@yopuedo.com', password='Password1.')
+
+        data = {
+            'amigos': [{'email': "extraño_amigo_view@yopuedo.com"}]
+        }
+
+        self.client.post('/nuevos_amigos/', data)
+        self.client.logout()
+
+        self.client.login(username='extraño_amigo_view@yopuedo.com',
+                          password='Password1.')
+
+        resp = self.client.get('/validar_clave/amigos_view@yopuedo.com')
+        self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
+
+        notificacion = Notificacion.objects.filter(
+            usuario__email="extraño_amigo_view@yopuedo.com",
+            enlace='/solicitud_amistad/amigos_view@yopuedo.com')
+
+        self.assertFalse(notificacion.exists())
+
+        amistad = Amistad.objects.filter(
+            amigo__email='extraño_amigo_view@yopuedo.com',
+            otro_amigo__email='extraño_amigo_view@yopuedo.com'
+        )
+
+        self.assertTrue(amistad.exists())
