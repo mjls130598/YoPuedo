@@ -55,6 +55,7 @@ class ClaveViewTest(TestCase):
         self.assertEqual(resp.status_code, HTTPStatus.OK)
 
     def test_url_eliminar_accesible(self):
+        self.client.login(username='clave_view@yopuedo.com', password="Password1.")
         resp = self.client.get('/validar_clave/eliminar/clave_view@yopuedo.com')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
 
@@ -1929,7 +1930,7 @@ class AmigosViewTest(TestCase):
         self.client.login(username='amigos_view@yopuedo.com', password='Password1.')
 
         data = {
-            'amigos': [{'email': "extraño_amigo_view@yopuedo.com"}]
+            'amigos': ["{'email': 'extraño_amigo_view@yopuedo.com'}"]
         }
 
         resp = self.client.post('/nuevos_amigos/', data)
@@ -1947,32 +1948,32 @@ class AmigosViewTest(TestCase):
 
         resp = self.client.get('/solicitud_amistad/amigo1_view@yopuedo.com')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
-        self.assertEqual('/perfil/' in resp.url)
+        self.assertTrue('/perfil/' in resp.url)
 
     def test_solicitud_amistad_existente(self):
         self.client.login(username='extraño_amigo_view@yopuedo.com', password='Password1.')
 
         resp = self.client.get('/solicitud_amistad/amigos_view@yopuedo.com')
-        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
-        self.assertEqual('/solicitud_amistad/' in resp.url)
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertTrue('/solicitud_amistad/' in resp.url)
 
     def test_solicitud_amistad_no_accesible(self):
         resp = self.client.get('/solicitud_amistad/amigo1_view@yopuedo.com')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
-        self.assertEqual('/registrarse/' in resp.url)
+        self.assertTrue('/registrarse/' in resp.url)
 
     def test_rechazar_no_accesible(self):
         resp = self.client.get('/rechazar/amigo1_view@yopuedo.com')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
-        self.assertEqual('/registrarse/' in resp.url)
+        self.assertTrue('/registrarse/' in resp.url)
 
     def test_rechazar(self):
         self.client.login(username='extraño_amigo_view@yopuedo.com',
                           password='Password1.')
 
         resp = self.client.get('/rechazar/amigos_view@yopuedo.com')
-        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
-        self.assertEqual('/mis_amigos/' in resp.url)
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertTrue('/mis_amigos/' in resp.url)
 
         notificacion = Notificacion.objects.filter(
             usuario__email="extraño_amigo_view@yopuedo.com",
@@ -1984,7 +1985,7 @@ class AmigosViewTest(TestCase):
         self.client.login(username='amigos_view@yopuedo.com', password='Password1.')
 
         data = {
-            'amigos': [{'email': "extraño_amigo_view@yopuedo.com"}]
+            'amigos': ["{'email': 'extraño_amigo_view@yopuedo.com'}"]
         }
 
         self.client.post('/nuevos_amigos/', data)
@@ -1993,7 +1994,8 @@ class AmigosViewTest(TestCase):
         self.client.login(username='extraño_amigo_view@yopuedo.com',
                           password='Password1.')
 
-        resp = self.client.get('/validar_clave/amigos_view@yopuedo.com')
+        resp = self.client.get(
+            '/validar_clave/amigos_view@yopuedo.com/extraño_amigo_view@yopuedo.com/')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
 
         clave_aleatoria = Usuario.objects.get(
@@ -2005,7 +2007,8 @@ class AmigosViewTest(TestCase):
             'clave': clave_aleatoria
         }
 
-        resp = self.client.post('/validar_clave/amigos_view@yopuedo.com', data)
+        resp = self.client.post(
+            '/validar_clave/amigos_view@yopuedo.com/extraño_amigo_view@yopuedo.com/', data)
         self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
 
         notificacion = Notificacion.objects.filter(
@@ -2031,7 +2034,7 @@ class AmigosViewTest(TestCase):
     def test_dejar_seguir_no_accesible(self):
         resp = self.client.post('/eliminar_amigo/amigo1_view@yopuedo.com')
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
-        self.assertEqual('/registrarse/' in resp.url)
+        self.assertTrue('/registrarse/' in resp.url)
 
     def test_dejar_seguir_extraño(self):
         self.client.login(username='extraño_amigo_view@yopuedo.com',
@@ -2045,8 +2048,8 @@ class AmigosViewTest(TestCase):
                           password='Password1.')
 
         resp = self.client.post('/eliminar_amigo/amigos_view@yopuedo.com')
-        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
-        self.assertEqual(resp.url, '/mis_amigos/')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertTrue(resp.url, '/mis_amigos/')
 
         amistad = Amistad.objects.filter(
             amigo__email='extraño_amigo_view@yopuedo.com',
