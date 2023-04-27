@@ -1805,7 +1805,7 @@ def dejar_seguir(request, amigo):
 
 ##########################################################################################
 
-# Función para dejar a una persona
+# Función para ver perfil de una persona
 @login_required
 def ver_perfil(request, amigo):
     # Obtenemos amigo
