@@ -1994,6 +1994,18 @@ class AmigosViewTest(TestCase):
                           password='Password1.')
 
         resp = self.client.get('/validar_clave/amigos_view@yopuedo.com')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+
+        clave_aleatoria = Usuario.objects.get(
+            email='extraño_amigo_view@yopuedo.com').clave_aleatoria
+
+        data = {
+            'email': 'extraño_amigo_view@yopuedo.com',
+            'contador': 0,
+            'clave': clave_aleatoria
+        }
+
+        resp = self.client.post('/validar_clave/amigos_view@yopuedo.com', data)
         self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
 
         notificacion = Notificacion.objects.filter(
@@ -2015,3 +2027,10 @@ class AmigosViewTest(TestCase):
 
         resp = self.client.get('/validar_clave/no_usuario_view@yopuedo.com')
         self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
+
+    def test_dejar_seguir(self):
+        self.client.login(username='amigos_view@yopuedo.com', password='Password1.')
+
+        data = {
+            'amigos': [{'email': "extraño_amigo_view@yopuedo.com"}]
+        }

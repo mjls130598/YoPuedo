@@ -1791,9 +1791,10 @@ def nuevos_amigos(request):
 def dejar_seguir(request, amigo):
     if request.method == 'POST':
         logger.info(f"Borramos la amistad con {amigo}")
-        Amistad.objects.filter(Q(amigo=request.user, otro_amigo__email=amigo)
-                               | Q(amigo__email=amigo,
-                                   otro_amigo=request.user)).first().delete()
+        amistad = get_object_or_404(Amistad,
+                                    Q(amigo=request.user, otro_amigo__email=amigo)
+                                    | Q(amigo__email=amigo, otro_amigo=request.user))
+        amistad.delete()
 
         logger.info("Creamos alerta para informar de lo realizado")
         messages.info(request, f"Hemos dejado de seguir a {amigo} correctamente")
@@ -1809,7 +1810,7 @@ def dejar_seguir(request, amigo):
 def ver_perfil(request, amigo):
     # Obtenemos amigo
     logger.info("Buscamos la información del amigo")
-    usuario = Usuario.objects.get(email=amigo)
+    usuario = get_object_or_404(Usuario, email=amigo)
 
     # Comprobamos que existe una amistad entre los dos usuarios
     logger.info("Comprobamos amistad entre dos usuarios")
@@ -1924,9 +1925,12 @@ def solicitud_amistad(request, usuario):
 # Función para rechazar solicitud de amistad
 @login_required
 def rechazar_amistad(request, usuario):
+    # Obtenemos notificación
+    notificacion = get_object_or_404(Notificacion, Q(usuario=request.user,
+                                                     categoria="Amistad",
+                                                     enlace=f"/solicitud_amistad/{usuario}"))
     # Eliminamos notificación
-    Notificacion.objects.filter(usuario=request.user, categoria="Amistad",
-                                enlace=f"/solicitud_amistad/{usuario}").delete()
+    notificacion.delete()
 
     # Enviamos al usuario a la lista de amigos
     return redirect('/mis_amigos/')
