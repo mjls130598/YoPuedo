@@ -1907,7 +1907,7 @@ class AmigosViewTest(TestCase):
         self.client.login(username='amigos_view@yopuedo.com', password='Password1.')
 
         resp = self.client.get('/perfil/extraño_amigo_view@yopuedo.com')
-        self.assertEqual(resp.status_code, HTTPStatus.FORBIDDEN)
+        self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
 
     def test_ver_perfil_no_accesible(self):
         resp = self.client.get('/perfil/amigo1_view@yopuedo.com')
@@ -1933,7 +1933,7 @@ class AmigosViewTest(TestCase):
         }
 
         resp = self.client.post('/nuevos_amigos/', data)
-        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertEqual('/mis_amigos/' in resp.url)
 
         notificacion = Notificacion.objects.filter(
@@ -1946,24 +1946,24 @@ class AmigosViewTest(TestCase):
         self.client.login(username='amigos_view@yopuedo.com', password='Password1.')
 
         resp = self.client.get('/solicitud_amistad/amigo1_view@yopuedo.com')
-        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertEqual('/perfil/' in resp.url)
 
     def test_solicitud_amistad_existente(self):
         self.client.login(username='extraño_amigo_view@yopuedo.com', password='Password1.')
 
         resp = self.client.get('/solicitud_amistad/amigos_view@yopuedo.com')
-        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertEqual('/solicitud_amistad/' in resp.url)
 
     def test_solicitud_amistad_no_accesible(self):
         resp = self.client.get('/solicitud_amistad/amigo1_view@yopuedo.com')
-        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertEqual('/registrarse/' in resp.url)
 
     def test_rechazar_no_accesible(self):
         resp = self.client.get('/rechazar/amigo1_view@yopuedo.com')
-        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertEqual('/registrarse/' in resp.url)
 
     def test_rechazar(self):
@@ -1971,7 +1971,7 @@ class AmigosViewTest(TestCase):
                           password='Password1.')
 
         resp = self.client.get('/rechazar/amigos_view@yopuedo.com')
-        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertEqual('/mis_amigos/' in resp.url)
 
         notificacion = Notificacion.objects.filter(
