@@ -1878,7 +1878,7 @@ class AmigosViewTest(TestCase):
                                                clave_fija="clavefijausuario",
                                                foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
-        Usuario.objects.create_user(email="extraño_amigo_view@yopuedo.com",
+        Usuario.objects.create_user(email="extrano_amigo_view@yopuedo.com",
                                     nombre="María Jesús",
                                     password="Password1.",
                                     clave_aleatoria="clavealeat",
@@ -1911,7 +1911,7 @@ class AmigosViewTest(TestCase):
     def test_ver_perfil_extraño(self):
         self.client.login(username='amigos_view@yopuedo.com', password='Password1.')
 
-        resp = self.client.get('/perfil/extraño_amigo_view@yopuedo.com')
+        resp = self.client.get('/perfil/extrano_amigo_view@yopuedo.com')
         self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
 
     def test_ver_perfil_no_accesible(self):
@@ -1934,7 +1934,7 @@ class AmigosViewTest(TestCase):
         self.client.login(username='amigos_view@yopuedo.com', password='Password1.')
 
         data = {
-            "amigos": [json.dumps({"email": "extraño_amigo_view@yopuedo.com",
+            "amigos": [json.dumps({"email": "extrano_amigo_view@yopuedo.com",
                                    "nombre": "María Jesús",
                                    "foto_perfil": "/media/YoPuedo/foto_perfil/mariajesus@gmail.com"
                                                   ".jpg"})]
@@ -1947,7 +1947,7 @@ class AmigosViewTest(TestCase):
         self.assertEqual('/mis_amigos/' in resp.url)
 
         notificacion = Notificacion.objects.filter(
-            usuario__email="extraño_amigo_view@yopuedo.com",
+            usuario__email="extrano_amigo_view@yopuedo.com",
             enlace='/solicitud_amistad/amigos_view@yopuedo.com')
 
         self.assertTrue(notificacion.exists())
@@ -1960,7 +1960,7 @@ class AmigosViewTest(TestCase):
         self.assertTrue('/perfil/' in resp.url)
 
     def test_solicitud_amistad_existente(self):
-        self.client.login(username='extraño_amigo_view@yopuedo.com',
+        self.client.login(username='extrano_amigo_view@yopuedo.com',
                           password='Password1.')
 
         resp = self.client.get('/solicitud_amistad/amigos_view@yopuedo.com')
@@ -1977,7 +1977,7 @@ class AmigosViewTest(TestCase):
         self.assertTrue('/registrarse/' in resp.url)
 
     def test_rechazar(self):
-        self.client.login(username='extraño_amigo_view@yopuedo.com',
+        self.client.login(username='extrano_amigo_view@yopuedo.com',
                           password='Password1.')
 
         resp = self.client.get('/rechazar/amigos_view@yopuedo.com')
@@ -1985,7 +1985,7 @@ class AmigosViewTest(TestCase):
         self.assertTrue('/mis_amigos/' in resp.url)
 
         notificacion = Notificacion.objects.filter(
-            usuario__email="extraño_amigo_view@yopuedo.com",
+            usuario__email="extrano_amigo_view@yopuedo.com",
             enlace='/solicitud_amistad/amigos_view@yopuedo.com')
 
         self.assertFalse(notificacion.exists())
@@ -1994,7 +1994,7 @@ class AmigosViewTest(TestCase):
         self.client.login(username='amigos_view@yopuedo.com', password='Password1.')
 
         data = {
-            "amigos": [json.dumps({"email": "extraño_amigo_view@yopuedo.com",
+            "amigos": [json.dumps({"email": "extrano_amigo_view@yopuedo.com",
                         "nombre": "María Jesús",
                        "foto_perfil": "/media/YoPuedo/foto_perfil/mariajesus@gmail.com"
                                       ".jpg"})]
@@ -2003,52 +2003,52 @@ class AmigosViewTest(TestCase):
         self.client.post('/nuevos_amigos/', data)
         self.client.logout()
 
-        self.client.login(username='extraño_amigo_view@yopuedo.com',
+        self.client.login(username='extrano_amigo_view@yopuedo.com',
                           password='Password1.')
 
         resp = self.client.get(
-            '/validar_clave/amigos_view@yopuedo.com/extraño_amigo_view@yopuedo.com/')
+            '/validar_clave/amigos_view@yopuedo.com/extrano_amigo_view@yopuedo.com/')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
 
         clave_aleatoria = Usuario.objects.get(
-            email='extraño_amigo_view@yopuedo.com').clave_aleatoria
+            email='extrano_amigo_view@yopuedo.com').clave_aleatoria
 
         data = {
-            'email': 'extraño_amigo_view@yopuedo.com',
+            'email': 'extrano_amigo_view@yopuedo.com',
             'contador': 0,
             'clave': clave_aleatoria
         }
 
         resp = self.client.post(
-            '/validar_clave/amigos_view@yopuedo.com/extraño_amigo_view@yopuedo.com/',
+            '/validar_clave/amigos_view@yopuedo.com/extrano_amigo_view@yopuedo.com/',
             data)
         self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
 
         notificacion = Notificacion.objects.filter(
-            usuario__email="extraño_amigo_view@yopuedo.com",
+            usuario__email="extrano_amigo_view@yopuedo.com",
             enlace='/solicitud_amistad/amigos_view@yopuedo.com')
 
         self.assertFalse(notificacion.exists())
 
         amistad = Amistad.objects.filter(
-            amigo__email='extraño_amigo_view@yopuedo.com',
+            amigo__email='extrano_amigo_view@yopuedo.com',
             otro_amigo__email='amigos_view@yopuedo.com'
         )
 
         self.assertTrue(amistad.exists())
 
     def test_aceptar_no_usuario(self):
-        self.client.login(username='extraño_amigo_view@yopuedo.com',
+        self.client.login(username='extrano_amigo_view@yopuedo.com',
                           password='Password1.')
 
         data = {
-            'email': 'extraño_amigo_view@yopuedo.com',
+            'email': 'extrano_amigo_view@yopuedo.com',
             'contador': 0,
             'clave': "clavefijausuario"
         }
 
         resp = self.client.post(
-            '/validar_clave/no_usuario_view@yopuedo.com/extraño_amigo_view@yopuedo.com',
+            '/validar_clave/no_usuario_view@yopuedo.com/extrano_amigo_view@yopuedo.com',
             data)
         self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
 
@@ -2058,14 +2058,14 @@ class AmigosViewTest(TestCase):
         self.assertTrue('/registrarse/' in resp.url)
 
     def test_dejar_seguir_extraño(self):
-        self.client.login(username='extraño_amigo_view@yopuedo.com',
+        self.client.login(username='extrano_amigo_view@yopuedo.com',
                           password='Password1.')
 
         resp = self.client.post('/eliminar_amigo/amigo_noconocido_view@yopuedo.com')
         self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
 
     def test_dejar_seguir(self):
-        self.client.login(username='extraño_amigo_view@yopuedo.com',
+        self.client.login(username='extrano_amigo_view@yopuedo.com',
                           password='Password1.')
 
         resp = self.client.post('/eliminar_amigo/amigos_view@yopuedo.com')
@@ -2073,7 +2073,7 @@ class AmigosViewTest(TestCase):
         self.assertTrue(resp.url, '/mis_amigos/')
 
         amistad = Amistad.objects.filter(
-            amigo__email='extraño_amigo_view@yopuedo.com',
+            amigo__email='extrano_amigo_view@yopuedo.com',
             otro_amigo__email='amigos_view@yopuedo.com'
         )
 
