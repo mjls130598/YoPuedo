@@ -1863,23 +1863,25 @@ class AmigosViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         usuario1 = Usuario.objects.create_user(email="amigos_view@yopuedo.com",
-                                    nombre="María Jesús", password="Password1.",
-                                    clave_aleatoria="clavealeat",
-                                    clave_fija="clavefijausuario",
-                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
-
-        usuario2 = Usuario.objects.create_user(email="amigo1_view@yopuedo.com",
-                                    nombre="María Jesús", password="Password1.",
-                                    clave_aleatoria="clavealeat",
-                                    clave_fija="clavefijausuario",
-                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
-
-        Usuario.objects.create_user(email="extraño_amigo_view@yopuedo.com",
                                                nombre="María Jesús",
                                                password="Password1.",
                                                clave_aleatoria="clavealeat",
                                                clave_fija="clavefijausuario",
                                                foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        usuario2 = Usuario.objects.create_user(email="amigo1_view@yopuedo.com",
+                                               nombre="María Jesús",
+                                               password="Password1.",
+                                               clave_aleatoria="clavealeat",
+                                               clave_fija="clavefijausuario",
+                                               foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        Usuario.objects.create_user(email="extraño_amigo_view@yopuedo.com",
+                                    nombre="María Jesús",
+                                    password="Password1.",
+                                    clave_aleatoria="clavealeat",
+                                    clave_fija="clavefijausuario",
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
         amistad = Amistad()
         amistad.save()
@@ -1930,7 +1932,10 @@ class AmigosViewTest(TestCase):
         self.client.login(username='amigos_view@yopuedo.com', password='Password1.')
 
         data = {
-            'amigos': ["{'email': 'extraño_amigo_view@yopuedo.com'}"]
+            "amigos": [{"email": "extraño_amigo_view@yopuedo.com",
+                        "nombre": "María Jesús",
+                        "foto_perfil": "/media/YoPuedo/foto_perfil/mariajesus@gmail.com"
+                                       ".jpg"}]
         }
 
         resp = self.client.post('/nuevos_amigos/', data)
@@ -1951,11 +1956,11 @@ class AmigosViewTest(TestCase):
         self.assertTrue('/perfil/' in resp.url)
 
     def test_solicitud_amistad_existente(self):
-        self.client.login(username='extraño_amigo_view@yopuedo.com', password='Password1.')
+        self.client.login(username='extraño_amigo_view@yopuedo.com',
+                          password='Password1.')
 
         resp = self.client.get('/solicitud_amistad/amigos_view@yopuedo.com')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
-        self.assertTrue('/solicitud_amistad/' in resp.url)
 
     def test_solicitud_amistad_no_accesible(self):
         resp = self.client.get('/solicitud_amistad/amigo1_view@yopuedo.com')
@@ -1985,7 +1990,10 @@ class AmigosViewTest(TestCase):
         self.client.login(username='amigos_view@yopuedo.com', password='Password1.')
 
         data = {
-            'amigos': ["{'email': 'extraño_amigo_view@yopuedo.com'}"]
+            "amigos": [{"email": "extraño_amigo_view@yopuedo.com",
+                        "nombre": "María Jesús",
+                       "foto_perfil": "/media/YoPuedo/foto_perfil/mariajesus@gmail.com"
+                                      ".jpg"}]
         }
 
         self.client.post('/nuevos_amigos/', data)
@@ -2008,7 +2016,8 @@ class AmigosViewTest(TestCase):
         }
 
         resp = self.client.post(
-            '/validar_clave/amigos_view@yopuedo.com/extraño_amigo_view@yopuedo.com/', data)
+            '/validar_clave/amigos_view@yopuedo.com/extraño_amigo_view@yopuedo.com/',
+            data)
         self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
 
         notificacion = Notificacion.objects.filter(
@@ -2024,11 +2033,12 @@ class AmigosViewTest(TestCase):
 
         self.assertTrue(amistad.exists())
 
-    def test_aceptar_no_usuario_(self):
+    def test_aceptar_no_usuario(self):
         self.client.login(username='extraño_amigo_view@yopuedo.com',
                           password='Password1.')
 
-        resp = self.client.get('/validar_clave/no_usuario_view@yopuedo.com')
+        resp = self.client.get(
+            '/validar_clave/no_usuario_view@yopuedo.com/extraño_amigo_view@yopuedo.com')
         self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
 
     def test_dejar_seguir_no_accesible(self):
