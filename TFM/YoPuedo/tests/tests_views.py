@@ -1934,10 +1934,10 @@ class AmigosViewTest(TestCase):
         self.client.login(username='amigos_view@yopuedo.com', password='Password1.')
 
         data = {
-            "amigos": [{"email": "extraño_amigo_view@yopuedo.com",
-                        "nombre": "María Jesús",
-                        "foto_perfil": "/media/YoPuedo/foto_perfil/mariajesus@gmail.com"
-                                       ".jpg"}]
+            "amigos": json.dumps([{"email": "extraño_amigo_view@yopuedo.com",
+                                   "nombre": "María Jesús",
+                                   "foto_perfil": "/media/YoPuedo/foto_perfil/mariajesus@gmail.com"
+                                                  ".jpg"}])
         }
 
         data = json.dumps(data)
@@ -1994,13 +1994,11 @@ class AmigosViewTest(TestCase):
         self.client.login(username='amigos_view@yopuedo.com', password='Password1.')
 
         data = {
-            "amigos": [{"email": "extraño_amigo_view@yopuedo.com",
+            "amigos": json.dumps([{"email": "extraño_amigo_view@yopuedo.com",
                         "nombre": "María Jesús",
                        "foto_perfil": "/media/YoPuedo/foto_perfil/mariajesus@gmail.com"
-                                      ".jpg"}]
+                                      ".jpg"}])
         }
-
-        data = json.dumps(data)
 
         self.client.post('/nuevos_amigos/', data)
         self.client.logout()
@@ -2046,7 +2044,7 @@ class AmigosViewTest(TestCase):
         data = {
             'email': 'extraño_amigo_view@yopuedo.com',
             'contador': 0,
-            'clave': "clave_aleatoria"
+            'clave': "clavefijausuario"
         }
 
         resp = self.client.post(
