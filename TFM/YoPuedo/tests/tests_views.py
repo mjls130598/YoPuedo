@@ -1940,8 +1940,6 @@ class AmigosViewTest(TestCase):
                                                   ".jpg"})]
         }
 
-        data = json.dumps(data)
-
         resp = self.client.post('/nuevos_amigos/', data)
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertEqual('/mis_amigos/' in resp.url)
