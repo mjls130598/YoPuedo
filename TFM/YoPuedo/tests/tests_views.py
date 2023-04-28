@@ -1,3 +1,5 @@
+import json
+
 from django.contrib import auth
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
@@ -1938,6 +1940,8 @@ class AmigosViewTest(TestCase):
                                        ".jpg"}]
         }
 
+        data = json.dumps(data)
+
         resp = self.client.post('/nuevos_amigos/', data)
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertEqual('/mis_amigos/' in resp.url)
@@ -1996,6 +2000,8 @@ class AmigosViewTest(TestCase):
                                       ".jpg"}]
         }
 
+        data = json.dumps(data)
+
         self.client.post('/nuevos_amigos/', data)
         self.client.logout()
 
@@ -2037,8 +2043,15 @@ class AmigosViewTest(TestCase):
         self.client.login(username='extraño_amigo_view@yopuedo.com',
                           password='Password1.')
 
-        resp = self.client.get(
-            '/validar_clave/no_usuario_view@yopuedo.com/extraño_amigo_view@yopuedo.com')
+        data = {
+            'email': 'extraño_amigo_view@yopuedo.com',
+            'contador': 0,
+            'clave': "clave_aleatoria"
+        }
+
+        resp = self.client.post(
+            '/validar_clave/no_usuario_view@yopuedo.com/extraño_amigo_view@yopuedo.com',
+            data)
         self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
 
     def test_dejar_seguir_no_accesible(self):
