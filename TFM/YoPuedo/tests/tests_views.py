@@ -2075,7 +2075,7 @@ class AmigosViewTest(TestCase):
         self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
 
     def test_dejar_seguir(self):
-        self.client.login(username='extrano_amigo_view@yopuedo.com',
+        self.client.login(username='amigo1_view@yopuedo.com',
                           password='Password1.')
 
         resp = self.client.post('/eliminar_amigo/amigos_view@yopuedo.com')
