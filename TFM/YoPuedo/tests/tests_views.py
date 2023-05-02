@@ -2088,3 +2088,50 @@ class AmigosViewTest(TestCase):
         )
 
         self.assertFalse(amistad.exists())
+
+
+##########################################################################################
+
+# Comprobamos el funcionamiento de la URL de Notificaciones
+
+class NotificacionesTest(TestCase):
+    def setUpTestData(cls):
+        Usuario.objects.create_user(email="notificacion_view@yopuedo.com",
+                                    nombre="María Jesús",
+                                    password="Password1.",
+                                    clave_aleatoria="clavealeat",
+                                    clave_fija="clavefijausuario",
+                                    foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+    def test_contador_sin_notificacion(self):
+        usuario = Usuario.objects.get(email="notificacion_view@yopuedo.com")
+
+        content = '''<i class="bi bi-bell-fill"></i>Notificaciones'''
+
+        resp = self.client.get('/contador_notificaciones/')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(resp.content_params, content)
+
+    def test_contador_con_notificacion(self):
+
+        usuario = Usuario.objects.get(email="notificacion_view@yopuedo.com")
+
+        notificacion = Notificacion()
+        notificacion.usuario = usuario
+        notificacion.categoria = 'Amistad'
+        notificacion.enlace = f'/solicitud_amistad/usuario@usuario.es'
+        notificacion.mensaje = f"Usuario1 te ha mandado una solicitud " \
+                               f"de amistad para que seas su amigo. " \
+                               f"¿Quieres aceptarla?"
+        notificacion.save()
+
+        self.client.login(username='notificacion_view@yopuedo.com',
+                          password='Password1.')
+
+        content = '''<i class="bi bi-bell-fill"></i>Notificaciones
+        <span class="top-0 start-100 translate-middle badge rounded-pill 
+        bg-danger">0</span>'''
+
+        resp = self.client.get('/contador_notificaciones/')
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(resp.content_params, content)
