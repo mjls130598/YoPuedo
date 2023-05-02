@@ -1985,7 +1985,7 @@ class AmigosViewTest(TestCase):
         }
 
         self.client.post('/nuevos_amigos/', data)
-        self.client.lo
+        self.client.logout()
 
         self.client.login(username='extrano_amigo_view@yopuedo.com',
                           password='Password1.')
