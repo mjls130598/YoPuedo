@@ -2017,7 +2017,7 @@ class AmigosViewTest(TestCase):
                           password='Password1.')
 
         resp = self.client.get(
-            '/validar_clave/amigos_view@yopuedo.com/extrano_amigo_view@yopuedo.com/')
+            '/validar_clave/amigos_view@yopuedo.com/extrano_amigo_view@yopuedo.com')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
 
         clave_aleatoria = Usuario.objects.get(
