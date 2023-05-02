@@ -1985,13 +1985,13 @@ class AmigosViewTest(TestCase):
         }
 
         self.client.post('/nuevos_amigos/', data)
-        self.client.logout()
+        self.client.lo
 
         self.client.login(username='extrano_amigo_view@yopuedo.com',
                           password='Password1.')
 
         resp = self.client.get('/rechazar/amigos_view@yopuedo.com')
-        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertTrue('/mis_amigos/' in resp.url)
 
         notificacion = Notificacion.objects.filter(
@@ -2079,7 +2079,7 @@ class AmigosViewTest(TestCase):
                           password='Password1.')
 
         resp = self.client.post('/eliminar_amigo/amigos_view@yopuedo.com')
-        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertTrue(resp.url, '/mis_amigos/')
 
         amistad = Amistad.objects.filter(
