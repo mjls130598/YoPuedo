@@ -2030,7 +2030,7 @@ class AmigosViewTest(TestCase):
         }
 
         resp = self.client.post(
-            '/validar_clave/amigos_view@yopuedo.com/extrano_amigo_view@yopuedo.com/',
+            '/validar_clave/amigos_view@yopuedo.com/extrano_amigo_view@yopuedo.com',
             data)
         self.assertEqual(resp.status_code, HTTPStatus.ACCEPTED)
 
