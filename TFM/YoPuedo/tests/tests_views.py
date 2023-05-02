@@ -1942,7 +1942,7 @@ class AmigosViewTest(TestCase):
 
         resp = self.client.post('/nuevos_amigos/', data)
         self.assertEqual(resp.status_code, HTTPStatus.FOUND)
-        self.assertEqual('/mis_amigos/' in resp.url)
+        self.assertTrue('/mis_amigos/' in resp.url)
 
         notificacion = Notificacion.objects.filter(
             usuario__email="extrano_amigo_view@yopuedo.com",
