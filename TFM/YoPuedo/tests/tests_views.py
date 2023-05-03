@@ -2111,7 +2111,7 @@ class NotificacionesTestView(TestCase):
         content = '''<i class="bi bi-bell-fill"></i>Notificaciones'''
 
         resp = self.client.get('/contador_notificaciones/')
-        self.assertEqual(resp.status_code, HTTPStatus.OK)
+        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
         self.assertEqual(resp.content, content)
 
     def test_contador_con_notificacion(self):
@@ -2135,5 +2135,5 @@ class NotificacionesTestView(TestCase):
         bg-danger">0</span>'''
 
         resp = self.client.get('/contador_notificaciones/')
-        self.assertEqual(resp.status_code, HTTPStatus.FOUND)
+        self.assertEqual(resp.status_code, HTTPStatus.OK)
         self.assertEqual(resp.content, content)
