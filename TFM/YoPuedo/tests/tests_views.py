@@ -2094,7 +2094,9 @@ class AmigosViewTest(TestCase):
 
 # Comprobamos el funcionamiento de la URL de Notificaciones
 
-class NotificacionesTest(TestCase):
+class NotificacionesTestView(TestCase):
+
+    @classmethod
     def setUpTestData(cls):
         Usuario.objects.create_user(email="notificacion_view@yopuedo.com",
                                     nombre="María Jesús",
