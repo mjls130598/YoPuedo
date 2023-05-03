@@ -2106,7 +2106,8 @@ class NotificacionesTestView(TestCase):
                                     foto_perfil=f"{BASE_DIR}/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
 
     def test_contador_sin_notificacion(self):
-        usuario = Usuario.objects.get(email="notificacion_view@yopuedo.com")
+        self.client.login(username='notificacion_view@yopuedo.com',
+                          password='Password1.')
 
         content = '''<i class="bi bi-bell-fill"></i>Notificaciones'''
 
