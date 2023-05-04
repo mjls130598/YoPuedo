@@ -2131,8 +2131,7 @@ class NotificacionesTestView(TestCase):
         self.client.login(username='notificacion_view@yopuedo.com',
                           password='Password1.')
 
-        content = b'<i class="bi bi-bell-fill"></i>Notificaciones\n\n<span class="top-0 ' \
-                  b'start-100 translate-middle badge rounded-pill bg-danger">0</span>\n'
+        content = b'<i class="bi bi-bell-fill"></i>Notificaciones\n\n<span class="top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>\n'
 
         resp = self.client.get('/contador_notificaciones/')
         self.assertEqual(resp.status_code, HTTPStatus.OK)
