@@ -32,24 +32,23 @@
 
       <ul class="list-unstyled components">
 
-        <li class="active">
+        <li class="{% if 'mis_retos' in request.path %}active{% endif %}">
           <a href="{% url 'mis_retos' %}">
             <i class="bi bi-graph-up"></i>Mis retos
           </a>
         </li>
-        <li>
-          <a href="#">
+        <li class="{% if 'mis_amigos' in request.path %}active{% endif %}">
+          <a href="{% url 'mis_amigos' %}">
             <i class="bi bi-people-fill"></i>Mis amigos
           </a>
         </li>
-        <li>
+        <li class="{% if 'mi_perfil' in request.path %}active{% endif %}">
           <a href="{% url 'mi_perfil' %}">
             <i class="fa-solid fa-address-card"></i>Mi perfil
           </a>
         </li>
-        <li>
-          <a href="#">
-            <i class="bi bi-bell-fill"></i>Notificaciones
+        <li class="{% if 'notificaciones' in request.path %}active{% endif %}">
+          <a href="{% url 'notificaciones' %}" id="notificaciones_menu" hx-target="this">
           </a>
         </li>
       </ul>
@@ -60,7 +59,9 @@
       <div id="cabecera" class="container basic">
         <div class="row" id="cabecera_fila">
           <button type="button" id="apertura_menu"
-                  class="btn btn-primary col">
+                  class="btn btn-primary col"
+                  hx-get="{% url 'contador_notificaciones' %}"
+                  hx-target="#notificaciones_menu">
             <i class="bi bi-list"></i>
           </button>
           <h5 class="titulo col">

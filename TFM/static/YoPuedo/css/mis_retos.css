@@ -125,11 +125,11 @@ audio {
     font-size: larger;
 }
 
-.ver-reto {
+.ver-reto, .ver-notificacion {
     font-size: -webkit-xxx-large;
 }
 
 .audio {
-    height: 10vh;
+    max-height: 10vh;
 }
 

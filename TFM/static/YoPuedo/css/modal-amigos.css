@@ -40,3 +40,12 @@
 .seleccionado{
     background: #dee2e6;
 }
+
+.borrar-amigo{
+    background: #F44336;
+    border-color: #F44336;
+}
+
+.foto-perfil{
+    margin-left: 1rem!important;
+}

@@ -25,7 +25,9 @@
         {{ reto.titulo }}
     </h4>
 </section>
-
+{% if messages %}
+    {% include 'YoPuedo/elementos/alerta.html'%}
+{% endif %}
 <section id="informacion_reto" class="m-1">
   <!-- BOTONES NAVEGACIÓN TABS -->
   <ul class="nav nav-tabs" id="tab-pasos" role="tablist">

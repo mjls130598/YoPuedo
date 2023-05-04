@@ -5,6 +5,9 @@
     </h5>
   </div>
   <div class="modal-body container">
+    {% if messages %}
+        {% include 'YoPuedo/elementos/alerta.html'%}
+    {% endif %}
     {% csrf_token %}
     <div class="row align-items-center">
         <div class="col-10 speech">

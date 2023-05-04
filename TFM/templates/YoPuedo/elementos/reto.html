@@ -1,5 +1,9 @@
 {% load tags_categorias %}
 
+{% if messages %}
+    {% include 'YoPuedo/elementos/alerta.html'%}
+{% endif %}
+
 {% for reto in retos %}
   <div class="row justify-content-between border-bottom border-dark p-md-3 p-2">
       <div class="col-2 align-self-center text-center categoria">
@@ -32,10 +36,12 @@
                 <source src="{{ reto.objetivo }}" type="audio/mpeg">
               </audio>
               {% elif "jpg" in reto.objetivo or "jpeg" in reto.objetivo or "png" in reto.objetivo or "svg" in reto.objetivo or "gif" in reto.objetivo %}
-                <img class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
-                col-xl-5" src="{{ reto.objetivo }}">
+              <div class="ratio-mio ratio-4x3 col-md-3">
+                  <img class="imagen_reto rounded d-block m-0 p-0"
+                       src="{{ reto.objetivo }}">
+              </div>
               {% elif "mp4" in reto.objetivo or "ogg" in reto.objetivo %}
-              <video class="imagen_reto img-fluid rounded col-md-6 mx-auto d-block
+              <video class="imagen_reto rounded col-md-6 mx-auto d-block
                 col-xl-5" controls>
                   <source src="{{ reto.objetivo }}" type="video/mp4">
               </video>
@@ -63,6 +69,7 @@
       </button>
   </div>
 {% endfor %}
+{% if retos|length > 0 %}
 <div class="m-3" id="paginador">
   <nav>
     <ul class="pagination justify-content-center">
@@ -110,6 +117,7 @@
     </ul>
   </nav>
 </div>
+{% endif %}
 <script>
     function urlPagina(pagina){
         const urlParams = new URLSearchParams(window.location.search);

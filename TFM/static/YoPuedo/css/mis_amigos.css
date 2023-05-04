@@ -1,0 +1,29 @@
+.borrar{
+    background: #FC204B;
+    border-color: #FC204B;
+}
+
+.titulo{
+    color: #009688;
+}
+
+.ver-perfil {
+    font-size: -webkit-xxx-large;
+}
+
+.amigos{
+    max-height: 60vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+@media screen and (min-width: 1400px)
+.imagen-amigo{
+    width: 12%;
+}
+
+@media screen and (max-width: 767px)
+.nombre{
+    font-size: 1rem;
+    width: 41%;
+}

@@ -199,3 +199,21 @@ a > i {
     color: #035D55;
 }
 
+.ratio-mio{
+    position: relative;
+}
+
+.ratio-mio > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.ratio-mio::before {
+    display: block;
+    padding-top: var(--bs-aspect-ratio);
+    content: "";
+}
+

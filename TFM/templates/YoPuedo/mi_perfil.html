@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block static %}
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/perfil.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/peticion-clave.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/registro.css'%}">
+  <link rel="stylesheet" href="{% static 'YoPuedo/css/iniciar_sesion.css'%}">
+  <script src="https://kit.fontawesome.com/05cfaef439.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+  <script type="text/javascript"
+        src="{% static 'YoPuedo/js/AudioTranscript.js' %}"></script>
+  <script type="text/javascript"
+        src="{% static 'YoPuedo/js/SpeechSynthesis.js' %}"></script>
+{% endblock %}
+
+{% block contenido %}
+<div class="m-2 m-md-3">
+    <div class="perfil container p-1 p-md-3">
+        <h3 class="text-center fw-bold titulo">
+            <i class="fa-solid fa-address-card"></i>
+            Mi perfil
+        </h3>
+        <img src="{{ foto_perfil }}"
+             class="img-fluid rounded col-5 col-md-3 mx-auto d-block">
+        <div class="informacion px-md-5 py-4">
+            <div class="row nombre m-2">
+                <div class="col-md-3 col-1">
+                    <div class="row align-items-center">
+                        <i class="fa-solid fa-user-large col-1 d-flex justify-content-center"></i>
+                        <h5 class="col-10 fw-bold mb-0 d-md-block d-none">Nombre:</h5>
+                    </div>
+                </div>
+                <h5 class="col-md-7 col-9" id="nombre">
+                    {{ nombre }}
+                </h5>
+                <div class="col-2 d-flex justify-content-center">
+                    {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='nombre' %}
+                </div>
+            </div>
+            <div class="row email m-2">
+                <div class="col-md-3 col-1">
+                    <div class="row align-items-center">
+                        <i class="fa-solid fa-envelope col-1 d-flex justify-content-center"></i>
+                        <h5 class="col-10 fw-bold mb-0 d-md-block d-none">Email:</h5>
+                    </div>
+                </div>
+                <h5 class="col-md-7 col-9" id="email">
+                    {{ email }}
+                </h5>
+                <div class="col-2 d-flex justify-content-center">
+                    {% include 'YoPuedo/elementos/altavoz.html' with elementSpeech='email' %}
+                </div>
+            </div>
+        </div>
+        <div class="botones d-grid justify-content-center">
+            <button class="btn btn-primary btn-block my-2 fw-bold modificar"
+                    hx-get="{% url 'editar_perfil' %}"
+                    hx-target="#dialog">
+                <i class="fa-solid fa-pen-to-square"></i>
+                Modificar el perfil
+            </button>
+            <button class="btn btn-primary btn-block my-2 fw-bold cerrar_sesion"
+                    onclick="cerrarSesion()">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Cerrar sesión
+            </button>
+            <button class="btn btn-primary btn-block my-2 fw-bold eliminar"
+                    onclick="eliminar()">
+                <i class="fa-sharp fa-solid fa-trash"></i>
+                Eliminar cuenta
+            </button>
+        </div>
+    </div>
+</div>
+<script>
+/****************************************************************************************/
+
+    // Función para cerrar sesión
+    function cerrarSesion(){
+        window.location.href = "{% url 'cerrar_sesion' %}";
+    }
+
+/****************************************************************************************/
+
+    // Función para eliminar la cuenta de una persona
+    function eliminar(){
+        window.location.href = "{% url 'eliminar' %}";
+    }
+
+/****************************************************************************************/
+</script>
+{% endblock %}
+
+{% block modales %}
+{% if url %}
+  <div hx-get="{{ url }}" hx-trigger="load" hx-target="#dialog">
+  </div>
+{% endif %}
+<div class="modal fade" id="modal">
+    <div class="modal-dialog row align-items-center my-0" id="dialog" hx-target="this">
+    </div>
+</div>
+<script>
+
+// Métodos para la gestión del modal
+
+  ;(function () {
+  const modal = new bootstrap.Modal(document.getElementById("modal"), { backdrop:
+  "static ", keyboard: false })
+  htmx.on("htmx:afterSwap", (e) => {
+    // Response targeting #dialog => show the modal
+    if (e.detail.target.id == "dialog") {
+      modal.show()
+    }
+  })
+
+  htmx.on("htmx:beforeSwap", (e) => {
+    // Empty response targeting #dialog => hide the modal
+    if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
+      modal.hide()
+      e.detail.shouldSwap = false
+    }
+  })
+  // Remove dialog content after hiding
+  htmx.on("hidden.bs.modal", () => {
+    document.getElementById("dialog").innerHTML = ""
+    window.location.href = "{% url 'mi_perfil' %}";
+  })
+})()
+</script>
+{% endblock %}
