@@ -1,5 +1,8 @@
 .perfil{
     background-color: #EEF8F9;
+    max-height: 80vh;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .titulo, .nombre > div, .email > div{
@@ -54,4 +57,9 @@
     .retos {
         height: 47vh;
     }
+}
+
+.aceptar{
+    background: #4CAF50;
+    border: #4CAF50;
 }

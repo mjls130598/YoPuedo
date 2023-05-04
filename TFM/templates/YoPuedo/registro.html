@@ -82,7 +82,6 @@
         </form>
         <div class='form-group d-flex justify-content-center'>
           <button id="boton-iniciosesion" class="btn btn-primary principales"
-                  data-bs-toggle="modal"
                   hx-get="{% url 'iniciar_sesion' %}" hx-target="#dialog">
             <i class="bi bi-box-arrow-in-right"></i>
             INICIAR SESIÓN
@@ -93,7 +92,7 @@
   </div>
 
   {% if url %}
-  <div hx-get="{{ url }}" hx-trigger="load" data-bs-toggle="modal" hx-target="#dialog">
+  <div hx-get="{{ url }}" hx-trigger="load" hx-target="#dialog">
   </div>
   {% endif %}
 
@@ -114,7 +113,8 @@
 // Métodos para la gestión del modal
 
   ;(function () {
-  const modal = new bootstrap.Modal(document.getElementById("modal"))
+  const modal = new bootstrap.Modal(document.getElementById("modal"), { backdrop:
+  "static ", keyboard: false })
   htmx.on("htmx:afterSwap", (e) => {
     // Response targeting #dialog => show the modal
     if (e.detail.target.id == "dialog") {

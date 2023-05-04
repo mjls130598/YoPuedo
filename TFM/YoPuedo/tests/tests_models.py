@@ -205,3 +205,65 @@ class RetoModelTest(TestCase):
         self.assertEqual(ultimo_animo.etapa.first(), etapa)
         self.assertEqual(ultimo_animo.animador.first(), superanimador)
         self.assertEqual(ultimo_animo.mensaje, "Superánimo etapa reto")
+
+
+##########################################################################################
+
+# Comprobamos el funcionamiento de la tabla AMISTAD
+class AmistadModelTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        usuario1 = Usuario.objects.create_user(email="amistad1@gmail.com",
+                                               nombre="María Jesús",
+                                               password="Password1.",
+                                               clave_fija='clave_fija',
+                                               clave_aleatoria='clave_aleatoria',
+                                               foto_perfil="/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        usuario2 = Usuario.objects.create_user(email="amistad2@gmail.com",
+                                               nombre="María Jesús",
+                                               password="Password1.",
+                                               clave_fija='clave_fija',
+                                               clave_aleatoria='clave_aleatoria',
+                                               foto_perfil="/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        amistad = Amistad()
+        amistad.save()
+        amistad.amigo.add(usuario1)
+        amistad.otro_amigo.add(usuario2)
+        amistad.save()
+
+    def test_amistad(self):
+        amistad = Amistad.objects.last()
+
+        self.assertEqual(amistad.amigo.first().email, "amistad1@gmail.com")
+        self.assertEqual(amistad.otro_amigo.first().email, "amistad2@gmail.com")
+
+
+##########################################################################################
+
+# Comprobamos el funcionamiento de la tabla NOTIFICACIÓN
+class NotificacionModelTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        usuario = Usuario.objects.create_user(email="notificacion@gmail.com",
+                                              nombre="María Jesús",
+                                              password="Password1.",
+                                              clave_fija='clave_fija',
+                                              clave_aleatoria='clave_aleatoria',
+                                              foto_perfil="/media/YoPuedo/foto_perfil/mariajesus@gmail.com.jpg")
+
+        notificacion = Notificacion()
+        notificacion.mensaje = "Esto es la primera prueba"
+        notificacion.usuario = usuario
+        notificacion.enlace = "/enlace/"
+        notificacion.categoria = "Prueba"
+        notificacion.save()
+
+    def test_notificacion(self):
+        notificacion = Notificacion.objects.get(id_notificacion="1")
+
+        self.assertEqual(notificacion.mensaje, "Esto es la primera prueba")
+        self.assertEqual(notificacion.usuario.nombre, "María Jesús")
+        self.assertEqual(notificacion.enlace, "/enlace/")

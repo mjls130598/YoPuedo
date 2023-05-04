@@ -11,8 +11,8 @@
     font-size: -webkit-xxx-large;
 }
 
-.amigos.m-2 {
-    height: 60vh;
+.amigos{
+    max-height: 60vh;
     overflow-y: auto;
     overflow-x: hidden;
 }

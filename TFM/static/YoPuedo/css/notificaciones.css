@@ -1,0 +1,17 @@
+.categoria.Reto{
+    color: #009688;
+}
+
+.categoria.Ánimo{
+    color: #FFEB3B;
+}
+
+.categoria.Amistad{
+    color: #2196F3;
+}
+
+@media screen and (min-width: 768px){
+    .texto_notificacion{
+        font-size: 1.25rem;
+    }
+}
