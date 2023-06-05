@@ -105,8 +105,7 @@
     // Métodos para la gestión del modal
 
       ;(function () {
-      const modal = new bootstrap.Modal(document.getElementById("modal"){ backdrop:
-        "static ", keyboard: false })
+      const modal = new bootstrap.Modal(document.getElementById("modal"){ backdrop: "static", keyboard: false })
       htmx.on("htmx:afterSwap", (e) => {
         // Response targeting #dialog => show the modal
         if (e.detail.target.id == "dialog") {
@@ -126,6 +125,7 @@
         document.getElementById("dialog").innerHTML = ""
         window.location.href = "{% url 'solicitud' usuario=email %}";
       })
+    })()
     </script>
     {% endblock %}
 {% endif %}
