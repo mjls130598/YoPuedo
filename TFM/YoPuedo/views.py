@@ -1503,14 +1503,14 @@ def animos(request, id_etapa):
                 logger.info("Enviamos notificación a los participantes del reto")
                 participantes = etapa.reto.participante_set.all()
 
-                for participant in participantes:
+                for participante in participantes:
                     notificacion = Notificacion()
                     notificacion.categoria = "Ánimos"
                     notificacion.mensaje = f"{request.user.nombre} te ha mandado un " \
                                            f"mensaje de ánimo en el reto " \
                                            f"{etapa.reto.titulo}. ¿Quieres verlo?"
                     notificacion.enlace = f'/reto/{etapa.reto.id_reto}'
-                    notificacion.usuario = participant.first().usuario
+                    notificacion.usuario = participante.usuario.first()
                     notificacion.save()
 
                 logger.info(f"Devolvemos status {HTTPStatus.CREATED}")
