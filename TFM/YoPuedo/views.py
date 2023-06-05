@@ -1501,7 +1501,7 @@ def animos(request, id_etapa):
 
                 # Enviamos notificaciones
                 logger.info("Enviamos notificación a los participantes del reto")
-                participantes = etapa.reto.participante_set
+                participantes = etapa.reto.participante_set.all()
 
                 for participante in participantes:
                     notificacion = Notificacion()
