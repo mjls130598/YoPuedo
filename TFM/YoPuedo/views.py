@@ -1882,7 +1882,8 @@ def get_notificaciones(request):
 def get_notificacion(request, id_notificacion):
     # Buscamos notificación por ID
     logger.info(f"Obtenemos la información de la notificación {id_notificacion}")
-    notificacion = get_object_or_404(Notificacion, id_notificacion=id_notificacion)
+    notificacion = get_object_or_404(Notificacion, Q(id_notificacion=id_notificacion,
+                                                     usuario=request.user))
 
     # Cambiamos estado de la notificación
     logger.info("Marcamos la notificación como leída")
