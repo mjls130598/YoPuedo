@@ -133,7 +133,7 @@
       window.location.href = url;
   }
 {% elif not participa %}
-  function eliminarReto(){
+  function dejarAnimarReto(){
       const urlParams = new URLSearchParams(window.location.search);
       id = '{{ reto.id_reto }}';
       url = "{% url 'animador_reto' id_reto='id' %}".replace("id", id.toString());
