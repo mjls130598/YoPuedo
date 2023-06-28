@@ -38,10 +38,10 @@
                         onclick="anadirParticipante({{ participante }})">
                     <div class="row">
                         <div class="col-1">
-                            <i class="fa-solid fa-user-plus"></i>
+                            <i class="fa-solid fa-square-check"></i>
                         </div>
                         <div class="d-none d-lg-block col-8">
-                            Añadir
+                            Seleccionar
                         </div>
                     </div>
                 </button>
@@ -154,9 +154,9 @@
             "'nombre':'" + viejo_participante.nombre + "'"
         +"})");
         i = button.getElementsByTagName("i")[0];
-        i.className = "fa-solid fa-user-plus";
+        i.className = "fa-solid fa-square-check";
         divTexto = button.getElementsByTagName("div")[2];
-        divTexto.innerText = "Añadir";
+        divTexto.innerText = "Seleccionar";
     }
 
 /****************************************************************************************/
