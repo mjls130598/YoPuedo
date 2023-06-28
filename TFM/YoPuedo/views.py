@@ -827,9 +827,9 @@ def editar_reto(request, id_reto):
         etapas_objetivo = {}
 
         for etapa in etapas:
-            imagen_objetivo = ""
-            audio_objetivo = ""
-            video_objetivo = ""
+            imagen_objetivo_etapa = ""
+            audio_objetivo_etapa = ""
+            video_objetivo_etapa = ""
 
             if "jpg" in etapa.objetivo or "jpeg" in etapa.objetivo or "png" in \
                     etapa.objetivo or "svg" in etapa.objetivo or "gif" in \
@@ -841,9 +841,9 @@ def editar_reto(request, id_reto):
             elif "mp4" in etapa.objetivo or "ogg" in etapa.objetivo:
                 video_objetivo = etapa.objetivo.split("/")[-1]
 
-            etapas_objetivo[etapa.id_etapa] = {'objetivo_imagen': imagen_objetivo,
-                                               'objetivo_audio': audio_objetivo,
-                                               'objetivo_video': video_objetivo}
+            etapas_objetivo[etapa.id_etapa] = {'objetivo_imagen': imagen_objetivo_etapa,
+                                               'objetivo_audio': audio_objetivo_etapa,
+                                               'objetivo_video': video_objetivo_etapa}
 
         if request.method == 'GET':
             logger.info("Entramos en la parte GET de EDITAR RETO")
