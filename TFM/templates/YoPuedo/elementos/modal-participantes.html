@@ -28,24 +28,22 @@
                 <img class="imagen-perfil rounded mx-auto d-block"
                      src="{{participante.foto_perfil}}">
             </div>
-            <div class="nombre col-5 col-lg-6 align-self-center">
+            <div class="nombre col-6 align-self-center">
                 <h5 class="fw-bold">
                     {{ participante.nombre }}
                 </h5>
             </div>
-            <div class="botones col-2 col-lg-3 col-xxl-2 align-self-center">
-                <button class="anadir-participante btn btn-primary fw-bold"
+            <button class="anadir-participante btn btn-primary fw-bold botones col-2 col-lg-3 col-xxl-2 align-self-center"
                         onclick="anadirParticipante({{ participante }})">
-                    <div class="row">
-                        <div class="col-1">
-                            <i class="fa-solid fa-square-check"></i>
-                        </div>
-                        <div class="d-none d-lg-block col-8">
-                            Seleccionar
-                        </div>
+                <div class="row">
+                    <div class="col-1">
+                        <i class="fa-solid fa-square-check"></i>
                     </div>
-                </button>
-            </div>
+                    <div class="d-none d-lg-block col-8">
+                        Seleccionar
+                    </div>
+                </div>
+            </button>
         </div>
         {% endfor %}
     </div>
