@@ -728,7 +728,7 @@ def get_reto(request, id_reto):
         return render(request, 'YoPuedo/reto.html',
                       {'reto': reto, 'etapas': etapas, 'animadores': animadores_finales,
                        'participantes': participantes_finales, 'participa': participa,
-                       'calificaciones': calificaciones})
+                       'anima': anima, 'calificaciones': calificaciones})
 
     else:
         logger.error("No forma parte del reto")
