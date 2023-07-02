@@ -1,8 +1,8 @@
 # ¡Yo puedo!
 
 Proyecto realizado para el Trabajo de Fin de Máster de María Jesús López 
-Salmerón del Máster Universitario de Ingeniería Informática durante el curso 
-2021/22.
+Salmerón del Máster Universitario de Ingeniería Informática de la 
+Universisdad de Granada realizado durante el curso 2021/23.
 
 ## Descripción
 
@@ -18,43 +18,43 @@ Además, podemos añadir a nuestro grupo de amigos a los retos para que lo
 realicen junto a nosotros y/o para que nos ayuden a terminarlo mandándonos 
 apoyo durante el proceso.
 
+![Diagrama de arquitectura](Imágenes/Diagrama%20de%20arquitectura%20.png)
+
 ## Estructura del proyecto
 
 La estructura que va a tener el proyecto que contenga la app *¡Yo puedo!* es 
 la siguiente:
 
+![Estructura de ficheros](Imágenes/Estructura%20de%20ficheros.png)
+
+### Configuración del proyecto
+Antes de lanzar el proyecto, hay que crear los archivos de configuración de 
+las herramientas que necesita esta aplicación para ser utilizada en su 
+totalidad.
+
+En primer lugar, guardaremos dentro del archivo ```TFM/conf/.secret_key``` 
+la clave secreta que se genera cuando creamos un proyecto en *Django*.
+
+Posteriormente, escribiremos la configuración de la base de datos dentro de un 
+fichero para su utilización dentro de la construcción de la aplicación. En el 
+archivo ```TFM/conf/db.mysql``` nos encontraremos con la siguiente información:
+
 ```commandline
-	TFM/             # proyecto
-	|
-	├── conf
-	│   ├── .secret_key           # la llave secreta del proyecto (setting.py)
-	│   └── db.mysql              # configuración de la base de datos
-	|
-	├── YoPuedo       # app
-	│   ├── admin.py              # admininstración para la BD de app
-	│   ├── apps.py               # configuración de la app
-	│   ├── __init__.py           # package de la app
-	│   ├── migrations            # migraciones realizadas
-	│   │   └── __init__.py
-	│   ├── models.py             # modelos (o tablas) de la app
-	│   ├── tests.py              # tests de la app
-	│   └── views.py              # controlador de la app
-	|
-	├── manage.py
-	|
-	├── static                    # directorio de archivos estáticos
-	|
-	└── TFM            # proyecto (datos de configuración)
-	    ├── __init__.py           # package del proyecto
-	    ├── settings.py           # Settings  del proyecto
-	    ├── urls.py               # Mapeo de urls
-	    └── wsgi.py               # Conexión  con el servidor web de producción
-					
+# TFM/conf/db.mysql
+
+[client]
+database = mariajesuslopez$YOPUEDO                          # Base de datos
+user = mariajesuslopez                                      # Usuario
+password = XXXXXXXXXX                                       # Contraseña
+host = mariajesuslopez.mysql.pythonanywhere-services.com    # Servidor
+default-character-set = utf8                                # Tipo de caracteres
 ```
 
-En el archivo [requirements.txt](https://github.
-com/mjls130598/YoPuedo/blob/master/requirements.txt) estarán todos los paquetes 
-necesarios para laconstrucción del proyecto
+Por último, crearemos la configuración necesaria para poder enviar 
+correos electrónicos a través de la aplicación creada con *Django*. Dicha 
+configuración la veremos implementada dentro del archivo ```TFM/conf/.email```
+con la clave secreta que ofrece [*Gmail*](https://www.sitepoint.com/django-send-email/)
+para utilizarse en la aplicación.
 
 ## Lanzamiento del proyecto
 
@@ -86,16 +86,16 @@ python -m pip install -r requirements.txt
 ```commandline
 cd TFM/
 ```
-5. Modificamos la configuración de la base de datos en ```conf/db.mysql```.
-6. Generamos las migraciones del proyecto:
+5. Generamos las migraciones del proyecto:
 ```commandline
 python manage.py makemigrations
 python manage.py migrate
 ```
-7. Lanzamos la aplicación:
+6. Lanzamos la aplicación:
 ```commandline
 python manage.py runserver
 ```
 
-La documentación del proyecto la encontramos dentro de la carpeta 
-[Documentación](https://github.com/mjls130598/YoPuedo/tree/master/Documentaci%C3%B3n)
+Las investigaciones y los pasos realizados para el desarrollo de esta red 
+social, lo podemos encontrar detalladamente dentro de la [memoria](Memoria%20TFM.pdf) de este 
+proyecto.
