@@ -13,9 +13,15 @@
     border-color: #8BC34A;
 }
 
-@media screen and (min-width: 576px){
+@media screen and (min-width: 769px){
     #dialog-amigos, #dialog-participantes{
         max-width: 50%;
+    }
+}
+
+@media screen and (max-width: 1023px) and (min-width: 426px){
+    #dialog-amigos, #dialog-participantes{
+        max-width: 90%;
     }
 }
 
