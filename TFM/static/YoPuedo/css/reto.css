@@ -27,16 +27,22 @@
     border: #93F297;
 }
 
-#reto-content {
-    max-height: 79vh;
+@media screen and (max-width: 425px){
+    #reto-content {
+        max-height: 80vh;
+    }
 }
 
-#reto-content{
-    max-height: 70vh;
+@media screen and (max-width: 768px) and (min-width: 426px){
+    #reto-content {
+        max-height: 90vh;
+    }
 }
 
-#reto-content {
-    max-height: 77vh;
+@media screen and (min-width: 769px){
+    #reto-content {
+        max-height: 70vh;
+    }
 }
 
 #reto-content {
