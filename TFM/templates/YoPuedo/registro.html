@@ -74,14 +74,14 @@
           {% endfor %}
           <div class='form-group d-flex justify-content-center'>
            <button id="boton-registro" type="submit"
-                   class="btn btn-primary principales">
+                   class="btn btn-primary principales m-3">
              <i class="bi bi-person-plus-fill"></i>
              REGISTRARSE
            </button>
           </div>
         </form>
         <div class='form-group d-flex justify-content-center'>
-          <button id="boton-iniciosesion" class="btn btn-primary principales"
+          <button id="boton-iniciosesion" class="btn btn-primary principales m-2"
                   hx-get="{% url 'iniciar_sesion' %}" hx-target="#dialog">
             <i class="bi bi-box-arrow-in-right"></i>
             INICIAR SESIÓN
