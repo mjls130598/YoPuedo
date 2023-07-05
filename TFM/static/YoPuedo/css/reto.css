@@ -27,7 +27,7 @@
     border: #93F297;
 }
 
-@media screen and (max-height: 1024px) and (max-width: 1024px){
+@media screen and (max-height: 1024px) and (max-width: 1024px) and (min-width: 768px)){
     #reto-content {
         max-height: 50vh;
     }
