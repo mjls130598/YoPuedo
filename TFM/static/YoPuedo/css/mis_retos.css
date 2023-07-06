@@ -105,13 +105,13 @@
     overflow-y: auto;
 }
 
-@media screen and (max-height: 1024px) and (max-width: 1024px){
+@media screen and (max-height: 1023px) and (max-width: 1024px){
     #tab-retos-content, #form-reto-content {
         max-height: 50vh;
     }
 }
 
-@media screen and (max-height: 1024px) and (min-width: 1024px) and (max-width: 1440px){
+@media screen and (max-height: 1023px) and (min-width: 1025px) and (max-width: 1440px){
     #tab-retos-content, #form-reto-content {
         max-height: 70vh;
     }
