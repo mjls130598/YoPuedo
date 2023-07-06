@@ -118,7 +118,7 @@
 }
 
 @media screen and ((max-width: 767px) or (min-width: 1281px) or ((min-width: 768px) and
-(max-width: 1024px))){
+(max-width: 1024px) and (orientation: portrait))){
     #tab-retos-content, #form-reto-content {
         max-height: 80vh;
     }
