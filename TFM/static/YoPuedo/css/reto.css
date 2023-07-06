@@ -29,7 +29,7 @@
 
 @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape){
     #reto-content {
-        max-height: 60vh;
+        max-height: 40vh;
     }
 }
 
