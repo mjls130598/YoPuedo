@@ -41,19 +41,20 @@
     overflow-x: hidden;
 }
 
-@media screen and (min-width: 992px){
+@media screen and (min-width: 768px)
+{
     .retos {
         height: 25vh;
     }
 }
 
-@media screen and (min-width: 768px) and (max-width:992){
+@media screen and (min-width: 1281){
     .retos {
         height: 64vh;
     }
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 767px){
     .retos {
         height: 47vh;
     }
