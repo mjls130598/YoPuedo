@@ -259,7 +259,8 @@ def mis_retos(request):
 
         else:
             propuestos = Reto.objects.annotate(cnt=Count('participante')). \
-                filter(estado='Propuesto', coordinador=request.user, cnt=1) \
+                filter(estado='Propuesto', coordinador=request.user,
+                       categoria=categoria, cnt=1) \
                 if tipo == 'individuales' else \
                 Reto.objects.annotate(cnt=Count('participante')). \
                     filter(Q(estado='Propuesto'),
