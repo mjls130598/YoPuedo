@@ -775,7 +775,7 @@ def editar_reto(request, id_reto):
     logger.info("Comprobamos que el reto sea de la persona que lo está viendo")
     if reto.coordinador == request.user and reto.estado == 'Propuesto':
         logger.info("Recogemos el resto de información de un reto")
-        animadores_reto = reto.animador_set.all().exclude(usuario=request.user)
+        animadores_reto = reto.animador_set.all()
         animadores = []
 
         for animador in animadores_reto:
@@ -783,9 +783,9 @@ def editar_reto(request, id_reto):
                 'usuario': animador.usuario.first(),
                 'superanimador': str(animador.superanimador).lower()})
 
-        participantes_reto = reto.participante_set.all().exclude(usuario=request.user)
+        participantes_reto = reto.participante_set.all()
         participantes = []
-        for participante in participantes_reto:
+        for participante in participantes_reto.exclude(usuario=request.user):
             participantes.append(participante.usuario.first())
 
         max_etapas = 5
