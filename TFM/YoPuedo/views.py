@@ -1087,7 +1087,7 @@ def editar_reto(request, id_reto):
                     reto.animador_set.get(usuario__email=animador_email).delete()
 
                 logger.info("Obtenemos los participantes anteriores")
-                participantes = reto.participante_set.all().values("usuario__email")
+                participantes = reto.participante_set.all().exclude(usuario=request.user).values("usuario__email")
                 participantes_antiguos_email = []
                 for participante in participantes:
                     participantes_antiguos_email.append(participante['usuario__email'])
